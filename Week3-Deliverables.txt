@@ -2,15 +2,15 @@ Key deliverables for Week 3
 
 KEY: Learn how the physics package works.
 
-Revised Specification
+Revised Specification  <-- Conor, Michael
 	-List challenges and key deliverables
 Use cases
 	-List as many as possible. (Minimum not specified)
 	-loose method specifications, interactions, etc.
-UML diagram
+UML diagram <-- Starting Template(Paul)
 Screenshots of GUI (or drawings) (Editor) and interactions (overlapping gizmos, or grid-based positioning?)
 	-Probably worth doing GUI work initially. (No logic)
-Description of physics loop, proving our understanding; friction, gravity, etc.
+Description of physics loop, proving our understanding; friction, gravity, etc. <-- David, Matt
 	-ball motion, collision detection & resolution, friction, gravity, redrawing
 	(Processing order)
 Description of triggering system
