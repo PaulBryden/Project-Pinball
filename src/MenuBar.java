@@ -1,4 +1,6 @@
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import java.awt.event.KeyEvent;
 
 class MenuBar extends JMenuBar {

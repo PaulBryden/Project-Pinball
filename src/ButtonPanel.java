@@ -1,5 +1,9 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 class ButtonPanel extends JPanel{
     ButtonPanel(){
@@ -12,6 +16,7 @@ class ButtonPanel extends JPanel{
         Dimension btnSize = new Dimension(70, 40);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.VERTICAL;
+        constraints.insets = new Insets(3, 0, 3, 0);
 
         constraints.gridy = 0;
         runBtn.setPreferredSize(btnSize);
