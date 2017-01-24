@@ -2,7 +2,6 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.KeyEvent;
 
 class GUI {
     private JFrame frame;

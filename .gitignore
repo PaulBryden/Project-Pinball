@@ -1,4 +1,4 @@
-.idea/.name
-.idea/misc.xml
-.idea/workspace.xml
+.idea/
 bin/
+classes/
+*.iml
