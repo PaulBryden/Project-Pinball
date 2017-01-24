@@ -8,6 +8,8 @@ import java.awt.Insets;
 class ButtonPanel extends JPanel{
     ButtonPanel(){
         super();
+        this.setPreferredSize(new Dimension(80, 380));
+
         JButton runBtn = new JButton("Run");
         JButton pauseBtn = new JButton("Pause");
         JButton stopBtn = new JButton("Stop");
@@ -35,6 +37,5 @@ class ButtonPanel extends JPanel{
         constraints.gridy = 3;
         tickBtn.setPreferredSize(btnSize);
         this.add(tickBtn, constraints);
-
     }
 }

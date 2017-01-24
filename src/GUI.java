@@ -1,6 +1,6 @@
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-import java.awt.GridLayout;
+import java.awt.GridBagLayout;
 
 class GUI extends JFrame{
     private MenuBar menuBar;
@@ -15,7 +15,7 @@ class GUI extends JFrame{
     }
 
     void build(){
-        this.setLayout(new GridLayout());
+        this.setLayout(new GridBagLayout());
         this.add(buttonPanel);
         this.add(menuBar);
         this.add(gameView);
@@ -23,6 +23,7 @@ class GUI extends JFrame{
         this.setJMenuBar(menuBar);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
-        this.setSize(800, 450);
+        this.setResizable(false);
+        this.pack();
     }
 }
