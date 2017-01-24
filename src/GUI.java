@@ -1,29 +1,28 @@
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-import java.awt.*;
+import java.awt.GridLayout;
 
-class GUI {
-    private JFrame frame;
+class GUI extends JFrame{
     private MenuBar menuBar;
     private ButtonPanel buttonPanel;
     private GameView gameView;
 
     GUI(){
-        frame = new JFrame();
+        super();
         menuBar = new MenuBar();
         buttonPanel = new ButtonPanel();
         gameView = new GameView();
     }
 
     void build(){
-        frame.setLayout(new GridLayout());
-        frame.add(buttonPanel);
-        frame.add(menuBar);
-        frame.add(gameView);
-        frame.setTitle("Gizmo Ball");
-        frame.setJMenuBar(menuBar);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setSize(800, 450);
+        this.setLayout(new GridLayout());
+        this.add(buttonPanel);
+        this.add(menuBar);
+        this.add(gameView);
+        this.setTitle("Gizmo Ball");
+        this.setJMenuBar(menuBar);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setVisible(true);
+        this.setSize(800, 450);
     }
 }
