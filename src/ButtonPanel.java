@@ -7,12 +7,14 @@ import java.awt.Insets;
 
 class ButtonPanel extends JPanel{
     ButtonPanel(){
+        super();
         JButton runBtn = new JButton("Run");
         JButton pauseBtn = new JButton("Pause");
         JButton stopBtn = new JButton("Stop");
         JButton tickBtn = new JButton("Tick");
 
         this.setLayout(new GridBagLayout());
+
         Dimension btnSize = new Dimension(70, 40);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.VERTICAL;

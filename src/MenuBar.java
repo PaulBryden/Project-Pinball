@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 
 class MenuBar extends JMenuBar {
     MenuBar(){
+        super();
         JMenu menu = new JMenu();
         JMenuItem menuItem = new JMenuItem("Save", KeyEvent.VK_S);
         menu.add(menuItem);
