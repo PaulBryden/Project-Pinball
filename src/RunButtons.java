@@ -5,9 +5,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-class ButtonPanel extends JPanel{
-    ButtonPanel(){
+class RunButtons extends JPanel{
+    RunButtons(){
         super();
+        //TODO: Replace buttons with JToolBar
         this.setPreferredSize(new Dimension(80, 380));
 
         JButton runBtn = new JButton("Run");
@@ -17,7 +18,7 @@ class ButtonPanel extends JPanel{
 
         this.setLayout(new GridBagLayout());
 
-        Dimension btnSize = new Dimension(70, 40);
+        Dimension btnSize = new Dimension(80, 40);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.VERTICAL;
         constraints.insets = new Insets(3, 0, 3, 0);
