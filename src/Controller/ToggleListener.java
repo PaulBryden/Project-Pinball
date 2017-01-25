@@ -14,6 +14,6 @@ public class ToggleListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gui.toggleToolBar();
+        gui.toggleView();
     }
 }
