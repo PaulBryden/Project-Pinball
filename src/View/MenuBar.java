@@ -33,6 +33,6 @@ class MenuBar extends JMenuBar {
 
         menu.setText("Menu");
         menu.setMnemonic(KeyEvent.VK_M);
-        this.add(menu);
+        add(menu);
     }
 }

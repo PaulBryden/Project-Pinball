@@ -14,17 +14,28 @@ class BuildButtons extends JToolBar{
         JButton triangleBtn = new JButton("Triangle");
         JButton lFlipperBtn = new JButton("L.Flipper");
         JButton rFlipperBtn = new JButton("R.Flipper");
+        JButton removeBtn = new JButton("Remove");
+        JButton rotateBtn = new JButton("Rotate");
+        JButton moveBtn = new JButton("Move");
+        JButton connectBtn = new JButton("Connect");
 
-        this.setFloatable(false);
-        this.setRollover(true);
+        setFloatable(false);
+        setRollover(true);
 
-        this.add(ballBtn);
-        this.add(AbsorberBtn);
-        this.add(circleBtn);
-        this.add(lineBtn);
-        this.add(squareBtn);
-        this.add(triangleBtn);
-        this.add(lFlipperBtn);
-        this.add(rFlipperBtn);
+        add(ballBtn);
+        add(AbsorberBtn);
+        add(circleBtn);
+        add(lineBtn);
+        add(squareBtn);
+        add(triangleBtn);
+        add(lFlipperBtn);
+        add(rFlipperBtn);
+
+        addSeparator();
+
+        add(removeBtn);
+        add(rotateBtn);
+        add(moveBtn);
+        add(connectBtn);
     }
 }

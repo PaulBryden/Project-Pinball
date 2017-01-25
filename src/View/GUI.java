@@ -9,14 +9,12 @@ import java.awt.GridBagLayout;
 public class GUI extends JFrame{
     private MenuBar menuBar;
     private JToolBar toolbar;
-    private JToolBar toolbar1;
     private GameView gameView;
 
     public GUI(){
         super();
         menuBar = new MenuBar(this);
         toolbar = new RunButtons();
-        toolbar1 = new BuildButtons();
         gameView = new GameView();
     }
 
@@ -31,13 +29,11 @@ public class GUI extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
+        setSize(650, 473);
 
         add(toolbar, constraints);
-        add(toolbar1, constraints);
-        toolbar1.setVisible(false);
         constraints.gridy = 1;
         add(gameView, constraints);
-        pack();
     }
 
     /**

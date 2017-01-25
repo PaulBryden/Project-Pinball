@@ -11,13 +11,13 @@ class RunButtons extends JToolBar{
         JButton stopBtn = new JButton("Stop");
         JButton tickBtn = new JButton("Tick");
 
-        this.setFloatable(false);
-        this.setRollover(true);
+        setFloatable(false);
+        setRollover(true);
 
-        this.add(runBtn);
-        this.add(pauseBtn);
-        this.add(stopBtn);
-        this.addSeparator();
-        this.add(tickBtn);
+        add(runBtn);
+        add(pauseBtn);
+        add(stopBtn);
+        addSeparator();
+        add(tickBtn);
     }
 }
