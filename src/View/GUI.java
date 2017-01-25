@@ -12,7 +12,7 @@ public class GUI extends JFrame{
     private JToolBar toolbar1;
     private GameView gameView;
 
-    GUI(){
+    public GUI(){
         super();
         menuBar = new MenuBar(this);
         toolbar = new RunButtons();
@@ -20,7 +20,7 @@ public class GUI extends JFrame{
         gameView = new GameView();
     }
 
-    void build(){
+    public void build(){
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.VERTICAL;
         constraints.gridy = 0;
