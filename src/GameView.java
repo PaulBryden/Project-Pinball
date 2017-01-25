@@ -13,8 +13,8 @@ class GameView extends JPanel{
         this.setPreferredSize(new Dimension(400, 380));
 
         try {
-            BufferedImage myPicture = ImageIO.read(new File("GameView.PNG"));
-            JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+            BufferedImage gamePicture = ImageIO.read(new File("GameView.PNG"));
+            JLabel picLabel = new JLabel(new ImageIcon(gamePicture));
             this.add(picLabel);
         } catch (IOException ignored) {}
     }

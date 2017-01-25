@@ -1,5 +1,6 @@
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 class GUI extends JFrame{
@@ -15,15 +16,18 @@ class GUI extends JFrame{
     }
 
     void build(){
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.VERTICAL;
+        constraints.gridy = 0;
         this.setLayout(new GridBagLayout());
-        this.add(runButtons);
-        this.add(menuBar);
-        this.add(gameView);
         this.setTitle("Gizmo Ball");
         this.setJMenuBar(menuBar);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
-        this.setResizable(true);
+        this.setResizable(false);
+        this.add(runButtons, constraints);
+        constraints.gridy = 1;
+        this.add(gameView, constraints);
         this.pack();
     }
 }
