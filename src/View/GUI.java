@@ -51,13 +51,20 @@ public class GUI extends JFrame{
      * (with grid squares)
      */
     public void toggleView(){
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.VERTICAL;
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+
         remove(toolbar);
+
         if(toolbar instanceof RunToolBar){
             toolbar = new BuildToolBar();
         } else {
             toolbar = new RunToolBar();
         }
-        add(toolbar);
+
+        add(toolbar, constraints);
         revalidate();
         repaint();
     }
