@@ -35,10 +35,14 @@ public class Model extends Observable{
 				ball=movelBallForTime(ball,tuc);
 				ball.setVelo(cd.getVelo());
 			}
+			//friction/gravity
+			/*List<Gizmo> connected = cd.getCollisionGizmo().getConnectedGizmos();
+			for (Gizmo g : connected) {
+				g.trigger(connected);
+			}*/
 			this.setChanged();
 			this.notifyObservers();
 					
-			
 		}
 	}
 	public Ball movelBallForTime(Ball ball, double time) {
