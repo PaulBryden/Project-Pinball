@@ -3,11 +3,12 @@ package View;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
-class BuildButtons extends JToolBar{
-    BuildButtons(){
+class BuildToolBar extends JToolBar{
+    BuildToolBar(){
+        //TODO: Move Gizmoz to side panel, replace the ones here with 'Add'
         super("Build Mode");
         JButton ballBtn = new JButton("Ball");
-        JButton AbsorberBtn = new JButton("Absorber");
+        JButton absorberBtn = new JButton("Absorber");
         JButton circleBtn = new JButton("Circle");
         JButton lineBtn = new JButton("Line");
         JButton squareBtn = new JButton("Square");
@@ -23,7 +24,7 @@ class BuildButtons extends JToolBar{
         setRollover(true);
 
         add(ballBtn);
-        add(AbsorberBtn);
+        add(absorberBtn);
         add(circleBtn);
         add(lineBtn);
         add(squareBtn);

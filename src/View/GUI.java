@@ -14,7 +14,7 @@ public class GUI extends JFrame{
     public GUI(){
         super();
         menuBar = new MenuBar(this);
-        toolbar = new RunButtons();
+        toolbar = new RunToolBar();
         gameView = new GameView();
     }
 
@@ -28,7 +28,6 @@ public class GUI extends JFrame{
         setJMenuBar(menuBar);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-        setResizable(false);
         setSize(650, 473);
 
         add(toolbar, constraints);
@@ -43,10 +42,10 @@ public class GUI extends JFrame{
      */
     public void toggleView(){
         remove(toolbar);
-        if(toolbar instanceof RunButtons){
-            toolbar = new BuildButtons();
+        if(toolbar instanceof RunToolBar){
+            toolbar = new BuildToolBar();
         } else {
-            toolbar = new RunButtons();
+            toolbar = new RunToolBar();
         }
         add(toolbar);
         revalidate();

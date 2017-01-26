@@ -3,8 +3,8 @@ package View;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
-class RunButtons extends JToolBar{
-    RunButtons(){
+class RunToolBar extends JToolBar{
+    RunToolBar(){
         super("Run Mode");
         JButton runBtn = new JButton("Run");
         JButton pauseBtn = new JButton("Pause");
