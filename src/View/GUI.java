@@ -9,20 +9,18 @@ import java.awt.GridBagLayout;
 public class GUI extends JFrame{
     private MenuBar menuBar;
     private JToolBar toolbar;
+    private JToolBar sideToolBar;
     private GameView gameView;
 
     public GUI(){
         super();
         menuBar = new MenuBar(this);
         toolbar = new RunToolBar();
+        sideToolBar = new SideToolBar();
         gameView = new GameView();
     }
 
     public void build(){
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.VERTICAL;
-        constraints.gridy = 0;
-
         setLayout(new GridBagLayout());
         setTitle("Gizmo Ball");
         setJMenuBar(menuBar);
@@ -30,9 +28,21 @@ public class GUI extends JFrame{
         setVisible(true);
         setSize(650, 473);
 
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        constraints.fill = GridBagConstraints.VERTICAL;
+        constraints.gridx = 1;
+        constraints.gridy = 0;
         add(toolbar, constraints);
+
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 1;
         constraints.gridy = 1;
         add(gameView, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        add(sideToolBar, constraints);
     }
 
     /**
