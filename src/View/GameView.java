@@ -11,7 +11,6 @@ import java.io.IOException;
 class GameView extends JPanel{
     GameView(){
         super();
-        //this.setPreferredSize(new Dimension(400, 380));
 
         try {
             BufferedImage gamePicture = ImageIO.read(new File("GameView.PNG"));

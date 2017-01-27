@@ -2,8 +2,8 @@ package View;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
-import javax.swing.plaf.DimensionUIResource;
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 class SideToolBar extends JToolBar{
     SideToolBar() {
@@ -23,6 +23,7 @@ class SideToolBar extends JToolBar{
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.VERTICAL;
+
         constraints.gridy = 0;
         add(ballBtn, constraints);
 
