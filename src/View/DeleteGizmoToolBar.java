@@ -1,7 +1,9 @@
 package View;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JToolBar;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 public class DeleteGizmoToolBar extends JToolBar{
     public DeleteGizmoToolBar() {

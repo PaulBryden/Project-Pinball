@@ -4,7 +4,8 @@ import Controller.DeleteGizmoListener;
 import Controller.PlaceGizmoListener;
 import Controller.RotateGizmoListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JToolBar;
 
 class BuildToolBar extends JToolBar{
     BuildToolBar(GUI gui){

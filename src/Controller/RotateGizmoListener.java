@@ -1,6 +1,5 @@
 package Controller;
 
-import View.DeleteGizmoToolBar;
 import View.GUI;
 import View.RotateGizmoToolBar;
 
