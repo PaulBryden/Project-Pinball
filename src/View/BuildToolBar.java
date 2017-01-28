@@ -13,7 +13,8 @@ class BuildToolBar extends JToolBar{
         JButton deleteBtn = new JButton("Delete Gizmo");
         JButton rotateBtn = new JButton("Rotate Gizmo");
         JButton moveBtn = new JButton("Move");
-        JButton connectBtn = new JButton("Connect");
+        JButton connectGizmoBtn = new JButton("Connect Gizmo");
+        JButton keyConnectBtn = new JButton("Key Connect");
 
         placeBtn.addActionListener(new PlaceGizmoListener(gui));
         deleteBtn.addActionListener(new DeleteGizmoListener(gui));
@@ -26,6 +27,7 @@ class BuildToolBar extends JToolBar{
         add(deleteBtn);
         add(rotateBtn);
         add(moveBtn);
-        add(connectBtn);
+        add(connectGizmoBtn);
+        add(keyConnectBtn);
     }
 }
