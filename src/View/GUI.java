@@ -47,6 +47,7 @@ public class GUI extends JFrame{
         constraints.gridx = 0;
         constraints.gridy = 1;
 
+        remove(this.sideToolBar);
         this.sideToolBar = sideToolBar;
         add(this.sideToolBar, constraints);
 

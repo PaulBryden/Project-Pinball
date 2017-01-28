@@ -5,8 +5,8 @@ import javax.swing.JToolBar;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-public class GizmoToolBar extends JToolBar{
-    public GizmoToolBar() {
+public class PlaceGizmoToolBar extends JToolBar{
+    public PlaceGizmoToolBar() {
         super("Side Toolbar");
         JButton ballBtn = new JButton("Ball");
         JButton absorberBtn = new JButton("Absorber");
