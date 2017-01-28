@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class DeleteGizmoToolBar extends JToolBar{
     public DeleteGizmoToolBar() {
+        super("Delete Gizmo Toolbar");
         JButton confirm = new JButton("Delete");
         JButton cancel = new JButton("Cancel");
 
