@@ -7,10 +7,10 @@ import javax.swing.JPanel;
 
 import model.IGizmo;
 
-public class PolygonView implements IViewGizmo, Observer{
+public class TriangleView implements IViewGizmo, Observer{
 	IGizmo gizmo;
 	JPanel board;
-	public PolygonView(JPanel board, IGizmo gizmo){
+	public TriangleView(JPanel board, IGizmo gizmo){
 		this.gizmo=gizmo;
 		this.board=board;
 	}

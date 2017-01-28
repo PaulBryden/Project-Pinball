@@ -2,9 +2,14 @@ package model;
 
 import java.util.ArrayList;
 
+import physics.Circle;
 import physics.Vect;
 
-public class LinearPhysics implements IGizmoPhysics{
+public class FlipperPhysics implements IGizmoPhysics{
+
+	public FlipperPhysics(double xv, double yv) {
+		// TODO Auto-generated constructor stub
+	}
 
 
 	@Override
