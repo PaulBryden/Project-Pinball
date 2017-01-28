@@ -15,8 +15,8 @@ public class GUI extends JFrame{
     public GUI(){
         super();
         menuBar = new MenuBar(this);
-        toolbar = new RunToolBar();
-        sideToolBar = new SideToolBar();
+        toolbar = new BuildToolBar(this);
+        sideToolBar = new JToolBar();
         gameView = new GameView();
     }
 
@@ -41,6 +41,23 @@ public class GUI extends JFrame{
         add(gameView, constraints);
     }
 
+    public void addSideToolBar(JToolBar sideToolBar){
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.VERTICAL;
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+
+        this.sideToolBar = sideToolBar;
+        add(this.sideToolBar, constraints);
+
+        revalidate();
+        repaint();
+    }
+
+    public JToolBar getSideToolBar(){
+        return (sideToolBar);
+    }
+
     /**
      * Went for redrawing/redefining method rather than making one toolbar invisible and the other visible
      * as redrawing the entire frame could help later when this is expanded to show a Build game view on view toggle
@@ -49,17 +66,15 @@ public class GUI extends JFrame{
     public void toggleView(){
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.VERTICAL;
-        constraints.gridx = 0;
-        constraints.gridy = 1;
 
         remove(toolbar);
 
         if(toolbar instanceof RunToolBar){
-            toolbar = new BuildToolBar();
-            add(sideToolBar, constraints);
+            toolbar = new BuildToolBar(this);
         } else {
             toolbar = new RunToolBar();
             remove(sideToolBar);
+            sideToolBar = new JToolBar();
         }
 
         constraints.gridx = 1;
