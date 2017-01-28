@@ -1,5 +1,7 @@
 package view;
 
-public class ISidebar {
+import javax.swing.JPanel;
+
+public class ISidebar extends JPanel{
 
 }

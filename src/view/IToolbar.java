@@ -1,5 +1,7 @@
 package view;
 
-public class IToolbar {
+import javax.swing.JPanel;
+
+public class IToolbar extends JPanel {
 
 }
