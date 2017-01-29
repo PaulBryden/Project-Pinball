@@ -5,11 +5,12 @@ import java.awt.event.ActionListener;
 
 import model.GameLoop;
 import model.GizmoList;
-import view.IBoard;
+import view.Board;
 
 public class LoadBoardListener implements ActionListener {
 GizmoList gizmoList;
 GameLoop gameloop;
+Board gameBoard;
 @Override
 public void actionPerformed(ActionEvent e) {
 	// TODO Auto-generated method stub

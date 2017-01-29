@@ -1,8 +1,11 @@
 package view;
 
+import java.awt.Graphics;
+
 import javax.swing.JPanel;
 
 public interface IViewGizmo {
 
-	void paint(JPanel j);
+
+	Graphics GetViewObject();
 }

@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Graphics;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,15 +15,16 @@ public class TriangleView implements IViewGizmo, Observer{
 		this.gizmo=gizmo;
 		this.board=board;
 	}
+
 	@Override
-	public void paint(JPanel j) {
-		// TODO Auto-generated method stub
+	public void update(Observable o, Object arg) {
+
 		
 	}
 	@Override
-	public void update(Observable o, Object arg) {
-		paint(board);
-		
+	public Graphics GetViewObject() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
