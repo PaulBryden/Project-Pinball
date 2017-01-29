@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import model.IGizmo;
 
-public class TriangleView implements IViewGizmo, Observer{
+public class TriangleView implements IViewGizmo{
 	IGizmo gizmo;
 	JPanel board;
 	public TriangleView(JPanel board, IGizmo gizmo){

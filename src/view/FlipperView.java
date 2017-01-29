@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import model.IGizmo;
 
-public class FlipperView implements IViewGizmo, Observer{
+public class FlipperView implements IViewGizmo{
 	IGizmo gizmo;
 	JPanel board;
 	public FlipperView(JPanel board, IGizmo gizmo){

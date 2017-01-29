@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import model.IGizmo;
 
-public class SquareView implements IViewGizmo, Observer{
+public class SquareView implements IViewGizmo{
 	IGizmo gizmo;
 	JPanel board;
 	public SquareView(JPanel board, IGizmo gizmo){
