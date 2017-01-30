@@ -32,7 +32,7 @@ class MenuBar extends JMenuBar {
         menu.addSeparator();
 
         menuItem = new JMenuItem("Quit", KeyEvent.VK_Q);
-        menuItem.addActionListener(new QuitListener(gui));
+        menuItem.addActionListener(new QuitListener());
         menu.add(menuItem);
 
         menu.setText("Menu");
