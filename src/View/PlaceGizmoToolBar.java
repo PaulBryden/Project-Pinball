@@ -33,6 +33,7 @@ public class PlaceGizmoToolBar extends JToolBar{
         constraints.gridy = 2;
         add(circleBtn, constraints);
 
+
         constraints.gridy = 3;
         add(lineBtn, constraints);
 

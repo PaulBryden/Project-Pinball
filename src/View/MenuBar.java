@@ -5,6 +5,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import java.awt.event.KeyEvent;
 
+import Controller.LoadListener;
+import Controller.QuitListener;
+import Controller.SaveListener;
 import Controller.ToggleListener;
 
 class MenuBar extends JMenuBar {
@@ -13,9 +16,11 @@ class MenuBar extends JMenuBar {
         super();
         JMenu menu = new JMenu();
         JMenuItem menuItem = new JMenuItem("Save", KeyEvent.VK_S);
+        menuItem.addActionListener(new SaveListener(gui));
         menu.add(menuItem);
 
         menuItem = new JMenuItem("Load", KeyEvent.VK_L);
+        menuItem.addActionListener(new LoadListener(gui));
         menu.add(menuItem);
 
         menu.addSeparator();
@@ -27,6 +32,7 @@ class MenuBar extends JMenuBar {
         menu.addSeparator();
 
         menuItem = new JMenuItem("Quit", KeyEvent.VK_Q);
+        menuItem.addActionListener(new QuitListener(gui));
         menu.add(menuItem);
 
         menu.setText("Menu");

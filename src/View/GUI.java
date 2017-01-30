@@ -1,8 +1,6 @@
 package View;
 
-import javax.swing.JFrame;
-import javax.swing.JToolBar;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -11,6 +9,7 @@ public class GUI extends JFrame{
     private JToolBar toolbar;
     private JToolBar sideToolBar;
     private GameView gameView;
+    private JFileChooser fileManager;
 
     public GUI(){
         super();
@@ -18,6 +17,7 @@ public class GUI extends JFrame{
         toolbar = new BuildToolBar(this);
         sideToolBar = new JToolBar();
         gameView = new GameView();
+        fileManager = new JFileChooser();
     }
 
     public void build(){
@@ -84,5 +84,13 @@ public class GUI extends JFrame{
 
         revalidate();
         repaint();
+    }
+
+    public void showSaveDialog(){
+        fileManager.showSaveDialog(fileManager);
+    }
+
+    public void showLoadDialog(){
+        fileManager.showOpenDialog(fileManager);
     }
 }
