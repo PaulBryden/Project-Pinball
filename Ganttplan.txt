@@ -1,0 +1,32 @@
+1/	model
+	actions
+		absorber 
+		flipper
+	igizmo (Icircle etc)
+		ball
+		circle
+		square
+		triangle
+		flipper
+	physics imlplementation
+		static to dynamic
+		dynamic to dynamic
+		linear
+		rotating
+		ball
+		
+2/ view
+	toolbar
+	sidebar
+	menu
+	boardview
+		line
+		circle
+		grid(build mode)
+	
+3/controller
+	action listners
+4/ integration
+5/document
+6/ testing
+7/ saving loading parsing

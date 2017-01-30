@@ -116,5 +116,10 @@ public class TriangleGizmo implements IPolygon, IObservable{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void trigger(ArrayList<IGizmo> triggeredGizmoList) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

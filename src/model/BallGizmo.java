@@ -148,6 +148,12 @@ public class BallGizmo implements ICircle,IObservable{
 		return null;
 	}
 
+	@Override
+	public void trigger(ArrayList<IGizmo> triggeredGizmoList) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

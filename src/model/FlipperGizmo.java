@@ -111,4 +111,10 @@ public class FlipperGizmo implements IFlipper{
 		return null;
 	}
 
+	@Override
+	public void trigger(ArrayList<IGizmo> triggeredGizmoList) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
