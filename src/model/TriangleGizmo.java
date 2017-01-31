@@ -3,6 +3,7 @@ package model;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import observer.IObservable;
 import observer.IObserver;
@@ -116,8 +117,17 @@ public class TriangleGizmo implements IPolygon, IObservable{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	protected void triggerConnectedGizmos(List<IGizmo> visited){}
+
+	protected void performActions(List<IGizmo> visited){}
 	@Override
-	public void trigger(ArrayList<IGizmo> triggeredGizmoList) {
+	public void performActions() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void triggerConnectedGizmos() {
 		// TODO Auto-generated method stub
 		
 	}

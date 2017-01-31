@@ -7,11 +7,14 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import model.IGizmo;
+import model.IPolygon;
+import observer.IObservable;
+import observer.IObserver;
 
-public class SquareView implements IViewGizmo{
-	IGizmo gizmo;
+public class SquareView implements IViewGizmo, IObserver{
+	IPolygon gizmo;
 	JPanel board;
-	public SquareView(JPanel board, IGizmo gizmo){
+	public SquareView(JPanel board, IPolygon gizmo){
 		this.gizmo=gizmo;
 		this.board=board;
 	}
@@ -26,6 +29,12 @@ public class SquareView implements IViewGizmo{
 	public Graphics GetViewObject() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void update(IObservable obsv, Object o) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

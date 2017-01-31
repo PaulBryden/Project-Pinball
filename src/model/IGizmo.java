@@ -17,7 +17,10 @@ public interface IGizmo {
 	public Color setColour();
 	public void addTriggerAction(IAction action);
 	public void addGizmoToTrigger(IGizmo gizmo);
-	public void trigger(ArrayList<IGizmo> triggeredGizmoList);
+
+		public void performActions();
+		public void triggerConnectedGizmos();
+
 	public ArrayList<IGizmo> getGizmosToTrigger();
 	public CollisionDetails evalCollisions(double tickTime, GizmoList gizmoList);
 	public void moveGizmo(CollisionDetails collisions);

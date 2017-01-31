@@ -6,12 +6,15 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import model.ICircle;
 import model.IGizmo;
+import observer.IObservable;
+import observer.IObserver;
 
-public class BallView implements IViewGizmo{
-	IGizmo gizmo;
+public class BallView implements IViewGizmo, IObserver{
+	ICircle gizmo;
 	JPanel board;
-	public BallView(JPanel board, IGizmo gizmo){
+	public BallView(JPanel board, ICircle gizmo){
 		this.gizmo=gizmo;
 		this.board=board;
 	}
@@ -26,6 +29,12 @@ public class BallView implements IViewGizmo{
 	public Graphics GetViewObject() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void update(IObservable obsv, Object o) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

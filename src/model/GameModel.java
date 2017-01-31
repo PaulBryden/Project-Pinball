@@ -3,12 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameLoop {
+public class GameModel {
 
 private GizmoList listOfGizmos;
 private boolean pauseGame=false;
 
-public GameLoop(){
+public GameModel(){
 	listOfGizmos = new GizmoList();
 }
 
@@ -33,6 +33,10 @@ public void addGizmo(IGizmo gizmo){
 public void removeGizmo(IGizmo gizmo){
 
 	listOfGizmos.removeGizmo(gizmo);
+	
+}
+public void reset(){
+
 	
 }
 

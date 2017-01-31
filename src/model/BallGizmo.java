@@ -3,6 +3,7 @@ package model;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import physics.Circle;
 import physics.LineSegment;
@@ -148,11 +149,20 @@ public class BallGizmo implements ICircle,IObservable{
 		return null;
 	}
 
+
 	@Override
-	public void trigger(ArrayList<IGizmo> triggeredGizmoList) {
+	public void performActions() {
 		// TODO Auto-generated method stub
 		
 	}
+	protected void performActions(List<IGizmo> visited){}
+
+	@Override
+	public void triggerConnectedGizmos() {
+		// TODO Auto-generated method stub
+		
+	}
+	protected void triggerConnectedGizmos(List<IGizmo> visited){}
 
 
 

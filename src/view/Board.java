@@ -8,8 +8,10 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import model.GizmoList;
+import observer.IObservable;
+import observer.IObserver;
 
-public class Board extends JPanel implements Observer{
+public class Board extends JPanel implements IObserver{
 	
 	ArrayList<IViewGizmo> viewGizmos;
 	GizmoList gizmos;
@@ -23,8 +25,9 @@ public class Board extends JPanel implements Observer{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
+
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(IObservable obsv, Object o) {
 		// TODO Auto-generated method stub
 		
 	}

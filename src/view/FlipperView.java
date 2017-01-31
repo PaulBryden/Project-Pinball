@@ -6,12 +6,15 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import model.IFlipper;
 import model.IGizmo;
+import observer.IObservable;
+import observer.IObserver;
 
-public class FlipperView implements IViewGizmo{
-	IGizmo gizmo;
+public class FlipperView implements IViewGizmo, IObserver{
+	IFlipper gizmo;
 	JPanel board;
-	public FlipperView(JPanel board, IGizmo gizmo){
+	public FlipperView(JPanel board, IFlipper gizmo){
 		this.gizmo=gizmo;
 		this.board=board;
 	}
@@ -23,6 +26,11 @@ public class FlipperView implements IViewGizmo{
 	public Graphics GetViewObject() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void update(IObservable obsv, Object o) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

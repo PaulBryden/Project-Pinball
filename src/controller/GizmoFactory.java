@@ -1,18 +1,21 @@
 package controller;
 
+import model.ICircle;
+import model.IFlipper;
 import model.IGizmo;
+import model.IPolygon;
 
 public class GizmoFactory {
 
-	public IGizmo createPolygonGizmo(){
+	public IPolygon createPolygonGizmo(){
 		return null;
 		
 	}
-	public IGizmo createCircleGizmo(){
+	public ICircle createCircleGizmo(){
 		return null;
 		
 	}
-	public IGizmo createFlipperGizmo(){
+	public IFlipper createFlipperGizmo(){
 		return null;
 		
 	}
