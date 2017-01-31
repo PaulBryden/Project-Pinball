@@ -8,10 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-class GameView extends JPanel{
-    GameView(){
+class GameView extends JPanel{    GameView(){
         super();
-
         try {
             BufferedImage gamePicture = ImageIO.read(new File("GameView.PNG"));
             JLabel picLabel = new JLabel(new ImageIcon(gamePicture));

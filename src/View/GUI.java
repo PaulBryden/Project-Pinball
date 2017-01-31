@@ -10,6 +10,7 @@ public class GUI extends JFrame{
     private JToolBar sideToolBar;
     private GameView gameView;
     private JFileChooser fileManager;
+    private GridBagConstraints constraints;
 
     public GUI(){
         super();
@@ -18,6 +19,7 @@ public class GUI extends JFrame{
         sideToolBar = new JToolBar();
         gameView = new GameView();
         fileManager = new JFileChooser();
+        constraints = new GridBagConstraints();
     }
 
     public void build(){
@@ -27,8 +29,6 @@ public class GUI extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setSize(650, 473);
-
-        GridBagConstraints constraints = new GridBagConstraints();
 
         constraints.fill = GridBagConstraints.VERTICAL;
         constraints.gridx = 1;
@@ -42,7 +42,6 @@ public class GUI extends JFrame{
     }
 
     public void addSideToolBar(JToolBar sideToolBar){
-        GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.VERTICAL;
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -65,7 +64,6 @@ public class GUI extends JFrame{
      * (with grid squares)
      */
     public void toggleView(){
-        GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.VERTICAL;
 
         remove(toolbar);
