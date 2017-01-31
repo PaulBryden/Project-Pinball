@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import model.IGizmo;
 import view.IViewGizmo;
 
-public class AddTriggerListener implements ActionListener{
+public class AddActionListener implements ActionListener{
 
 	IGizmo gizmo;
 	IViewGizmo gizmoView;

@@ -18,8 +18,12 @@ public void tick(){
 //Move all items based on that tick time
 }
 
-public ArrayList<IGizmo> getGizmoList(){
-return listOfGizmos.returnGizmoList();
+public GizmoList getGizmoList(){
+	return listOfGizmos;
+}
+
+public void updateGizmoList(GizmoList gizmos){
+	this.listOfGizmos=gizmos;
 }
 
 public void addGizmo(IGizmo gizmo){
