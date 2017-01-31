@@ -9,7 +9,10 @@ import physics.LineSegment;
 import physics.Vect;
 
 public class FlipperGizmo implements IFlipper{
-
+	private Color colour;
+	private IGizmoPhysics gizmoPhysics;
+	private ArrayList<LineSegment> lines;
+	private ArrayList<Circle> circles;
 	@Override
 	public float[][] getCoords() {
 		// TODO Auto-generated method stub
