@@ -1,10 +1,10 @@
 package view;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import model.GizmoList;
 import observer.IObservable;
@@ -15,14 +15,30 @@ public class Board extends JPanel implements IObserver{
 	private List<IViewGizmo> viewGizmos;
 	private GizmoList gizmos;
 
+	//TODO: Generate View Elements and Store in List
 	public Board(GizmoList gizmos){
 		super();
-		this.viewGizmos = new ArrayList<>();
-		this.gizmos = new GizmoList();
-		//Generate View Elements and Store in List
+		viewGizmos = new ArrayList<>();
+		this.gizmos = gizmos;
+		setLayout(new GridBagLayout());
+
+		reDrawAll();
 	}
 
-	public void reDrawAll(){
+	private void reDrawAll(){
+		int count = 0;
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+
+		for(int i = 0; i < 20; i++){
+			constraints.gridy = i;
+			for(int j = 0; j < 20; j++){
+				constraints.gridx = j;
+				add(new JButton("" + count), constraints);
+				count++;
+			}
+		}
+
 		revalidate();
 		repaint();
 	}
