@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -11,15 +12,19 @@ import observer.IObserver;
 
 public class Board extends JPanel implements IObserver{
 	
-	private ArrayList<IViewGizmo> viewGizmos;
+	private List<IViewGizmo> viewGizmos;
 	private GizmoList gizmos;
 
 	public Board(GizmoList gizmos){
+		super();
+		this.viewGizmos = new ArrayList<>();
+		this.gizmos = new GizmoList();
 		//Generate View Elements and Store in List
 	}
 
 	public void reDrawAll(){
-		
+		revalidate();
+		repaint();
 	}
 
     @Override
