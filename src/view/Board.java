@@ -1,10 +1,13 @@
 package view;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import model.GizmoList;
 import observer.IObservable;
@@ -38,9 +41,6 @@ public class Board extends JPanel implements IObserver{
 				count++;
 			}
 		}
-
-		revalidate();
-		repaint();
 	}
 
     @Override
