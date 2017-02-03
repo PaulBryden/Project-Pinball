@@ -2,7 +2,7 @@ package view;
 
 import javax.swing.JToolBar;
 
-class Toolbar extends JToolBar {
+public class Toolbar extends JToolBar {
 
 	/**
 	 * 
