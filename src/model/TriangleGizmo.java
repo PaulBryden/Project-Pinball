@@ -16,6 +16,9 @@ public class TriangleGizmo implements IPolygon, IObservable{
 	private IGizmoPhysics gizmoPhysics;
 	private ArrayList<LineSegment> lines;
 	private ArrayList<Circle> circles;
+	private ArrayList<IObserver> observerList = new ArrayList<>();
+	private IAction triggerAction;
+	private ArrayList<IGizmo> triggerList = new ArrayList<>();
 	public TriangleGizmo(double[][] points, double xv, double yv,IGizmoPhysics physics) throws Exception{
 		colour = Color.BLUE;
 		gizmoPhysics=physics;
@@ -29,107 +32,128 @@ public class TriangleGizmo implements IPolygon, IObservable{
 	@Override
 	public Vect getVelo() {
 		// TODO Auto-generated method stub
-		return null;
+		return gizmoPhysics.getVelocity();
 	}
 
 	@Override
 	public void setVelo(Vect v) {
-		// TODO Auto-generated method stub
+		gizmoPhysics.setVelocity(v);
 		
-	}
-
-
-	@Override
-	public Color getColour() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 
 	@Override
 	public void setPoints(double[][] points) {
 		// TODO Auto-generated method stub
-		
+		lines = new ArrayList<LineSegment>();
+		for(int i=0; i<points.length-1;i++){
+			lines.add(new LineSegment(points[i][0],points[i][1],points[i+1][0],points[i+1][1]));
 	}
+	}
+
+
+
+	@Override
+	public Color getColour() {
+		// TODO Auto-generated method stub
+		return colour;
+	}
+
 	@Override
 	public CollisionDetails evalCollisions(double tickTime, GizmoList gizmoList) {
-		// TODO Auto-generated method stub
+		
+		//This method needs thought through with the physics guys.
 		return null;
 	}
+
 	@Override
 	public void moveGizmo(CollisionDetails collisions) {
+		gizmoPhysics.moveGizmoForTime(this);
+		// Move all co-ordinates according to ballGizmo
 		notifyAllObservers();
-		
 	}
+
 	@Override
 	public void attach(IObserver obs) {
-		// TODO Auto-generated method stub
-		
+		observerList.add(obs);
 	}
+
 	@Override
 	public void notifyAllObservers() {
-		// TODO Auto-generated method stub
+		for(IObserver observer : observerList){
+			observer.notify();
+		}
 		
 	}
 
 	@Override
 	public boolean isStatic() {
-		// TODO Auto-generated method stub
+		// Ball will always be a movable object
 		return false;
 	}
+
 	@Override
-	public Color setColour() {
+	public void setColour(Color colour) {
 		// TODO Auto-generated method stub
-		return null;
+		this.colour=colour;
 	}
+
 	@Override
 	public void addTriggerAction(IAction action) {
-		// TODO Auto-generated method stub
+		this.triggerAction=action;
 		
 	}
+
 	@Override
 	public void addGizmoToTrigger(IGizmo gizmo) {
-		// TODO Auto-generated method stub
+		triggerList.add(gizmo);
 		
 	}
+
 	@Override
 	public ArrayList<IGizmo> getGizmosToTrigger() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return triggerList;
 	}
 	@Override
 	public float[][] getCoords() {
-		// TODO Auto-generated method stub
+		// NEED TO RETHINK THIS. THESE ARE UNNECESSARY
 		return null;
 	}
 	@Override
 	public void setCoords(float[][] coords) {
-		// TODO Auto-generated method stub
+		// NEED TO RETHINK THIS. THESE ARE UNNECESSARY
+
 		
 	}
 	@Override
 	public ArrayList<Circle> getAllCircles() {
 		// TODO Auto-generated method stub
-		return null;
+		return circles;
 	}
 	@Override
 	public ArrayList<LineSegment> getAllLineSegments() {
 		// TODO Auto-generated method stub
-		return null;
+		return lines;
 	}
 
 	protected void triggerConnectedGizmos(List<IGizmo> visited){}
-
 	protected void performActions(List<IGizmo> visited){}
 	@Override
 	public void performActions() {
-		// TODO Auto-generated method stub
-		
+		triggerAction.performAction();
 	}
 	@Override
 	public void triggerConnectedGizmos() {
-		// TODO Auto-generated method stub
+		for(IGizmo gizmo : triggerList){
+			gizmo.performActions();
+		}
 		
+	}
+	@Override
+	public String serializeGizmo() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

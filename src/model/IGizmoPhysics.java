@@ -10,4 +10,5 @@ public interface IGizmoPhysics { //PHYSICS KEEPS TRACK OF SPEED AND COLLISIONS
 	void moveGizmo(IGizmo gizmo, ArrayList<IGizmo> gizmoList,CollisionDetails collisions);
 	void moveGizmoForTime(IGizmo gizmo);
 	Vect getVelocity();
+	Vect setVelocity(Vect vel);
 }

@@ -25,4 +25,10 @@ public class LinearPhysics implements IGizmoPhysics{
 		
 	}
 
+	@Override
+	public Vect setVelocity(Vect vel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -24,4 +24,10 @@ public class RotatingPhysics implements IGizmoPhysics{
 		return null;
 	}
 
+	@Override
+	public Vect setVelocity(Vect vel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
