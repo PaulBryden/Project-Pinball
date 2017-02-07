@@ -2,8 +2,7 @@ package view;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 
 public class RotateGizmoToolBar extends JToolBar {
     public RotateGizmoToolBar(){

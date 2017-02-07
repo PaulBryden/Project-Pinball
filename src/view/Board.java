@@ -35,7 +35,7 @@ public class Board extends JPanel implements IObserver{
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for(int i = 0; i < 400; i++){
-			add(new Cell(i % 2 == 0 ? Color.YELLOW : Color.BLUE));
+			add(new Cell());
 		}
     }
 

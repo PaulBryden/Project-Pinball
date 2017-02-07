@@ -6,8 +6,7 @@ import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 
 class Cell extends JPanel{
-    Cell(Color color){
+    Cell(){
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, Color.BLACK, Color.BLACK)));
-        setBackground(color);
     }
 }

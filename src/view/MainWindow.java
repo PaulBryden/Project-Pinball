@@ -1,7 +1,11 @@
 package view;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JToolBar;
+import javax.swing.WindowConstants;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 public class MainWindow extends JFrame{
     private MenuBar menuBar;
@@ -27,7 +31,6 @@ public class MainWindow extends JFrame{
         setJMenuBar(menuBar);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-        setVisible(true);
         setSize(800, 550);
 
         constraints.fill = GridBagConstraints.VERTICAL;
@@ -39,6 +42,8 @@ public class MainWindow extends JFrame{
         constraints.gridx = 1;
         constraints.gridy = 1;
         add(board, constraints);
+
+        setVisible(true);
     }
 
     public void addSideToolBar(JToolBar sideToolBar){
