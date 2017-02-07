@@ -1,13 +1,14 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
 
 import model.GizmoList;
 import observer.IObservable;
@@ -23,29 +24,17 @@ public class Board extends JPanel implements IObserver{
 		super();
 		viewGizmos = new ArrayList<>();
 		this.gizmos = gizmos;
-		setLayout(new GridBagLayout());
 
-		reDrawAll();
-	}
-
-	private void reDrawAll(){
-		int count = 0;
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-
-		for(int i = 0; i < 20; i++){
-			constraints.gridy = i;
-			for(int j = 0; j < 20; j++){
-				constraints.gridx = j;
-				add(new JButton("" + count), constraints);
-				count++;
-			}
-		}
+		setLayout(new GridLayout(20, 20));
+		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, Color.BLACK, Color.BLACK)));
 	}
 
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+		super.paintComponent(g);
+		for(int i = 0; i < 400; i++){
+			add(new Cell(i % 2 == 0 ? Color.YELLOW : Color.BLUE));
+		}
     }
 
 	@Override
