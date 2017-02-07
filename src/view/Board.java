@@ -1,8 +1,6 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +25,10 @@ public class Board extends JPanel implements IObserver{
 
 		setLayout(new GridLayout(20, 20));
 		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, Color.BLACK, Color.BLACK)));
+		setSize(new Dimension(400, 400));
+		setPreferredSize(getSize());
+		setMinimumSize(getSize());
+		setMaximumSize(getSize());
 	}
 
     @Override

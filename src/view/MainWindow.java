@@ -1,8 +1,7 @@
 package view;
 
 import javax.swing.*;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 
 public class MainWindow extends JFrame{
     private MenuBar menuBar;
@@ -27,8 +26,9 @@ public class MainWindow extends JFrame{
         setTitle("Gizmo Ball");
         setJMenuBar(menuBar);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         setVisible(true);
-        setSize(650, 473);
+        setSize(800, 550);
 
         constraints.fill = GridBagConstraints.VERTICAL;
         constraints.gridx = 1;
