@@ -19,8 +19,18 @@ public class FlipperGizmo implements IFlipper, IObservable{
 	private IAction triggerAction;
 	private ArrayList<IGizmo> triggerList = new ArrayList<>();
 	private float flipperSpeed;
-	public FlipperGizmo(){
-		
+	private Vect coords;
+	public FlipperGizmo(double[][] points, double xv, double yv,IGizmoPhysics physics, int ID) throws Exception{
+		coords = new Vect(points[0][0],points[0][1]);
+		colour = Color.BLUE;
+		gizmoPhysics=physics;
+		if(points.length!=4){
+			throw new Exception("Error: Please ensure 4 points are provided for this flipper");
+		}
+		for(int i=0; i<points.length-1;i++){
+				lines.add(new LineSegment(points[i][0],points[i][1],points[i+1][0],points[i+1][1]));
+		}
+		//Implement rounded edges after initial testing is complete.
 	}
 	@Override
 	public Vect getVelo() {
@@ -153,6 +163,11 @@ public class FlipperGizmo implements IFlipper, IObservable{
 	public float getFlipperSpeed() {
 		// TODO Auto-generated method stub
 		return flipperSpeed;
+	}
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

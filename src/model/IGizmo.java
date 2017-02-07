@@ -26,5 +26,6 @@ public interface IGizmo {
 	public ArrayList<Circle> getAllCircles();
 	public ArrayList<LineSegment> getAllLineSegments();
 	public String serializeGizmo();
+	public String getID();
 	
 }

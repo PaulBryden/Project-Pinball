@@ -19,7 +19,9 @@ public class SquareGizmo implements IPolygon, IObservable{
 	private ArrayList<IObserver> observerList = new ArrayList<>();
 	private IAction triggerAction;
 	private ArrayList<IGizmo> triggerList = new ArrayList<>();
-	public SquareGizmo(double[][] points, double xv, double yv,IGizmoPhysics physics) throws Exception{
+	int ID;
+	public SquareGizmo(double[][] points, double xv, double yv,IGizmoPhysics physics, int ID) throws Exception{
+		this.ID=ID;
 		colour = Color.BLUE;
 		gizmoPhysics=physics;
 		if(points.length!=4){
@@ -152,8 +154,18 @@ public class SquareGizmo implements IPolygon, IObservable{
 	}
 	@Override
 	public String serializeGizmo() {
-		// TODO Auto-generated method stub
-		return null;
+		String serializedGizmo = getID()+" "+lines.get(0).p1().x()+" "+lines.get(0).p1().y()+" "+gizmoPhysics.getVelocity().x()+" "+gizmoPhysics.getVelocity().y()+"\n";
+		for(IGizmo gizmo : triggerList){
+			serializedGizmo+="Connect "+getID()+" "+gizmo.getID()+"\n";
+		}
+		return serializedGizmo;
 	}
+
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return "Square"+ID;
+	}
+
 
 }

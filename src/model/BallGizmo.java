@@ -19,12 +19,13 @@ public class BallGizmo implements ICircle,IObservable{
 	private ArrayList<IObserver> observerList = new ArrayList<>();
 	private IAction triggerAction;
 	private ArrayList<IGizmo> triggerList = new ArrayList<>();
-	
-	public BallGizmo(double radius, double x, double y, double xv, double yv, Color colour){
+	private int ID;
+	public BallGizmo(double radius, double x, double y, double xv, double yv, Color colour,int ID){
 		this.colour = colour;
 		this.radius=radius;
 		this.physicsCircle=new Circle(x,y,radius);
 		this.gizmoPhysics=new BallPhysics(xv, yv);
+		this.ID=ID;
 	}
 	
 	@Override
@@ -177,8 +178,17 @@ public class BallGizmo implements ICircle,IObservable{
 
 	@Override
 	public String serializeGizmo() {
+		String serializedGizmo = getID()+" "+physicsCircle.getCenter().x()+" "+physicsCircle.getCenter().y()+" "+gizmoPhysics.getVelocity().x()+" "+gizmoPhysics.getVelocity().y()+"\n";
+		for(IGizmo gizmo : triggerList){
+			serializedGizmo+="Connect "+getID()+" "+gizmo.getID()+"\n";
+		}
+		return serializedGizmo;
+	}
+
+	@Override
+	public String getID() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Ball"+ID;
 	}
 
 
