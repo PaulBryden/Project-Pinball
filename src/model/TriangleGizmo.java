@@ -13,17 +13,17 @@ import physics.Vect;
 
 public class TriangleGizmo implements IPolygon, IObservable{
 	private Color colour;
-	private IGizmoPhysics gizmoPhysics;
 	private ArrayList<LineSegment> lines;
 	private ArrayList<Circle> circles;
 	private ArrayList<IObserver> observerList = new ArrayList<>();
 	private IAction triggerAction;
 	private ArrayList<IGizmo> triggerList = new ArrayList<>();
 	private int ID;
-	public TriangleGizmo(double[][] points, double xv, double yv,IGizmoPhysics physics, int ID) throws Exception{
+	private Vect velocity;
+
+	public TriangleGizmo(double[][] points, double xv, double yv,int ID) throws Exception{
 		this.ID=ID;
 		colour = Color.BLUE;
-		gizmoPhysics=physics;
 		if(points.length!=3){
 			throw new Exception("Error: Please ensure only 3 points are provided for this triangle");
 		}
@@ -34,12 +34,12 @@ public class TriangleGizmo implements IPolygon, IObservable{
 	@Override
 	public Vect getVelo() {
 		// TODO Auto-generated method stub
-		return gizmoPhysics.getVelocity();
+		return velocity;
 	}
 
 	@Override
 	public void setVelo(Vect v) {
-		gizmoPhysics.setVelocity(v);
+		velocity=v;
 		
 	}
 
@@ -61,19 +61,6 @@ public class TriangleGizmo implements IPolygon, IObservable{
 		return colour;
 	}
 
-	@Override
-	public CollisionDetails evalCollisions(double tickTime, GizmoList gizmoList) {
-		
-		//This method needs thought through with the physics guys.
-		return null;
-	}
-
-	@Override
-	public void moveGizmo(CollisionDetails collisions) {
-		gizmoPhysics.moveGizmoForTime(this);
-		// Move all co-ordinates according to ballGizmo
-		notifyAllObservers();
-	}
 
 	@Override
 	public void attach(IObserver obs) {
@@ -154,7 +141,7 @@ public class TriangleGizmo implements IPolygon, IObservable{
 	}
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = getID()+" "+lines.get(0).p1().x()+" "+lines.get(0).p1().y()+" "+gizmoPhysics.getVelocity().x()+" "+gizmoPhysics.getVelocity().y()+"\n";
+		String serializedGizmo = getID()+" "+lines.get(0).p1().x()+" "+lines.get(0).p1().y()+" "+"\n";
 		for(IGizmo gizmo : triggerList){
 			serializedGizmo+="Connect "+getID()+" "+gizmo.getID()+"\n";
 		}
@@ -165,6 +152,11 @@ public class TriangleGizmo implements IPolygon, IObservable{
 	public String getID() {
 		// TODO Auto-generated method stub
 		return "Triangle"+ID;
+	}
+	@Override
+	public void moveForTime(double tickTime) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

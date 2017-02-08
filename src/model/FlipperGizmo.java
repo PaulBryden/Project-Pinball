@@ -12,7 +12,6 @@ import physics.Vect;
 
 public class FlipperGizmo implements IFlipper, IObservable{
 	private Color colour;
-	private IGizmoPhysics gizmoPhysics;
 	private ArrayList<LineSegment> lines;
 	private ArrayList<Circle> circles;
 	private ArrayList<IObserver> observerList = new ArrayList<>();
@@ -20,10 +19,10 @@ public class FlipperGizmo implements IFlipper, IObservable{
 	private ArrayList<IGizmo> triggerList = new ArrayList<>();
 	private float flipperSpeed;
 	private Vect coords;
-	public FlipperGizmo(double[][] points, double xv, double yv,IGizmoPhysics physics, int ID) throws Exception{
+	private Vect velocity;
+	public FlipperGizmo(double[][] points, double xv, double yv, int ID) throws Exception{
 		coords = new Vect(points[0][0],points[0][1]);
 		colour = Color.BLUE;
-		gizmoPhysics=physics;
 		if(points.length!=4){
 			throw new Exception("Error: Please ensure 4 points are provided for this flipper");
 		}
@@ -35,12 +34,12 @@ public class FlipperGizmo implements IFlipper, IObservable{
 	@Override
 	public Vect getVelo() {
 		// TODO Auto-generated method stub
-		return gizmoPhysics.getVelocity();
+		return velocity;
 	}
 
 	@Override
 	public void setVelo(Vect v) {
-		gizmoPhysics.setVelocity(v);
+		velocity=v;
 		
 	}
 
@@ -59,19 +58,8 @@ public class FlipperGizmo implements IFlipper, IObservable{
 		return colour;
 	}
 
-	@Override
-	public CollisionDetails evalCollisions(double tickTime, GizmoList gizmoList) {
-		
-		//This method needs thought through with the physics guys.
-		return null;
-	}
 
-	@Override
-	public void moveGizmo(CollisionDetails collisions) {
-		gizmoPhysics.moveGizmoForTime(this);
-		// Move all co-ordinates according to ballGizmo
-		notifyAllObservers();
-	}
+
 
 	@Override
 	public void attach(IObserver obs) {
@@ -168,6 +156,11 @@ public class FlipperGizmo implements IFlipper, IObservable{
 	public String getID() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void moveForTime(double tickTime) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
