@@ -17,17 +17,10 @@ public class BoardFileHandler {
 			ArrayList<IGizmo> list = gizmos.returnGizmoList();
 			
 			for (IGizmo current : list) {
-				// TODO Write the following:
-				// Type of gizmo (Square, Circle, Flipper, etc) (maybe using getClass()?)
-				// Gizmo's identifier (will this be decided here, or elsewhere in the model?)
-				// x co-ord
-				// y co-ord
-				// New-line
-				
-				// TODO: Record any connections for writing later on
+				save.write(current.serializeGizmo());
+				// TODO: KeyConnections
+				// Ensure that serializeGizmo() is providing correct output!
 			}
-			
-			// Write connections here
 			
 			save.close();
 			
@@ -52,11 +45,43 @@ public class BoardFileHandler {
 			Scanner scan = null;
 			while (line != null) {
 				scan = new Scanner(line);
+				String type = scan.next();
+				
+				int id = 0;
+				double x = 0, y = 0, xVel = 0, yVel = 0;
+				if (type != "Connect" && type != "KeyConnect") {
+					// Only collect these if type is a gizmo
+					id = scan.nextInt(); // TODO: Check if this should be a string
+					x = scan.nextDouble();
+					y = scan.nextDouble();
+					xVel = scan.nextDouble();
+					yVel = scan.nextDouble();
+				} else {
+					// TODO: Handle Connect and KeyConnect
+				}
+				
+				// TODO: Put this in it's own method
+				IGizmo g = null;
+				try {
+					switch (type) {
+					case "Square" :
+						IGizmoPhysics p = new LinearPhysics();
+						g = new SquareGizmo(null, xVel, yVel, p, id);
+						gizmos.addGizmo(g);
+						break;
+					case "Triangle" :
+					case "Circle" :
+					case "Ball" :
+					case "Absorber" :
+					case "LeftFlipper" :
+					case "RightFlipper" :
+					default :
+					}
+				} catch (Exception e) {
+					// TODO: Catch exceptions properly
+				}
 				
 				// TODO
-				// Parse line and create gizmo with its ID and xy co-ords
-				// Add gizmo to GizmoList "gizmos"
-				
 				// Instead, if line contains connection, make that connection between existing gizmos
 				// If one or both gizmos haven't yet been read, store connection info for later*
 				
@@ -81,5 +106,4 @@ public class BoardFileHandler {
 			return null;
 		}
 	}
-	
 }
