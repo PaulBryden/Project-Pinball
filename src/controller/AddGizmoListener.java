@@ -1,20 +1,22 @@
 package controller;
 
+import view.MainWindow;
+import view.AddGizmoToolBar;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import model.IGizmo;
-import view.IViewGizmo;
-
 public class AddGizmoListener implements ActionListener{
+    private MainWindow mainWindow;
 
-	IGizmo gizmo;
-	IViewGizmo gizmoView;
-	GizmoFactory gizmoFactory;
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+    public AddGizmoListener(MainWindow mainWindow){
+        this.mainWindow = mainWindow;
+    }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(!(mainWindow.getSideToolBar() instanceof AddGizmoToolBar)) {
+            mainWindow.addSideToolBar(new AddGizmoToolBar());
+        }
+    }
 }

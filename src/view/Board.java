@@ -1,9 +1,12 @@
 package view;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
 
 import model.GizmoList;
 import observer.IObservable;
@@ -11,20 +14,29 @@ import observer.IObserver;
 
 public class Board extends JPanel implements IObserver{
 	
-	private ArrayList<IViewGizmo> viewGizmos;
+	private List<IViewGizmo> viewGizmos;
 	private GizmoList gizmos;
 
+	//TODO: Generate View Elements and Store in List
 	public Board(GizmoList gizmos){
-		//Generate View Elements and Store in List
-	}
+		super();
+		viewGizmos = new ArrayList<>();
+		this.gizmos = gizmos;
 
-	public void reDrawAll(){
-		
+		setLayout(new GridLayout(20, 20));
+		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, Color.BLACK, Color.BLACK)));
+		setSize(new Dimension(400, 400));
+		setPreferredSize(getSize());
+		setMinimumSize(getSize());
+		setMaximumSize(getSize());
 	}
 
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+		super.paintComponent(g);
+		for(int i = 0; i < 400; i++){
+			add(new Cell());
+		}
     }
 
 	@Override
