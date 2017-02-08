@@ -1,12 +1,13 @@
 package model;
 
 import java.util.List;
+import java.util.Observable;
 
 import physics.Circle;
 import physics.Geometry;
 import physics.LineSegment;
 
-public class GameModel {
+public class GameModel extends Observable {
 
 	private GizmoList listOfGizmos;
 	private List<BallGizmo> balls;
@@ -34,7 +35,9 @@ public class GameModel {
 		// TODO Apply friction and gravity here
 		// Trigger any gizmos that have been collided with
 		collision.getGizmo().triggerConnectedGizmos();
-		// TODO draw
+		// Update view
+		setChanged();
+		notifyObservers();
 	}
 
 	public GizmoList getGizmoList() {
