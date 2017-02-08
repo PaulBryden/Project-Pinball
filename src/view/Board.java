@@ -1,57 +1,37 @@
 package view;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import model.Ball;
-import model.HorizontalLine;
-import model.Model;
-import model.VerticalLine;
+import model.GizmoList;
+import observer.IObservable;
+import observer.IObserver;
 
-public class Board extends JPanel implements Observer{
-	private static final long serialVersionUID =1L;
-	protected int width;
-	protected int height;
-	protected Model gm;
+public class Board extends JPanel implements IObserver{
 	
-	public Board(int w, int h, Model m){
-		
-		m.addObserver(this);
-		width=w;
-		height=h;
-		gm=m;
+	ArrayList<IViewGizmo> viewGizmos;
+	GizmoList gizmos;
+	public Board(GizmoList gizmos){
+		//Generate View Elements and Store in List
 	}
-	
-	public Dimension getPreferredSize(){
-		return new Dimension(width, height);
+	public void reDrawAll(){
+		
 	}
-	
-	public void paintComponent(Graphics g){
-		super.paintComponent(g);
-		
-		Graphics2D g2 = (Graphics2D) g;
-		
-		for(HorizontalLine vl:gm.getLines()){
-			g2.fillRect(vl.getX(), vl.getY(), vl.getWidth(), 1);
-		}
-		
-		Ball b = gm.getBall();
-		if(b!=null){
-			g2.setColor(b.getColour());
-			int x = (int)(b.getExactX() - b.getRadius());
-			int y = (int) (b.getExactY() - b.getRadius());
-			int width = (int)(2* b.getRadius());
-			g2.fillOval(x, y, width, width);
-			
-		}
-	}
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+    }
+
 	@Override
-	public void update(Observable arg0, Object arg1){
-		repaint();
+	public void update(IObservable obsv, Object o) {
+		// TODO Auto-generated method stub
+		
 	}
+
+
+
 }
