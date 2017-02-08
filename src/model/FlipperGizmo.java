@@ -4,132 +4,171 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import observer.IObservable;
+import observer.IObserver;
 import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class FlipperGizmo implements IFlipper{
+public class FlipperGizmo implements IFlipper, IObservable{
 	private Color colour;
 	private IGizmoPhysics gizmoPhysics;
 	private ArrayList<LineSegment> lines;
 	private ArrayList<Circle> circles;
-	@Override
-	public float[][] getCoords() {
-		// TODO Auto-generated method stub
-		return null;
+	private ArrayList<IObserver> observerList = new ArrayList<>();
+	private IAction triggerAction;
+	private ArrayList<IGizmo> triggerList = new ArrayList<>();
+	private float flipperSpeed;
+	private Vect coords;
+	public FlipperGizmo(double[][] points, double xv, double yv,IGizmoPhysics physics, int ID) throws Exception{
+		coords = new Vect(points[0][0],points[0][1]);
+		colour = Color.BLUE;
+		gizmoPhysics=physics;
+		if(points.length!=4){
+			throw new Exception("Error: Please ensure 4 points are provided for this flipper");
+		}
+		for(int i=0; i<points.length-1;i++){
+				lines.add(new LineSegment(points[i][0],points[i][1],points[i+1][0],points[i+1][1]));
+		}
+		//Implement rounded edges after initial testing is complete.
 	}
-
-	@Override
-	public void setCoords(float[][] coords) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setFlipperSpeed(float x) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public float getFlipperSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	@Override
 	public Vect getVelo() {
 		// TODO Auto-generated method stub
-		return null;
+		return gizmoPhysics.getVelocity();
 	}
 
 	@Override
 	public void setVelo(Vect v) {
-		// TODO Auto-generated method stub
+		gizmoPhysics.setVelocity(v);
 		
 	}
 
+
 	@Override
-	public boolean isStatic() {
+	public void setPoints(double[][] points) {
 		// TODO Auto-generated method stub
-		return false;
+		//NEED TO EVALUATE THIS MORE CLOSELY
 	}
+
+
 
 	@Override
 	public Color getColour() {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Color setColour() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addTriggerAction(IAction action) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addGizmoToTrigger(IGizmo gizmo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public ArrayList<IGizmo> getGizmosToTrigger() {
-		// TODO Auto-generated method stub
-		return null;
+		return colour;
 	}
 
 	@Override
 	public CollisionDetails evalCollisions(double tickTime, GizmoList gizmoList) {
-		// TODO Auto-generated method stub
+		
+		//This method needs thought through with the physics guys.
 		return null;
 	}
 
 	@Override
 	public void moveGizmo(CollisionDetails collisions) {
-		// TODO Auto-generated method stub
+		gizmoPhysics.moveGizmoForTime(this);
+		// Move all co-ordinates according to ballGizmo
+		notifyAllObservers();
+	}
+
+	@Override
+	public void attach(IObserver obs) {
+		observerList.add(obs);
+	}
+
+	@Override
+	public void notifyAllObservers() {
+		for(IObserver observer : observerList){
+			observer.notify();
+		}
 		
 	}
 
 	@Override
-	public void setPoints(double[][] points) {
+	public boolean isStatic() {
+		// Ball will always be a movable object
+		return false;
+	}
+
+	@Override
+	public void setColour(Color colour) {
 		// TODO Auto-generated method stub
+		this.colour=colour;
+	}
+
+	@Override
+	public void addTriggerAction(IAction action) {
+		this.triggerAction=action;
 		
 	}
 
+	@Override
+	public void addGizmoToTrigger(IGizmo gizmo) {
+		triggerList.add(gizmo);
+		
+	}
+
+	@Override
+	public ArrayList<IGizmo> getGizmosToTrigger() {
+		
+		return triggerList;
+	}
+	@Override
+	public float[][] getCoords() {
+		// NEED TO RETHINK THIS. THESE ARE UNNECESSARY
+		return null;
+	}
+	@Override
+	public void setCoords(float[][] coords) {
+		// NEED TO RETHINK THIS. THESE ARE UNNECESSARY
+
+		
+	}
 	@Override
 	public ArrayList<Circle> getAllCircles() {
 		// TODO Auto-generated method stub
-		return null;
+		return circles;
 	}
-
 	@Override
 	public ArrayList<LineSegment> getAllLineSegments() {
 		// TODO Auto-generated method stub
+		return lines;
+	}
+
+	protected void triggerConnectedGizmos(List<IGizmo> visited){}
+	protected void performActions(List<IGizmo> visited){}
+	@Override
+	public void performActions() {
+		triggerAction.performAction();
+	}
+	@Override
+	public void triggerConnectedGizmos() {
+		for(IGizmo gizmo : triggerList){
+			gizmo.performActions();
+		}
+		
+	}
+	@Override
+	public String serializeGizmo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setFlipperSpeed(float x) {
+		flipperSpeed=x;
+	}
+	@Override
+	public float getFlipperSpeed() {
+		// TODO Auto-generated method stub
+		return flipperSpeed;
+	}
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-	@Override
-	public void performActions() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void triggerConnectedGizmos() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-	protected void triggerConnectedGizmos(List<IGizmo> visited){}
-
-	protected void performActions(List<IGizmo> visited){}
 }
+

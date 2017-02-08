@@ -16,24 +16,27 @@ public class BallGizmo implements ICircle,IObservable{
 	private IGizmoPhysics gizmoPhysics;
 	private Circle physicsCircle;
 	private ArrayList<IGizmo> gizmoList= new ArrayList<>();
-	
-	
-	public BallGizmo(double radius, double x, double y, double xv, double yv){
-		colour = Color.BLUE;
+	private ArrayList<IObserver> observerList = new ArrayList<>();
+	private IAction triggerAction;
+	private ArrayList<IGizmo> triggerList = new ArrayList<>();
+	private int ID;
+	public BallGizmo(double radius, double x, double y, double xv, double yv, Color colour,int ID){
+		this.colour = colour;
 		this.radius=radius;
 		this.physicsCircle=new Circle(x,y,radius);
-		gizmoPhysics=new BallPhysics(xv, yv);
+		this.gizmoPhysics=new BallPhysics(xv, yv);
+		this.ID=ID;
 	}
 	
 	@Override
 	public Vect getVelo() {
 		// TODO Auto-generated method stub
-		return null;
+		return gizmoPhysics.getVelocity();
 	}
 
 	@Override
 	public void setVelo(Vect v) {
-		// TODO Auto-generated method stub
+		gizmoPhysics.setVelocity(v);
 		
 	}
 
@@ -49,12 +52,13 @@ public class BallGizmo implements ICircle,IObservable{
 	@Override
 	public Color getColour() {
 		// TODO Auto-generated method stub
-		return null;
+		return colour;
 	}
 
 	@Override
 	public CollisionDetails evalCollisions(double tickTime, GizmoList gizmoList) {
 		
+		//This method needs thought through with the physics guys.
 		return null;
 	}
 
@@ -67,80 +71,83 @@ public class BallGizmo implements ICircle,IObservable{
 
 	@Override
 	public void attach(IObserver obs) {
-		// TODO Auto-generated method stub
-		
+		observerList.add(obs);
 	}
 
 	@Override
 	public void notifyAllObservers() {
-		// TODO Auto-generated method stub
+		for(IObserver observer : observerList){
+			observer.notify();
+		}
 		
 	}
 
 	@Override
 	public boolean isStatic() {
-		// TODO Auto-generated method stub
+		// Ball will always be a movable object
 		return false;
 	}
 
 	@Override
-	public Color setColour() {
+	public void setColour(Color colour) {
 		// TODO Auto-generated method stub
-		return null;
+		this.colour=colour;
 	}
 
 	@Override
 	public void addTriggerAction(IAction action) {
-		// TODO Auto-generated method stub
+		this.triggerAction=action;
 		
 	}
 
 	@Override
 	public void addGizmoToTrigger(IGizmo gizmo) {
-		// TODO Auto-generated method stub
+		triggerList.add(gizmo);
 		
 	}
 
 	@Override
 	public ArrayList<IGizmo> getGizmosToTrigger() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return triggerList;
 	}
 
 	@Override
 	public float getRadius() {
 		// TODO Auto-generated method stub
-		return 0;
+		return (float)physicsCircle.getRadius();
 	}
 
 	@Override
 	public void setRadius(float radius) {
-		// TODO Auto-generated method stub
+		//Do we need this?
 		
 	}
 
 	@Override
 	public void setCentre(float x, float y) {
-		// TODO Auto-generated method stub
+		physicsCircle = new Circle(x,y,physicsCircle.getRadius());
 		
 	}
 
 	@Override
-	public float[] getCentre(float x, float y) {
+	public Vect getCentre(float x, float y) {
 		// TODO Auto-generated method stub
-		return null;
+		return physicsCircle.getCenter();
 	}
 
 	@Override
 	public boolean isBall() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public ArrayList<Circle> getAllCircles() {
 		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Circle> circleList = new ArrayList<>();
+		circleList.add(physicsCircle);
+		return circleList;
 	}
 
 	@Override
@@ -152,17 +159,37 @@ public class BallGizmo implements ICircle,IObservable{
 
 	@Override
 	public void performActions() {
-		// TODO Auto-generated method stub
+		triggerAction.performAction();
+		
 		
 	}
-	protected void performActions(List<IGizmo> visited){}
+	protected void performActions(List<IGizmo> visited){
+		//Needs rethought
+	}
 
 	@Override
 	public void triggerConnectedGizmos() {
-		// TODO Auto-generated method stub
+		for(IGizmo gizmo : triggerList){
+			gizmo.performActions();
+		}
 		
 	}
 	protected void triggerConnectedGizmos(List<IGizmo> visited){}
+
+	@Override
+	public String serializeGizmo() {
+		String serializedGizmo = getID()+" "+physicsCircle.getCenter().x()+" "+physicsCircle.getCenter().y()+" "+gizmoPhysics.getVelocity().x()+" "+gizmoPhysics.getVelocity().y()+"\n";
+		for(IGizmo gizmo : triggerList){
+			serializedGizmo+="Connect "+getID()+" "+gizmo.getID()+"\n";
+		}
+		return serializedGizmo;
+	}
+
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return "Ball"+ID;
+	}
 
 
 

@@ -166,7 +166,7 @@
   </class>  
   <class id="19" language="java" name="controller.LoadBoardListener" project="CS308-Gizmoball" 
     file="/CS308-Gizmoball/src/controller/LoadBoardListener.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="3480" y="161"/>    
+    <position height="-1" width="-1" x="3463" y="144"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -184,7 +184,7 @@
   </class>  
   <class id="21" language="java" name="controller.SaveBoardListener" project="CS308-Gizmoball" 
     file="/CS308-Gizmoball/src/controller/SaveBoardListener.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="3236" y="43"/>    
+    <position height="-1" width="-1" x="3428" y="35"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -211,7 +211,7 @@
   </class>  
   <class id="24" language="java" name="controller.TickListener" project="CS308-Gizmoball" 
     file="/CS308-Gizmoball/src/controller/TickListener.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="3181" y="-105"/>    
+    <position height="-1" width="-1" x="3248" y="-110"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -562,7 +562,7 @@
   </interface>  
   <class id="63" language="java" name="main.main" project="CS308-Gizmoball" file="/CS308-Gizmoball/src/main/main.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2914" y="770"/>    
+    <position height="-1" width="-1" x="2754" y="814"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -580,7 +580,7 @@
   </class>  
   <class id="65" language="java" name="controller.GizmoFactory" project="CS308-Gizmoball" 
     file="/CS308-Gizmoball/src/controller/GizmoFactory.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="3438" y="-213"/>    
+    <position height="-1" width="-1" x="3461" y="-214"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -667,10 +667,10 @@
   <association id="84">    
     <end type="SOURCE" refId="26" navigable="false">      
       <attribute id="85" name="gizmoFactory">        
-        <position height="0" width="0" x="-6" y="-94"/>      
+        <position height="0" width="0" x="17" y="-95"/>      
       </attribute>      
       <multiplicity id="86" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-6" y="-94"/>      
+        <position height="0" width="0" x="17" y="-95"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="65" navigable="true"/>    
@@ -846,364 +846,360 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="130">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="131" name="boardHandler"/>      
+      <multiplicity id="132" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="133">    
     <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="131" name="gizmoView">        
+      <attribute id="134" name="gizmoView">        
         <position height="0" width="0" x="-360" y="8"/>      
       </attribute>      
-      <multiplicity id="132" minimum="0" maximum="1">        
+      <multiplicity id="135" minimum="0" maximum="1">        
         <position height="0" width="0" x="-360" y="8"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="42" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="133">    
+  <dependency id="136">    
     <end type="SOURCE" refId="38"/>    
     <end type="TARGET" refId="35"/>  
   </dependency>  
-  <nesting id="134">    
+  <nesting id="137">    
     <end type="SOURCE" refId="47"/>    
     <end type="TARGET" refId="58"/>  
   </nesting>  
-  <realization id="135">    
+  <realization id="138">    
     <end type="SOURCE" refId="38"/>    
     <end type="TARGET" refId="34"/>  
   </realization>  
-  <association id="136">    
+  <association id="139">    
     <end type="SOURCE" refId="47" navigable="false">      
-      <attribute id="137" name="g1">        
+      <attribute id="140" name="g1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
-      <multiplicity id="138" minimum="0" maximum="1">        
+      <multiplicity id="141" minimum="0" maximum="1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="57" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="139">    
+  <association id="142">    
     <end type="SOURCE" refId="19" navigable="false">      
-      <attribute id="140" name="gameloop">        
+      <attribute id="143" name="gameloop">        
         <position height="0" width="0" x="544" y="-36"/>      
       </attribute>      
-      <multiplicity id="141" minimum="0" maximum="1">        
+      <multiplicity id="144" minimum="0" maximum="1">        
         <position height="0" width="0" x="544" y="-36"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="64" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="142">    
+  <association id="145">    
     <end type="SOURCE" refId="25" navigable="false">      
-      <attribute id="143" name="gizmoView">        
+      <attribute id="146" name="gizmoView">        
         <position height="0" width="0" x="-360" y="8"/>      
       </attribute>      
-      <multiplicity id="144" minimum="0" maximum="1">        
+      <multiplicity id="147" minimum="0" maximum="1">        
         <position height="0" width="0" x="-360" y="8"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="42" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="145">    
+  <realization id="148">    
     <end type="SOURCE" refId="14"/>    
     <end type="TARGET" refId="5"/>  
   </realization>  
-  <realization id="146">    
+  <realization id="149">    
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="6"/>  
   </realization>  
-  <realization id="147">    
+  <realization id="150">    
     <end type="SOURCE" refId="43"/>    
     <end type="TARGET" refId="42"/>  
   </realization>  
-  <association id="148">    
+  <association id="151">    
     <end type="SOURCE" refId="30" navigable="false">      
-      <attribute id="149" name="gizmo">        
+      <attribute id="152" name="gizmo">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="150" minimum="0" maximum="1">        
+      <multiplicity id="153" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="151">    
+  <nesting id="154">    
     <end type="SOURCE" refId="44"/>    
     <end type="TARGET" refId="45"/>  
   </nesting>  
-  <association id="152">    
+  <association id="155">    
     <end type="SOURCE" refId="52" navigable="false">      
-      <attribute id="153" name="p1">        
+      <attribute id="156" name="p1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
-      <multiplicity id="154" minimum="0" maximum="1">        
+      <multiplicity id="157" minimum="0" maximum="1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="60" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="155">    
+  <nesting id="158">    
     <end type="SOURCE" refId="55"/>    
     <end type="TARGET" refId="53"/>  
   </nesting>  
-  <realization id="156">    
+  <realization id="159">    
     <end type="SOURCE" refId="9"/>    
     <end type="TARGET" refId="5"/>  
   </realization>  
-  <association id="157">    
+  <association id="160">    
     <end type="SOURCE" refId="48" navigable="false">      
-      <attribute id="158" name="RAD_PI_OVER_TWO">        
+      <attribute id="161" name="RAD_PI_OVER_TWO">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
-      <multiplicity id="159" minimum="0" maximum="1">        
+      <multiplicity id="162" minimum="0" maximum="1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="48" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="160">    
+  <association id="163">    
     <end type="SOURCE" refId="66" navigable="false">      
-      <attribute id="161" name="gameLoop"/>      
-      <multiplicity id="162" minimum="0" maximum="1"/>    
+      <attribute id="164" name="gameLoop"/>      
+      <multiplicity id="165" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="64" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="163">    
+  <association id="166">    
     <end type="SOURCE" refId="44" navigable="false">      
-      <attribute id="164" name="DOUBLE_PAIR_NAN">        
+      <attribute id="167" name="DOUBLE_PAIR_NAN">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
-      <multiplicity id="165" minimum="0" maximum="1">        
+      <multiplicity id="168" minimum="0" maximum="1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="45" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="166">    
+  <realization id="169">    
     <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="6"/>  
   </realization>  
-  <association id="167">    
+  <association id="170">    
     <end type="SOURCE" refId="20" navigable="false">      
-      <attribute id="168" name="sidebar">        
+      <attribute id="171" name="sidebar">        
         <position height="0" width="0" x="-360" y="8"/>      
       </attribute>      
-      <multiplicity id="169" minimum="0" maximum="1">        
+      <multiplicity id="172" minimum="0" maximum="1">        
         <position height="0" width="0" x="-360" y="8"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="40" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="170">    
+  <association id="173">    
     <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="171" name="gizmo">        
+      <attribute id="174" name="gizmo">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="172" minimum="0" maximum="1">        
+      <multiplicity id="175" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="173">    
+  <association id="176">    
     <end type="SOURCE" refId="63" navigable="false">      
-      <attribute id="174" name="mainWindow">        
+      <attribute id="177" name="mainWindow">        
         <position height="0" width="0" x="-360" y="8"/>      
       </attribute>      
-      <multiplicity id="175" minimum="0" maximum="1">        
+      <multiplicity id="178" minimum="0" maximum="1">        
         <position height="0" width="0" x="-360" y="8"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="37" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="176">    
+  <realization id="179">    
     <end type="SOURCE" refId="8"/>    
     <end type="TARGET" refId="3"/>  
   </realization>  
-  <realization id="177">    
+  <realization id="180">    
     <end type="SOURCE" refId="13"/>    
     <end type="TARGET" refId="1"/>  
   </realization>  
-  <association id="178">    
+  <association id="181">    
     <end type="SOURCE" refId="43" navigable="false">      
-      <attribute id="179" name="gizmo">        
+      <attribute id="182" name="gizmo">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="180" minimum="0" maximum="1">        
+      <multiplicity id="183" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="181">    
+  <realization id="184">    
     <end type="SOURCE" refId="16"/>    
     <end type="TARGET" refId="5"/>  
   </realization>  
-  <generalization id="182">    
+  <generalization id="185">    
     <end type="SOURCE" refId="56"/>    
     <end type="TARGET" refId="61"/>  
   </generalization>  
-  <realization id="183">    
+  <realization id="186">    
     <end type="SOURCE" refId="36"/>    
     <end type="TARGET" refId="34"/>  
   </realization>  
-  <association id="184">    
+  <association id="187">    
     <end type="SOURCE" refId="49" navigable="false">      
-      <attribute id="185" name="centerPoint">        
+      <attribute id="188" name="centerPoint">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
-      <multiplicity id="186" minimum="0" maximum="1">        
+      <multiplicity id="189" minimum="0" maximum="1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="60" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="187">    
+  <association id="190">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="188" name="circles"/>      
-      <multiplicity id="189" minimum="0" maximum="2147483647"/>    
+      <attribute id="191" name="circles"/>      
+      <multiplicity id="192" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="49" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="190">    
+  <association id="193">    
     <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="191" name="lines">        
+      <attribute id="194" name="lines">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
-      <multiplicity id="192" minimum="0" maximum="2147483647">        
+      <multiplicity id="195" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="52" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="193">    
+  <association id="196">    
     <end type="SOURCE" refId="38" navigable="false">      
-      <attribute id="194" name="viewGizmos">        
+      <attribute id="197" name="viewGizmos">        
         <position height="0" width="0" x="-360" y="8"/>      
       </attribute>      
-      <multiplicity id="195" minimum="0" maximum="2147483647">        
+      <multiplicity id="198" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="-360" y="8"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="42" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="196">    
+  <association id="199">    
     <end type="SOURCE" refId="38" navigable="false">      
-      <attribute id="197" name="gizmos">        
+      <attribute id="200" name="gizmos">        
         <position height="0" width="0" x="-12" y="236"/>      
       </attribute>      
-      <multiplicity id="198" minimum="0" maximum="1">        
+      <multiplicity id="201" minimum="0" maximum="1">        
         <position height="0" width="0" x="-12" y="236"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="199">    
+  <association id="202">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="200" name="lines"/>      
-      <multiplicity id="201" minimum="0" maximum="2147483647"/>    
+      <attribute id="203" name="lines"/>      
+      <multiplicity id="204" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="52" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="202">    
+  <association id="205">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="203" name="gizmoPhysics"/>      
-      <multiplicity id="204" minimum="0" maximum="1"/>    
+      <attribute id="206" name="gizmoPhysics"/>      
+      <multiplicity id="207" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="205">    
+  <association id="208">    
     <end type="SOURCE" refId="48" navigable="false">      
-      <attribute id="206" name="DEG_270">        
+      <attribute id="209" name="DEG_270">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
-      <multiplicity id="207" minimum="0" maximum="1">        
+      <multiplicity id="210" minimum="0" maximum="1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="48" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="208">    
+  <association id="211">    
     <end type="SOURCE" refId="28" navigable="false">      
-      <attribute id="209" name="gizmoView">        
+      <attribute id="212" name="gizmoView">        
         <position height="0" width="0" x="-360" y="8"/>      
       </attribute>      
-      <multiplicity id="210" minimum="0" maximum="1">        
+      <multiplicity id="213" minimum="0" maximum="1">        
         <position height="0" width="0" x="-360" y="8"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="42" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="211">    
+  <association id="214">    
     <end type="SOURCE" refId="32" navigable="false">      
-      <attribute id="212" name="gizmoSelector"/>      
-      <multiplicity id="213" minimum="0" maximum="1"/>    
+      <attribute id="215" name="gizmoSelector"/>      
+      <multiplicity id="216" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="30" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="214">    
+  <realization id="217">    
     <end type="SOURCE" refId="41"/>    
     <end type="TARGET" refId="34"/>  
   </realization>  
-  <realization id="215">    
+  <realization id="218">    
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="35"/>  
   </realization>  
-  <association id="216">    
+  <association id="219">    
     <end type="SOURCE" refId="19" navigable="false">      
-      <attribute id="217" name="gizmoList">        
+      <attribute id="220" name="gizmoList">        
         <position height="0" width="0" x="-12" y="236"/>      
       </attribute>      
-      <multiplicity id="218" minimum="0" maximum="1">        
+      <multiplicity id="221" minimum="0" maximum="1">        
         <position height="0" width="0" x="-12" y="236"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="219">    
+  <generalization id="222">    
     <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="4"/>  
   </generalization>  
-  <realization id="220">    
+  <realization id="223">    
     <end type="SOURCE" refId="61"/>    
     <end type="TARGET" refId="57"/>  
   </realization>  
-  <association id="221">    
-    <end type="SOURCE" refId="60" navigable="false">      
-      <attribute id="222" name="Y_HAT">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </attribute>      
-      <multiplicity id="223" minimum="0" maximum="1">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="60" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <association id="224">    
-    <end type="SOURCE" refId="52" navigable="false">      
-      <attribute id="225" name="p2">        
+    <end type="SOURCE" refId="60" navigable="false">      
+      <attribute id="225" name="Y_HAT">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
       <multiplicity id="226" minimum="0" maximum="1">        
@@ -1214,109 +1210,105 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="227">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="228" name="physicsCircle">        
+    <end type="SOURCE" refId="52" navigable="false">      
+      <attribute id="228" name="p2">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
       <multiplicity id="229" minimum="0" maximum="1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="49" navigable="true"/>    
+    <end type="TARGET" refId="60" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="230">    
-    <end type="SOURCE" refId="48" navigable="false">      
-      <attribute id="231" name="RAD_PI_OVER_FOUR">        
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="231" name="physicsCircle">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
       <multiplicity id="232" minimum="0" maximum="1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="48" navigable="true"/>    
+    <end type="TARGET" refId="49" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="233">    
-    <bendpoint x="308" y="3133"/>    
-    <end type="SOURCE" refId="47" navigable="false">      
-      <attribute id="234" name="NONE">        
-        <position height="0" width="0" x="-75" y="-834"/>      
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="234" name="RAD_PI_OVER_FOUR">        
+        <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
       <multiplicity id="235" minimum="0" maximum="1">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="48" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="236">    
+    <bendpoint x="308" y="3133"/>    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="237" name="NONE">        
+        <position height="0" width="0" x="-75" y="-834"/>      
+      </attribute>      
+      <multiplicity id="238" minimum="0" maximum="1">        
         <position height="0" width="0" x="-75" y="-834"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="46" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="236">    
+  <association id="239">    
     <end type="SOURCE" refId="27" navigable="false">      
-      <attribute id="237" name="selectGizmoListener"/>      
-      <multiplicity id="238" minimum="0" maximum="1"/>    
+      <attribute id="240" name="selectGizmoListener"/>      
+      <multiplicity id="241" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="30" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="239">    
+  <association id="242">    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="240" name="gizmoList">        
+      <attribute id="243" name="gizmoList">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="241" minimum="0" maximum="2147483647">        
+      <multiplicity id="244" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="242">    
+  <realization id="245">    
     <end type="SOURCE" refId="47"/>    
     <end type="TARGET" refId="57"/>  
   </realization>  
-  <association id="243">    
+  <association id="246">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="247" name="boardHandler"/>      
+      <multiplicity id="248" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="249">    
     <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="244" name="circles">        
+      <attribute id="250" name="circles">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
-      <multiplicity id="245" minimum="0" maximum="2147483647">        
+      <multiplicity id="251" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="49" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="246">    
+  <realization id="252">    
     <end type="SOURCE" refId="15"/>    
     <end type="TARGET" refId="5"/>  
   </realization>  
-  <association id="247">    
-    <end type="SOURCE" refId="48" navigable="false">      
-      <attribute id="248" name="ZERO">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </attribute>      
-      <multiplicity id="249" minimum="0" maximum="1">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="48" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="250">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="251" name="gizmoPhysics">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="252" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <association id="253">    
     <end type="SOURCE" refId="48" navigable="false">      
-      <attribute id="254" name="DEG_135">        
+      <attribute id="254" name="ZERO">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
       <multiplicity id="255" minimum="0" maximum="1">        
@@ -1326,21 +1318,21 @@
     <end type="TARGET" refId="48" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="256">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="35"/>  
-  </realization>  
-  <nesting id="257">    
-    <end type="SOURCE" refId="44"/>    
-    <end type="TARGET" refId="54"/>  
-  </nesting>  
-  <generalization id="258">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
+  <association id="256">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="257" name="gizmoPhysics">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="258" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <association id="259">    
     <end type="SOURCE" refId="48" navigable="false">      
-      <attribute id="260" name="DEG_180">        
+      <attribute id="260" name="DEG_135">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
       <multiplicity id="261" minimum="0" maximum="1">        
@@ -1350,132 +1342,132 @@
     <end type="TARGET" refId="48" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="262">    
-    <end type="SOURCE" refId="47" navigable="false">      
-      <attribute id="263" name="g2">        
+  <realization id="262">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="35"/>  
+  </realization>  
+  <nesting id="263">    
+    <end type="SOURCE" refId="44"/>    
+    <end type="TARGET" refId="54"/>  
+  </nesting>  
+  <generalization id="264">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="265">    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="266" name="DEG_180">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
-      <multiplicity id="264" minimum="0" maximum="1">        
+      <multiplicity id="267" minimum="0" maximum="1">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="48" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="268">    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="269" name="g2">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </attribute>      
+      <multiplicity id="270" minimum="0" maximum="1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="57" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="265">    
+  <association id="271">    
     <end type="SOURCE" refId="37" navigable="false">      
-      <attribute id="266" name="sidebar">        
+      <attribute id="272" name="sidebar">        
         <position height="0" width="0" x="-360" y="8"/>      
       </attribute>      
-      <multiplicity id="267" minimum="0" maximum="1">        
+      <multiplicity id="273" minimum="0" maximum="1">        
         <position height="0" width="0" x="-360" y="8"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="40" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="268">    
+  <generalization id="274">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="4"/>  
   </generalization>  
-  <association id="269">    
+  <association id="275">    
     <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="270" name="observers">        
+      <attribute id="276" name="observers">        
         <position height="0" width="0" x="1040" y="688"/>      
       </attribute>      
-      <multiplicity id="271" minimum="0" maximum="2147483647">        
+      <multiplicity id="277" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="1040" y="688"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="34" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="272">    
+  <association id="278">    
     <end type="SOURCE" refId="55" navigable="false">      
-      <attribute id="273" name="UNDEFINED">        
+      <attribute id="279" name="UNDEFINED">        
         <position height="0" width="0" x="160" y="-619"/>      
       </attribute>      
-      <multiplicity id="274" minimum="0" maximum="1">        
+      <multiplicity id="280" minimum="0" maximum="1">        
         <position height="0" width="0" x="160" y="-619"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="53" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="275">    
+  <association id="281">    
     <end type="SOURCE" refId="60" navigable="false">      
-      <attribute id="276" name="ZERO">        
+      <attribute id="282" name="ZERO">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
-      <multiplicity id="277" minimum="0" maximum="1">        
+      <multiplicity id="283" minimum="0" maximum="1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="60" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="278">    
+  <realization id="284">    
     <end type="SOURCE" refId="43"/>    
     <end type="TARGET" refId="34"/>  
   </realization>  
-  <association id="279">    
+  <association id="285">    
     <end type="SOURCE" refId="63" navigable="false">      
-      <attribute id="280" name="gameloop">        
+      <attribute id="286" name="gameloop">        
         <position height="0" width="0" x="544" y="-36"/>      
       </attribute>      
-      <multiplicity id="281" minimum="0" maximum="1">        
+      <multiplicity id="287" minimum="0" maximum="1">        
         <position height="0" width="0" x="544" y="-36"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="64" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="282">    
+  <association id="288">    
     <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="283" name="timer"/>      
-      <multiplicity id="284" minimum="0" maximum="1"/>    
+      <attribute id="289" name="timer"/>      
+      <multiplicity id="290" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="66" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="285">    
+  <association id="291">    
     <end type="SOURCE" refId="24" navigable="false">      
-      <attribute id="286" name="gameLoop"/>      
-      <multiplicity id="287" minimum="0" maximum="1"/>    
+      <attribute id="292" name="gameLoop"/>      
+      <multiplicity id="293" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="64" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="288">    
+  <generalization id="294">    
     <end type="SOURCE" refId="59"/>    
     <end type="TARGET" refId="56"/>  
   </generalization>  
-  <association id="289">    
-    <end type="SOURCE" refId="25" navigable="false">      
-      <attribute id="290" name="gizmo">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="291" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="292">    
-    <end type="SOURCE" refId="36" navigable="false">      
-      <attribute id="293" name="gizmo">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="294" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <association id="295">    
-    <end type="SOURCE" refId="33" navigable="false">      
+    <end type="SOURCE" refId="25" navigable="false">      
       <attribute id="296" name="gizmo">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
@@ -1487,174 +1479,198 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="298">    
-    <end type="SOURCE" refId="64" navigable="false">      
-      <attribute id="299" name="listOfGizmos">        
-        <position height="0" width="0" x="-12" y="236"/>      
-      </attribute>      
-      <multiplicity id="300" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-12" y="236"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="301">    
-    <end type="SOURCE" refId="19" navigable="false">      
-      <attribute id="302" name="gameBoard">        
-        <position height="0" width="0" x="-390" y="-42"/>      
-      </attribute>      
-      <multiplicity id="303" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-390" y="-42"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="38" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="304">    
-    <end type="SOURCE" refId="41"/>    
-    <end type="TARGET" refId="42"/>  
-  </realization>  
-  <association id="305">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="306" name="lines">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </attribute>      
-      <multiplicity id="307" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="52" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="308">    
-    <end type="SOURCE" refId="48" navigable="false">      
-      <attribute id="309" name="RAD_PI">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </attribute>      
-      <multiplicity id="310" minimum="0" maximum="1">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="48" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="311">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="35"/>  
-  </realization>  
-  <association id="312">    
-    <end type="SOURCE" refId="26" navigable="false">      
-      <attribute id="313" name="gizmoView">        
-        <position height="0" width="0" x="-360" y="8"/>      
-      </attribute>      
-      <multiplicity id="314" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-360" y="8"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="42" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="315">    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="316" name="timer"/>      
-      <multiplicity id="317" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="66" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="318">    
-    <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="319" name="gizmoList">        
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="299" name="gizmo">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="320" minimum="0" maximum="2147483647">        
+      <multiplicity id="300" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="321">    
-    <end type="SOURCE" refId="60" navigable="false">      
-      <attribute id="322" name="theta">        
-        <position height="0" width="0" x="32" y="-627"/>      
+  <association id="301">    
+    <end type="SOURCE" refId="33" navigable="false">      
+      <attribute id="302" name="gizmo">        
+        <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="323" minimum="0" maximum="1">        
-        <position height="0" width="0" x="32" y="-627"/>      
+      <multiplicity id="303" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="48" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="324">    
-    <end type="SOURCE" refId="44" navigable="false">      
-      <attribute id="325" name="geometry">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </attribute>      
-      <multiplicity id="326" minimum="0" maximum="1">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="57" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="327">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="328" name="circles">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </attribute>      
-      <multiplicity id="329" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="32" y="-627"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="49" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="330">    
-    <end type="SOURCE" refId="55"/>    
-    <end type="TARGET" refId="62"/>  
-  </nesting>  
-  <association id="331">    
-    <end type="SOURCE" refId="21" navigable="false">      
-      <attribute id="332" name="gizmoList">        
+  <association id="304">    
+    <end type="SOURCE" refId="64" navigable="false">      
+      <attribute id="305" name="listOfGizmos">        
         <position height="0" width="0" x="-12" y="236"/>      
       </attribute>      
-      <multiplicity id="333" minimum="0" maximum="1">        
+      <multiplicity id="306" minimum="0" maximum="1">        
         <position height="0" width="0" x="-12" y="236"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="334">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="2"/>  
+  <association id="307">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="308" name="gameBoard">        
+        <position height="0" width="0" x="-390" y="-42"/>      
+      </attribute>      
+      <multiplicity id="309" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-390" y="-42"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="310">    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="42"/>  
   </realization>  
-  <association id="335">    
-    <end type="SOURCE" refId="30" navigable="false">      
-      <attribute id="336" name="gizmoView">        
+  <association id="311">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="312" name="lines">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </attribute>      
+      <multiplicity id="313" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="52" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="314">    
+    <end type="SOURCE" refId="48" navigable="false">      
+      <attribute id="315" name="RAD_PI">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </attribute>      
+      <multiplicity id="316" minimum="0" maximum="1">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="48" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="317">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="35"/>  
+  </realization>  
+  <association id="318">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="319" name="gizmoView">        
         <position height="0" width="0" x="-360" y="8"/>      
       </attribute>      
-      <multiplicity id="337" minimum="0" maximum="1">        
+      <multiplicity id="320" minimum="0" maximum="1">        
         <position height="0" width="0" x="-360" y="8"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="42" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="338">    
+  <association id="321">    
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="322" name="timer"/>      
+      <multiplicity id="323" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="66" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="324">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="325" name="gizmoList">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="326" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="327">    
     <end type="SOURCE" refId="60" navigable="false">      
-      <attribute id="339" name="X_HAT">        
+      <attribute id="328" name="theta">        
         <position height="0" width="0" x="32" y="-627"/>      
       </attribute>      
-      <multiplicity id="340" minimum="0" maximum="1">        
+      <multiplicity id="329" minimum="0" maximum="1">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="48" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="330">    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="331" name="geometry">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </attribute>      
+      <multiplicity id="332" minimum="0" maximum="1">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="57" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="333">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="334" name="circles">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </attribute>      
+      <multiplicity id="335" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="49" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="336">    
+    <end type="SOURCE" refId="55"/>    
+    <end type="TARGET" refId="62"/>  
+  </nesting>  
+  <association id="337">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="338" name="gizmoList">        
+        <position height="0" width="0" x="-12" y="236"/>      
+      </attribute>      
+      <multiplicity id="339" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-12" y="236"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="340">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <association id="341">    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="342" name="gizmoView">        
+        <position height="0" width="0" x="-360" y="8"/>      
+      </attribute>      
+      <multiplicity id="343" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-360" y="8"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="42" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="344">    
+    <end type="SOURCE" refId="60" navigable="false">      
+      <attribute id="345" name="X_HAT">        
+        <position height="0" width="0" x="32" y="-627"/>      
+      </attribute>      
+      <multiplicity id="346" minimum="0" maximum="1">        
         <position height="0" width="0" x="32" y="-627"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="60" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="341">    
+  <realization id="347">    
     <end type="SOURCE" refId="39"/>    
     <end type="TARGET" refId="42"/>  
   </realization>  
