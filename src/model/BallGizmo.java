@@ -13,7 +13,7 @@ import observer.IObserver;
 public class BallGizmo implements ICircle,IObservable{
 	private double radius;
 	private Color colour;
-	private IGizmoPhysics gizmoPhysics;
+	private Vect velocity;
 	private Circle physicsCircle;
 	private ArrayList<IGizmo> gizmoList= new ArrayList<>();
 	private ArrayList<IObserver> observerList = new ArrayList<>();
@@ -24,19 +24,20 @@ public class BallGizmo implements ICircle,IObservable{
 		this.colour = colour;
 		this.radius=radius;
 		this.physicsCircle=new Circle(x,y,radius);
-		this.gizmoPhysics=new BallPhysics(xv, yv);
+		velocity= new Vect(xv,yv);
+
 		this.ID=ID;
 	}
 	
 	@Override
 	public Vect getVelo() {
 		// TODO Auto-generated method stub
-		return gizmoPhysics.getVelocity();
+		return velocity;
 	}
 
 	@Override
 	public void setVelo(Vect v) {
-		gizmoPhysics.setVelocity(v);
+		velocity =v;
 		
 	}
 
@@ -55,19 +56,8 @@ public class BallGizmo implements ICircle,IObservable{
 		return colour;
 	}
 
-	@Override
-	public CollisionDetails evalCollisions(double tickTime, GizmoList gizmoList) {
-		
-		//This method needs thought through with the physics guys.
-		return null;
-	}
 
-	@Override
-	public void moveGizmo(CollisionDetails collisions) {
-		gizmoPhysics.moveGizmoForTime(this);
-		// Move all co-ordinates according to ballGizmo
-		notifyAllObservers();
-	}
+
 
 	@Override
 	public void attach(IObserver obs) {
@@ -178,7 +168,7 @@ public class BallGizmo implements ICircle,IObservable{
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = getID()+" "+physicsCircle.getCenter().x()+" "+physicsCircle.getCenter().y()+" "+gizmoPhysics.getVelocity().x()+" "+gizmoPhysics.getVelocity().y()+"\n";
+		String serializedGizmo = getID()+" "+physicsCircle.getCenter().x()+" "+physicsCircle.getCenter().y()+" "+"\n";
 		for(IGizmo gizmo : triggerList){
 			serializedGizmo+="Connect "+getID()+" "+gizmo.getID()+"\n";
 		}
@@ -189,6 +179,13 @@ public class BallGizmo implements ICircle,IObservable{
 	public String getID() {
 		// TODO Auto-generated method stub
 		return "Ball"+ID;
+	}
+
+
+	@Override
+	public void moveForTime(double tickTime) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
