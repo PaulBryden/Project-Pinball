@@ -2,18 +2,17 @@ package view;
 
 import java.awt.Graphics;
 import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JPanel;
 
 import model.IFlipper;
-import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 
 public class FlipperView implements IViewGizmo, IObserver{
-	IFlipper gizmo;
-	JPanel board;
+	private IFlipper gizmo;
+	private JPanel board;
+
 	public FlipperView(JPanel board, IFlipper gizmo){
 		this.gizmo=gizmo;
 		this.board=board;
