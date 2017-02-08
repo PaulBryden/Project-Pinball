@@ -20,12 +20,11 @@ public interface IGizmo {
 	public void performActions();
 	public void triggerConnectedGizmos();
 	public ArrayList<IGizmo> getGizmosToTrigger();
-	public CollisionDetails evalCollisions(double tickTime, GizmoList gizmoList);
-	public void moveGizmo(CollisionDetails collisions);
 	public void setPoints(double[][] points);
 	public ArrayList<Circle> getAllCircles();
 	public ArrayList<LineSegment> getAllLineSegments();
 	public String serializeGizmo();
 	public String getID();
+	public void moveForTime(double tickTime);
 	
 }
