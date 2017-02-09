@@ -26,15 +26,15 @@ public class Board extends JPanel implements Observer {
 	protected int width;
 	protected int height;
 	protected GameModel gm;
-	private static final int GRID_WIDTH = 20;
+	private static final int GRID_WIDTH = 25;
 
 	public Board(int w, int h, GameModel m) {
 		// Observe changes in Model
 		m.addObserver(this);
-		width = w;
-		height = h;
+		width = GRID_WIDTH * 20;
+		height = GRID_WIDTH * 20;
 		gm = m;
-		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		//this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
 	// Fix onscreen size

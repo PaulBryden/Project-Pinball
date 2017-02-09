@@ -29,7 +29,14 @@ public class GameModel extends Observable {
 		walls.add(new LineSegment(0, 20, 20, 20));
 		gizmos.add(new DavidsGizmo(3, 5));
 		gizmos.add(new DavidsGizmo(18, 18));
-		balls.add(new BallGizmo(0.5, 10, 10, 11, 9, Color.RED, 0));
+		gizmos.add(new DavidsGizmo(13, 10));
+		gizmos.add(new DavidsGizmo(13, 19));
+		gizmos.add(new DavidsGizmo(14, 2));
+		gizmos.add(new DavidsGizmo(4, 16));
+		gizmos.add(new DavidsGizmo(5, 16));
+		gizmos.add(new DavidsGizmo(6, 16));
+		gizmos.add(new DavidsGizmo(7, 16));
+		balls.add(new BallGizmo(0.3, 10, 10, 11, 9, Color.RED, 0));
 	}
 
 	public void tick() {

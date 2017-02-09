@@ -17,7 +17,7 @@ public class RunListener implements ActionListener {
 
 	public RunListener(GameModel m) {
 		model = m;
-		timer = new Timer(20, this);
+		timer = new Timer(50, this);
 	}
 
 	@Override
