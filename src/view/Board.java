@@ -29,13 +29,24 @@ public class Board extends JPanel implements IObserver{
 		setPreferredSize(getSize());
 		setMinimumSize(getSize());
 		setMaximumSize(getSize());
+
+		//For test
+		addViewGizmo(new SquareView(this, null));
+	}
+
+	public void addViewGizmo(IViewGizmo gizmo){
+		viewGizmos.add(gizmo);
+	}
+
+	public void removeViewGizmo(IViewGizmo gizmo){
+		viewGizmos.remove(gizmo);
 	}
 
     @Override
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		for(int i = 0; i < 400; i++){
-			add(new Cell());
+		for(IViewGizmo viewGizmo : viewGizmos){
+			viewGizmo.paint(g);
 		}
     }
 

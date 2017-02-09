@@ -1,15 +1,16 @@
 package view;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.Observable;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import model.IPolygon;
 import observer.IObservable;
 import observer.IObserver;
 
-public class SquareView implements IViewGizmo, IObserver{
+public class SquareView implements IViewGizmo, IObserver {
+
 	private IPolygon gizmo;
 	private JPanel board;
 
@@ -18,22 +19,24 @@ public class SquareView implements IViewGizmo, IObserver{
 		this.board=board;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-	
-		
+	public void paint(Graphics g){
+		g.drawRect(100,200,20,20);
+		g.setColor(Color.BLUE);
+		g.fillRect(100,200,20,20);
 	}
 
 	@Override
 	public Graphics GetViewObject() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void update(IObservable obsv, Object o) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+
+	}
 }

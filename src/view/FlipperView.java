@@ -26,6 +26,12 @@ public class FlipperView implements IViewGizmo, IObserver{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void paint(Graphics g) {
+
+	}
+
 	@Override
 	public void update(IObservable obsv, Object o) {
 		// TODO Auto-generated method stub

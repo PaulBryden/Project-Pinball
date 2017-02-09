@@ -30,6 +30,11 @@ public class TriangleView implements IViewGizmo, IObserver{
 	}
 
 	@Override
+	public void paint(Graphics g) {
+
+	}
+
+	@Override
 	public void update(IObservable obsv, Object o) {
 		// TODO Auto-generated method stub
 		
