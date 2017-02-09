@@ -1,11 +1,16 @@
 package view;
 
+import controller.AddBallListener;
+import controller.AddFlipperListener;
+import controller.AddSquareListener;
+import controller.AddTriangleListener;
+
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 import java.awt.*;
 
 public class AddGizmoToolBar extends JToolBar{
-    public AddGizmoToolBar() {
+    public AddGizmoToolBar(Board board) {
         super("Place Gizmo Toolbar");
         JButton ballBtn = new JButton("Ball");
         JButton absorberBtn = new JButton("Absorber");
@@ -24,6 +29,7 @@ public class AddGizmoToolBar extends JToolBar{
         constraints.fill = GridBagConstraints.VERTICAL;
 
         constraints.gridy = 0;
+        ballBtn.addActionListener(new AddBallListener(board));
         add(ballBtn, constraints);
 
         constraints.gridy = 1;
@@ -32,17 +38,19 @@ public class AddGizmoToolBar extends JToolBar{
         constraints.gridy = 2;
         add(circleBtn, constraints);
 
-
         constraints.gridy = 3;
         add(lineBtn, constraints);
 
         constraints.gridy = 4;
+        squareBtn.addActionListener(new AddSquareListener(board));
         add(squareBtn, constraints);
 
         constraints.gridy = 5;
+        triangleBtn.addActionListener(new AddTriangleListener(board));
         add(triangleBtn, constraints);
 
         constraints.gridy = 6;
+        lFlipperBtn.addActionListener(new AddFlipperListener(board));
         add(lFlipperBtn, constraints);
 
         constraints.gridy = 7;

@@ -18,9 +18,9 @@ public class MainWindow extends JFrame{
     public MainWindow(){
         super();
         menuBar = new MenuBar(this);
-        toolbar = new BuildToolBar(this);
         sideToolBar = new JToolBar();
         board = new Board(null); /* TODO: Get Gizmos */
+        toolbar = new BuildToolBar(this, board);
         fileManager = new JFileChooser();
         constraints = new GridBagConstraints();
     }
@@ -74,7 +74,7 @@ public class MainWindow extends JFrame{
         remove(toolbar);
 
         if(toolbar instanceof RunToolBar){
-            toolbar = new BuildToolBar(this);
+            toolbar = new BuildToolBar(this, board);
         } else {
             toolbar = new RunToolBar();
             remove(sideToolBar);

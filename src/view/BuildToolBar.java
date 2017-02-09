@@ -9,7 +9,7 @@ import javax.swing.JToolBar;
 import java.awt.*;
 
 class BuildToolBar extends JToolBar{
-    BuildToolBar(MainWindow mainWindow){
+    BuildToolBar(MainWindow mainWindow, Board board){
         super("Build Mode");
         JButton placeBtn = new JButton("Place Gizmo");
         JButton deleteBtn = new JButton("Delete Gizmo");
@@ -18,7 +18,7 @@ class BuildToolBar extends JToolBar{
         JButton connectGizmoBtn = new JButton("Connect Gizmo");
         JButton keyConnectBtn = new JButton("Key Connect");
 
-        placeBtn.addActionListener(new AddGizmoListener(mainWindow));
+        placeBtn.addActionListener(new AddGizmoListener(mainWindow, board));
         deleteBtn.addActionListener(new DeleteGizmoListener(mainWindow));
         rotateBtn.addActionListener(new RotateGizmoListener(mainWindow));
 
