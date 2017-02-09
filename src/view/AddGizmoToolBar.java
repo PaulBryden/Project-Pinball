@@ -30,6 +30,7 @@ public class AddGizmoToolBar extends JToolBar{
         add(ballBtn, constraints);
 
         constraints.gridy = 1;
+        absorberBtn.addActionListener(new AddAbsorberListener(board));
         add(absorberBtn, constraints);
 
         constraints.gridy = 2;
