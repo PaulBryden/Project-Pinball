@@ -1,9 +1,6 @@
 package view;
 
-import controller.AddBallListener;
-import controller.AddFlipperListener;
-import controller.AddSquareListener;
-import controller.AddTriangleListener;
+import controller.*;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
@@ -36,9 +33,11 @@ public class AddGizmoToolBar extends JToolBar{
         add(absorberBtn, constraints);
 
         constraints.gridy = 2;
+        circleBtn.addActionListener(new AddCircleListener(board));
         add(circleBtn, constraints);
 
         constraints.gridy = 3;
+        lineBtn.addActionListener(new AddLineListener(board));
         add(lineBtn, constraints);
 
         constraints.gridy = 4;

@@ -1,38 +1,16 @@
 package view;
 
-import java.awt.Graphics;
-import java.util.Observable;
-
 import model.ICircle;
-import observer.IObservable;
-import observer.IObserver;
 
-public class BallView implements IViewGizmo, IObserver{
-	private ICircle gizmo;
+import java.awt.*;
 
-	public BallView(ICircle gizmo){
-		this.gizmo = gizmo;
-	}
-	
-	@Override
-	public void update(Observable o, Object arg) {
-		//UPDATE GRAPHICS OBJECT
-		
-	}
+public class BallView extends CircleView{
+    public BallView(ICircle gizmo) {
+        super(gizmo);
+    }
 
-	@Override
-	public Graphics GetViewObject() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void paint(Graphics g) {
-		g.fillOval((200 - (20/2)), (200 - (20/2)),20 , 20);
-	}
-
-	@Override
-	public void update(IObservable obsv, Object o) {
-		// TODO Auto-generated method stub
-	}
-
+    @Override
+    public void paint(Graphics g) {
+        g.fillOval((50 - (10/2)), (90 - (10/2)),10 , 10);
+    }
 }
