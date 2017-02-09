@@ -11,6 +11,9 @@ public class BallView extends CircleView{
 
     @Override
     public void paint(Graphics g) {
-        g.fillOval((50 - (10/2)), (90 - (10/2)),10 , 10);
+        Graphics2D g2D = (Graphics2D) g;
+
+        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2D.fillOval((50 - (10/2)), (90 - (10/2)),10 , 10);
     }
 }

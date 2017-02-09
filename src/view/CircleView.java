@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.Observable;
 
 import model.ICircle;
@@ -27,7 +27,10 @@ public class CircleView implements IViewGizmo, IObserver{
 	}
 
 	public void paint(Graphics g) {
-		g.fillOval((200 - (20/2)), (200 - (20/2)),20 , 20);
+		Graphics2D g2D = (Graphics2D) g;
+
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2D.fillOval((200 - (20/2)), (200 - (20/2)),20 , 20);
 	}
 
 	@Override
