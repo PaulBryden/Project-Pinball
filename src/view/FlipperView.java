@@ -1,6 +1,8 @@
 package view;
 
-import java.awt.Graphics;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.Observable;
 
 import javax.swing.JPanel;
@@ -27,9 +29,10 @@ public class FlipperView implements IViewGizmo, IObserver{
 		return null;
 	}
 
-	@Override
 	public void paint(Graphics g) {
+		Graphics2D g2D = (Graphics2D) g;
 
+		g2D.fill(new RoundRectangle2D.Float(300, 300, 40, 10, 10, 10));
 	}
 
 	@Override

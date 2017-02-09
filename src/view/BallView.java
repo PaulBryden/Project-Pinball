@@ -37,7 +37,6 @@ public class BallView implements IViewGizmo, IObserver{
 	@Override
 	public void update(IObservable obsv, Object o) {
 		// TODO Auto-generated method stub
-		
 	}
 
 }
