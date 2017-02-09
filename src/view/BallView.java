@@ -1,9 +1,7 @@
 package view;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.util.Observable;
-
-import javax.swing.JPanel;
 
 import model.ICircle;
 import observer.IObservable;
@@ -11,11 +9,9 @@ import observer.IObserver;
 
 public class BallView implements IViewGizmo, IObserver{
 	private ICircle gizmo;
-	private JPanel board;
 
-	public BallView(JPanel board, ICircle gizmo){
-		this.gizmo=gizmo;
-		this.board=board;
+	public BallView(ICircle gizmo){
+		this.gizmo = gizmo;
 	}
 	
 	@Override

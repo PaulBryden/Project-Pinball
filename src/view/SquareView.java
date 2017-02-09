@@ -1,9 +1,8 @@
 package view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.Observable;
-
-import javax.swing.*;
 
 import model.IPolygon;
 import observer.IObservable;
@@ -12,11 +11,9 @@ import observer.IObserver;
 public class SquareView implements IViewGizmo, IObserver {
 
 	private IPolygon gizmo;
-	private JPanel board;
 
-	public SquareView(JPanel board, IPolygon gizmo){
-		this.gizmo=gizmo;
-		this.board=board;
+	public SquareView(IPolygon gizmo){
+		this.gizmo = gizmo;
 	}
 
 	public void paint(Graphics g){

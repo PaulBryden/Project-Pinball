@@ -1,10 +1,10 @@
 package view;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Path2D;
 import java.util.Observable;
-
-import javax.swing.JPanel;
 
 import model.IPolygon;
 import observer.IObservable;
@@ -12,11 +12,9 @@ import observer.IObserver;
 
 public class TriangleView implements IViewGizmo, IObserver{
 	private IPolygon gizmo;
-	private JPanel board;
 
-	public TriangleView(JPanel board, IPolygon gizmo){
-		this.gizmo=gizmo;
-		this.board=board;
+	public TriangleView(IPolygon gizmo){
+		this.gizmo = gizmo;
 	}
 
 	public void paint(Graphics g){

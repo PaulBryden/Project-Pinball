@@ -31,10 +31,10 @@ public class Board extends JPanel implements IObserver{
 		setMaximumSize(getSize());
 
 		//For test
-		addViewGizmo(new SquareView(this, null));
-		addViewGizmo(new TriangleView(this, null));
-		addViewGizmo(new BallView(this, null));
-		addViewGizmo(new FlipperView(this, null));
+		addViewGizmo(new SquareView(null));
+		addViewGizmo(new TriangleView(null));
+		addViewGizmo(new BallView(null));
+		addViewGizmo(new FlipperView(null));
 	}
 
 	public void addViewGizmo(IViewGizmo gizmo){
