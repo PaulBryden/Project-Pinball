@@ -1,7 +1,6 @@
 package view;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Observable;
 
@@ -30,6 +29,7 @@ public class FlipperView implements IViewGizmo, IObserver{
 	public void paint(Graphics g) {
 		Graphics2D g2D = (Graphics2D) g;
 
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2D.fill(new RoundRectangle2D.Float(300, 300, 40, 10, 10, 10));
 	}
 
