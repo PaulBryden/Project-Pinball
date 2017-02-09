@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.Observable;
 
 import javax.swing.JPanel;
@@ -30,9 +30,8 @@ public class BallView implements IViewGizmo, IObserver{
 		return null;
 	}
 
-	@Override
 	public void paint(Graphics g) {
-
+		g.fillOval((200 - (20/2)), (200 - (20/2)),20 , 20);
 	}
 
 	@Override

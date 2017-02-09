@@ -33,6 +33,7 @@ public class Board extends JPanel implements IObserver{
 		//For test
 		addViewGizmo(new SquareView(this, null));
 		addViewGizmo(new TriangleView(this, null));
+		addViewGizmo(new BallView(this, null));
 	}
 
 	public void addViewGizmo(IViewGizmo gizmo){
