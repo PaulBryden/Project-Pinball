@@ -32,6 +32,7 @@ public class Board extends JPanel implements IObserver{
 
 		//For test
 		addViewGizmo(new SquareView(this, null));
+		addViewGizmo(new TriangleView(this, null));
 	}
 
 	public void addViewGizmo(IViewGizmo gizmo){
@@ -52,8 +53,6 @@ public class Board extends JPanel implements IObserver{
 
 	@Override
 	public void update(IObservable obsv, Object o) {
-		// TODO Auto-generated method stub
-		
 	}
 
 
