@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Color;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
@@ -10,13 +12,24 @@ import physics.LineSegment;
 public class GameModel extends Observable {
 
 	private GizmoList listOfGizmos;
+	private List<DavidsGizmo> gizmos;
 	private List<BallGizmo> balls;
 	private List<LineSegment> walls;
 	private boolean pauseGame = false;
 	private static final double TICK_TIME = 0.02; // in seconds
-	
+
 	public GameModel() {
-		listOfGizmos = new GizmoList();
+		//listOfGizmos = new GizmoList();
+		gizmos = new LinkedList<>();
+		balls = new LinkedList<>();
+		walls = new LinkedList<>();
+		walls.add(new LineSegment(0, 0, 0, 20));
+		walls.add(new LineSegment(0, 0, 20, 0));
+		walls.add(new LineSegment(20, 0, 20, 20));
+		walls.add(new LineSegment(0, 20, 20, 20));
+		gizmos.add(new DavidsGizmo(3, 5));
+		gizmos.add(new DavidsGizmo(18, 18));
+		balls.add(new BallGizmo(0.5, 10, 10, 11, 9, Color.RED, 0));
 	}
 
 	public void tick() {
@@ -34,7 +47,8 @@ public class GameModel extends Observable {
 		}
 		// TODO Apply friction and gravity here
 		// Trigger any gizmos that have been collided with
-		collision.getGizmo().triggerConnectedGizmos();
+		if (collision != null && collision.getGizmo() != null)
+			collision.getGizmo().triggerConnectedGizmos();
 		// Update view
 		setChanged();
 		notifyObservers();
@@ -62,27 +76,39 @@ public class GameModel extends Observable {
 
 	}
 
+	public List<BallGizmo> getBalls() {
+		return balls;
+	}
+
+	public List<DavidsGizmo> getGizmos() {
+		return gizmos;
+	}
+	
+	public List<LineSegment> getWalls() {
+		return walls;
+	}
+
 	private CollisionDetails evaluateCollisions() {
 		CollisionDetails collision = null;
 		CollisionDetails cd;
 		for (BallGizmo ball : balls) {
-			for (IGizmo gizmo : listOfGizmos.returnGizmoList()) {
+			for (IGizmo gizmo : gizmos) { // .returnGizmoList()) {
 				if (gizmo.isStatic()) {
 					for (Circle circle : gizmo.getAllCircles()) {
 						cd = evaluateCollisionWithStaticCircle(ball, circle, gizmo);
-						if (cd.getTuc() < collision.getTuc() && cd.getTuc() < TICK_TIME)
+						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc()) && cd.getTuc() < TICK_TIME)
 							collision = cd;
 					}
 					for (LineSegment line : gizmo.getAllLineSegments()) {
 						cd = evaluateCollisionWithStaticLine(ball, line, gizmo);
-						if (cd.getTuc() < collision.getTuc() && cd.getTuc() < TICK_TIME)
+						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc()) && cd.getTuc() < TICK_TIME)
 							collision = cd;
 					}
 				}
 			}
 			for (LineSegment wall : walls) {
 				cd = evaluateCollisionWithStaticLine(ball, wall, null);
-				if (cd.getTuc() < collision.getTuc() && cd.getTuc() < TICK_TIME)
+				if (cd != null && (collision == null || cd.getTuc() < collision.getTuc()) && cd.getTuc() < TICK_TIME)
 					collision = cd;
 			}
 		}
