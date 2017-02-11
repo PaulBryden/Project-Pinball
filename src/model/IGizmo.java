@@ -10,8 +10,7 @@ import physics.Vect;
 
 public interface IGizmo {
 	
-	public Vect getVelo();
-	public void setVelo(Vect v);
+
 	public boolean isStatic();
 	public Color getColour();
 	public void setColour(Color colour);
@@ -21,10 +20,13 @@ public interface IGizmo {
 	public void triggerConnectedGizmos();
 	public ArrayList<IGizmo> getGizmosToTrigger();
 	public void setPoints(double[][] points);
+	public Vect getCoords();
+	public void setCoords(Vect coords);
 	public ArrayList<Circle> getAllCircles();
 	public ArrayList<LineSegment> getAllLineSegments();
 	public String serializeGizmo();
 	public String getID();
-	public void moveForTime(double tickTime);
+	public void rotate(float angle);
+	public float getRotation();
 	
 }

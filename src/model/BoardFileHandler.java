@@ -118,6 +118,7 @@ public class BoardFileHandler {
 
 		// TODO: Gizmo constructors to follow the following format
 		// Should Absorber be a SquareGizmo, or its own gizmo class?
+		//^^Absorber should be a square gizmo with absorber action.
 		try {
 			switch (type) {
 			case "Square":

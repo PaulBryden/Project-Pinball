@@ -10,16 +10,16 @@ import physics.LineSegment;
 import physics.Vect;
 import observer.IObservable;
 import observer.IObserver;
-public class BallGizmo implements ICircle,IObservable{
+public class BallGizmo implements IBall,IObservable{
 	private double radius;
 	private Color colour;
 	private Vect velocity;
 	private Circle physicsCircle;
-	private ArrayList<IGizmo> gizmoList= new ArrayList<>();
 	private ArrayList<IObserver> observerList = new ArrayList<>();
 	private IAction triggerAction;
 	private ArrayList<IGizmo> triggerList = new ArrayList<>();
 	private int ID;
+	private float rotation;
 	public BallGizmo(double radius, double x, double y, double xv, double yv, Color colour,int ID){
 		this.colour = colour;
 		this.radius=radius;
@@ -187,6 +187,31 @@ public class BallGizmo implements ICircle,IObservable{
 		double x = physicsCircle.getCenter().x() + velocity.x() * tickTime;
 		double y = physicsCircle.getCenter().y() + velocity.y() * tickTime;
 		physicsCircle = new Circle(new Vect(x, y),radius);
+		
+	}
+
+	@Override
+	public void rotate(float angle) {
+		// TODO Auto-generated method stub
+		rotation+=angle;
+	}
+
+	@Override
+	public float getRotation() {
+		return rotation;
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Vect getCoords() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCoords(Vect coords) {
+		// TODO Auto-generated method stub
 		
 	}
 

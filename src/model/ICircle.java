@@ -8,4 +8,5 @@ public interface ICircle extends IGizmo{
 	public void setCentre(float x, float y);
 	public Vect getCentre(float x, float y);
 	public boolean isBall();
+	
 }

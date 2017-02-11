@@ -12,7 +12,7 @@ import physics.LineSegment;
 public class GameModel extends Observable {
 
 	private GizmoList listOfGizmos;
-	private List<DavidsGizmo> gizmos;
+	private List<IGizmo> gizmos;
 	private List<BallGizmo> balls;
 	private List<LineSegment> walls;
 	private boolean pauseGame = false;
@@ -27,15 +27,15 @@ public class GameModel extends Observable {
 		walls.add(new LineSegment(0, 0, 20, 0));
 		walls.add(new LineSegment(20, 0, 20, 20));
 		walls.add(new LineSegment(0, 20, 20, 20));
-		gizmos.add(new DavidsGizmo(3, 5));
-		gizmos.add(new DavidsGizmo(18, 18));
-		gizmos.add(new DavidsGizmo(13, 10));
-		gizmos.add(new DavidsGizmo(13, 19));
-		gizmos.add(new DavidsGizmo(14, 2));
-		gizmos.add(new DavidsGizmo(4, 16));
-		gizmos.add(new DavidsGizmo(5, 16));
-		gizmos.add(new DavidsGizmo(6, 16));
-		gizmos.add(new DavidsGizmo(7, 16));
+		gizmos.add(new SquareGizmo(1,3, 5));
+		gizmos.add(new SquareGizmo(2,18, 18));
+		gizmos.add(new SquareGizmo(3,13, 10));
+		gizmos.add(new SquareGizmo(4,13, 19));
+		gizmos.add(new SquareGizmo(5,14, 2));
+		gizmos.add(new SquareGizmo(6,4, 16));
+		gizmos.add(new SquareGizmo(7,5, 16));
+		gizmos.add(new SquareGizmo(8,6, 16));
+		gizmos.add(new SquareGizmo(9, 7, 16));
 		balls.add(new BallGizmo(0.3, 10, 10, 11, 9, Color.RED, 0));
 	}
 
@@ -87,7 +87,7 @@ public class GameModel extends Observable {
 		return balls;
 	}
 
-	public List<DavidsGizmo> getGizmos() {
+	public List<IGizmo> getGizmos() {
 		return gizmos;
 	}
 	

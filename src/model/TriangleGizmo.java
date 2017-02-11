@@ -5,13 +5,15 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.prism.image.Coords;
+
 import observer.IObservable;
 import observer.IObserver;
 import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class TriangleGizmo implements IPolygon, IObservable{
+public class TriangleGizmo implements IGizmo, IObservable{
 	private Color colour;
 	private ArrayList<LineSegment> lines;
 	private ArrayList<Circle> circles;
@@ -19,28 +21,13 @@ public class TriangleGizmo implements IPolygon, IObservable{
 	private IAction triggerAction;
 	private ArrayList<IGizmo> triggerList = new ArrayList<>();
 	private int ID;
-	private Vect velocity;
-
-	public TriangleGizmo(double[][] points, double xv, double yv,int ID) throws Exception{
+	private float rotation;
+	private Vect coords;
+	public TriangleGizmo(int ID, int x, int y) throws Exception{
+		rotation=0;
 		this.ID=ID;
 		colour = Color.BLUE;
-		if(points.length!=3){
-			throw new Exception("Error: Please ensure only 3 points are provided for this triangle");
-		}
-		for(int i=0; i<points.length-1;i++){
-				lines.add(new LineSegment(points[i][0],points[i][1],points[i+1][0],points[i+1][1]));
-		}
-	}
-	@Override
-	public Vect getVelo() {
-		// TODO Auto-generated method stub
-		return velocity;
-	}
-
-	@Override
-	public void setVelo(Vect v) {
-		velocity=v;
-		
+		coords = new Vect(x,y);
 	}
 
 
@@ -104,17 +91,8 @@ public class TriangleGizmo implements IPolygon, IObservable{
 		
 		return triggerList;
 	}
-	@Override
-	public float[][] getCoords() {
-		// NEED TO RETHINK THIS. THESE ARE UNNECESSARY
-		return null;
-	}
-	@Override
-	public void setCoords(float[][] coords) {
-		// NEED TO RETHINK THIS. THESE ARE UNNECESSARY
 
-		
-	}
+	
 	@Override
 	public ArrayList<Circle> getAllCircles() {
 		// TODO Auto-generated method stub
@@ -153,10 +131,41 @@ public class TriangleGizmo implements IPolygon, IObservable{
 		// TODO Auto-generated method stub
 		return "Triangle"+ID;
 	}
+
+
 	@Override
-	public void moveForTime(double tickTime) {
+	public void rotate(float angle) {
+		rotation+=angle;
+	}
+
+
+	@Override
+	public float getRotation() {
 		// TODO Auto-generated method stub
-		
+		return rotation;
+	}
+
+
+	@Override
+	public void setCoords(Vect coords) {
+		// TODO Auto-generated method stub
+		this.coords=coords;
+		circles = new ArrayList<>();
+		lines = new ArrayList<>();
+		circles.add(new Circle(coords.x(), coords.y(), 0));
+		circles.add(new Circle(coords.x() + 1, coords.y(), 0));
+		circles.add(new Circle(coords.x(), coords.y() + 1, 0));
+		lines.add(new LineSegment(coords.x(), coords.y(), coords.x() + 1, coords.y()));
+		lines.add(new LineSegment(coords.x(), coords.y() + 1, coords.x() + 1, coords.y()));
+		lines.add(new LineSegment(coords.x(), coords.y(), coords.x(), coords.y() + 1));
+	}
+
+
+
+	@Override
+	public Vect getCoords() {
+		// TODO Auto-generated method stub
+		return coords;
 	}
 
 }

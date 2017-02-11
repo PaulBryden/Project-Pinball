@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import model.BallGizmo;
 import model.DavidsGizmo;
 import model.GameModel;
+import model.IGizmo;
+import model.SquareGizmo;
 import physics.LineSegment;
 
 /**
@@ -52,9 +54,9 @@ public class Board extends JPanel implements Observer {
 		}
 		
 		// Draw all the vertical lines
-		for (DavidsGizmo gizmo : gm.getGizmos()) {
+		for (IGizmo gizmo : gm.getGizmos()) {
 			g2.setColor(gizmo.getColour());
-			g2.fillRect(gizmo.getX() * GRID_WIDTH, gizmo.getY() * GRID_WIDTH, GRID_WIDTH, GRID_WIDTH);
+			g2.fillRect((int)gizmo.getCoords().x() * GRID_WIDTH, (int)gizmo.getCoords().y()  * GRID_WIDTH, GRID_WIDTH, GRID_WIDTH);
 		}
 
 		List<BallGizmo> balls = gm.getBalls();

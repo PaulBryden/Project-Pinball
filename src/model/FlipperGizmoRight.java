@@ -10,7 +10,7 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class FlipperGizmo implements IFlipper, IObservable{
+public class FlipperGizmoRight implements IFlipper, IObservable{
 	private Color colour;
 	private ArrayList<LineSegment> lines;
 	private ArrayList<Circle> circles;
@@ -18,11 +18,9 @@ public class FlipperGizmo implements IFlipper, IObservable{
 	private IAction triggerAction;
 	private ArrayList<IGizmo> triggerList = new ArrayList<>();
 	private float flipperSpeed;
-	private Vect coords;
-	private Vect velocity;
-	public FlipperGizmo(double[][] points, double xv, double yv, int ID) throws Exception{
-		coords = new Vect(points[0][0],points[0][1]);
-		colour = Color.BLUE;
+	private float rotation;
+	public FlipperGizmoRight(double[][] points, double xv, double yv, int ID) throws Exception{
+
 		if(points.length!=4){
 			throw new Exception("Error: Please ensure 4 points are provided for this flipper");
 		}
@@ -31,17 +29,7 @@ public class FlipperGizmo implements IFlipper, IObservable{
 		}
 		//Implement rounded edges after initial testing is complete.
 	}
-	@Override
-	public Vect getVelo() {
-		// TODO Auto-generated method stub
-		return velocity;
-	}
 
-	@Override
-	public void setVelo(Vect v) {
-		velocity=v;
-		
-	}
 
 
 	@Override
@@ -103,11 +91,7 @@ public class FlipperGizmo implements IFlipper, IObservable{
 		
 		return triggerList;
 	}
-	@Override
-	public float[][] getCoords() {
-		// NEED TO RETHINK THIS. THESE ARE UNNECESSARY
-		return null;
-	}
+
 	@Override
 	public void setCoords(float[][] coords) {
 		// NEED TO RETHINK THIS. THESE ARE UNNECESSARY
@@ -161,6 +145,41 @@ public class FlipperGizmo implements IFlipper, IObservable{
 	public void moveForTime(double tickTime) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+
+	@Override
+	public void rotate(float angle) {
+		// TODO Auto-generated method stub
+		rotation+=angle;
+	}
+
+
+
+	@Override
+	public float getRotation() {
+		// TODO Auto-generated method stub
+		return rotation;
+	}
+
+
+
+
+
+
+	@Override
+	public void setCoords(Vect coords) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public Vect getCoords() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

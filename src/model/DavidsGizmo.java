@@ -15,7 +15,7 @@ public class DavidsGizmo implements IGizmo {
 	private Color colour;
 	private ArrayList<Circle> circles;
 	private ArrayList<LineSegment> lines;
-	
+	float rotation;
 	public DavidsGizmo(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -32,14 +32,6 @@ public class DavidsGizmo implements IGizmo {
 		lines.add(new LineSegment(x + 1, y, x + 1, y + 1));
 	}
 
-	@Override
-	public Vect getVelo() {
-		return new Vect(0,0);
-	}
-
-	@Override
-	public void setVelo(Vect v) {
-	}
 
 	@Override
 	public boolean isStatic() {
@@ -114,11 +106,6 @@ public class DavidsGizmo implements IGizmo {
 		return null;
 	}
 
-	@Override
-	public void moveForTime(double tickTime) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public int getX() {
 		return x;
@@ -126,6 +113,34 @@ public class DavidsGizmo implements IGizmo {
 	
 	public int getY() {
 		return y;
+	}
+
+
+	@Override
+	public void rotate(float angle) {
+		rotation+=angle;
+		
+	}
+
+
+	@Override
+	public float getRotation() {
+		return rotation;
+		
+	}
+
+
+	@Override
+	public Vect getCoords() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void setCoords(Vect coords) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
