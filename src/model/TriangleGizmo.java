@@ -31,14 +31,6 @@ public class TriangleGizmo implements IGizmo, IObservable{
 	}
 
 
-	@Override
-	public void setPoints(double[][] points) {
-		// TODO Auto-generated method stub
-		lines = new ArrayList<LineSegment>();
-		for(int i=0; i<points.length-1;i++){
-			lines.add(new LineSegment(points[i][0],points[i][1],points[i+1][0],points[i+1][1]));
-	}
-	}
 
 
 
@@ -119,7 +111,7 @@ public class TriangleGizmo implements IGizmo, IObservable{
 	}
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = getID()+" "+lines.get(0).p1().x()+" "+lines.get(0).p1().y()+" "+"\n";
+		String serializedGizmo = "Triangle"+getID()+" "+lines.get(0).p1().x()+" "+lines.get(0).p1().y()+" "+"\n";
 		for(IGizmo gizmo : triggerList){
 			serializedGizmo+="Connect "+getID()+" "+gizmo.getID()+"\n";
 		}
@@ -127,15 +119,17 @@ public class TriangleGizmo implements IGizmo, IObservable{
 	}
 
 	@Override
-	public String getID() {
+	public int getID() {
 		// TODO Auto-generated method stub
-		return "Triangle"+ID;
+		return ID;
 	}
 
 
 	@Override
 	public void rotate(float angle) {
 		rotation+=angle;
+		//Need to manage movement of lines/circles here too!!
+
 	}
 
 
@@ -166,6 +160,16 @@ public class TriangleGizmo implements IGizmo, IObservable{
 	public Vect getCoords() {
 		// TODO Auto-generated method stub
 		return coords;
+	}
+
+
+
+
+
+	@Override
+	public void onCollision(IBall ball) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

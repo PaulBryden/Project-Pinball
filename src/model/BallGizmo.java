@@ -20,12 +20,12 @@ public class BallGizmo implements IBall,IObservable{
 	private ArrayList<IGizmo> triggerList = new ArrayList<>();
 	private int ID;
 	private float rotation;
-	public BallGizmo(double radius, double x, double y, double xv, double yv, Color colour,int ID){
-		this.colour = colour;
+	private Vect coords;
+	public BallGizmo(double radius, double x, double y, double xv, double yv, int ID){
+		this.colour = Color.BLUE;
 		this.radius=radius;
 		this.physicsCircle=new Circle(x,y,radius);
 		velocity= new Vect(xv,yv);
-
 		this.ID=ID;
 	}
 	
@@ -40,14 +40,6 @@ public class BallGizmo implements IBall,IObservable{
 		velocity =v;
 		
 	}
-
-
-	@Override
-	public void setPoints(double[][] points) {
-		// TODO Auto-generated method stub
-		physicsCircle = new Circle(new Vect(points[0][0],points[0][1]),radius);
-	}
-
 
 
 	@Override
@@ -168,7 +160,7 @@ public class BallGizmo implements IBall,IObservable{
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = getID()+" "+physicsCircle.getCenter().x()+" "+physicsCircle.getCenter().y()+" "+"\n";
+		String serializedGizmo = "Ball"+getID()+" "+physicsCircle.getCenter().x()+" "+physicsCircle.getCenter().y()+" "+"\n";
 		for(IGizmo gizmo : triggerList){
 			serializedGizmo+="Connect "+getID()+" "+gizmo.getID()+"\n";
 		}
@@ -176,9 +168,9 @@ public class BallGizmo implements IBall,IObservable{
 	}
 
 	@Override
-	public String getID() {
+	public int getID() {
 		// TODO Auto-generated method stub
-		return "Ball"+ID;
+		return ID;
 	}
 
 
@@ -205,13 +197,17 @@ public class BallGizmo implements IBall,IObservable{
 
 	@Override
 	public Vect getCoords() {
-		// TODO Auto-generated method stub
-		return null;
+		return physicsCircle.getCenter();
 	}
 
 	@Override
 	public void setCoords(Vect coords) {
-		// TODO Auto-generated method stub
+		physicsCircle = new Circle(coords, radius);
+
+	}
+
+	@Override
+	public void onCollision(IBall ball) {
 		
 	}
 

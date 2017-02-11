@@ -17,15 +17,15 @@ public interface IGizmo {
 	public void addTriggerAction(IAction action);
 	public void addGizmoToTrigger(IGizmo gizmo);
 	public void performActions();
+	public void onCollision(IBall ball);
 	public void triggerConnectedGizmos();
 	public ArrayList<IGizmo> getGizmosToTrigger();
-	public void setPoints(double[][] points);
 	public Vect getCoords();
 	public void setCoords(Vect coords);
 	public ArrayList<Circle> getAllCircles();
 	public ArrayList<LineSegment> getAllLineSegments();
 	public String serializeGizmo();
-	public String getID();
+	public int getID();
 	public void rotate(float angle);
 	public float getRotation();
 	

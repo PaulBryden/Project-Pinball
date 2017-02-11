@@ -10,7 +10,7 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class FlipperGizmoRight implements IFlipper, IObservable{
+public class FlipperGizmo implements IFlipper, IObservable{
 	private Color colour;
 	private ArrayList<LineSegment> lines;
 	private ArrayList<Circle> circles;
@@ -19,23 +19,22 @@ public class FlipperGizmoRight implements IFlipper, IObservable{
 	private ArrayList<IGizmo> triggerList = new ArrayList<>();
 	private float flipperSpeed;
 	private float rotation;
-	public FlipperGizmoRight(double[][] points, double xv, double yv, int ID) throws Exception{
-
-		if(points.length!=4){
-			throw new Exception("Error: Please ensure 4 points are provided for this flipper");
-		}
-		for(int i=0; i<points.length-1;i++){
-				lines.add(new LineSegment(points[i][0],points[i][1],points[i+1][0],points[i+1][1]));
+	private Vect coords;
+	private int ID;
+	private boolean isRight;
+	public FlipperGizmo(int x, int y, float flipperSpeed, int ID, boolean isRight){
+		coords = new Vect(x,y);
+		colour=Color.GREEN;
+		this.flipperSpeed=flipperSpeed;
+		setCoords(coords);
+		this.isRight=isRight;
+		this.ID=ID;
+		if(isRight){
+			triggerAction=new RightFlipperAction();
+		}else{
+			triggerAction=new LeftFlipperAction();
 		}
 		//Implement rounded edges after initial testing is complete.
-	}
-
-
-
-	@Override
-	public void setPoints(double[][] points) {
-		// TODO Auto-generated method stub
-		//NEED TO EVALUATE THIS MORE CLOSELY
 	}
 
 
@@ -92,12 +91,7 @@ public class FlipperGizmoRight implements IFlipper, IObservable{
 		return triggerList;
 	}
 
-	@Override
-	public void setCoords(float[][] coords) {
-		// NEED TO RETHINK THIS. THESE ARE UNNECESSARY
 
-		
-	}
 	@Override
 	public ArrayList<Circle> getAllCircles() {
 		// TODO Auto-generated method stub
@@ -124,8 +118,18 @@ public class FlipperGizmoRight implements IFlipper, IObservable{
 	}
 	@Override
 	public String serializeGizmo() {
-		// TODO Auto-generated method stub
-		return null;
+		String serializedGizmo="";
+		if(isRight){
+			serializedGizmo = "RightFlipper"+getID()+" "+lines.get(0).p1().x()+" "+lines.get(0).p1().y()+" "+"\n";
+
+		}else{
+			serializedGizmo = "LeftFlipper"+getID()+" "+lines.get(0).p1().x()+" "+lines.get(0).p1().y()+" "+"\n";
+
+		}
+		for(IGizmo gizmo : triggerList){
+			serializedGizmo+="Connect "+getID()+" "+gizmo.getID()+"\n";
+		}
+		return serializedGizmo;
 	}
 	@Override
 	public void setFlipperSpeed(float x) {
@@ -137,14 +141,9 @@ public class FlipperGizmoRight implements IFlipper, IObservable{
 		return flipperSpeed;
 	}
 	@Override
-	public String getID() {
+	public int getID() {
 		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public void moveForTime(double tickTime) {
-		// TODO Auto-generated method stub
-		
+		return ID;
 	}
 
 
@@ -153,6 +152,8 @@ public class FlipperGizmoRight implements IFlipper, IObservable{
 	public void rotate(float angle) {
 		// TODO Auto-generated method stub
 		rotation+=angle;
+		//Need to manage movement of lines/circles here too!!
+		
 	}
 
 
@@ -165,22 +166,37 @@ public class FlipperGizmoRight implements IFlipper, IObservable{
 
 
 
+	@Override
+	public Vect getCoords() {
+		// TODO Auto-generated method stub
+		return coords;
+	}
 
 
 
 	@Override
 	public void setCoords(Vect coords) {
-		// TODO Auto-generated method stub
+		this.coords=coords;
+		circles = new ArrayList<>();
+		lines = new ArrayList<>();
+		circles.add(new Circle(coords.x()+0.1, coords.y()+0.9, 0));
+		circles.add(new Circle(coords.x()+0.9, coords.y()+0.9, 0));
+		lines.add(new LineSegment(coords.x()+0.9, coords.y()+0.8, coords.x()+0.1, coords.y()+0.8));
+		lines.add(new LineSegment(coords.x() + 0.9, coords.y()+1, coords.x() + 0.1, coords.y() + 1));
 		
 	}
 
 
 
 	@Override
-	public Vect getCoords() {
+	public void onCollision(IBall ball) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
+
+
+
+	
 
 }
 

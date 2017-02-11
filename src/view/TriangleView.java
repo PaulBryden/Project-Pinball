@@ -6,14 +6,14 @@ import java.awt.RenderingHints;
 import java.awt.geom.Path2D;
 import java.util.Observable;
 
-import model.IPolygon;
+import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 
 public class TriangleView implements IViewGizmo, IObserver{
-	private IPolygon gizmo;
+	private IGizmo gizmo;
 
-	public TriangleView(IPolygon gizmo){
+	public TriangleView(IGizmo gizmo){
 		this.gizmo = gizmo;
 	}
 

@@ -36,7 +36,7 @@ public class GameModel extends Observable {
 		gizmos.add(new SquareGizmo(7,5, 16));
 		gizmos.add(new SquareGizmo(8,6, 16));
 		gizmos.add(new SquareGizmo(9, 7, 16));
-		balls.add(new BallGizmo(0.3, 10, 10, 11, 9, Color.RED, 0));
+		balls.add(new BallGizmo(0.3, 10, 10, 11, 9, 0));
 	}
 
 	public void tick() {

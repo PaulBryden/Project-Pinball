@@ -5,40 +5,37 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import observer.IObservable;
-import observer.IObserver;
 import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
-
-public class SquareGizmo implements IGizmo, IObservable{
+import observer.IObservable;
+import observer.IObserver;
+public class CircleGizmo implements ICircle,IObservable{
+	private double radius;
 	private Color colour;
-	private ArrayList<LineSegment> lines;
-	private ArrayList<Circle> circles;
+	private Circle physicsCircle;
 	private ArrayList<IObserver> observerList = new ArrayList<>();
 	private IAction triggerAction;
 	private ArrayList<IGizmo> triggerList = new ArrayList<>();
+	private int ID;
 	private float rotation;
 	private Vect coords;
-	int ID;
-	//SquareGizmo(id, x1, y1, null, null);
-	public SquareGizmo(int ID, int x, int y){
-		
+	public CircleGizmo(double radius, double x, double y, int ID){
+		this.colour = Color.BLUE;
+		this.radius=radius;
+		this.physicsCircle=new Circle(x+0.5,y+0.5,radius);
+		this.coords = new Vect(x,y);
 		this.ID=ID;
-		coords=new Vect(x,y);
-		colour = Color.GREEN;
-		setCoords(coords);
-
 	}
-
-
-
+	
 
 	@Override
 	public Color getColour() {
 		// TODO Auto-generated method stub
 		return colour;
 	}
+
+
 
 
 	@Override
@@ -56,13 +53,14 @@ public class SquareGizmo implements IGizmo, IObservable{
 
 	@Override
 	public boolean isStatic() {
-		return true;
+		// Ball will always be a movable object
+		return false;
 	}
 
 	@Override
 	public void setColour(Color colour) {
 		// TODO Auto-generated method stub
-		this.colour=Color.BLUE;
+		this.colour=colour;
 	}
 
 	@Override
@@ -84,22 +82,60 @@ public class SquareGizmo implements IGizmo, IObservable{
 	}
 
 	@Override
+	public float getRadius() {
+		// TODO Auto-generated method stub
+		return (float)physicsCircle.getRadius();
+	}
+
+	@Override
+	public void setRadius(float radius) {
+		//Do we need this?
+		
+	}
+
+	@Override
+	public void setCentre(float x, float y) {
+		physicsCircle = new Circle(x,y,physicsCircle.getRadius());
+		
+	}
+
+	@Override
+	public Vect getCentre(float x, float y) {
+		// TODO Auto-generated method stub
+		return physicsCircle.getCenter();
+	}
+
+	@Override
+	public boolean isBall() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
 	public ArrayList<Circle> getAllCircles() {
 		// TODO Auto-generated method stub
-		return circles;
+		ArrayList<Circle> circleList = new ArrayList<>();
+		circleList.add(physicsCircle);
+		return circleList;
 	}
+
 	@Override
 	public ArrayList<LineSegment> getAllLineSegments() {
 		// TODO Auto-generated method stub
-		return lines;
+		return null;
 	}
 
-	protected void triggerConnectedGizmos(List<IGizmo> visited){}
-	protected void performActions(List<IGizmo> visited){}
+
 	@Override
 	public void performActions() {
 		triggerAction.performAction();
+		
+		
 	}
+	protected void performActions(List<IGizmo> visited){
+		//Needs rethought
+	}
+
 	@Override
 	public void triggerConnectedGizmos() {
 		for(IGizmo gizmo : triggerList){
@@ -107,9 +143,11 @@ public class SquareGizmo implements IGizmo, IObservable{
 		}
 		
 	}
+	protected void triggerConnectedGizmos(List<IGizmo> visited){}
+
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Square"+getID()+" "+lines.get(0).p1().x()+" "+lines.get(0).p1().y()+" "+"\n";
+		String serializedGizmo = "Circle"+getID()+" "+physicsCircle.getCenter().x()+" "+physicsCircle.getCenter().y()+" "+"\n";
 		for(IGizmo gizmo : triggerList){
 			serializedGizmo+="Connect "+getID()+" "+gizmo.getID()+"\n";
 		}
@@ -122,51 +160,30 @@ public class SquareGizmo implements IGizmo, IObservable{
 		return ID;
 	}
 
-
-
 	@Override
 	public void rotate(float angle) {
 		// TODO Auto-generated method stub
 		rotation+=angle;
 	}
 
-
-
 	@Override
 	public float getRotation() {
-		// TODO Auto-generated method stub
 		return rotation;
-	}
-
-
-
-
-
-	@Override
-	public void setCoords(Vect coords) {
 		// TODO Auto-generated method stub
-		this.coords=coords;
-		circles = new ArrayList<>();
-		lines = new ArrayList<>();
-		circles.add(new Circle(coords.x(), coords.y(), 0));
-		circles.add(new Circle(coords.x() + 1, coords.y(), 0));
-		circles.add(new Circle(coords.x(), coords.y() + 1, 0));
-		circles.add(new Circle(coords.x() + 1, coords.y() + 1, 0));
-		lines.add(new LineSegment(coords.x(), coords.y(), coords.x() + 1, coords.y()));
-		lines.add(new LineSegment(coords.x(), coords.y() + 1, coords.x() + 1, coords.y() + 1));
-		lines.add(new LineSegment(coords.x(), coords.y(), coords.x(), coords.y() + 1));
-		lines.add(new LineSegment(coords.x() + 1, coords.y(), coords.x() + 1, coords.y() + 1));
+		
 	}
-
-
 
 	@Override
 	public Vect getCoords() {
-		// TODO Auto-generated method stub
 		return coords;
 	}
 
+	@Override
+	public void setCoords(Vect coords) {
+		this.physicsCircle=new Circle(coords,radius);
+		this.coords = coords;
 
+	}
 
 
 	@Override
@@ -174,6 +191,7 @@ public class SquareGizmo implements IGizmo, IObservable{
 		// TODO Auto-generated method stub
 		
 	}
+
 
 
 }
