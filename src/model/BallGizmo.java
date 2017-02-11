@@ -184,7 +184,9 @@ public class BallGizmo implements ICircle,IObservable{
 
 	@Override
 	public void moveForTime(double tickTime) {
-		// TODO Auto-generated method stub
+		double x = physicsCircle.getCenter().x() + velocity.x() * tickTime;
+		double y = physicsCircle.getCenter().y() + velocity.y() * tickTime;
+		physicsCircle = new Circle(new Vect(x, y),radius);
 		
 	}
 
