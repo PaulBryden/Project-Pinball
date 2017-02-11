@@ -18,18 +18,18 @@ public class BoardFileHandler {
 			ArrayList<String> connections = new ArrayList<>(); // connections to be made
 
 			for (IGizmo current : list) {
-//				TODO: Ensure that serializeGizmo() is providing correct output!
+				// TODO: Ensure that serializeGizmo() is providing correct output!
 				save.write(current.serializeGizmo());
-				
+
 				// Record any connections for later
 				ArrayList<IGizmo> connectedGizmos = current.getGizmosToTrigger();
 				for (IGizmo destGizmo : connectedGizmos) {
 					connections.add("Connect " + current.getID() + " " + destGizmo.getID());
 				}
 
-//				TODO: KeyConnections
+				// TODO: KeyConnections
 			}
-			
+
 			// Finally, write connections to file
 			for (String current : connections) {
 				save.write(current);
@@ -54,6 +54,7 @@ public class BoardFileHandler {
 			BufferedReader load = new BufferedReader(new FileReader(path));
 			String line = load.readLine();
 			Scanner scan = null;
+
 			while (line != null) {
 				scan = new Scanner(line);
 				String type = scan.next();
@@ -61,7 +62,7 @@ public class BoardFileHandler {
 				if (type.equals("Connect") || type.equals("KeyConnect")) {
 					connections.add(line); // Store connection info for later
 				} else {
-					gizmos.addGizmo(createGizmo(type, scan));
+					createGizmo(type, scan, gizmos);
 				}
 
 				scan.close();
@@ -70,7 +71,7 @@ public class BoardFileHandler {
 
 			// Make connections here
 			createConnections(connections, gizmos);
-			
+
 			load.close();
 
 			return gizmos;
@@ -87,25 +88,60 @@ public class BoardFileHandler {
 		}
 	}
 
-	private IGizmo createGizmo(String type, Scanner scan) {
-		IGizmo gizmo = null;
-		
-		// TODO: All of these
+	private void createGizmo(String type, Scanner scan, GizmoList gizmos) {
+		IGizmo newGizmo = null;
+		String id = null;
+		double x1 = 0.0;
+		double y1 = 0.0;
+
+		// Only for Absorber
+		double x2 = 0.0;
+		double y2 = 0.0;
+
+		// Velocity, only for Ball
+		double xv = 0.0;
+		double yv = 0.0;
+
+		// Collect base info for gizmo (every gizmo will follow this starting format)
+		id = scan.next();
+		x1 = scan.nextDouble();
+		y1 = scan.nextDouble();
+
+		// Collect extra info for Absorber and Ball
+		if (type.equals("Absorber")) {
+			x2 = scan.nextDouble();
+			y2 = scan.nextDouble();
+		} else if (type.equals("Ball")) {
+			xv = scan.nextDouble();
+			yv = scan.nextDouble();
+		}
+
+		// TODO: Gizmo constructors to follow the following format
+		// Should Absorber be a SquareGizmo, or its own gizmo class?
 		try {
 			switch (type) {
 			case "Square":
+				// newGizmo = SquareGizmo(id, x1, y1, null, null);
 				break;
 			case "Triangle":
+				// newGizmo = TriangleGizmo(id, x1, y1);
 				break;
 			case "Circle":
-				break;
-			case "Ball":
-				break;
-			case "Absorber":
+				// newGizmo = CircleGizmo(id, x1, y1);
 				break;
 			case "LeftFlipper":
+				// newGizmo = LeftFlipperGizmo(id, x1, y1);
 				break;
 			case "RightFlipper":
+				// newGizmo = RightFlipperGizmo(id, x1, y1);
+				break;
+			case "Absorber":
+//				newGizmo = SquareGizmo(id, x1, y1, x2, y2);
+//				IAction action = new Action(); // absorber behaviour
+//				newGizmo.addTriggerAction(action);
+				break;
+			case "Ball":
+//				newGizmo = BallGizmo(id, x1, y1, xv, yv);
 				break;
 			default:
 			}
@@ -114,33 +150,33 @@ public class BoardFileHandler {
 			e.printStackTrace();
 		}
 
-		return gizmo;
+		gizmos.addGizmo(newGizmo);
 	}
-	
+
 	private void createConnections(ArrayList<String> connections, GizmoList gizmos) {
 		Scanner scan = null;
 		for (String current : connections) {
 			scan = new Scanner(current);
 			String type = scan.next();
-			
+
 			if (type.equals("Connect")) {
 				String firstGizmo = scan.next();
 				String secondGizmo = scan.next();
 
-//				TODO: GizmoList function that creates connection between two gizmos in its list
-//				gizmos.createConnection(firstGizmo, secondGizmo);
-				
+				// TODO: GizmoList function that creates connection between two gizmos in its list
+				// gizmos.createConnection(firstGizmo, secondGizmo);
+
 			} else if (type.equals("KeyConnect")) {
 				String keyString = scan.next();
 				String keyID = scan.next();
 				String keyStatus = scan.next();
 				String gizmoID = scan.next();
-				
+
 				// TODO: Functionality to create key connections!
 			}
-			
+
 			scan.close();
 		}
 	}
-	
+
 }
