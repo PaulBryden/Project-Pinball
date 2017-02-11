@@ -31,18 +31,28 @@ public class Board extends JPanel implements IObserver{
 		setMaximumSize(getSize());
 	}
 
+	public void addViewGizmo(IViewGizmo gizmo){
+		viewGizmos.add(gizmo);
+		revalidate();
+		repaint();
+	}
+
+	public void removeViewGizmo(IViewGizmo gizmo){
+		viewGizmos.remove(gizmo);
+		revalidate();
+		repaint();
+	}
+
     @Override
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		for(int i = 0; i < 400; i++){
-			add(new Cell());
+		for(IViewGizmo viewGizmo : viewGizmos){
+			viewGizmo.paint(g);
 		}
     }
 
 	@Override
 	public void update(IObservable obsv, Object o) {
-		// TODO Auto-generated method stub
-		
 	}
 
 

@@ -290,7 +290,11 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
+<<<<<<< HEAD
   <class id="33" language="java" name="view.BallView" project="CS308-Gizmoball" 
+=======
+  <class id="39" language="java" name="view.CircleView" project="CS308-Gizmoball"
+>>>>>>> gui
     file="/CS308-Gizmoball/src/view/BallView.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="4103" y="1809"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

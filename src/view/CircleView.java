@@ -1,23 +1,23 @@
 package view;
 
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 import java.util.Observable;
 
-import model.IFlipper;
+import model.ICircle;
 import observer.IObservable;
 import observer.IObserver;
 
-public class FlipperView implements IViewGizmo, IObserver{
-	private IFlipper gizmo;
+public class CircleView implements IViewGizmo, IObserver{
+	private ICircle gizmo;
 
-	public FlipperView(IFlipper gizmo){
+	public CircleView(ICircle gizmo){
 		this.gizmo = gizmo;
 	}
-
+	
 	@Override
 	public void update(Observable o, Object arg) {
-		//update graphic
+		//UPDATE GRAPHICS OBJECT
+		
 	}
 
 	@Override
@@ -30,13 +30,12 @@ public class FlipperView implements IViewGizmo, IObserver{
 		Graphics2D g2D = (Graphics2D) g;
 
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2D.fill(new RoundRectangle2D.Float(300, 300, 40, 10, 10, 10));
+		g2D.fillOval((200 - (20/2)), (200 - (20/2)),20 , 20);
 	}
 
 	@Override
 	public void update(IObservable obsv, Object o) {
 		// TODO Auto-generated method stub
-		
 	}
 
 }
