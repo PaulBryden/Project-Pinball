@@ -13,9 +13,7 @@ public class BoardFileHandler {
 
 	public boolean save(GizmoList gizmos, String path) {
 		try {
-			BufferedWriter save = new BufferedWriter(new FileWriter(path)); // Assuming
-																			// extension
-																			// exists
+			BufferedWriter save = new BufferedWriter(new FileWriter(path));
 			ArrayList<IGizmo> list = gizmos.returnGizmoList();
 
 			for (IGizmo current : list) {
@@ -37,12 +35,8 @@ public class BoardFileHandler {
 
 	public GizmoList load(String path) {
 		try {
-			GizmoList gizmos = new GizmoList(); // This will be returned after
-												// reading
-			// The following arraylist keeps tracks of connections that can't be
-			// made immediately
-			// when read from the file
-			ArrayList<String> connections = new ArrayList<>();
+			GizmoList gizmos = new GizmoList(); // This will be returned after reading
+			ArrayList<String> connections = new ArrayList<>(); // Keeps track of connections from file
 
 			BufferedReader load = new BufferedReader(new FileReader(path));
 			String line = load.readLine();
@@ -51,21 +45,20 @@ public class BoardFileHandler {
 				scan = new Scanner(line);
 				String type = scan.next();
 
-				if (type != "Connect" && type != "KeyConnect") {
+				if (type.equals("Connect") || type.equals("KeyConnect")) {
+					connections.add(line); // Store connection info for later
+				} else {
 					IGizmo g = createGizmo(type, scan);
 					gizmos.addGizmo(g);
-				} else {
-					// TODO: Handle Connect and KeyConnect
-					// If one or both gizmos haven't yet been read, store connection info for later*
 				}
 
 				scan.close();
 				line = load.readLine();
 			}
 
-			// *If any connections have yet to be made, make them here
-			// This should be fine as all of the gizmos should exist by now
-
+			// Make connections here
+			createConnections(connections, gizmos);
+			
 			load.close();
 
 			return gizmos;
@@ -101,4 +94,21 @@ public class BoardFileHandler {
 //		}
 		return null; // TEMP
 	}
+	
+	private void createConnections(ArrayList<String> connections, GizmoList gizmos) {
+		Scanner scan = null;
+		for (String current : connections) {
+			scan = new Scanner(current);
+			String type = scan.next();
+			
+			if (type.equals("Connect")) {
+				// TODO
+			} else if (type.equals("KeyConnect")) {
+				// TODO
+			}
+			
+			scan.close();
+		}
+	}
+	
 }
