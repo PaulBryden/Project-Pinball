@@ -1,216 +1,85 @@
 package model;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import physics.Circle;
-import physics.LineSegment;
 import physics.Vect;
-import observer.IObservable;
-import observer.IObserver;
-public class BallGizmo implements IBall,IObservable{
+
+public class BallGizmo extends AbstractGizmo implements IBall {
+
 	private double radius;
-	private Color colour;
-	private Vect velocity;
 	private Circle physicsCircle;
-	private ArrayList<IObserver> observerList = new ArrayList<>();
-	private IAction triggerAction;
-	private ArrayList<IGizmo> triggerList = new ArrayList<>();
-	private int ID;
-	private float rotation;
-	private Vect coords;
-	public BallGizmo(double radius, double x, double y, double xv, double yv, int ID){
-		this.colour = Color.BLUE;
-		this.radius=radius;
-		this.physicsCircle=new Circle(x,y,radius);
-		velocity= new Vect(xv,yv);
-		this.ID=ID;
+	private Vect velocity;
+
+	public BallGizmo(int id, Vect coords, Vect velo) {
+		super("B" + id, coords, Color.BLUE, false);
+		this.radius = 0.3;
+		velocity = velo;
+		generateLinesAndCircles();
 	}
-	
+
+	public BallGizmo(int id, int x, int y, int vx, int vy) {
+		this(id, new Vect(x, y), new Vect(vx, vy));
+	}
+
+	@Override
+	protected void generateLinesAndCircles() {
+		circles.clear();
+		this.physicsCircle = new Circle(coords, radius);
+		circles.add(physicsCircle);
+	}
+
 	@Override
 	public Vect getVelo() {
-		// TODO Auto-generated method stub
 		return velocity;
 	}
 
 	@Override
 	public void setVelo(Vect v) {
-		velocity =v;
-		
-	}
-
-
-	@Override
-	public Color getColour() {
-		// TODO Auto-generated method stub
-		return colour;
-	}
-
-
-
-
-	@Override
-	public void attach(IObserver obs) {
-		observerList.add(obs);
+		velocity = v;
 	}
 
 	@Override
-	public void notifyAllObservers() {
-		for(IObserver observer : observerList){
-			observer.notify();
-		}
-		
+	public double getRadius() {
+		return radius;
 	}
 
 	@Override
-	public boolean isStatic() {
-		// Ball will always be a movable object
-		return false;
+	public void setRadius(double radius) {
+		this.radius = radius;
+		generateLinesAndCircles();
 	}
 
 	@Override
-	public void setColour(Color colour) {
-		// TODO Auto-generated method stub
-		this.colour=colour;
-	}
-
-	@Override
-	public void addTriggerAction(IAction action) {
-		this.triggerAction=action;
-		
-	}
-
-	@Override
-	public void addGizmoToTrigger(IGizmo gizmo) {
-		triggerList.add(gizmo);
-		
-	}
-
-	@Override
-	public ArrayList<IGizmo> getGizmosToTrigger() {
-		
-		return triggerList;
-	}
-
-	@Override
-	public float getRadius() {
-		// TODO Auto-generated method stub
-		return (float)physicsCircle.getRadius();
-	}
-
-	@Override
-	public void setRadius(float radius) {
-		//Do we need this?
-		
-	}
-
-	@Override
-	public void setCentre(float x, float y) {
-		physicsCircle = new Circle(x,y,physicsCircle.getRadius());
-		
-	}
-
-	@Override
-	public Vect getCentre(float x, float y) {
-		// TODO Auto-generated method stub
+	public Vect getCentre() {
 		return physicsCircle.getCenter();
 	}
 
 	@Override
 	public boolean isBall() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
-	public ArrayList<Circle> getAllCircles() {
-		// TODO Auto-generated method stub
-		ArrayList<Circle> circleList = new ArrayList<>();
-		circleList.add(physicsCircle);
-		return circleList;
-	}
-
-	@Override
-	public ArrayList<LineSegment> getAllLineSegments() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void performActions() {
-		triggerAction.performAction();
-		
-		
-	}
-	protected void performActions(List<IGizmo> visited){
-		//Needs rethought
-	}
-
-	@Override
-	public void triggerConnectedGizmos() {
-		for(IGizmo gizmo : triggerList){
-			gizmo.performActions();
-		}
-		
-	}
-	protected void triggerConnectedGizmos(List<IGizmo> visited){}
-
-	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Ball"+getID()+" "+physicsCircle.getCenter().x()+" "+physicsCircle.getCenter().y()+" "+"\n";
-		for(IGizmo gizmo : triggerList){
-			serializedGizmo+="Connect "+getID()+" "+gizmo.getID()+"\n";
+		String serializedGizmo = "Ball" + getID() + " " + physicsCircle.getCenter().x() + " "
+				+ physicsCircle.getCenter().y() + " " + "\n";
+		for (IGizmo gizmo : triggers) {
+			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
 		}
 		return serializedGizmo;
 	}
 
 	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return ID;
-	}
-
-
-	@Override
 	public void moveForTime(double tickTime) {
 		double x = physicsCircle.getCenter().x() + velocity.x() * tickTime;
 		double y = physicsCircle.getCenter().y() + velocity.y() * tickTime;
-		physicsCircle = new Circle(new Vect(x, y),radius);
-		
-	}
-
-	@Override
-	public void rotate(float angle) {
-		// TODO Auto-generated method stub
-		rotation+=angle;
-	}
-
-	@Override
-	public float getRotation() {
-		return rotation;
-		// TODO Auto-generated method stub
-		
+		setCoords(new Vect(x, y));
 	}
 
 	@Override
 	public Vect getCoords() {
 		return physicsCircle.getCenter();
 	}
-
-	@Override
-	public void setCoords(Vect coords) {
-		physicsCircle = new Circle(coords, radius);
-
-	}
-
-	@Override
-	public void onCollision(IBall ball) {
-		
-	}
-
-
 
 }

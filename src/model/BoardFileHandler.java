@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class BoardFileHandler {
@@ -14,15 +15,15 @@ public class BoardFileHandler {
 	public boolean save(GizmoList gizmos, String path) {
 		try {
 			BufferedWriter save = new BufferedWriter(new FileWriter(path));
-			ArrayList<IGizmo> list = gizmos.returnGizmoList();
-			ArrayList<String> connections = new ArrayList<>(); // connections to be made
+			List<IGizmo> list = gizmos.returnGizmoList();
+			List<String> connections = new ArrayList<>(); // connections to be made
 
 			for (IGizmo current : list) {
 				// TODO: Ensure that serializeGizmo() is providing correct output!
 				save.write(current.serializeGizmo());
 
 				// Record any connections for later
-				ArrayList<IGizmo> connectedGizmos = current.getGizmosToTrigger();
+				List<IGizmo> connectedGizmos = current.getGizmosToTrigger();
 				for (IGizmo destGizmo : connectedGizmos) {
 					connections.add("Connect " + current.getID() + " " + destGizmo.getID());
 				}
