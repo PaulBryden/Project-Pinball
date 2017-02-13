@@ -1,6 +1,7 @@
 package model;
 
 public interface IFlipper extends IGizmo{
-	public void setFlipperSpeed(float x);
-	public float getFlipperSpeed();
+	public void setFlipperSpeed(double speed);
+	public double getFlipperSpeed();
+	public boolean isRight();
 }

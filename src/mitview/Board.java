@@ -12,7 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import model.BallGizmo;
-import model.DavidsGizmo;
 import model.GameModel;
 import model.IGizmo;
 import model.SquareGizmo;
@@ -63,8 +62,8 @@ public class Board extends JPanel implements Observer {
 		for (BallGizmo b : balls) {
 			if (b != null) {
 				g2.setColor(b.getColour());
-				int x = (int) ((b.getCentre(0, 0).x() - b.getRadius()) * GRID_WIDTH);
-				int y = (int) ((b.getCentre(0, 0).y() - b.getRadius()) * GRID_WIDTH);
+				int x = (int) ((b.getCentre().x() - b.getRadius()) * GRID_WIDTH);
+				int y = (int) ((b.getCentre().y() - b.getRadius()) * GRID_WIDTH);
 				int width = (int) (2 * b.getRadius() * GRID_WIDTH);
 				g2.fillOval(x, y, width, width);
 			}

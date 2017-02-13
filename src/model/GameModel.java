@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -11,7 +10,6 @@ import physics.LineSegment;
 
 public class GameModel extends Observable {
 
-	private GizmoList listOfGizmos;
 	private List<IGizmo> gizmos;
 	private List<BallGizmo> balls;
 	private List<LineSegment> walls;
@@ -27,7 +25,7 @@ public class GameModel extends Observable {
 		walls.add(new LineSegment(0, 0, 20, 0));
 		walls.add(new LineSegment(20, 0, 20, 20));
 		walls.add(new LineSegment(0, 20, 20, 20));
-		gizmos.add(new SquareGizmo(1,3, 5));
+		gizmos.add(new SquareGizmo(1, 3, 5));
 		gizmos.add(new SquareGizmo(2,18, 18));
 		gizmos.add(new SquareGizmo(3,13, 10));
 		gizmos.add(new SquareGizmo(4,13, 19));
@@ -36,7 +34,7 @@ public class GameModel extends Observable {
 		gizmos.add(new SquareGizmo(7,5, 16));
 		gizmos.add(new SquareGizmo(8,6, 16));
 		gizmos.add(new SquareGizmo(9, 7, 16));
-		balls.add(new BallGizmo(0.3, 10, 10, 11, 9, 0));
+		balls.add(new BallGizmo(10, 10, 11, 9, 11));
 	}
 
 	public void tick() {
@@ -55,28 +53,27 @@ public class GameModel extends Observable {
 		// TODO Apply friction and gravity here
 		// Trigger any gizmos that have been collided with
 		if (collision != null && collision.getGizmo() != null)
-			collision.getGizmo().triggerConnectedGizmos();
+			//collision.getGizmo().triggerConnectedGizmos();
+			collision.getGizmo().onCollision(collision.getBall());
 		// Update view
 		setChanged();
 		notifyObservers();
 	}
 
-	public GizmoList getGizmoList() {
-		return listOfGizmos;
+	public List<IGizmo> getGizmoList() {
+		return gizmos;
 	}
 
-	public void updateGizmoList(GizmoList gizmos) {
-		this.listOfGizmos = gizmos;
+	public void updateGizmoList(List<IGizmo> gizmos) {
+		this.gizmos = gizmos;
 	}
 
 	public void addGizmo(IGizmo gizmo) {
-		listOfGizmos.addGizmo(gizmo);
+		gizmos.add(gizmo);
 	}
 
 	public void removeGizmo(IGizmo gizmo) {
-
-		listOfGizmos.removeGizmo(gizmo);
-
+		gizmos.remove(gizmo);
 	}
 
 	public void reset() {

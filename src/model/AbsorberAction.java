@@ -1,13 +1,14 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AbsorberAction implements IAction{
-	GizmoList gizmoList;
+	List<IGizmo> gizmos;
 	IGizmo gizmoTrack;
 	ArrayList<IBall> storedBalls;
-	public AbsorberAction(GizmoList gizmoList, IGizmo gizmoTrack){
-		this.gizmoList=gizmoList;
+	public AbsorberAction(List<IGizmo> gizmos, IGizmo gizmoTrack){
+		this.gizmos = gizmos;
 	}
 	@Override
 	public void performAction() {
@@ -17,7 +18,7 @@ public class AbsorberAction implements IAction{
 	@Override
 	public void performAction(IBall ball) {
 		if(storedBalls.size()>0){
-			gizmoList.addGizmo(storedBalls.get(0));
+			gizmos.add(storedBalls.get(0));
 			storedBalls.remove(0);
 			storedBalls.add(ball);
 		}else{

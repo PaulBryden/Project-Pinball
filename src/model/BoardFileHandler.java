@@ -7,22 +7,23 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class BoardFileHandler {
 
-	public boolean save(GizmoList gizmos, String path) {
+	public boolean save(List<IGizmo> gizmos, String path) {
 		try {
 			BufferedWriter save = new BufferedWriter(new FileWriter(path));
-			ArrayList<IGizmo> list = gizmos.returnGizmoList();
-			ArrayList<String> connections = new ArrayList<>(); // connections to be made
+			List<IGizmo> list = gizmos;
+			List<String> connections = new ArrayList<>(); // connections to be made
 
 			for (IGizmo current : list) {
 				// TODO: Ensure that serializeGizmo() is providing correct output!
 				save.write(current.serializeGizmo());
 
 				// Record any connections for later
-				ArrayList<IGizmo> connectedGizmos = current.getGizmosToTrigger();
+				List<IGizmo> connectedGizmos = current.getGizmosToTrigger();
 				for (IGizmo destGizmo : connectedGizmos) {
 					connections.add("Connect " + current.getID() + " " + destGizmo.getID());
 				}
@@ -46,9 +47,9 @@ public class BoardFileHandler {
 		}
 	}
 
-	public GizmoList load(String path) {
+	public List<IGizmo> load(String path) {
 		try {
-			GizmoList gizmos = new GizmoList(); // This will be returned after reading
+			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading
 			ArrayList<String> connections = new ArrayList<>(); // Keeps track of connections from file
 
 			BufferedReader load = new BufferedReader(new FileReader(path));
@@ -88,7 +89,7 @@ public class BoardFileHandler {
 		}
 	}
 
-	private void createGizmo(String type, Scanner scan, GizmoList gizmos) {
+	private void createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
 		IGizmo newGizmo = null;
 		String id = null;
 		double x1 = 0.0;
@@ -151,10 +152,10 @@ public class BoardFileHandler {
 			e.printStackTrace();
 		}
 
-		gizmos.addGizmo(newGizmo);
+		gizmos.add(newGizmo);
 	}
 
-	private void createConnections(ArrayList<String> connections, GizmoList gizmos) {
+	private void createConnections(ArrayList<String> connections, List<IGizmo> gizmos) {
 		Scanner scan = null;
 		for (String current : connections) {
 			scan = new Scanner(current);
