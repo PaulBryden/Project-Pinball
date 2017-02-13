@@ -1,5 +1,7 @@
 package controller;
 
+import model.IFlipper;
+import model.LeftFlipper;
 import view.Board;
 import view.FlipperView;
 
@@ -15,6 +17,8 @@ public class AddFlipperListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.addViewGizmo(new FlipperView(null));
+        IFlipper flipper = new LeftFlipper(78, 300, 300);
+        board.addViewGizmo(new FlipperView(flipper));
+        board.getModel().addGizmo(flipper);
     }
 }

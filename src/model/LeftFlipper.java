@@ -3,7 +3,7 @@ package model;
 import physics.Angle;
 import physics.Vect;
 
-public class LeftFlipper extends AbstractFlipper {
+public class LeftFlipper extends AbstractFlipper implements IFlipper{
 	
 	public LeftFlipper(int id, Vect coords) {
 		super(id, coords);
