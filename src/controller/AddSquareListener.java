@@ -19,7 +19,7 @@ public class AddSquareListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         IGizmo squareGizmo = new SquareGizmo(12, 100, 200);
-        board.addViewGizmo(new SquareView(squareGizmo, 20));
+        board.addViewGizmo(new SquareView(squareGizmo));
         board.getModel().addGizmo(squareGizmo);
     }
 }

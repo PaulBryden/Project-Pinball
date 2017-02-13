@@ -10,15 +10,14 @@ import observer.IObserver;
 public class SquareView implements IViewGizmo, IObserver {
 
 	private IGizmo gizmo;
-	private int width;
+	private static final int WIDTH = 20;
 
-	public SquareView(IGizmo gizmo, int width){
+	public SquareView(IGizmo gizmo){
 		this.gizmo = gizmo;
-		this.width = width;
 	}
 
 	public void paint(Graphics g){
-		g.fillRect((int) gizmo.getCoords().x(),(int) gizmo.getCoords().y(), width, width);
+		g.fillRect((int) gizmo.getCoords().x(),(int) gizmo.getCoords().y(), WIDTH, WIDTH);
 	}
 
 	@Override
