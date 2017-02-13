@@ -31,6 +31,9 @@ public class Board extends JPanel implements Observer {
 		setMinimumSize(getSize());
 		setMaximumSize(getSize());
 	}
+	public IModel getModel(){
+		return (model);
+	}
 
 	public void addViewGizmo(IViewGizmo gizmo){
 		viewGizmos.add(gizmo);

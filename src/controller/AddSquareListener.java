@@ -1,5 +1,7 @@
 package controller;
 
+import model.IGizmo;
+import model.SquareGizmo;
 import view.Board;
 import view.SquareView;
 
@@ -13,8 +15,11 @@ public class AddSquareListener implements ActionListener{
         this.board = board;
     }
 
+    //TODO: Implement ID generation system and get coords for inital render from mouse click
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.addViewGizmo(new SquareView(null));
+        IGizmo squareGizmo = new SquareGizmo(12, 100, 200);
+        board.addViewGizmo(new SquareView(squareGizmo, 20, 20));
+        board.getModel().addGizmo(squareGizmo);
     }
 }
