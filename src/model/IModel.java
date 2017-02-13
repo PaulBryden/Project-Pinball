@@ -3,8 +3,6 @@ package model;
 import java.util.List;
 import java.util.Observer;
 
-import physics.LineSegment;
-
 public interface IModel {
 	
 	public void tick();
@@ -13,7 +11,7 @@ public interface IModel {
 	
 	public List<IBall> getBalls();
 	
-	public List<LineSegment> getWalls();
+	public List<IWall> getWalls();
 	
 	public void addGizmo(IGizmo gizmo);
 	

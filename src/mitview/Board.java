@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import model.GameModel;
 import model.IBall;
 import model.IGizmo;
-import physics.LineSegment;
+import model.IWall;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -24,7 +24,7 @@ public class Board extends JPanel implements Observer {
 	protected int width;
 	protected int height;
 	protected GameModel gm;
-	private static final int GRID_WIDTH = 25;
+	private static final int GRID_WIDTH = 35;
 
 	public Board(int w, int h, GameModel m) {
 		// Observe changes in Model
@@ -45,7 +45,7 @@ public class Board extends JPanel implements Observer {
 
 		Graphics2D g2 = (Graphics2D) g;
 		
-		for (LineSegment wall : gm.getWalls()) {
+		for (IWall wall : gm.getWalls()) {
 			g2.drawLine((int) (wall.p1().x() * GRID_WIDTH), (int) (wall.p1().y() * GRID_WIDTH), (int) (wall.p2().x() * GRID_WIDTH), (int) (wall.p2().y() * GRID_WIDTH));
 		}
 		
