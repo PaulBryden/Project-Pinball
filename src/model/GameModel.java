@@ -14,7 +14,7 @@ public class GameModel extends Observable implements IModel {
 	private List<IBall> balls;
 	private List<IWall> walls;
 	private boolean pauseGame = false;
-	private static final double TICK_TIME = 0.02; // in seconds
+	private static final double TICK_TIME = 0.01; // in seconds
 
 	public GameModel() {
 		//listOfGizmos = new GizmoList();
@@ -34,7 +34,7 @@ public class GameModel extends Observable implements IModel {
 		gizmos.add(new SquareGizmo(7,5, 16));
 		gizmos.add(new SquareGizmo(8,6, 16));
 		gizmos.add(new SquareGizmo(9, 7, 16));
-		balls.add(new BallGizmo(10, 10, 11, 9, 11));
+		balls.add(new BallGizmo(10, 10, 11, 13, 17));
 	}
 
 	public void tick() {
@@ -57,6 +57,10 @@ public class GameModel extends Observable implements IModel {
 		// Update view
 		setChanged();
 		notifyObservers();
+	}
+	
+	public double getTickTime() {
+		return TICK_TIME;
 	}
 
 	public List<IGizmo> getGizmos() {
