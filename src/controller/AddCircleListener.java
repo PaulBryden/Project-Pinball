@@ -1,5 +1,7 @@
 package controller;
 
+import model.CircleGizmo;
+import model.ICircle;
 import view.Board;
 import view.CircleView;
 
@@ -15,6 +17,8 @@ public class AddCircleListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.addViewGizmo(new CircleView(null));
+        ICircle circleGizmo = new CircleGizmo(13, 200, 200);
+        board.addViewGizmo(new CircleView(circleGizmo));
+        board.getModel().addGizmo(circleGizmo);
     }
 }
