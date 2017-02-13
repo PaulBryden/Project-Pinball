@@ -4,10 +4,15 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
+
+import model.IModel;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 public class MainWindow extends JFrame{
+	
+	private IModel model;
     private MenuBar menuBar;
     private JToolBar toolbar;
     private JToolBar sideToolBar;
@@ -15,11 +20,12 @@ public class MainWindow extends JFrame{
     private JFileChooser fileManager;
     private GridBagConstraints constraints;
 
-    public MainWindow(){
+    public MainWindow(IModel model){
         super();
+        this.model = model;
         menuBar = new MenuBar(this);
         sideToolBar = new JToolBar();
-        board = new Board(); /* TODO: Get Gizmos */
+        board = new Board(model); /* TODO: Get Gizmos */
         toolbar = new BuildToolBar(this, board);
         fileManager = new JFileChooser();
         constraints = new GridBagConstraints();

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Observer;
 
 import physics.LineSegment;
 
@@ -17,5 +18,7 @@ public interface IModel {
 	public void addGizmo(IGizmo gizmo);
 	
 	public void removeGizmo(IGizmo gizmo);
+	
+	public void addObserver(Observer o);
 
 }
