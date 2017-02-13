@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
-import model.GameModel;
+import model.IModel;
 
 /**
  * @author Murray Wood Demonstration of MVC and MIT Physics Collisions 2014
@@ -13,11 +13,11 @@ import model.GameModel;
 public class RunListener implements ActionListener {
 
 	private Timer timer;
-	private GameModel model;
+	private IModel model;
 
-	public RunListener(GameModel m) {
+	public RunListener(IModel m) {
 		model = m;
-		timer = new Timer(50, this);
+		timer = new Timer((int) (1000 * model.getTickTime()), this);
 	}
 
 	@Override

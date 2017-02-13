@@ -7,7 +7,7 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public interface IGizmo {
+public interface IGizmo extends ITrigger {
 
 	public boolean isStatic();
 
@@ -22,10 +22,6 @@ public interface IGizmo {
 	public void performActions();
 
 	public void onCollision(IBall ball);
-
-	public void triggerConnectedGizmos();
-
-	public List<IGizmo> getGizmosToTrigger();
 
 	public Vect getCoords();
 
