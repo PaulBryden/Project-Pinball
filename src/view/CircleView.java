@@ -8,7 +8,7 @@ import observer.IObservable;
 import observer.IObserver;
 
 public class CircleView implements IViewGizmo, IObserver{
-	private ICircle gizmo;
+	protected ICircle gizmo;
 	private static final int RADIUS = 20;
 
 	public CircleView(ICircle gizmo){
