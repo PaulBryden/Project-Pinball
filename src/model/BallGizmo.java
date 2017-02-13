@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Color;
+import java.util.List;
 
 import physics.Circle;
 import physics.Vect;
@@ -74,12 +75,18 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 	public void moveForTime(double tickTime) {
 		double x = physicsCircle.getCenter().x() + velocity.x() * tickTime;
 		double y = physicsCircle.getCenter().y() + velocity.y() * tickTime;
-		setCoords(new Vect(x, y));
+		setGridCoords(new Vect(x, y));
 	}
 
 	@Override
-	public Vect getCoords() {
+	public Vect getGridCoords() {
 		return physicsCircle.getCenter();
+	}
+
+	@Override
+	public List<Vect> getExactCoords() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,6 +1,8 @@
 package model;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import physics.Circle;
 import physics.LineSegment;
@@ -37,6 +39,20 @@ public class TriangleGizmo extends AbstractGizmo {
 			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
 		}
 		return serializedGizmo;
+	}
+
+	@Override
+	public List<Vect> getExactCoords() {
+		// TODO Auto-generated method stub
+		List<Vect> coordVector = new ArrayList<Vect>();
+		coordVector.add(this.getAllLineSegments().get(0).p1());
+		coordVector.add(this.getAllLineSegments().get(0).p2());
+		coordVector.add(this.getAllLineSegments().get(1).p2());
+
+		return coordVector;
+
+		
+
 	}
 
 }

@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import physics.Angle;
 import physics.Vect;
 
@@ -23,6 +26,17 @@ public class LeftFlipper extends AbstractFlipper implements IFlipper{
 	public String serializeGizmo() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Vect> getExactCoords() {
+		// TODO Auto-generated method stub
+		List<Vect> flipperVector = new ArrayList<Vect>();
+		flipperVector.add(this.getAllCircles().get(0).getCenter());
+		flipperVector.add(this.getAllCircles().get(1).getCenter());
+
+		
+		return flipperVector;
 	}
 
 }

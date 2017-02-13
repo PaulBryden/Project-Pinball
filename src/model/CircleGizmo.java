@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Color;
+import java.util.List;
 
 import physics.Circle;
 import physics.Vect;
@@ -56,6 +57,12 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 	@Override
 	public boolean isBall() {
 		return false;
+	}
+
+	@Override
+	public List<Vect> getExactCoords() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

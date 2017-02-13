@@ -32,7 +32,7 @@ public class FlipperView implements IViewGizmo, IObserver{
 		Graphics2D g2D = (Graphics2D) g;
 
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2D.fill(new RoundRectangle2D.Float((int) gizmo.getCoords().x(), (int) gizmo.getCoords().y(), WIDTH, HEIGHT, HEIGHT, HEIGHT));
+		g2D.fill(new RoundRectangle2D.Float((int) gizmo.getGridCoords().x(), (int) gizmo.getGridCoords().y(), WIDTH, HEIGHT, HEIGHT, HEIGHT));
 		//double x, double y, double w, double h, double arcWidth, double arcHeight
 	}
 

@@ -76,7 +76,7 @@ public class Board extends JPanel implements Observer {
 	
 	private void drawSquareGizmo(SquareGizmo gizmo, Graphics2D g) {
 		g.setColor(gizmo.getColour());
-		g.fillRect((int)gizmo.getCoords().x() * GRID_WIDTH, (int)gizmo.getCoords().y()  * GRID_WIDTH, GRID_WIDTH, GRID_WIDTH);
+		g.fillRect((int)gizmo.getGridCoords().x() * GRID_WIDTH, (int)gizmo.getGridCoords().y()  * GRID_WIDTH, GRID_WIDTH, GRID_WIDTH);
 	}
 	
 	private void drawFlipper(IFlipper flipper, Graphics2D g) {

@@ -40,13 +40,13 @@ public abstract class AbstractGizmo implements IGizmo {
 	}
 
 	@Override
-	public void setCoords(Vect coords) {
+	public void setGridCoords(Vect coords) {
 		this.coords = coords;
 		generateLinesAndCircles();
 	}
 
 	@Override
-	public Vect getCoords() {
+	public Vect getGridCoords() {
 		return coords;
 	}
 
