@@ -1,38 +1,48 @@
 package view;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.Path2D;
 import java.util.Observable;
 
-import javax.swing.JPanel;
-
-import model.IPolygon;
+import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 
 public class TriangleView implements IViewGizmo, IObserver{
-	private IPolygon gizmo;
-	private JPanel board;
+	private IGizmo gizmo;
 
-	public TriangleView(JPanel board, IPolygon gizmo){
-		this.gizmo=gizmo;
-		this.board=board;
+	public TriangleView(IGizmo gizmo){
+		this.gizmo = gizmo;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
+	public void paint(Graphics g){
+		Graphics2D g2D = (Graphics2D) g;
+		Path2D.Double triangle = new Path2D.Double();
 
-		
+		triangle.moveTo(50, 50);
+		triangle.lineTo(40, 70);
+		triangle.lineTo(60, 70);
+		triangle.closePath();
+
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2D.fill(triangle);
 	}
+
 	@Override
 	public Graphics GetViewObject() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void update(IObservable obsv, Object o) {
-		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+
 	}
 
 }

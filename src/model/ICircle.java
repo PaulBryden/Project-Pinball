@@ -1,9 +1,15 @@
 package model;
 
-public interface ICircle extends IGizmo{
-	public float getRadius();
-	public void setRadius(float radius);
-	public void setCentre(float x, float y);
-	public float[] getCentre(float x, float y);
+import physics.Vect;
+
+public interface ICircle extends IGizmo {
+	
+	public double getRadius();
+
+	public void setRadius(double radius);
+
+	public Vect getCentre();
+
 	public boolean isBall();
+
 }

@@ -3,11 +3,10 @@ package controller;
 import model.ICircle;
 import model.IFlipper;
 import model.IGizmo;
-import model.IPolygon;
 
 public class GizmoFactory {
 
-	public IPolygon createPolygonGizmo(){
+	public IGizmo createPolygonGizmo(){
 		return null;
 		
 	}
