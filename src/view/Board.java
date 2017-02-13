@@ -8,20 +8,17 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import model.GizmoList;
 import observer.IObservable;
 import observer.IObserver;
 
 public class Board extends JPanel implements IObserver{
 	
 	private List<IViewGizmo> viewGizmos;
-	private GizmoList gizmos;
 
 	//TODO: Generate View Elements and Store in List
-	public Board(GizmoList gizmos){
+	public Board(){
 		super();
 		viewGizmos = new ArrayList<>();
-		this.gizmos = gizmos;
 
 		setLayout(new GridLayout(20, 20));
 		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, Color.BLACK, Color.BLACK)));

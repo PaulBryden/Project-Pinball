@@ -10,7 +10,6 @@ import physics.LineSegment;
 
 public class GameModel extends Observable {
 
-	private GizmoList listOfGizmos;
 	private List<IGizmo> gizmos;
 	private List<BallGizmo> balls;
 	private List<LineSegment> walls;
@@ -54,28 +53,27 @@ public class GameModel extends Observable {
 		// TODO Apply friction and gravity here
 		// Trigger any gizmos that have been collided with
 		if (collision != null && collision.getGizmo() != null)
-			collision.getGizmo().triggerConnectedGizmos();
+			//collision.getGizmo().triggerConnectedGizmos();
+			collision.getGizmo().onCollision(collision.getBall());
 		// Update view
 		setChanged();
 		notifyObservers();
 	}
 
-	public GizmoList getGizmoList() {
-		return listOfGizmos;
+	public List<IGizmo> getGizmoList() {
+		return gizmos;
 	}
 
-	public void updateGizmoList(GizmoList gizmos) {
-		this.listOfGizmos = gizmos;
+	public void updateGizmoList(List<IGizmo> gizmos) {
+		this.gizmos = gizmos;
 	}
 
 	public void addGizmo(IGizmo gizmo) {
-		listOfGizmos.addGizmo(gizmo);
+		gizmos.add(gizmo);
 	}
 
 	public void removeGizmo(IGizmo gizmo) {
-
-		listOfGizmos.removeGizmo(gizmo);
-
+		gizmos.remove(gizmo);
 	}
 
 	public void reset() {

@@ -19,7 +19,7 @@ public class MainWindow extends JFrame{
         super();
         menuBar = new MenuBar(this);
         sideToolBar = new JToolBar();
-        board = new Board(null); /* TODO: Get Gizmos */
+        board = new Board(); /* TODO: Get Gizmos */
         toolbar = new BuildToolBar(this, board);
         fileManager = new JFileChooser();
         constraints = new GridBagConstraints();

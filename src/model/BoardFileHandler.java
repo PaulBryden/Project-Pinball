@@ -12,10 +12,10 @@ import java.util.Scanner;
 
 public class BoardFileHandler {
 
-	public boolean save(GizmoList gizmos, String path) {
+	public boolean save(List<IGizmo> gizmos, String path) {
 		try {
 			BufferedWriter save = new BufferedWriter(new FileWriter(path));
-			List<IGizmo> list = gizmos.returnGizmoList();
+			List<IGizmo> list = gizmos;
 			List<String> connections = new ArrayList<>(); // connections to be made
 
 			for (IGizmo current : list) {
@@ -47,9 +47,9 @@ public class BoardFileHandler {
 		}
 	}
 
-	public GizmoList load(String path) {
+	public List<IGizmo> load(String path) {
 		try {
-			GizmoList gizmos = new GizmoList(); // This will be returned after reading
+			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading
 			ArrayList<String> connections = new ArrayList<>(); // Keeps track of connections from file
 
 			BufferedReader load = new BufferedReader(new FileReader(path));
@@ -89,7 +89,7 @@ public class BoardFileHandler {
 		}
 	}
 
-	private void createGizmo(String type, Scanner scan, GizmoList gizmos) {
+	private void createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
 		IGizmo newGizmo = null;
 		String id = null;
 		double x1 = 0.0;
@@ -152,10 +152,10 @@ public class BoardFileHandler {
 			e.printStackTrace();
 		}
 
-		gizmos.addGizmo(newGizmo);
+		gizmos.add(newGizmo);
 	}
 
-	private void createConnections(ArrayList<String> connections, GizmoList gizmos) {
+	private void createConnections(ArrayList<String> connections, List<IGizmo> gizmos) {
 		Scanner scan = null;
 		for (String current : connections) {
 			scan = new Scanner(current);
