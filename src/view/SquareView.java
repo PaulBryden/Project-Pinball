@@ -11,16 +11,14 @@ public class SquareView implements IViewGizmo, IObserver {
 
 	private IGizmo gizmo;
 	private int width;
-	private int height;
 
-	public SquareView(IGizmo gizmo, int width, int height){
+	public SquareView(IGizmo gizmo, int width){
 		this.gizmo = gizmo;
 		this.width = width;
-		this.height = height;
 	}
 
 	public void paint(Graphics g){
-		g.fillRect((int) gizmo.getCoords().x(),(int) gizmo.getCoords().y(), width ,height);
+		g.fillRect((int) gizmo.getCoords().x(),(int) gizmo.getCoords().y(), width, width);
 	}
 
 	@Override
