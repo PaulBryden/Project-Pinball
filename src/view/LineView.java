@@ -3,15 +3,15 @@ package view;
 import java.awt.*;
 import java.util.Observable;
 
-import model.IPolygon;
+import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 
 public class LineView implements IViewGizmo, IObserver {
 
-    private IPolygon gizmo;
+    private IGizmo gizmo;
 
-    public LineView(IPolygon gizmo){
+    public LineView(IGizmo gizmo){
         this.gizmo = gizmo;
     }
 

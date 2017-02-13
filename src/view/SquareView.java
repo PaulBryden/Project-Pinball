@@ -4,15 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Observable;
 
-import model.IPolygon;
+import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 
 public class SquareView implements IViewGizmo, IObserver {
 
-	private IPolygon gizmo;
+	private IGizmo gizmo;
 
-	public SquareView(IPolygon gizmo){
+	public SquareView(IGizmo gizmo){
 		this.gizmo = gizmo;
 	}
 

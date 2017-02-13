@@ -1,8 +1,22 @@
 package model;
 
-public interface IFlipper extends IGizmo{
-	public float[][] getCoords();
-	public void setCoords(float[][] coords); //Remember to update the shape references.
-	public void setFlipperSpeed(float x);
-	public float getFlipperSpeed();
+import physics.Angle;
+import physics.Vect;
+
+public interface IFlipper extends IGizmo {
+
+	public Angle getAngle();
+
+	public double getAngularVelocity();
+
+	public void toggleOpen();
+	
+	public Vect getPivot();
+	
+	public Vect getEndCentre();
+	
+	public double getWidth();
+
+	public void moveForTime(double tickTime);
+
 }
