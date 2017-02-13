@@ -1,7 +1,6 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.Observable;
 
 import model.IPolygon;
@@ -17,8 +16,11 @@ public class LineView implements IViewGizmo, IObserver {
     }
 
     public void paint(Graphics g){
-        g.drawLine(250, 49, 350, 49);
-        g.setColor(Color.BLUE);
+        Graphics2D g2D = (Graphics2D) g;
+
+        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2D.drawLine(250, 49, 350, 49);
+        g2D.setColor(Color.BLUE);
     }
 
     @Override
