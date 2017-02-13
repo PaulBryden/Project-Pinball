@@ -14,6 +14,8 @@ public interface IFlipper extends IGizmo {
 	public Vect getPivot();
 	
 	public Vect getEndCentre();
+	
+	public double getWidth();
 
 	public void moveForTime(double tickTime);
 

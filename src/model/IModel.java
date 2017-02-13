@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Observer;
 
@@ -20,5 +21,7 @@ public interface IModel {
 	public void removeGizmo(IGizmo gizmo);
 	
 	public void addObserver(Observer o);
+	
+	public void handleKeyEvent(KeyEvent e);
 
 }

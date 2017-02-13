@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -14,6 +15,7 @@ public class GameModel extends Observable implements IModel {
 	private List<IBall> balls;
 	private List<IWall> walls;
 	private boolean pauseGame = false;
+	private IFlipper flipper;
 	private static final double TICK_TIME = 0.01; // in seconds
 
 	public GameModel() {
@@ -34,6 +36,8 @@ public class GameModel extends Observable implements IModel {
 		gizmos.add(new SquareGizmo(7,5, 16));
 		gizmos.add(new SquareGizmo(8,6, 16));
 		gizmos.add(new SquareGizmo(9, 7, 16));
+		flipper = new LeftFlipper(1, 10, 2);
+		gizmos.add(flipper);
 		balls.add(new BallGizmo(10, 10, 11, 13, 17));
 	}
 
@@ -55,6 +59,11 @@ public class GameModel extends Observable implements IModel {
 		if (collision != null && collision.getTrigger() != null)
 			collision.getTrigger().triggerConnectedGizmos();
 		// Update view
+		for (IGizmo gizmo : gizmos) {
+			if (gizmo instanceof IFlipper) {
+				((IFlipper) gizmo).moveForTime(tick);
+			}
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -133,5 +142,11 @@ public class GameModel extends Observable implements IModel {
 		if (tuc == Double.POSITIVE_INFINITY)
 			return null;
 		return new CollisionDetails(tuc, Geometry.reflectWall(line, ball.getVelo()), ball, trigger);
+	}
+
+	@Override
+	public void handleKeyEvent(KeyEvent e) {
+		if (e.getKeyChar() == 'f')
+			flipper.performActions();
 	}
 }
