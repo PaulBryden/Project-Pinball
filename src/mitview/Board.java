@@ -1,6 +1,5 @@
 package mitview;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,13 +7,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import model.BallGizmo;
 import model.GameModel;
+import model.IBall;
 import model.IGizmo;
-import model.SquareGizmo;
 import physics.LineSegment;
 
 /**
@@ -58,8 +55,8 @@ public class Board extends JPanel implements Observer {
 			g2.fillRect((int)gizmo.getCoords().x() * GRID_WIDTH, (int)gizmo.getCoords().y()  * GRID_WIDTH, GRID_WIDTH, GRID_WIDTH);
 		}
 
-		List<BallGizmo> balls = gm.getBalls();
-		for (BallGizmo b : balls) {
+		List<IBall> balls = gm.getBalls();
+		for (IBall b : balls) {
 			if (b != null) {
 				g2.setColor(b.getColour());
 				int x = (int) ((b.getCentre().x() - b.getRadius()) * GRID_WIDTH);

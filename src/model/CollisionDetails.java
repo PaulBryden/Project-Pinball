@@ -6,10 +6,10 @@ public class CollisionDetails {
 
 	private double tuc;
 	private Vect velo;
-	private BallGizmo ball;
+	private IBall ball;
 	private IGizmo gizmo;
 
-	public CollisionDetails(double t, Vect v, BallGizmo ball, IGizmo gizmo) {
+	public CollisionDetails(double t, Vect v, IBall ball, IGizmo gizmo) {
 		tuc = t;
 		velo = v;
 		this.ball = ball;
@@ -25,7 +25,7 @@ public class CollisionDetails {
 		return velo;
 	}
 	
-	public BallGizmo getBall() {
+	public IBall getBall() {
 		return ball;
 	}
 

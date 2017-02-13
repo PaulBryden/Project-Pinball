@@ -3,21 +3,25 @@ package view;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import observer.IObservable;
-import observer.IObserver;
+import model.IModel;
 
-public class Board extends JPanel implements IObserver{
+public class Board extends JPanel implements Observer {
 	
+	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 
 	//TODO: Generate View Elements and Store in List
-	public Board(){
+	public Board(IModel model) {
 		super();
+		this.model = model;
+		model.addObserver(this);
 		viewGizmos = new ArrayList<>();
 
 		setLayout(new GridLayout(20, 20));
@@ -49,9 +53,9 @@ public class Board extends JPanel implements IObserver{
     }
 
 	@Override
-	public void update(IObservable obsv, Object o) {
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
-
-
 
 }

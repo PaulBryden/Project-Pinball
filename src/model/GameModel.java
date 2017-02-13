@@ -8,10 +8,10 @@ import physics.Circle;
 import physics.Geometry;
 import physics.LineSegment;
 
-public class GameModel extends Observable {
+public class GameModel extends Observable implements IModel {
 
 	private List<IGizmo> gizmos;
-	private List<BallGizmo> balls;
+	private List<IBall> balls;
 	private List<LineSegment> walls;
 	private boolean pauseGame = false;
 	private static final double TICK_TIME = 0.02; // in seconds
@@ -43,7 +43,7 @@ public class GameModel extends Observable {
 		// Use smallest tick time until next collision.
 		double tick = (collision == null) ? TICK_TIME : collision.getTuc();
 		// Move all items based on that tick time
-		for (BallGizmo ball : balls) {
+		for (IBall ball : balls) {
 			ball.moveForTime(tick);
 		}
 		// Resolve collision
@@ -60,7 +60,7 @@ public class GameModel extends Observable {
 		notifyObservers();
 	}
 
-	public List<IGizmo> getGizmoList() {
+	public List<IGizmo> getGizmos() {
 		return gizmos;
 	}
 
@@ -80,12 +80,8 @@ public class GameModel extends Observable {
 
 	}
 
-	public List<BallGizmo> getBalls() {
+	public List<IBall> getBalls() {
 		return balls;
-	}
-
-	public List<IGizmo> getGizmos() {
-		return gizmos;
 	}
 	
 	public List<LineSegment> getWalls() {
@@ -95,7 +91,7 @@ public class GameModel extends Observable {
 	private CollisionDetails evaluateCollisions() {
 		CollisionDetails collision = null;
 		CollisionDetails cd;
-		for (BallGizmo ball : balls) {
+		for (IBall ball : balls) {
 			for (IGizmo gizmo : gizmos) { // .returnGizmoList()) {
 				if (gizmo.isStatic()) {
 					for (Circle circle : gizmo.getAllCircles()) {
@@ -119,7 +115,7 @@ public class GameModel extends Observable {
 		return collision;
 	}
 
-	private CollisionDetails evaluateCollisionWithStaticCircle(BallGizmo ball, Circle circle, IGizmo gizmo) {
+	private CollisionDetails evaluateCollisionWithStaticCircle(IBall ball, Circle circle, IGizmo gizmo) {
 		Circle ballCircle = ball.getAllCircles().get(0);
 		double tuc = Geometry.timeUntilCircleCollision(circle, ballCircle, ball.getVelo());
 		if (tuc == Double.POSITIVE_INFINITY)
@@ -128,7 +124,7 @@ public class GameModel extends Observable {
 				Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ball.getVelo()), ball, gizmo);
 	}
 
-	private CollisionDetails evaluateCollisionWithStaticLine(BallGizmo ball, LineSegment line, IGizmo gizmo) {
+	private CollisionDetails evaluateCollisionWithStaticLine(IBall ball, LineSegment line, IGizmo gizmo) {
 		Circle ballCircle = ball.getAllCircles().get(0);
 		double tuc = Geometry.timeUntilWallCollision(line, ballCircle, ball.getVelo());
 		if (tuc == Double.POSITIVE_INFINITY)
