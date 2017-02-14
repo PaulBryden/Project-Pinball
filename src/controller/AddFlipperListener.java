@@ -17,7 +17,7 @@ public class AddFlipperListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        IFlipper flipper = new LeftFlipper(78, 300, 300);
+        IFlipper flipper = new LeftFlipper(78, 16, 17);
         board.addViewGizmo(new FlipperView(flipper));
         board.getModel().addGizmo(flipper);
     }

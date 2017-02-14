@@ -12,6 +12,7 @@ import observer.IObserver;
 
 public class TriangleView implements IViewGizmo, IObserver{
 	private IGizmo gizmo;
+	private static final int GRID_WIDTH = 20;
 
 	public TriangleView(IGizmo gizmo){
 		this.gizmo = gizmo;
@@ -20,11 +21,12 @@ public class TriangleView implements IViewGizmo, IObserver{
 	public void paint(Graphics g){
 		Graphics2D g2D = (Graphics2D) g;
 		Path2D.Double triangle = new Path2D.Double();
+		double xCoord = gizmo.getGridCoords().x() * GRID_WIDTH;
+		double yCoord = gizmo.getGridCoords().y() * GRID_WIDTH;
 
-		triangle.moveTo(gizmo.getCoords().x(), gizmo.getCoords().y());
-		triangle.lineTo(gizmo.getCoords().x() - 10, gizmo.getCoords().y() + 20);
-		triangle.lineTo(gizmo.getCoords().x() + 10, gizmo.getCoords().y() + 20);
-
+		triangle.moveTo(xCoord, yCoord);
+		triangle.lineTo(xCoord - 10, yCoord + 20);
+		triangle.lineTo(xCoord + 10, yCoord + 20);
 		triangle.closePath();
 
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
