@@ -19,15 +19,9 @@ public class GameModel extends Observable implements IModel {
 	private Map<Character, ITrigger> keyTriggers;
 	private boolean pauseGame = false;
 	private IFlipper flipper;
-	private static final double TICK_TIME = 0.01; // in seconds
-	private static final double GRAVITY = 25.0;
-	private static final double MIN_VELOCITY = GRAVITY*TICK_TIME+0.1;
-	private static final double mu =  0.025 ; //Lpersecond
-	private static final double mu2  = 0.025; //per L.
-	private  static final double REFLECTION_COEFFICIENT = 0.9; // will be moved to trigger object 
 
 	public GameModel() {
-		//listOfGizmos = new GizmoList();
+		// listOfGizmos = new GizmoList();
 		gizmos = new LinkedList<>();
 		balls = new LinkedList<>();
 		walls = new LinkedList<>();
@@ -36,16 +30,16 @@ public class GameModel extends Observable implements IModel {
 		walls.add(new Wall(20, 0, 20, 20));
 		walls.add(new Wall(0, 20, 20, 20));
 		gizmos.add(new SquareGizmo(1, 3, 5));
-		gizmos.add(new SquareGizmo(3,13, 10));
-		gizmos.add(new SquareGizmo(4,13, 19));
-		gizmos.add(new SquareGizmo(5,14, 2));
-		gizmos.add(new SquareGizmo(6,4, 16));
-		gizmos.add(new SquareGizmo(7,5, 16));
-		gizmos.add(new SquareGizmo(8,6, 16));
+		gizmos.add(new SquareGizmo(3, 13, 10));
+		gizmos.add(new SquareGizmo(4, 13, 19));
+		gizmos.add(new SquareGizmo(5, 14, 2));
+		gizmos.add(new SquareGizmo(6, 4, 16));
+		gizmos.add(new SquareGizmo(7, 5, 16));
+		gizmos.add(new SquareGizmo(8, 6, 16));
 		gizmos.add(new SquareGizmo(9, 7, 16));
 		flipper = new LeftFlipper(1, 10, 2);
 		gizmos.add(flipper);
-		IGizmo magicGizmo = new SquareGizmo(2,18, 18);
+		IGizmo magicGizmo = new SquareGizmo(2, 18, 18);
 		magicGizmo.addGizmoToTrigger(flipper);
 		gizmos.add(magicGizmo);
 		balls.add(new BallGizmo(10, 10, 11, 13, 17));
@@ -57,17 +51,18 @@ public class GameModel extends Observable implements IModel {
 		// Evaluate collisions for all items in Gizmolist
 		CollisionDetails collision = evaluateCollisions();
 		// Use smallest tick time until next collision.
-		double tick = (collision == null) ? TICK_TIME : collision.getTuc();
+		double tick = (collision == null) ? Constants.TICK_TIME : collision.getTuc();
 		// Move all items based on that tick time
 		for (IBall ball : balls) {
 			ball.moveForTime(tick);
 		}
 		// Resolve collision
 		if (collision != null) {
-			Vect v = collision.getVelo();
-			collision.getBall().setVelo(v.length()>MIN_VELOCITY? v.times(REFLECTION_COEFFICIENT):Vect.ZERO);
+			double coeff = collision.getGizmo().getCoefficientOfReflection();
+			Vect velo = collision.getVelo().times(coeff);
+			velo = (velo.length() > Constants.MIN_VELOCITY) ? velo : Vect.ZERO;
+			collision.getBall().setVelo(velo);
 		}
-		// TODO Apply friction and gravity here
 		applyGravity(tick);
 		applyFriction(tick);
 		// Trigger any gizmos that have been collided with
@@ -81,10 +76,6 @@ public class GameModel extends Observable implements IModel {
 		}
 		setChanged();
 		notifyObservers();
-	}
-	
-	public double getTickTime() {
-		return TICK_TIME;
 	}
 
 	public List<IGizmo> getGizmos() {
@@ -110,7 +101,7 @@ public class GameModel extends Observable implements IModel {
 	public List<IBall> getBalls() {
 		return balls;
 	}
-	
+
 	public List<IWall> getWalls() {
 		return walls;
 	}
@@ -119,23 +110,25 @@ public class GameModel extends Observable implements IModel {
 		CollisionDetails collision = null;
 		CollisionDetails cd;
 		for (IBall ball : balls) {
-			for (IGizmo gizmo : gizmos) { // .returnGizmoList()) {
+			for (IGizmo gizmo : gizmos) {
 				if (gizmo.isStatic()) {
 					for (Circle circle : gizmo.getAllCircles()) {
 						cd = evaluateCollisionWithStaticCircle(ball, circle, gizmo);
-						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc()) && cd.getTuc() < TICK_TIME)
+						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
+								&& cd.getTuc() < Constants.TICK_TIME)
 							collision = cd;
 					}
 					for (LineSegment line : gizmo.getAllLineSegments()) {
 						cd = evaluateCollisionWithStaticLine(ball, line, gizmo);
-						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc()) && cd.getTuc() < TICK_TIME)
+						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
+								&& cd.getTuc() < Constants.TICK_TIME)
 							collision = cd;
 					}
 				}
 			}
 			for (IWall wall : walls) {
 				cd = evaluateCollisionWithStaticLine(ball, wall.getLine(), wall);
-				if (cd != null && (collision == null || cd.getTuc() < collision.getTuc()) && cd.getTuc() < TICK_TIME)
+				if (cd != null && (collision == null || cd.getTuc() < collision.getTuc()) && cd.getTuc() < Constants.TICK_TIME)
 					collision = cd;
 			}
 		}
@@ -158,19 +151,19 @@ public class GameModel extends Observable implements IModel {
 			return null;
 		return new CollisionDetails(tuc, Geometry.reflectWall(line, ball.getVelo()), ball, gizmo);
 	}
-	
-	private void applyGravity(double tickTime){
+
+	private void applyGravity(double tickTime) {
 		for (IBall ball : balls) {
 			Vect v = ball.getVelo();
-			Vect gravComponent = new Vect(0, GRAVITY*tickTime);
+			Vect gravComponent = new Vect(0, Constants.GRAVITY * tickTime);
 			ball.setVelo(v.plus(gravComponent));
 		}
 	}
-	
-	private void applyFriction(double tickTime){
+
+	private void applyFriction(double tickTime) {
 		for (IBall ball : balls) {
 			Vect v = ball.getVelo();
-			double frictionScale = (1 - mu * tickTime - mu2 * v.length() * tickTime);
+			double frictionScale = (1 - Constants.MU * tickTime - Constants.MU2 * v.length() * tickTime);
 			ball.setVelo(v.times(frictionScale));
 		}
 	}

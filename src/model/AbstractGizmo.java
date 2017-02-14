@@ -27,7 +27,7 @@ public abstract class AbstractGizmo implements IGizmo {
 		rotation = 0;
 		this.colour = colour;
 		this.isStatic = isStatic;
-		this.coefficientOfReflection = 1; // default for most gizmos
+		this.coefficientOfReflection = Constants.DEFAULT_COR;
 		actions = new ArrayList<>();
 		triggers = new ArrayList<>();
 		circles = new ArrayList<>();

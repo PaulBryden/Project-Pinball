@@ -17,7 +17,7 @@ public class Wall implements IWall {
 	public Wall(Vect p1, Vect p2) {
 		line = new LineSegment(p1, p2);
 		triggers = new LinkedList<>();
-		coefficientOfReflection = 1;
+		coefficientOfReflection = Constants.DEFAULT_COR;
 	}
 	
 	public Wall(int x1, int y1, int x2, int y2) {

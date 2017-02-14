@@ -7,8 +7,6 @@ public interface IModel {
 	
 	public void tick();
 	
-	public double getTickTime();
-	
 	public List<IGizmo> getGizmos();
 	
 	public List<IBall> getBalls();

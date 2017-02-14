@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
+import model.Constants;
 import model.IModel;
 
 /**
@@ -17,7 +18,7 @@ public class RunListener implements ActionListener {
 
 	public RunListener(IModel m) {
 		model = m;
-		timer = new Timer((int) (1000 * model.getTickTime()), this);
+		timer = new Timer((int) (1000 * Constants.TICK_TIME), this);
 	}
 
 	@Override
