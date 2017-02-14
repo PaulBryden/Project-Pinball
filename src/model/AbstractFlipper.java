@@ -1,6 +1,8 @@
 package model;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import physics.Angle;
 import physics.Circle;
@@ -20,8 +22,8 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 	protected Vect restingEndCentre;
 	protected Vect endCentre;
 	
-	public AbstractFlipper(int id, Vect coords) {
-		super("F" + id, coords, Color.RED, false);
+	public AbstractFlipper(String id, Vect coords) {
+		super(id, coords, Color.RED, false);
 		this.angularVelocity = 18.85; // in rad/sec, approx. 1080 deg/sec
 		this.angle = Angle.ZERO;
 		this.open = false;
@@ -54,6 +56,14 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 	
 	public Vect getPivot() {
 		return pivot;
+	}
+
+	@Override
+	public List<Vect> getExactCoords() {
+		List<Vect> flipperVector = new ArrayList<Vect>();
+		flipperVector.add(pivot);
+		flipperVector.add(endCentre);
+		return flipperVector;
 	}
 	
 	public Vect getEndCentre() {
@@ -89,4 +99,5 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 		}
 		generateLinesAndCircles();
 	}
+	
 }
