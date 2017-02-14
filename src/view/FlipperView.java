@@ -12,6 +12,7 @@ public class FlipperView implements IViewGizmo, IObserver{
 	private IFlipper gizmo;
 	private static final int WIDTH = 40;
 	private static final int HEIGHT = 10;
+	private static final int GRID_WIDTH = 20;
 
 	public FlipperView(IFlipper gizmo){
 		this.gizmo = gizmo;
@@ -32,7 +33,8 @@ public class FlipperView implements IViewGizmo, IObserver{
 		Graphics2D g2D = (Graphics2D) g;
 
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2D.fill(new RoundRectangle2D.Float((int) gizmo.getGridCoords().x(), (int) gizmo.getGridCoords().y(), WIDTH, HEIGHT, HEIGHT, HEIGHT));
+		g2D.fill(new RoundRectangle2D.Float(((int) gizmo.getGridCoords().x() * GRID_WIDTH),
+				((int) gizmo.getGridCoords().y() * GRID_WIDTH), WIDTH, HEIGHT, HEIGHT, HEIGHT));
 		//double x, double y, double w, double h, double arcWidth, double arcHeight
 	}
 
