@@ -1,13 +1,11 @@
 package view;
 
 import java.awt.Graphics;
-import java.util.List;
 import java.util.Observable;
 
 import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
-import physics.Vect;
 
 public class SquareView implements IViewGizmo, IObserver {
 
@@ -20,7 +18,8 @@ public class SquareView implements IViewGizmo, IObserver {
 	}
 
 	public void paint(Graphics g){
-		g.fillRect((int) gizmo.getGridCoords().x() * GRID_WIDTH,(int) gizmo.getGridCoords().y() * GRID_WIDTH, WIDTH, WIDTH);
+		g.fillRect((int) gizmo.getGridCoords().x() * GRID_WIDTH,
+				(int) gizmo.getGridCoords().y() * GRID_WIDTH, WIDTH, WIDTH);
 	}
 
 	@Override
