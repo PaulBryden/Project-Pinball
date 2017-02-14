@@ -8,6 +8,7 @@ import java.util.Observable;
 import physics.Circle;
 import physics.Geometry;
 import physics.LineSegment;
+import physics.Vect;
 
 public class GameModel extends Observable implements IModel {
 
@@ -55,6 +56,7 @@ public class GameModel extends Observable implements IModel {
 			collision.getBall().setVelo(collision.getVelo());
 		}
 		// TODO Apply friction and gravity here
+		applyGravity(tick);
 		// Trigger any gizmos that have been collided with
 		if (collision != null && collision.getTrigger() != null)
 			collision.getTrigger().triggerConnectedGizmos();
@@ -142,6 +144,21 @@ public class GameModel extends Observable implements IModel {
 		if (tuc == Double.POSITIVE_INFINITY)
 			return null;
 		return new CollisionDetails(tuc, Geometry.reflectWall(line, ball.getVelo()), ball, trigger);
+	}
+	
+	private void applyGravity(double tickTime){
+		// must be 25 L/sec^2
+		double gravity = 25.0;
+		for (IBall ball : balls) {
+			Vect v = ball.getVelo();
+			Vect gravComponent = new Vect(0, gravity*tickTime);
+			ball.setVelo(v.plus(gravComponent));
+			//System.out.println(ball.getVelo().toString());
+		}
+	}
+	
+	private void applyFriction(double tickTime){
+		//TODO
 	}
 
 	@Override
