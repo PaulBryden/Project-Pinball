@@ -15,6 +15,7 @@ public abstract class AbstractGizmo implements IGizmo {
 	protected int rotation;
 	protected Color colour;
 	protected boolean isStatic;
+	protected double coefficientOfReflection;
 	protected List<LineSegment> lines;
 	protected List<Circle> circles;
 	protected List<IAction> actions;
@@ -26,6 +27,7 @@ public abstract class AbstractGizmo implements IGizmo {
 		rotation = 0;
 		this.colour = colour;
 		this.isStatic = isStatic;
+		this.coefficientOfReflection = Constants.DEFAULT_COR;
 		actions = new ArrayList<>();
 		triggers = new ArrayList<>();
 		circles = new ArrayList<>();
@@ -130,5 +132,8 @@ public abstract class AbstractGizmo implements IGizmo {
 		return serializedGizmo;
 	}
 
+	public double getCoefficientOfReflection() {
+		return coefficientOfReflection;
+	}
 
 }

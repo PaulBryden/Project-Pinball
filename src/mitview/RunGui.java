@@ -29,7 +29,8 @@ public class RunGui {
 	public RunGui(GameModel m) {
 		model = m;
 
-		// RunListener catches all GUI events. In reality might have many listeners.
+		// RunListener catches all GUI events. In reality might have many
+		// listeners.
 		listener = new RunListener(m);
 	}
 
@@ -74,23 +75,31 @@ public class RunGui {
 
 		cp.add(buttons, BorderLayout.LINE_START);
 		cp.add(board, BorderLayout.CENTER);
-		
+
 		button1.addKeyListener(new KeyListener() {
+
+			private boolean pressed = false;
 
 			@Override
 			public void keyPressed(KeyEvent e) {
+				if (!pressed) {
+					model.processKeyTrigger(e.getKeyChar());
+					pressed = true;
+				}
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				model.handleKeyEvent(e);
+				if (pressed) {
+					model.processKeyTrigger(e.getKeyChar());
+					pressed = false;
+				}
 			}
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				model.handleKeyEvent(e);
 			}
-			
+
 		});
 
 		frame.pack();

@@ -7,13 +7,13 @@ public class CollisionDetails {
 	private double tuc;
 	private Vect velo;
 	private IBall ball;
-	private ITrigger trigger;
+	private IGizmo gizmo;
 
-	public CollisionDetails(double t, Vect v, IBall ball, ITrigger trigger) {
+	public CollisionDetails(double t, Vect v, IBall ball, IGizmo gizmo) {
 		tuc = t;
 		velo = v;
 		this.ball = ball;
-		this.trigger = trigger;
+		this.gizmo = gizmo;
 	}
 
 	public double getTuc() {
@@ -28,7 +28,7 @@ public class CollisionDetails {
 		return ball;
 	}
 
-	public ITrigger getTrigger() {
-		return trigger;
+	public IGizmo getGizmo() {
+		return gizmo;
 	}
 }
