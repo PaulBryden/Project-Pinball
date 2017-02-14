@@ -27,7 +27,6 @@ public class TriangleView implements IViewGizmo, IObserver{
 		triangle.moveTo(xCoord, yCoord);
 		triangle.lineTo(xCoord - 10, yCoord + 20);
 		triangle.lineTo(xCoord + 10, yCoord + 20);
-
 		triangle.closePath();
 
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

@@ -10,6 +10,7 @@ import observer.IObserver;
 public class CircleView implements IViewGizmo, IObserver{
 	protected ICircle gizmo;
 	private static final int RADIUS = 20;
+	private static final int GRID_WIDTH = 20;
 
 	public CircleView(ICircle gizmo){
 		this.gizmo = gizmo;
@@ -31,7 +32,8 @@ public class CircleView implements IViewGizmo, IObserver{
 		Graphics2D g2D = (Graphics2D) g;
 
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2D.fillOval(((int) gizmo.getGridCoords().x() - (RADIUS/2)), ((int) gizmo.getGridCoords().x() - (RADIUS/2)), RADIUS, RADIUS);
+		g2D.fillOval((((int) gizmo.getGridCoords().x() * GRID_WIDTH) - (RADIUS/2)),
+				(((int) gizmo.getGridCoords().y() * GRID_WIDTH) - (RADIUS/2)), RADIUS, RADIUS);
 	}
 
 	@Override
