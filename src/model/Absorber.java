@@ -14,6 +14,7 @@ public class Absorber extends AbstractGizmo {
 		super("A" + id, coords, Color.GREEN, true);
 		generateLinesAndCircles();
 		this.addTriggerAction(new AbsorberAction(balls, this));
+		this.coefficientOfReflection = 0;
 	}
 
 	public Absorber(int id, int x, int y,List<IBall> balls) {

@@ -28,6 +28,7 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 		this.angle = Angle.ZERO;
 		this.open = false;
 		this.addTriggerAction(new FlipperAction(this));
+		this.coefficientOfReflection = 0.95;
 	}
 
 	protected void generateLinesAndCircles() {

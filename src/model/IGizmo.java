@@ -40,5 +40,7 @@ public interface IGizmo extends ITrigger {
 	public void rotate(int steps);
 
 	public int getRotation();
+	
+	public double getCoefficientOfReflection();
 
 }
