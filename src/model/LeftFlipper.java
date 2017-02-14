@@ -22,11 +22,6 @@ public class LeftFlipper extends AbstractFlipper implements IFlipper{
 		this(id, new Vect(x, y));
 	}
 
-	@Override
-	public String serializeGizmo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<Vect> getExactCoords() {

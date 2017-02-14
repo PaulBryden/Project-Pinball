@@ -8,15 +8,16 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class SquareGizmo extends AbstractGizmo {
+public class Absorber extends AbstractGizmo {
 
-	public SquareGizmo(int id, Vect coords) {
-		super("S" + id, coords, Color.GREEN, true);
+	public Absorber(int id, Vect coords, List<IBall> balls) {
+		super("A" + id, coords, Color.GREEN, true);
 		generateLinesAndCircles();
+		this.addTriggerAction(new AbsorberAction(balls, this));
 	}
 
-	public SquareGizmo(int id, int x, int y) {
-		this(id, new Vect(x, y));
+	public Absorber(int id, int x, int y,List<IBall> balls) {
+		this(id, new Vect(x, y), balls);
 	}
 
 	@Override

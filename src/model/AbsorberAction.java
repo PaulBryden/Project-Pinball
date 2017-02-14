@@ -3,12 +3,14 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import physics.Vect;
+
 public class AbsorberAction implements IAction{
-	List<IGizmo> gizmos;
+	List<IBall> allBalls;
 	IGizmo gizmoTrack;
 	ArrayList<IBall> storedBalls;
-	public AbsorberAction(List<IGizmo> gizmos, IGizmo gizmoTrack){
-		this.gizmos = gizmos;
+	public AbsorberAction(List<IBall> balls, IGizmo gizmoTrack){
+		this.allBalls = balls;
 	}
 	@Override
 	public void performAction() {
@@ -18,9 +20,10 @@ public class AbsorberAction implements IAction{
 	@Override
 	public void performAction(IBall ball) {
 		if(storedBalls.size()>0){
-			gizmos.add(storedBalls.get(0));
+			allBalls.add(storedBalls.get(0));
 			storedBalls.remove(0);
 			storedBalls.add(ball);
+			ball.setVelo(new Vect(0,50));
 		}else{
 			storedBalls.add(ball);
 		}

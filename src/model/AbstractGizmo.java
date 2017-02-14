@@ -120,5 +120,15 @@ public abstract class AbstractGizmo implements IGizmo {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public String serializeGizmo() {
+		String serializedGizmo = getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
+				+ "\n";
+		for (IGizmo gizmo : triggers) {
+			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
+		}
+		return serializedGizmo;
+	}
+
 
 }

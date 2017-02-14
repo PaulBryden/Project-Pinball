@@ -31,15 +31,7 @@ public class TriangleGizmo extends AbstractGizmo {
 		lines.add(new LineSegment(coords.x(), coords.y(), coords.x(), coords.y() + 1));
 	}
 
-	@Override
-	public String serializeGizmo() {
-		String serializedGizmo = "Triangle" + getID() + " " + lines.get(0).p1().x() + " " + lines.get(0).p1().y() + " "
-				+ "\n";
-		for (IGizmo gizmo : triggers) {
-			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
-		}
-		return serializedGizmo;
-	}
+
 
 	@Override
 	public List<Vect> getExactCoords() {
