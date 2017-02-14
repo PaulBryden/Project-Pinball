@@ -1,8 +1,10 @@
 package model;
 
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
 import physics.Circle;
@@ -14,6 +16,7 @@ public class GameModel extends Observable implements IModel {
 	private List<IGizmo> gizmos;
 	private List<IBall> balls;
 	private List<IWall> walls;
+	private Map<Character, ITrigger> keyTriggers;
 	private boolean pauseGame = false;
 	private IFlipper flipper;
 	private static final double TICK_TIME = 0.01; // in seconds
@@ -28,7 +31,6 @@ public class GameModel extends Observable implements IModel {
 		walls.add(new Wall(20, 0, 20, 20));
 		walls.add(new Wall(0, 20, 20, 20));
 		gizmos.add(new SquareGizmo(1, 3, 5));
-		gizmos.add(new SquareGizmo(2,18, 18));
 		gizmos.add(new SquareGizmo(3,13, 10));
 		gizmos.add(new SquareGizmo(4,13, 19));
 		gizmos.add(new SquareGizmo(5,14, 2));
@@ -38,7 +40,12 @@ public class GameModel extends Observable implements IModel {
 		gizmos.add(new SquareGizmo(9, 7, 16));
 		flipper = new LeftFlipper(1, 10, 2);
 		gizmos.add(flipper);
+		IGizmo magicGizmo = new SquareGizmo(2,18, 18);
+		magicGizmo.addGizmoToTrigger(flipper);
+		gizmos.add(magicGizmo);
 		balls.add(new BallGizmo(10, 10, 11, 13, 17));
+		keyTriggers = new HashMap<>();
+		addKeyTrigger('b', flipper);
 	}
 
 	public void tick() {
@@ -145,8 +152,21 @@ public class GameModel extends Observable implements IModel {
 	}
 
 	@Override
-	public void handleKeyEvent(KeyEvent e) {
-		if (e.getKeyChar() == 'f')
-			flipper.performActions();
+	public void processKeyTrigger(char keyChar) {
+		if (keyTriggers.containsKey(keyChar)) {
+			keyTriggers.get(keyChar).triggerConnectedGizmos();
+		}
+	}
+
+	@Override
+	public void addKeyTrigger(char keyChar, IGizmo gizmo) {
+		ITrigger trigger;
+		if (keyTriggers.containsKey(keyChar)) {
+			trigger = keyTriggers.get(keyChar);
+		} else {
+			trigger = new KeyTrigger();
+		}
+		trigger.addGizmoToTrigger(gizmo);
+		keyTriggers.put(keyChar, trigger);
 	}
 }
