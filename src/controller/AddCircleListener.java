@@ -17,13 +17,8 @@ public class AddCircleListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ICircle circleGizmo;
-        for(int x = 0; x < 20; x ++){
-            for(int y = 0; y < 20; y++){
-                circleGizmo = new CircleGizmo(11, x, y);
-                board.addViewGizmo(new CircleView(circleGizmo));
-                board.getModel().addGizmo(circleGizmo);
-            }
-        }
+        ICircle circleGizmo = new CircleGizmo(11, 9, 10);
+        board.addViewGizmo(new CircleView(circleGizmo));
+        board.getModel().addGizmo(circleGizmo);
     }
 }
