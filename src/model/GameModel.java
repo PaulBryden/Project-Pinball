@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,8 +62,8 @@ public class GameModel extends Observable implements IModel {
 		}
 		// TODO Apply friction and gravity here
 		// Trigger any gizmos that have been collided with
-		if (collision != null && collision.getTrigger() != null)
-			collision.getTrigger().triggerConnectedGizmos();
+		if (collision != null && collision.getGizmo() != null)
+			collision.getGizmo().triggerConnectedGizmos();
 		// Update view
 		for (IGizmo gizmo : gizmos) {
 			if (gizmo instanceof IFlipper) {
@@ -134,21 +133,21 @@ public class GameModel extends Observable implements IModel {
 		return collision;
 	}
 
-	private CollisionDetails evaluateCollisionWithStaticCircle(IBall ball, Circle circle, ITrigger trigger) {
+	private CollisionDetails evaluateCollisionWithStaticCircle(IBall ball, Circle circle, IGizmo gizmo) {
 		Circle ballCircle = ball.getAllCircles().get(0);
 		double tuc = Geometry.timeUntilCircleCollision(circle, ballCircle, ball.getVelo());
 		if (tuc == Double.POSITIVE_INFINITY)
 			return null;
 		return new CollisionDetails(tuc,
-				Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ball.getVelo()), ball, trigger);
+				Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ball.getVelo()), ball, gizmo);
 	}
 
-	private CollisionDetails evaluateCollisionWithStaticLine(IBall ball, LineSegment line, ITrigger trigger) {
+	private CollisionDetails evaluateCollisionWithStaticLine(IBall ball, LineSegment line, IGizmo gizmo) {
 		Circle ballCircle = ball.getAllCircles().get(0);
 		double tuc = Geometry.timeUntilWallCollision(line, ballCircle, ball.getVelo());
 		if (tuc == Double.POSITIVE_INFINITY)
 			return null;
-		return new CollisionDetails(tuc, Geometry.reflectWall(line, ball.getVelo()), ball, trigger);
+		return new CollisionDetails(tuc, Geometry.reflectWall(line, ball.getVelo()), ball, gizmo);
 	}
 
 	@Override

@@ -1,8 +1,10 @@
 package model;
 
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 
+import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
@@ -50,6 +52,86 @@ public class Wall implements IWall {
 		for (IGizmo gizmo : triggers) {
 			gizmo.performActions();
 		}
+	}
+
+	@Override
+	public boolean isStatic() {
+		return true;
+	}
+
+	@Override
+	public Color getColour() {
+		return null;
+	}
+
+	@Override
+	public void setColour(Color colour) {
+		// Walls don't have colours
+	}
+
+	@Override
+	public void addTriggerAction(IAction action) {
+		// Walls don't have actions
+	}
+
+	@Override
+	public void performActions() {
+		// Walls don't have actions
+	}
+
+	@Override
+	public void onCollision(IBall ball) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Vect getGridCoords() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setGridCoords(Vect coords) {
+		// Walls can't be moved
+	}
+
+	@Override
+	public List<Vect> getExactCoords() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Circle> getAllCircles() {
+		return null;
+	}
+
+	@Override
+	public List<LineSegment> getAllLineSegments() {
+		return null;
+	}
+
+	@Override
+	public String serializeGizmo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void rotate(int steps) {
+		// Walls can't be rotated
+	}
+
+	@Override
+	public int getRotation() {
+		return 0;
 	}
 
 }
