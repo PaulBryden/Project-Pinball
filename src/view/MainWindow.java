@@ -11,8 +11,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 public class MainWindow extends JFrame{
-	
-	private IModel model;
     private MenuBar menuBar;
     private JToolBar toolbar;
     private JToolBar sideToolBar;
@@ -22,10 +20,9 @@ public class MainWindow extends JFrame{
 
     public MainWindow(IModel model){
         super();
-        this.model = model;
         menuBar = new MenuBar(this);
         sideToolBar = new JToolBar();
-        board = new Board(model); /* TODO: Get Gizmos */
+        board = new Board(model);
         toolbar = new BuildToolBar(this, board);
         fileManager = new JFileChooser();
         constraints = new GridBagConstraints();
@@ -44,7 +41,7 @@ public class MainWindow extends JFrame{
         constraints.gridy = 0;
         add(toolbar, constraints);
 
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.fill = GridBagConstraints.CENTER;
         constraints.gridx = 1;
         constraints.gridy = 1;
         add(board, constraints);

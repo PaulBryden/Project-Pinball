@@ -18,7 +18,7 @@ public class SquareView implements IViewGizmo, IObserver {
 	}
 
 	public void paint(Graphics g){
-		g.fillRect((int) gizmo.getGridCoords().x() * GRID_WIDTH,
+		g.fillRect((int) gizmo.getGridCoords().x() * GRID_WIDTH ,
 				(int) gizmo.getGridCoords().y() * GRID_WIDTH, WIDTH, WIDTH);
 	}
 

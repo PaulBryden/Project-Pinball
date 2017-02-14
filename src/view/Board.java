@@ -1,6 +1,8 @@
 package view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -23,14 +25,14 @@ public class Board extends JPanel implements Observer {
 		this.model = model;
 		model.addObserver(this);
 		viewGizmos = new ArrayList<>();
-
-		setLayout(new GridLayout(20, 20));
-		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED, Color.BLACK, Color.BLACK)));
+		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(
+				EtchedBorder.RAISED, Color.BLACK, Color.BLACK)));
 		setSize(new Dimension(400, 400));
 		setPreferredSize(getSize());
 		setMinimumSize(getSize());
 		setMaximumSize(getSize());
 	}
+
 	public IModel getModel(){
 		return (model);
 	}
