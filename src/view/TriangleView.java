@@ -21,9 +21,9 @@ public class TriangleView implements IViewGizmo, IObserver{
 		Graphics2D g2D = (Graphics2D) g;
 		Path2D.Double triangle = new Path2D.Double();
 
-		triangle.moveTo(gizmo.getCoords().x(), gizmo.getCoords().y());
-		triangle.lineTo(gizmo.getCoords().x() - 10, gizmo.getCoords().y() + 20);
-		triangle.lineTo(gizmo.getCoords().x() + 10, gizmo.getCoords().y() + 20);
+		triangle.moveTo(gizmo.getGridCoords().x(), gizmo.getGridCoords().y());
+		triangle.lineTo(gizmo.getGridCoords().x() - 10, gizmo.getGridCoords().y() + 20);
+		triangle.lineTo(gizmo.getGridCoords().x() + 10, gizmo.getGridCoords().y() + 20);
 
 		triangle.closePath();
 
