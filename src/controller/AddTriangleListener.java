@@ -1,5 +1,7 @@
 package controller;
 
+import model.IGizmo;
+import model.TriangleGizmo;
 import view.Board;
 import view.TriangleView;
 
@@ -15,6 +17,8 @@ public class AddTriangleListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.addViewGizmo(new TriangleView(null));
+        IGizmo triangleGizmo = new TriangleGizmo(79, 50 ,50);
+        board.addViewGizmo(new TriangleView(triangleGizmo));
+        board.getModel().addGizmo(triangleGizmo);
     }
 }
