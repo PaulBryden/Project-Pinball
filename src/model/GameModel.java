@@ -18,6 +18,11 @@ public class GameModel extends Observable implements IModel {
 	private boolean pauseGame = false;
 	private IFlipper flipper;
 	private static final double TICK_TIME = 0.01; // in seconds
+	private static final double GRAVITY = 25.0;
+	private static final double MIN_VELOCITY = GRAVITY*TICK_TIME+0.1;
+	private static final double mu =  0.025 ; //Lpersecond
+	private static final double mu2  = 0.025; //per L.
+	private  static final double REFLECTION_COEFFICIENT = 0.9; // will be moved to trigger object 
 
 	public GameModel() {
 		//listOfGizmos = new GizmoList();
@@ -53,10 +58,12 @@ public class GameModel extends Observable implements IModel {
 		}
 		// Resolve collision
 		if (collision != null) {
-			collision.getBall().setVelo(collision.getVelo());
+			Vect v = collision.getVelo();
+			collision.getBall().setVelo(v.length()>MIN_VELOCITY? v.times(REFLECTION_COEFFICIENT):Vect.ZERO);
 		}
 		// TODO Apply friction and gravity here
 		applyGravity(tick);
+		applyFriction(tick);
 		// Trigger any gizmos that have been collided with
 		if (collision != null && collision.getTrigger() != null)
 			collision.getTrigger().triggerConnectedGizmos();
@@ -147,18 +154,19 @@ public class GameModel extends Observable implements IModel {
 	}
 	
 	private void applyGravity(double tickTime){
-		// must be 25 L/sec^2
-		double gravity = 25.0;
 		for (IBall ball : balls) {
 			Vect v = ball.getVelo();
-			Vect gravComponent = new Vect(0, gravity*tickTime);
+			Vect gravComponent = new Vect(0, GRAVITY*tickTime);
 			ball.setVelo(v.plus(gravComponent));
-			//System.out.println(ball.getVelo().toString());
 		}
 	}
 	
 	private void applyFriction(double tickTime){
-		//TODO
+		for (IBall ball : balls) {
+			Vect v = ball.getVelo();
+			double frictionScale = (1 - mu * tickTime - mu2 * v.length() * tickTime);
+			ball.setVelo(v.times(frictionScale));
+		}
 	}
 
 	@Override
