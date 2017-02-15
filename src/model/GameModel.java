@@ -37,10 +37,12 @@ public class GameModel extends Observable implements IModel {
 		gizmos.add(new SquareGizmo("S516", 5, 16));
 		gizmos.add(new SquareGizmo("S616", 6, 16));
 		gizmos.add(new SquareGizmo("S716", 7, 16));
-		TriangleGizmo t = new TriangleGizmo("T1", 0, 18);
-		t.rotate(2);
-		gizmos.add(t);
-		gizmos.add(new Absorber("A", 0,19, balls));
+		gizmos.add(new TriangleGizmo("T2", 1, 0));
+		TriangleGizmo triangle = new TriangleGizmo("T1", 0, 18);
+		triangle.rotate(2);
+		gizmos.add(triangle);
+		Absorber absorber = new Absorber("A", 1,19, balls);
+		gizmos.add(absorber);
 		flipper = new LeftFlipper("LF102", 10, 2);
 		gizmos.add(flipper);
 		IGizmo magicGizmo = new SquareGizmo("S1818", 18, 18);
@@ -49,6 +51,8 @@ public class GameModel extends Observable implements IModel {
 		balls.add(new BallGizmo("B", 10, 11, 13, 17));
 		keyTriggers = new HashMap<>();
 		addKeyTrigger('b', flipper);
+		absorber.addGizmoToTrigger(absorber);
+		addKeyTrigger('a', absorber);
 	}
 
 	public void tick() {
@@ -71,11 +75,8 @@ public class GameModel extends Observable implements IModel {
 		applyFriction(tick);
 		// Trigger any gizmos that have been collided with
 		if (collision != null && collision.getGizmo() != null){
+			collision.getGizmo().onCollision(collision.getBall());
 			collision.getGizmo().triggerConnectedGizmos();
-			if (collision.getGizmo() instanceof Absorber) {
-				((Absorber) collision.getGizmo()).performActions(collision.getBall());
-			}
-			//collision.getGizmo().onCollision(collision.getBall());
 		}
 		// Update view
 		for (IGizmo gizmo : gizmos) {
