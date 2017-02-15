@@ -10,13 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import physics.Vect;
+
 public class BoardFileHandler {
 
 	public boolean save(List<IGizmo> gizmos, String path) {
 		try {
 			BufferedWriter save = new BufferedWriter(new FileWriter(path));
 			List<IGizmo> list = gizmos;
-			List<String> connections = new ArrayList<>(); // connections to be made
+			List<String> connections = new ArrayList<>(); // Connections to be made
 
 			for (IGizmo current : list) {
 				// TODO: Ensure that serializeGizmo() is providing correct output!
@@ -57,19 +59,22 @@ public class BoardFileHandler {
 			Scanner scan = null;
 
 			while (line != null) {
-				scan = new Scanner(line);
-				String type = scan.next();
+				if (!line.isEmpty()) {
+					scan = new Scanner(line);
+					String type = scan.next();
 
-				// FIXME: These if statements are a bit ugly
-				if (type.equals("Connect") || type.equals("KeyConnect")) {
-					connections.add(line); // Store connection info for later
-				} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
-					executeOperation(type, scan, gizmos); // Build mode operation
-				} else {
-					createGizmo(type, scan, gizmos);
+					// FIXME: These if statements are a bit ugly
+					if (type.equals("Connect") || type.equals("KeyConnect")) {
+						connections.add(line); // Store connection info for later
+					} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
+						executeOperation(type, scan, gizmos); // Build mode operation
+					} else {
+						createGizmo(type, scan, gizmos);
+					}
+
+					scan.close();
 				}
 
-				scan.close();
 				line = load.readLine();
 			}
 
@@ -94,45 +99,53 @@ public class BoardFileHandler {
 
 	private void createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
 		IGizmo newGizmo = null;
+		int x1 = 0;
+		int y1 = 0;
+
+		// Ball uses doubles for its co-ords
+		double ballx1 = 0.0;
+		double bally1 = 0.0;
 
 		// Collect base info for gizmo (every gizmo will follow this starting format)
 		String id = scan.next();
-		double x1 = scan.nextDouble();
-		double y1 = scan.nextDouble();
 
-		// TODO: Gizmo constructors to follow the following format
-		// Should Absorber be a SquareGizmo, or its own gizmo class?
-		// ^^Absorber should be a square gizmo with absorber action.
+		if (type.equals("Ball")) {
+			ballx1 = scan.nextDouble();
+			bally1 = scan.nextDouble();
+		} else {
+			x1 = scan.nextInt();
+			y1 = scan.nextInt();
+		}
+
 		try {
 			switch (type) {
 			case "Square":
-				// newGizmo = SquareGizmo(id, x1, y1, null, null);
+				newGizmo = new SquareGizmo(id, x1, y1);
 				break;
 			case "Triangle":
-				// newGizmo = TriangleGizmo(id, x1, y1);
+				newGizmo = new TriangleGizmo(id, x1, y1);
 				break;
 			case "Circle":
-				// newGizmo = CircleGizmo(id, x1, y1);
+				newGizmo = new CircleGizmo(id, x1, y1);
 				break;
 			case "LeftFlipper":
-				// newGizmo = LeftFlipperGizmo(id, x1, y1);
+				newGizmo = new LeftFlipper(id, x1, y1);
 				break;
 			case "RightFlipper":
-				// newGizmo = RightFlipperGizmo(id, x1, y1);
+				newGizmo = new RightFlipper(id, x1, y1);
 				break;
 			case "Absorber":
 				double x2 = scan.nextDouble();
 				double y2 = scan.nextDouble();
-				// newGizmo = SquareGizmo(id, x1, y1, x2, y2);
-				// IAction action = new Action(); // absorber behaviour
-				// newGizmo.addTriggerAction(action);
+//				newGizmo = new Absorber(id, x1, y1, x2, y2); TODO
 				break;
 			case "Ball":
 				double xv = scan.nextDouble();
 				double yv = scan.nextDouble();
-				// newGizmo = BallGizmo(id, x1, y1, xv, yv);
+				newGizmo = new BallGizmo(id, ballx1, bally1, xv, yv);
 				break;
 			default:
+				System.out.println("No gizmo created");
 			}
 		} catch (Exception e) {
 			System.out.println("Error occurred when creating Gizmo");
@@ -188,15 +201,20 @@ public class BoardFileHandler {
 		case "Move":
 			double x = scan.nextDouble();
 			double y = scan.nextDouble();
-			// Move Gizmo to new co-ords
+			Vect newCoords = new Vect(x, y);
+			findGizmoByID(gizmos, id).setGridCoords(newCoords);
 			break;
+
 		case "Rotate":
-			// Rotate Gizmo 90 clockwise
+			findGizmoByID(gizmos, id).rotate(1);
 			break;
+
 		case "Delete":
-			// Delete Gizmo
+			gizmos.remove(findGizmoByID(gizmos, id));
 			break;
+
 		default:
+			System.out.println("No operations applied");
 		}
 	}
 

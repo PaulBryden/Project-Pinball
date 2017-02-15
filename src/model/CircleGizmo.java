@@ -12,7 +12,7 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 	private Circle physicsCircle;
 
 	public CircleGizmo(String id, Vect coords) {
-		super("C" + id, coords, Color.YELLOW, true);
+		super(id, coords, Color.YELLOW, true);
 		this.radius = 0.5;
 		generateLinesAndCircles();
 	}
@@ -30,7 +30,7 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Circle" + getID() + " " + physicsCircle.getCenter().x() + " "
+		String serializedGizmo = "Circle " + getID() + " " + physicsCircle.getCenter().x() + " "
 				+ physicsCircle.getCenter().y() + " " + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";

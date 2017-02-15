@@ -6,7 +6,7 @@ import physics.Vect;
 public class RightFlipper extends AbstractFlipper implements IFlipper{
 	
 	public RightFlipper(String id, Vect coords) {
-		super("RF" + id, coords);
+		super(id, coords);
 		this.pivot = new Vect(coords.x() + 2 - RADIUS, coords.y() + RADIUS);
 		this.endCentre = new Vect(coords.x() + 2 - RADIUS, coords.y() + 2 - RADIUS);
 		this.restingEndCentre = endCentre;
@@ -19,4 +19,13 @@ public class RightFlipper extends AbstractFlipper implements IFlipper{
 		this(id, new Vect(x, y));
 	}
 
+	@Override
+	public String serializeGizmo() {
+		String serializedGizmo = "RightFlipper " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
+				+ "\n";
+		for (IGizmo gizmo : triggers) {
+			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
+		}
+		return serializedGizmo;
+	}
 }
