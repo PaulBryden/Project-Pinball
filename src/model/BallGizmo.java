@@ -13,7 +13,7 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 	private Vect velocity;
 
 	public BallGizmo(String id, Vect coords, Vect velo) {
-		super("B" + id, coords, Color.BLUE, false);
+		super(id, coords, Color.BLUE, false);
 		this.radius = 0.3;
 		velocity = velo;
 		generateLinesAndCircles();
@@ -63,7 +63,7 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Ball" + getID() + " " + physicsCircle.getCenter().x() + " "
+		String serializedGizmo = "Ball " + getID() + " " + physicsCircle.getCenter().x() + " "
 				+ physicsCircle.getCenter().y()  + " " + this.getVelo().x() + " "
 						+ this.getVelo().y() +  "\n";
 		for (IGizmo gizmo : triggers) {

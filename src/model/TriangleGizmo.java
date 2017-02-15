@@ -11,7 +11,7 @@ import physics.Vect;
 public class TriangleGizmo extends AbstractGizmo {
 
 	public TriangleGizmo(String id, Vect coords) {
-		super("T" + id, coords, Color.RED, true);
+		super(id, coords, Color.RED, true);
 		generateLinesAndCircles();
 	}
 
@@ -45,6 +45,16 @@ public class TriangleGizmo extends AbstractGizmo {
 
 		
 
+	}
+	
+	@Override
+	public String serializeGizmo() {
+		String serializedGizmo = "TriangleGizmo " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
+				+ "\n";
+		for (IGizmo gizmo : triggers) {
+			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
+		}
+		return serializedGizmo;
 	}
 
 }

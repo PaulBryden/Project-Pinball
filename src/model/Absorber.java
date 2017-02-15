@@ -11,7 +11,7 @@ import physics.Vect;
 public class Absorber extends AbstractGizmo {
 
 	public Absorber(String id, Vect coords, List<IBall> balls) {
-		super("A" + id, coords, Color.GREEN, true);
+		super(id, coords, Color.GREEN, true);
 		generateLinesAndCircles();
 		this.addTriggerAction(new AbsorberAction(balls, this));
 		this.coefficientOfReflection = 0;

@@ -11,7 +11,7 @@ import physics.Vect;
 public class SquareGizmo extends AbstractGizmo {
 
 	public SquareGizmo(String id, Vect coords) {
-		super("S" + id, coords, Color.GREEN, true);
+		super(id, coords, Color.GREEN, true);
 		generateLinesAndCircles();
 	}
 
@@ -48,4 +48,13 @@ public class SquareGizmo extends AbstractGizmo {
 		
 	}
 
+	@Override
+	public String serializeGizmo() {
+		String serializedGizmo = "SquareGizmo " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
+				+ "\n";
+		for (IGizmo gizmo : triggers) {
+			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
+		}
+		return serializedGizmo;
+	}
 }
