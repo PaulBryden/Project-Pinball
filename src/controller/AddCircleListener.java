@@ -17,7 +17,7 @@ public class AddCircleListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ICircle circleGizmo = new CircleGizmo(11, 9, 10);
+        ICircle circleGizmo = new CircleGizmo("C910", 9, 10);
         board.addViewGizmo(new CircleView(circleGizmo));
         board.getModel().addGizmo(circleGizmo);
     }

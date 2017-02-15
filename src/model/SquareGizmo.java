@@ -10,12 +10,12 @@ import physics.Vect;
 
 public class SquareGizmo extends AbstractGizmo {
 
-	public SquareGizmo(int id, Vect coords) {
+	public SquareGizmo(String id, Vect coords) {
 		super("S" + id, coords, Color.GREEN, true);
 		generateLinesAndCircles();
 	}
 
-	public SquareGizmo(int id, int x, int y) {
+	public SquareGizmo(String id, int x, int y) {
 		this(id, new Vect(x, y));
 	}
 

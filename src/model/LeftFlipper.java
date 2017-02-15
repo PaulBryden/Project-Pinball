@@ -5,7 +5,7 @@ import physics.Vect;
 
 public class LeftFlipper extends AbstractFlipper implements IFlipper{
 	
-	public LeftFlipper(int id, Vect coords) {
+	public LeftFlipper(String id, Vect coords) {
 		super("LF" + id, coords);
 		this.pivot = new Vect(coords.x() + RADIUS, coords.y() + RADIUS);
 		this.endCentre = new Vect(coords.x() + RADIUS, coords.y() + 2 - RADIUS);
@@ -15,7 +15,7 @@ public class LeftFlipper extends AbstractFlipper implements IFlipper{
 		generateLinesAndCircles();
 	}
 	
-	public LeftFlipper(int id, int x, int y) {
+	public LeftFlipper(String id, int x, int y) {
 		this(id, new Vect(x, y));
 	}
 

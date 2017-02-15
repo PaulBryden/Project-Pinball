@@ -11,13 +11,13 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 	private double radius;
 	private Circle physicsCircle;
 
-	public CircleGizmo(int id, Vect coords) {
+	public CircleGizmo(String id, Vect coords) {
 		super("C" + id, coords, Color.YELLOW, true);
 		this.radius = 0.5;
 		generateLinesAndCircles();
 	}
 
-	public CircleGizmo(int id, int x, int y) {
+	public CircleGizmo(String id, int x, int y) {
 		this(id, new Vect(x, y));
 	}
 

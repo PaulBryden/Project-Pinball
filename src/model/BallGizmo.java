@@ -12,14 +12,14 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 	private Circle physicsCircle;
 	private Vect velocity;
 
-	public BallGizmo(int id, Vect coords, Vect velo) {
+	public BallGizmo(String id, Vect coords, Vect velo) {
 		super("B" + id, coords, Color.BLUE, false);
 		this.radius = 0.3;
 		velocity = velo;
 		generateLinesAndCircles();
 	}
 
-	public BallGizmo(int id, int x, int y, int vx, int vy) {
+	public BallGizmo(String id, int x, int y, int vx, int vy) {
 		this(id, new Vect(x, y), new Vect(vx, vy));
 	}
 

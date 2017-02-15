@@ -10,14 +10,14 @@ import physics.Vect;
 
 public class Absorber extends AbstractGizmo {
 
-	public Absorber(int id, Vect coords, List<IBall> balls) {
+	public Absorber(String id, Vect coords, List<IBall> balls) {
 		super("A" + id, coords, Color.GREEN, true);
 		generateLinesAndCircles();
 		this.addTriggerAction(new AbsorberAction(balls, this));
 		this.coefficientOfReflection = 0;
 	}
 
-	public Absorber(int id, int x, int y,List<IBall> balls) {
+	public Absorber(String id, int x, int y,List<IBall> balls) {
 		this(id, new Vect(x, y), balls);
 	}
 

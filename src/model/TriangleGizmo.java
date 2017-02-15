@@ -10,12 +10,12 @@ import physics.Vect;
 
 public class TriangleGizmo extends AbstractGizmo {
 
-	public TriangleGizmo(int id, Vect coords) {
+	public TriangleGizmo(String id, Vect coords) {
 		super("T" + id, coords, Color.RED, true);
 		generateLinesAndCircles();
 	}
 
-	public TriangleGizmo(int id, int x, int y) {
+	public TriangleGizmo(String id, int x, int y) {
 		this(id, new Vect(x, y));
 	}
 
