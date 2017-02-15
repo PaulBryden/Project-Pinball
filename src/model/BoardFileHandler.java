@@ -94,35 +94,15 @@ public class BoardFileHandler {
 
 	private void createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
 		IGizmo newGizmo = null;
-		String id = null;
-		double x1 = 0.0;
-		double y1 = 0.0;
-
-		// Only for Absorber
-		double x2 = 0.0;
-		double y2 = 0.0;
-
-		// Velocity, only for Ball
-		double xv = 0.0;
-		double yv = 0.0;
 
 		// Collect base info for gizmo (every gizmo will follow this starting format)
-		id = scan.next();
-		x1 = scan.nextDouble();
-		y1 = scan.nextDouble();
-
-		// Collect extra info for Absorber and Ball
-		if (type.equals("Absorber")) {
-			x2 = scan.nextDouble();
-			y2 = scan.nextDouble();
-		} else if (type.equals("Ball")) {
-			xv = scan.nextDouble();
-			yv = scan.nextDouble();
-		}
+		String id = scan.next();
+		double x1 = scan.nextDouble();
+		double y1 = scan.nextDouble();
 
 		// TODO: Gizmo constructors to follow the following format
 		// Should Absorber be a SquareGizmo, or its own gizmo class?
-		//^^Absorber should be a square gizmo with absorber action.
+		// ^^Absorber should be a square gizmo with absorber action.
 		try {
 			switch (type) {
 			case "Square":
@@ -141,12 +121,16 @@ public class BoardFileHandler {
 				// newGizmo = RightFlipperGizmo(id, x1, y1);
 				break;
 			case "Absorber":
-//				newGizmo = SquareGizmo(id, x1, y1, x2, y2);
-//				IAction action = new Action(); // absorber behaviour
-//				newGizmo.addTriggerAction(action);
+				double x2 = scan.nextDouble();
+				double y2 = scan.nextDouble();
+				// newGizmo = SquareGizmo(id, x1, y1, x2, y2);
+				// IAction action = new Action(); // absorber behaviour
+				// newGizmo.addTriggerAction(action);
 				break;
 			case "Ball":
-//				newGizmo = BallGizmo(id, x1, y1, xv, yv);
+				double xv = scan.nextDouble();
+				double yv = scan.nextDouble();
+				// newGizmo = BallGizmo(id, x1, y1, xv, yv);
 				break;
 			default:
 			}
@@ -187,10 +171,10 @@ public class BoardFileHandler {
 			scan.close();
 		}
 	}
-	
-	private IGizmo findGizmoByID(List<IGizmo> gizmos, String firstGizmo) {
+
+	private IGizmo findGizmoByID(List<IGizmo> gizmos, String gizmoID) {
 		for (int i = 0; i < gizmos.size(); i++) {
-			if (gizmos.get(i).getID().equals(firstGizmo))
+			if (gizmos.get(i).getID().equals(gizmoID))
 				return gizmos.get(i);
 		}
 
@@ -199,7 +183,7 @@ public class BoardFileHandler {
 
 	private void executeOperation(String type, Scanner scan, List<IGizmo> gizmos) {
 		String id = scan.next();
-		
+
 		switch (type) {
 		case "Move":
 			double x = scan.nextDouble();
