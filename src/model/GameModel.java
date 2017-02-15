@@ -44,7 +44,7 @@ public class GameModel extends Observable implements IModel {
 		IGizmo magicGizmo = new SquareGizmo("S1818", 18, 18);
 		magicGizmo.addGizmoToTrigger(flipper);
 		gizmos.add(magicGizmo);
-		balls.add(new BallGizmo("B", 10, 11, 13, 17));
+		balls.add(new BallGizmo("B", 10, 11, 0, -27));
 		keyTriggers = new HashMap<>();
 		addKeyTrigger('b', flipper);
 	}
@@ -60,11 +60,17 @@ public class GameModel extends Observable implements IModel {
 		}
 		// Resolve collision
 		if (collision != null) {
+			System.out.println(collision.getBall().getVelo().toString());
 			double coeff = collision.getGizmo().getCoefficientOfReflection();
 			Vect velo = collision.getVelo().times(coeff);
 			velo = (velo.length() > Constants.MIN_VELOCITY) ? velo : Vect.ZERO;
+			
+			/*double velox = (Math.abs(velo.x()) > -0.1) ? velo.x() : 0.0;
+			double veloy = (Math.abs(velo.y()) > Constants.MIN_VELOCITY) ? velo.y() : 0.0;
+			velo = new Vect(velox,veloy);*/
 			collision.getBall().setVelo(velo);
 		}
+		
 		applyGravity(tick);
 		applyFriction(tick);
 		// Trigger any gizmos that have been collided with
