@@ -18,7 +18,6 @@ public class GameModel extends Observable implements IModel {
 	private List<IWall> walls;
 	private Map<Character, ITrigger> keyTriggers;
 	private boolean pauseGame = false;
-	private IFlipper flipper;
 
 	public GameModel() {
 		// listOfGizmos = new GizmoList();
@@ -43,7 +42,7 @@ public class GameModel extends Observable implements IModel {
 		gizmos.add(triangle);
 		Absorber absorber = new Absorber("A", 1,19, balls);
 		gizmos.add(absorber);
-		flipper = new LeftFlipper("LF102", 10, 2);
+		IFlipper flipper = new LeftFlipper("LF102", 10, 2);
 		gizmos.add(flipper);
 		IGizmo magicGizmo = new SquareGizmo("S1818", 18, 18);
 		magicGizmo.addGizmoToTrigger(flipper);
