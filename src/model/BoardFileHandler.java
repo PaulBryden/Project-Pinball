@@ -97,8 +97,8 @@ public class BoardFileHandler {
 
 		// Collect base info for gizmo (every gizmo will follow this starting format)
 		String id = scan.next();
-		double x1 = scan.nextDouble();
-		double y1 = scan.nextDouble();
+		int x1 = scan.nextInt();
+		int y1 = scan.nextInt();
 
 		// TODO: Gizmo constructors to follow the following format
 		// Should Absorber be a SquareGizmo, or its own gizmo class?
@@ -106,19 +106,19 @@ public class BoardFileHandler {
 		try {
 			switch (type) {
 			case "Square":
-				// newGizmo = SquareGizmo(id, x1, y1, null, null);
+				newGizmo = new SquareGizmo(id, x1, y1);
 				break;
 			case "Triangle":
-				// newGizmo = TriangleGizmo(id, x1, y1);
+				newGizmo = new TriangleGizmo(id, x1, y1);
 				break;
 			case "Circle":
-				// newGizmo = CircleGizmo(id, x1, y1);
+				newGizmo = new CircleGizmo(id, x1, y1);
 				break;
 			case "LeftFlipper":
-				// newGizmo = LeftFlipperGizmo(id, x1, y1);
+				newGizmo = new LeftFlipper(id, x1, y1);
 				break;
 			case "RightFlipper":
-				// newGizmo = RightFlipperGizmo(id, x1, y1);
+				newGizmo = new RightFlipper(id, x1, y1);
 				break;
 			case "Absorber":
 				double x2 = scan.nextDouble();
