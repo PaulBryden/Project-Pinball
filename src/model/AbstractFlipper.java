@@ -23,7 +23,7 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 	protected Vect endCentre;
 	
 	public AbstractFlipper(String id, Vect coords) {
-		super(id, coords, Color.RED, false);
+		super(id, coords, Color.RED, true); // static for now - until we resolve flipper collisions properly.
 		this.angularVelocity = 18.85; // in rad/sec, approx. 1080 deg/sec
 		this.angle = Angle.ZERO;
 		this.open = false;
