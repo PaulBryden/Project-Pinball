@@ -40,7 +40,7 @@ public class GameModel extends Observable implements IModel {
 		TriangleGizmo triangle = new TriangleGizmo("T1", 0, 18);
 		triangle.rotate(2);
 		gizmos.add(triangle);
-		Absorber absorber = new Absorber("A", 1,19, balls);
+		Absorber absorber = new Absorber("A", 1,18,5,20, balls);
 		gizmos.add(absorber);
 		IFlipper flipper = new LeftFlipper("LF102", 10, 2);
 		gizmos.add(flipper);

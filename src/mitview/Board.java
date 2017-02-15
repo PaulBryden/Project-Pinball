@@ -122,9 +122,13 @@ public class Board extends JPanel implements Observer {
 	
 	private void drawAbsorber(Absorber a, Graphics2D g) {
 		g.setColor(a.getColour());
-		g.fillRect((int) a.getGridCoords().x() * GRID_WIDTH, (int) a.getGridCoords().y() * GRID_WIDTH,
-				GRID_WIDTH, GRID_WIDTH);
-		
+		g.fillRect((int) a.getExactCoords().get(0).x() * GRID_WIDTH, (int) a.getExactCoords().get(0).y() * GRID_WIDTH,
+				(int)(a.getExactCoords().get(2).x()-a.getExactCoords().get(0).x())* GRID_WIDTH, (int) (a.getExactCoords().get(2).y()-a.getExactCoords().get(0).y())* GRID_WIDTH);
+		System.out.println((a.getExactCoords().get(0).x()));
+		System.out.println((a.getExactCoords().get(0).y()));
+		//System.out.println((a.getExactCoords().get(2).x()-a.getExactCoords().get(0).x()));
+		//System.out.println((a.getExactCoords().get(2).y()-a.getExactCoords().get(0).y()));
+
 	}
 
 	@Override

@@ -14,9 +14,10 @@ public class Absorber extends AbstractGizmo {
 	private AbsorbAction absorb;
 	List<IBall> allBalls;
 	List<IBall> storedBalls;
-
-	public Absorber(String id, Vect coords, List<IBall> balls) {
-		super(id, coords, Color.GREEN, true);
+	Vect bottomRightCoords;
+	public Absorber(String id, Vect topLeftCoords, Vect bottomRightCoords,  List<IBall> balls) {
+		super(id, topLeftCoords, Color.GREEN, true);
+		this.bottomRightCoords=bottomRightCoords;
 		this.absorb = new AbsorbAction(this);
 		this.addTriggerAction(new AbsorberFireAction(this));
 		generateLinesAndCircles();
@@ -25,22 +26,22 @@ public class Absorber extends AbstractGizmo {
 		this.storedBalls = new LinkedList<>();
 	}
 
-	public Absorber(String id, int x, int y,List<IBall> balls) {
-		this(id, new Vect(x, y), balls);
+	public Absorber(String id, int x1, int y1, int x2, int y2, List<IBall> balls) {
+		this(id, new Vect(x1, y1), new Vect(x2,y2), balls);
 	}
 
 	@Override
 	protected void generateLinesAndCircles() {
 		circles.clear();
 		circles.add(new Circle(coords.x(), coords.y(), 0));
-		circles.add(new Circle(coords.x() + 1, coords.y(), 0));
-		circles.add(new Circle(coords.x(), coords.y() + 1, 0));
-		circles.add(new Circle(coords.x() + 1, coords.y() + 1, 0));
+		circles.add(new Circle(bottomRightCoords.x(), coords.y(), 0));
+		circles.add(new Circle(coords.x(), bottomRightCoords.y(), 0));
+		circles.add(new Circle(bottomRightCoords.x(), bottomRightCoords.y(), 0));
 		lines.clear();
-		lines.add(new LineSegment(coords.x(), coords.y(), coords.x() + 1, coords.y()));
-		lines.add(new LineSegment(coords.x(), coords.y() + 1, coords.x() + 1, coords.y() + 1));
-		lines.add(new LineSegment(coords.x(), coords.y(), coords.x(), coords.y() + 1));
-		lines.add(new LineSegment(coords.x() + 1, coords.y(), coords.x() + 1, coords.y() + 1));
+		lines.add(new LineSegment(coords.x(), coords.y(), bottomRightCoords.x(), coords.y()));
+		lines.add(new LineSegment(coords.x(), bottomRightCoords.y(), bottomRightCoords.x(), bottomRightCoords.y()));
+		lines.add(new LineSegment(coords.x(), coords.y(), coords.x(), bottomRightCoords.y()));
+		lines.add(new LineSegment(bottomRightCoords.x(), coords.y(), bottomRightCoords.x(), bottomRightCoords.y()));
 	}
 
 	@Override
@@ -59,6 +60,15 @@ public class Absorber extends AbstractGizmo {
 
 		return coordVector;
 		
+	}
+	
+	@Override
+	public void setGridCoords(Vect coords) {
+		int xdiff=(int) (coords.x()-this.coords.x());
+		int ydiff=(int) (coords.y()-this.coords.y());
+		this.coords = coords;
+		this.bottomRightCoords = new Vect(bottomRightCoords.x()+xdiff, bottomRightCoords.y()+ydiff);
+		generateLinesAndCircles();
 	}
 
 	public void fireBall() {
