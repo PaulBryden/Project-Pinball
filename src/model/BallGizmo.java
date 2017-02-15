@@ -19,7 +19,7 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 		generateLinesAndCircles();
 	}
 
-	public BallGizmo(String id, int x, int y, int vx, int vy) {
+	public BallGizmo(String id, double x, double y, double vx, double vy) {
 		this(id, new Vect(x, y), new Vect(vx, vy));
 	}
 

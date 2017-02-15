@@ -10,12 +10,14 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import model.Absorber;
 import model.GameModel;
 import model.IBall;
 import model.IFlipper;
 import model.IGizmo;
 import model.IWall;
 import model.SquareGizmo;
+import model.TriangleGizmo;
 import physics.LineSegment;
 import physics.Vect;
 
@@ -37,7 +39,7 @@ public class Board extends JPanel implements Observer {
 		width = GRID_WIDTH * 20;
 		height = GRID_WIDTH * 20;
 		gm = m;
-		//this.setBorder(BorderFactory.createLineBorder(Color.black));
+		// this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
 	// Fix onscreen size
@@ -49,17 +51,22 @@ public class Board extends JPanel implements Observer {
 		super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D) g;
-		
+
 		for (IWall wall : gm.getWalls()) {
-			g2.drawLine((int) (wall.p1().x() * GRID_WIDTH), (int) (wall.p1().y() * GRID_WIDTH), (int) (wall.p2().x() * GRID_WIDTH), (int) (wall.p2().y() * GRID_WIDTH));
+			g2.drawLine((int) (wall.p1().x() * GRID_WIDTH), (int) (wall.p1().y() * GRID_WIDTH),
+					(int) (wall.p2().x() * GRID_WIDTH), (int) (wall.p2().y() * GRID_WIDTH));
 		}
-		
+
 		// Draw all the vertical lines
 		for (IGizmo gizmo : gm.getGizmos()) {
 			if (gizmo instanceof SquareGizmo)
 				drawSquareGizmo((SquareGizmo) gizmo, g2);
 			else if (gizmo instanceof IFlipper)
 				drawFlipper((IFlipper) gizmo, g2);
+			else if (gizmo instanceof TriangleGizmo)
+				drawTriangleGizmo((TriangleGizmo) gizmo, g2);
+			else if (gizmo instanceof Absorber)
+				drawAbsorber((Absorber) gizmo, g2);
 		}
 
 		List<IBall> balls = gm.getBalls();
@@ -73,20 +80,26 @@ public class Board extends JPanel implements Observer {
 			}
 		}
 	}
-	
+
 	private void drawSquareGizmo(SquareGizmo gizmo, Graphics2D g) {
 		g.setColor(gizmo.getColour());
-		g.fillRect((int)gizmo.getGridCoords().x() * GRID_WIDTH, (int)gizmo.getGridCoords().y()  * GRID_WIDTH, GRID_WIDTH, GRID_WIDTH);
+		g.fillRect((int) gizmo.getGridCoords().x() * GRID_WIDTH, (int) gizmo.getGridCoords().y() * GRID_WIDTH,
+				GRID_WIDTH, GRID_WIDTH);
 	}
-	
+
+	private void drawTriangleGizmo(TriangleGizmo gizmo, Graphics2D g) {
+		g.setColor(gizmo.getColour());
+		drawPolygon(gizmo.getExactCoords(), g);
+	}
+
 	private void drawFlipper(IFlipper flipper, Graphics2D g) {
 		g.setColor(flipper.getColour());
 		int d = (int) (GRID_WIDTH * flipper.getWidth());
-		int x = (int) (GRID_WIDTH * flipper.getPivot().x() - d/2);
-		int y = (int) (GRID_WIDTH * flipper.getPivot().y() - d/2);
+		int x = (int) (GRID_WIDTH * flipper.getPivot().x() - d / 2);
+		int y = (int) (GRID_WIDTH * flipper.getPivot().y() - d / 2);
 		g.fillOval(x, y, d, d);
-		x = (int) (GRID_WIDTH * flipper.getEndCentre().x() - d/2);
-		y = (int) (GRID_WIDTH * flipper.getEndCentre().y() - d/2);
+		x = (int) (GRID_WIDTH * flipper.getEndCentre().x() - d / 2);
+		y = (int) (GRID_WIDTH * flipper.getEndCentre().y() - d / 2);
 		g.fillOval(x, y, d, d);
 		List<Vect> l = new LinkedList<>();
 		List<LineSegment> lines = flipper.getAllLineSegments();
@@ -96,7 +109,7 @@ public class Board extends JPanel implements Observer {
 		l.add(lines.get(1).p1());
 		drawPolygon(l, g);
 	}
-	
+
 	private void drawPolygon(List<Vect> l, Graphics2D g) {
 		int[] x = new int[l.size()];
 		int[] y = new int[l.size()];
@@ -105,6 +118,13 @@ public class Board extends JPanel implements Observer {
 			y[i] = (int) (GRID_WIDTH * l.get(i).y());
 		}
 		g.fillPolygon(x, y, l.size());
+	}
+	
+	private void drawAbsorber(Absorber a, Graphics2D g) {
+		g.setColor(a.getColour());
+		g.fillRect((int) a.getGridCoords().x() * GRID_WIDTH, (int) a.getGridCoords().y() * GRID_WIDTH,
+				GRID_WIDTH, GRID_WIDTH);
+		
 	}
 
 	@Override

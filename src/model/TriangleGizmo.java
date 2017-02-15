@@ -39,7 +39,7 @@ public class TriangleGizmo extends AbstractGizmo {
 		List<Vect> coordVector = new ArrayList<Vect>();
 		coordVector.add(this.getAllLineSegments().get(0).p1());
 		coordVector.add(this.getAllLineSegments().get(0).p2());
-		coordVector.add(this.getAllLineSegments().get(1).p2());
+		coordVector.add(this.getAllLineSegments().get(1).p1());
 
 		return coordVector;
 
