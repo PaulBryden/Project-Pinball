@@ -1,14 +1,11 @@
 package model;
 
-import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Observer;
 
 public interface IModel {
 	
 	public void tick();
-	
-	public double getTickTime();
 	
 	public List<IGizmo> getGizmos();
 	
@@ -21,7 +18,9 @@ public interface IModel {
 	public void removeGizmo(IGizmo gizmo);
 	
 	public void addObserver(Observer o);
+
+	public void processKeyTrigger(char keyChar);
 	
-	public void handleKeyEvent(KeyEvent e);
+	public void addKeyTrigger(char keyCode, IGizmo gizmo);
 
 }
