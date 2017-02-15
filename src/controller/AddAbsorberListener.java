@@ -1,5 +1,6 @@
 package controller;
 
+import model.Absorber;
 import view.AbsorberView;
 import view.Board;
 
@@ -15,6 +16,8 @@ public class AddAbsorberListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.addViewGizmo(new AbsorberView(null, board));
+        Absorber absorber = new Absorber(34, 0, 19, null);
+        board.addViewGizmo(new AbsorberView(absorber, board));
+        board.getModel().addGizmo(absorber);
     }
 }
