@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import physics.Vect;
+
 public class BoardFileHandler {
 
 	public boolean save(List<IGizmo> gizmos, String path) {
@@ -135,14 +137,12 @@ public class BoardFileHandler {
 			case "Absorber":
 				double x2 = scan.nextDouble();
 				double y2 = scan.nextDouble();
-				// newGizmo = SquareGizmo(id, x1, y1, x2, y2);
-				// IAction action = new Action(); // absorber behaviour
-				// newGizmo.addTriggerAction(action);
+				//newGizmo = new Absorber(id, x1, y1, x2, y2); TODO
 				break;
 			case "Ball":
 				double xv = scan.nextDouble();
 				double yv = scan.nextDouble();
-				// newGizmo = BallGizmo(id, x1, y1, xv, yv);
+				//newGizmo = new BallGizmo(id, ballx1, bally1, xv, yv); TODO
 				break;
 			default:
 			}
@@ -200,15 +200,20 @@ public class BoardFileHandler {
 		case "Move":
 			double x = scan.nextDouble();
 			double y = scan.nextDouble();
-			// Move Gizmo to new co-ords
+			Vect newCoords = new Vect(x, y);
+			findGizmoByID(gizmos, id).setGridCoords(newCoords);
 			break;
+
 		case "Rotate":
-			// Rotate Gizmo 90 clockwise
+			findGizmoByID(gizmos, id).rotate(1);
 			break;
+
 		case "Delete":
-			// Delete Gizmo
+			gizmos.remove(findGizmoByID(gizmos, id));
 			break;
+
 		default:
+			System.out.println("No operations applied.");
 		}
 	}
 
