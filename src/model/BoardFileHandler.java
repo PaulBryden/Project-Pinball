@@ -198,7 +198,22 @@ public class BoardFileHandler {
 	}
 
 	private void executeOperation(String type, Scanner scan, List<IGizmo> gizmos) {
+		String id = scan.next();
 		
+		switch (type) {
+		case "Move":
+			double x = scan.nextDouble();
+			double y = scan.nextDouble();
+			// Move Gizmo to new co-ords
+			break;
+		case "Rotate":
+			// Rotate Gizmo 90 clockwise
+			break;
+		case "Delete":
+			// Delete Gizmo
+			break;
+		default:
+		}
 	}
 
 }
