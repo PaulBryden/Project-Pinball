@@ -50,7 +50,7 @@ public class BoardFileHandler {
 	public List<IGizmo> load(String path) {
 		try {
 			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading
-			ArrayList<String> connections = new ArrayList<>(); // Keeps track of connections from file
+			List<String> connections = new ArrayList<>(); // Keeps track of connections from file
 
 			BufferedReader load = new BufferedReader(new FileReader(path));
 			String line = load.readLine();
@@ -60,8 +60,11 @@ public class BoardFileHandler {
 				scan = new Scanner(line);
 				String type = scan.next();
 
+				// FIXME: These if statements are a bit ugly
 				if (type.equals("Connect") || type.equals("KeyConnect")) {
 					connections.add(line); // Store connection info for later
+				} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
+					executeOperation(type, scan, gizmos);
 				} else {
 					createGizmo(type, scan, gizmos);
 				}
@@ -155,7 +158,7 @@ public class BoardFileHandler {
 		gizmos.add(newGizmo);
 	}
 
-	private void createConnections(ArrayList<String> connections, List<IGizmo> gizmos) {
+	private void createConnections(List<String> connections, List<IGizmo> gizmos) {
 		Scanner scan = null;
 		for (String current : connections) {
 			scan = new Scanner(current);
@@ -165,8 +168,12 @@ public class BoardFileHandler {
 				String firstGizmo = scan.next();
 				String secondGizmo = scan.next();
 
-				// TODO: GizmoList function that creates connection between two gizmos in its list
-				// gizmos.createConnection(firstGizmo, secondGizmo);
+				if (firstGizmo != null && secondGizmo != null)
+					findGizmoByID(gizmos, firstGizmo).addGizmoToTrigger(findGizmoByID(gizmos, secondGizmo));
+				else {
+					System.out.println("Error connecting gizmos!");
+					System.out.println("Gizmo 1: " + firstGizmo + ", Gizmo 2: " + secondGizmo);
+				}
 
 			} else if (type.equals("KeyConnect")) {
 				String keyString = scan.next();
@@ -179,6 +186,19 @@ public class BoardFileHandler {
 
 			scan.close();
 		}
+	}
+	
+	private IGizmo findGizmoByID(List<IGizmo> gizmos, String firstGizmo) {
+		for (int i = 0; i < gizmos.size(); i++) {
+			if (gizmos.get(i).getID().equals(firstGizmo))
+				return gizmos.get(i);
+		}
+
+		return null;
+	}
+
+	private void executeOperation(String type, Scanner scan, List<IGizmo> gizmos) {
+		
 	}
 
 }
