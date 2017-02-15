@@ -6,6 +6,7 @@ import java.awt.RenderingHints;
 import java.util.Observable;
 
 import model.ICircle;
+import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 
@@ -21,7 +22,6 @@ public class CircleView implements IViewGizmo, IObserver{
 	@Override
 	public void update(Observable o, Object arg) {
 		//UPDATE GRAPHICS OBJECT
-		
 	}
 
 	@Override
@@ -39,8 +39,12 @@ public class CircleView implements IViewGizmo, IObserver{
 	}
 
 	@Override
+	public void setGizmo(IGizmo gizmo) {
+
+	}
+
+	@Override
 	public void update(IObservable obsv, Object o) {
-		// TODO Auto-generated method stub
 	}
 
 }

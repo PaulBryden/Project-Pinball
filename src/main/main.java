@@ -13,7 +13,7 @@ public class main {
 				IModel model = new GameModel();
 				MainWindow mainWindow = new MainWindow(model);
 				mainWindow.build();
-				//model.addObserver(mainWindow);
+				model.addObserver(mainWindow.getBoard());
 			}
 		});
 	}

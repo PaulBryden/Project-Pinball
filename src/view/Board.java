@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
+import model.IBall;
 import model.IModel;
 
 public class Board extends JPanel implements Observer {
@@ -53,14 +54,16 @@ public class Board extends JPanel implements Observer {
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for(IViewGizmo viewGizmo : viewGizmos){
+			viewGizmo.setGizmo(model.getBalls().get(0));
 			viewGizmo.paint(g);
 		}
     }
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Notified");
+		revalidate();
+		repaint();
 	}
 
 }

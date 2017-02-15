@@ -1,5 +1,6 @@
 package controller;
 
+import model.IModel;
 import view.MainWindow;
 
 import java.awt.event.ActionEvent;

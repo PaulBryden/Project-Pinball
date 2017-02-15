@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.Observable;
 
 import model.ICircle;
+import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 
@@ -30,6 +31,11 @@ public class AbsorberView implements IViewGizmo, IObserver{
 
     public void paint(Graphics g) {
         g.fillRect(0, board.getY() + 303, board.getWidth(), 30);
+    }
+
+    @Override
+    public void setGizmo(IGizmo gizmo) {
+
     }
 
     @Override

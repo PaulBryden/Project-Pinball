@@ -11,6 +11,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 public class MainWindow extends JFrame{
+    private IModel model;
     private MenuBar menuBar;
     private JToolBar toolbar;
     private JToolBar sideToolBar;
@@ -20,9 +21,10 @@ public class MainWindow extends JFrame{
 
     public MainWindow(IModel model){
         super();
+        this.model = model;
         menuBar = new MenuBar(this);
         sideToolBar = new JToolBar();
-        board = new Board(model);
+        board = new Board(this.model);
         toolbar = new BuildToolBar(this, board);
         fileManager = new JFileChooser();
         constraints = new GridBagConstraints();
@@ -79,7 +81,7 @@ public class MainWindow extends JFrame{
         if(toolbar instanceof RunToolBar){
             toolbar = new BuildToolBar(this, board);
         } else {
-            toolbar = new RunToolBar();
+            toolbar = new RunToolBar(model);
             remove(sideToolBar);
             sideToolBar = new JToolBar();
         }
@@ -90,6 +92,10 @@ public class MainWindow extends JFrame{
 
         revalidate();
         repaint();
+    }
+
+    public Board getBoard(){
+        return (board);
     }
 
     public void showSaveDialog(){

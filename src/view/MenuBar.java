@@ -9,6 +9,7 @@ import controller.LoadBoardListener;
 import controller.QuitListener;
 import controller.ModeToggleListener;
 import controller.SaveBoardListener;
+import model.IModel;
 
 class MenuBar extends JMenuBar {
 
