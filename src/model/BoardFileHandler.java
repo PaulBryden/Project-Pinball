@@ -64,7 +64,7 @@ public class BoardFileHandler {
 				if (type.equals("Connect") || type.equals("KeyConnect")) {
 					connections.add(line); // Store connection info for later
 				} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
-					executeOperation(type, scan, gizmos);
+					executeOperation(type, scan, gizmos); // Build mode operation
 				} else {
 					createGizmo(type, scan, gizmos);
 				}
