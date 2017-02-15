@@ -12,12 +12,15 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
+import model.IBall;
+import model.IGizmo;
 import model.IModel;
 
 public class Board extends JPanel implements Observer {
 	
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
+	private List<IViewGizmo> viewBalls;
 
 	//TODO: Generate View Elements and Store in List
 	public Board(IModel model) {
@@ -25,6 +28,7 @@ public class Board extends JPanel implements Observer {
 		this.model = model;
 		model.addObserver(this);
 		viewGizmos = new ArrayList<>();
+		viewBalls = new ArrayList<>();
 		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(
 				EtchedBorder.RAISED, Color.BLACK, Color.BLACK)));
 		setSize(new Dimension(400, 400));
@@ -43,8 +47,20 @@ public class Board extends JPanel implements Observer {
 		repaint();
 	}
 
+	public void addViewBall(IViewGizmo ball){
+		viewBalls.add(ball);
+		revalidate();
+		repaint();
+	}
+
 	public void removeViewGizmo(IViewGizmo gizmo){
 		viewGizmos.remove(gizmo);
+		revalidate();
+		repaint();
+	}
+
+	public void removeViewBall(IViewGizmo ball){
+		viewBalls.remove(ball);
 		revalidate();
 		repaint();
 	}
@@ -52,9 +68,21 @@ public class Board extends JPanel implements Observer {
     @Override
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		for(IViewGizmo viewGizmo : viewGizmos){
-			//viewGizmo.setGizmo(model.getBalls().get(0));
-			viewGizmo.paint(g);
+		List<IGizmo> gizmos = model.getGizmos();
+		List<IBall> balls = model.getBalls();
+
+		if(!viewGizmos.isEmpty()) {
+			for (int i = 0; i < gizmos.size(); i++) {
+				viewGizmos.get(i).setGizmo(gizmos.get(i));
+				viewGizmos.get(i).paint(g);
+			}
+		}
+
+		if(!viewBalls.isEmpty()) {
+			for (int i = 0; i < balls.size(); i++) {
+				viewBalls.get(i).setGizmo(balls.get(i));
+				viewBalls.get(i).paint(g);
+			}
 		}
     }
 
@@ -64,5 +92,4 @@ public class Board extends JPanel implements Observer {
 		revalidate();
 		repaint();
 	}
-
 }
