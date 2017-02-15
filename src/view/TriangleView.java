@@ -22,12 +22,11 @@ public class TriangleView implements IViewGizmo, IObserver{
 		Graphics2D g2D = (Graphics2D) g;
 		Path2D.Double triangle = new Path2D.Double();
 		double xCoord = gizmo.getGridCoords().x() * GRID_WIDTH;
-		double yCoord = gizmo.getGridCoords().y() * GRID_WIDTH;
+		double yCoord = (gizmo.getGridCoords().y() * GRID_WIDTH) + 20;
 
 		triangle.moveTo(xCoord, yCoord);
-		triangle.lineTo(xCoord - 10, yCoord + 20);
-		triangle.lineTo(xCoord + 10, yCoord + 20);
-		triangle.closePath();
+		triangle.lineTo(xCoord + 20, yCoord);
+		triangle.lineTo(xCoord + 10, yCoord - 20);
 
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2D.fill(triangle);
