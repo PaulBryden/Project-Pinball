@@ -74,6 +74,7 @@ public class BoardFileHandler {
 
 					scan.close();
 				}
+
 				line = load.readLine();
 			}
 
@@ -100,6 +101,8 @@ public class BoardFileHandler {
 		IGizmo newGizmo = null;
 		int x1 = 0;
 		int y1 = 0;
+
+		// Ball uses doubles for its co-ords
 		double ballx1 = 0.0;
 		double bally1 = 0.0;
 
@@ -114,9 +117,6 @@ public class BoardFileHandler {
 			y1 = scan.nextInt();
 		}
 
-		// TODO: Gizmo constructors to follow the following format
-		// Should Absorber be a SquareGizmo, or its own gizmo class?
-		// ^^Absorber should be a square gizmo with absorber action.
 		try {
 			switch (type) {
 			case "Square":
@@ -137,14 +137,15 @@ public class BoardFileHandler {
 			case "Absorber":
 				double x2 = scan.nextDouble();
 				double y2 = scan.nextDouble();
-				//newGizmo = new Absorber(id, x1, y1, x2, y2); TODO
+//				newGizmo = new Absorber(id, x1, y1, x2, y2); TODO
 				break;
 			case "Ball":
 				double xv = scan.nextDouble();
 				double yv = scan.nextDouble();
-				//newGizmo = new BallGizmo(id, ballx1, bally1, xv, yv); TODO
+				newGizmo = new BallGizmo(id, ballx1, bally1, xv, yv);
 				break;
 			default:
+				System.out.println("No gizmo created");
 			}
 		} catch (Exception e) {
 			System.out.println("Error occurred when creating Gizmo");
@@ -213,7 +214,7 @@ public class BoardFileHandler {
 			break;
 
 		default:
-			System.out.println("No operations applied.");
+			System.out.println("No operations applied");
 		}
 	}
 
