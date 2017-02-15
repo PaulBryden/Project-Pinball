@@ -37,6 +37,8 @@ public class GameModel extends Observable implements IModel {
 		gizmos.add(new SquareGizmo("S516", 5, 16));
 		gizmos.add(new SquareGizmo("S616", 6, 16));
 		gizmos.add(new SquareGizmo("S716", 7, 16));
+		gizmos.add(new TriangleGizmo("T1", 5, 5));
+		gizmos.add(new Absorber("A", 0,19, balls));
 		flipper = new LeftFlipper("LF102", 10, 2);
 		gizmos.add(flipper);
 		IGizmo magicGizmo = new SquareGizmo("S1818", 18, 18);
@@ -66,8 +68,13 @@ public class GameModel extends Observable implements IModel {
 		applyGravity(tick);
 		applyFriction(tick);
 		// Trigger any gizmos that have been collided with
-		if (collision != null && collision.getGizmo() != null)
+		if (collision != null && collision.getGizmo() != null){
 			collision.getGizmo().triggerConnectedGizmos();
+			if (collision.getGizmo() instanceof Absorber) {
+				((Absorber) collision.getGizmo()).performActions(collision.getBall());
+			}
+			//collision.getGizmo().onCollision(collision.getBall());
+		}
 		// Update view
 		for (IGizmo gizmo : gizmos) {
 			if (gizmo instanceof IFlipper) {

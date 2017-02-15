@@ -35,7 +35,17 @@ public class Absorber extends AbstractGizmo {
 		lines.add(new LineSegment(coords.x() + 1, coords.y(), coords.x() + 1, coords.y() + 1));
 	}
 
+	@Override
+	public void onCollision(IBall ball) {
+		this.performActions(ball);
 
+	}
+	
+	public void performActions(IBall ball) {
+		for (IAction action : actions) {
+			action.performAction(ball);
+		}
+	}
 
 	@Override
 	public List<Vect> getExactCoords() {

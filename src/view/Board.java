@@ -53,7 +53,7 @@ public class Board extends JPanel implements Observer {
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for(IViewGizmo viewGizmo : viewGizmos){
-			viewGizmo.setGizmo(model.getBalls().get(0));
+			//viewGizmo.setGizmo(model.getBalls().get(0));
 			viewGizmo.paint(g);
 		}
     }
