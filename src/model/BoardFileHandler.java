@@ -16,7 +16,7 @@ public class BoardFileHandler {
 		try {
 			BufferedWriter save = new BufferedWriter(new FileWriter(path));
 			List<IGizmo> list = gizmos;
-			List<String> connections = new ArrayList<>(); // connections to be made
+			List<String> connections = new ArrayList<>(); // Connections to be made
 
 			for (IGizmo current : list) {
 				// TODO: Ensure that serializeGizmo() is providing correct output!
@@ -57,19 +57,21 @@ public class BoardFileHandler {
 			Scanner scan = null;
 
 			while (line != null) {
-				scan = new Scanner(line);
-				String type = scan.next();
+				if (!line.isEmpty()) {
+					scan = new Scanner(line);
+					String type = scan.next();
 
-				// FIXME: These if statements are a bit ugly
-				if (type.equals("Connect") || type.equals("KeyConnect")) {
-					connections.add(line); // Store connection info for later
-				} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
-					executeOperation(type, scan, gizmos); // Build mode operation
-				} else {
-					createGizmo(type, scan, gizmos);
+					// FIXME: These if statements are a bit ugly
+					if (type.equals("Connect") || type.equals("KeyConnect")) {
+						connections.add(line); // Store connection info for later
+					} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
+						executeOperation(type, scan, gizmos); // Build mode operation
+					} else {
+						createGizmo(type, scan, gizmos);
+					}
+
+					scan.close();
 				}
-
-				scan.close();
 				line = load.readLine();
 			}
 
@@ -94,11 +96,21 @@ public class BoardFileHandler {
 
 	private void createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
 		IGizmo newGizmo = null;
+		int x1 = 0;
+		int y1 = 0;
+		double ballx1 = 0.0;
+		double bally1 = 0.0;
 
 		// Collect base info for gizmo (every gizmo will follow this starting format)
 		String id = scan.next();
-		int x1 = scan.nextInt();
-		int y1 = scan.nextInt();
+
+		if (type.equals("Ball")) {
+			ballx1 = scan.nextDouble();
+			bally1 = scan.nextDouble();
+		} else {
+			x1 = scan.nextInt();
+			y1 = scan.nextInt();
+		}
 
 		// TODO: Gizmo constructors to follow the following format
 		// Should Absorber be a SquareGizmo, or its own gizmo class?
