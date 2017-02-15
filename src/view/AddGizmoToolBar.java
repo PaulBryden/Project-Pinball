@@ -1,10 +1,17 @@
 package view;
 
-import controller.*;
+import controller.AddAbsorberListener;
+import controller.AddBallListener;
+import controller.AddCircleListener;
+import controller.AddFlipperListener;
+import controller.AddLineListener;
+import controller.AddSquareListener;
+import controller.AddTriangleListener;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 public class AddGizmoToolBar extends JToolBar{
     public AddGizmoToolBar(Board board) {

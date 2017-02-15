@@ -1,10 +1,13 @@
 package view;
 
+import controller.TickListener;
+import model.IModel;
+
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
 class RunToolBar extends JToolBar{
-    RunToolBar(){
+    RunToolBar(IModel model){
         super("Run Mode");
         JButton runBtn = new JButton("Run");
         JButton pauseBtn = new JButton("Pause");
@@ -18,6 +21,7 @@ class RunToolBar extends JToolBar{
         add(pauseBtn);
         add(stopBtn);
         addSeparator();
+        tickBtn.addActionListener(new TickListener(model));
         add(tickBtn);
     }
 }

@@ -1,10 +1,13 @@
 package view;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Observable;
 
 import model.IFlipper;
+import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 
@@ -36,6 +39,11 @@ public class FlipperView implements IViewGizmo, IObserver{
 		g2D.fill(new RoundRectangle2D.Float(((int) gizmo.getGridCoords().x() * GRID_WIDTH),
 				((int) gizmo.getGridCoords().y() * GRID_WIDTH), WIDTH, HEIGHT, HEIGHT, HEIGHT));
 		//double x, double y, double w, double h, double arcWidth, double arcHeight
+	}
+
+	@Override
+	public void setGizmo(IGizmo gizmo) {
+		this.gizmo = (IFlipper) gizmo;
 	}
 
 	@Override

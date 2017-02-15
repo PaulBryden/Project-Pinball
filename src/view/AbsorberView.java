@@ -1,17 +1,18 @@
 package view;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.util.Observable;
 
-import model.ICircle;
+import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 
 public class AbsorberView implements IViewGizmo, IObserver{
-    private ICircle gizmo;
+    private IGizmo gizmo;
     private Board board;
+    private static final int GRID_WIDTH = 20;
 
-    public AbsorberView(ICircle gizmo, Board board){
+    public AbsorberView(IGizmo gizmo, Board board){
         this.gizmo = gizmo;
         this.board = board;
     }
@@ -22,14 +23,21 @@ public class AbsorberView implements IViewGizmo, IObserver{
 
     }
 
-    @Override
-    public Graphics GetViewObject() {
+    @Override    public Graphics GetViewObject() {
         // TODO Auto-generated method stub
         return null;
     }
 
     public void paint(Graphics g) {
-        g.fillRect(0, board.getY() + 303, board.getWidth(), 30);
+        int width = board.getWidth();
+
+        g.fillRect((int) gizmo.getGridCoords().x() * GRID_WIDTH ,
+                (int) gizmo.getGridCoords().y() * GRID_WIDTH, width, width);
+    }
+
+    @Override
+    public void setGizmo(IGizmo gizmo) {
+        this.gizmo = gizmo;
     }
 
     @Override

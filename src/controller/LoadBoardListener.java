@@ -24,6 +24,5 @@ BoardFileHandler boardHandler;
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        mainWindow.showLoadDialog();
     }
 }
