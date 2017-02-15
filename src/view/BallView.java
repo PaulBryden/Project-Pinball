@@ -3,14 +3,12 @@ package view;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.util.List;
 import java.util.Observable;
 
 import model.IBall;
 import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
-import physics.Vect;
 
 public class BallView implements IViewGizmo, IObserver{
     protected IBall gizmo;

@@ -1,6 +1,5 @@
 package view;
 
-import controller.RunListener;
 import controller.TickListener;
 import model.IModel;
 

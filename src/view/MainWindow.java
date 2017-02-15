@@ -1,6 +1,5 @@
 package view;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
@@ -16,7 +15,6 @@ public class MainWindow extends JFrame{
     private JToolBar toolbar;
     private JToolBar sideToolBar;
     private Board board;
-    private JFileChooser fileManager;
     private GridBagConstraints constraints;
 
     public MainWindow(IModel model){
@@ -26,7 +24,6 @@ public class MainWindow extends JFrame{
         sideToolBar = new JToolBar();
         board = new Board(this.model);
         toolbar = new BuildToolBar(this, board);
-        fileManager = new JFileChooser();
         constraints = new GridBagConstraints();
     }
 
@@ -68,11 +65,6 @@ public class MainWindow extends JFrame{
         return (sideToolBar);
     }
 
-    /**
-     * Went for redrawing/redefining method rather than making one toolbar invisible and the other visible
-     * as redrawing the entire frame could help later when this is expanded to show a Build game view on view toggle
-     * (with grid squares)
-     */
     public void toggleView(){
         constraints.fill = GridBagConstraints.VERTICAL;
 
@@ -96,13 +88,5 @@ public class MainWindow extends JFrame{
 
     public Board getBoard(){
         return (board);
-    }
-
-    public void showSaveDialog(){
-        fileManager.showSaveDialog(fileManager);
-    }
-
-    public void showLoadDialog(){
-        fileManager.showOpenDialog(fileManager);
     }
 }

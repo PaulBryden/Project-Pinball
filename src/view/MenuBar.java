@@ -9,7 +9,6 @@ import controller.LoadBoardListener;
 import controller.QuitListener;
 import controller.ModeToggleListener;
 import controller.SaveBoardListener;
-import model.IModel;
 
 class MenuBar extends JMenuBar {
 
@@ -21,7 +20,7 @@ class MenuBar extends JMenuBar {
         menu.add(menuItem);
 
         menuItem = new JMenuItem("Load", KeyEvent.VK_L);
-        menuItem.addActionListener(new LoadBoardListener(mainWindow));
+        menuItem.addActionListener(new LoadBoardListener());
         menu.add(menuItem);
 
         menu.addSeparator();

@@ -12,7 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import model.IBall;
 import model.IModel;
 
 public class Board extends JPanel implements Observer {

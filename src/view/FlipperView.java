@@ -1,6 +1,8 @@
 package view;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Observable;
 
@@ -41,7 +43,7 @@ public class FlipperView implements IViewGizmo, IObserver{
 
 	@Override
 	public void setGizmo(IGizmo gizmo) {
-
+		this.gizmo = (IFlipper) gizmo;
 	}
 
 	@Override

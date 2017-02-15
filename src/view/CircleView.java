@@ -40,7 +40,7 @@ public class CircleView implements IViewGizmo, IObserver{
 
 	@Override
 	public void setGizmo(IGizmo gizmo) {
-
+		this.gizmo = (ICircle) gizmo;
 	}
 
 	@Override

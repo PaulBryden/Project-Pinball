@@ -37,7 +37,7 @@ public class AbsorberView implements IViewGizmo, IObserver{
 
     @Override
     public void setGizmo(IGizmo gizmo) {
-
+        this.gizmo = gizmo;
     }
 
     @Override

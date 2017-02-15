@@ -1,6 +1,9 @@
 package view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.Observable;
 
 import model.IGizmo;
@@ -25,7 +28,7 @@ public class LineView implements IViewGizmo, IObserver {
 
     @Override
     public void setGizmo(IGizmo gizmo) {
-
+        this.gizmo = gizmo;
     }
 
     @Override
