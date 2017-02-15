@@ -14,6 +14,5 @@ public class SaveBoardListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        mainWindow.showSaveDialog();
     }
 }

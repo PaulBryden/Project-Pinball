@@ -20,7 +20,7 @@ class MenuBar extends JMenuBar {
         menu.add(menuItem);
 
         menuItem = new JMenuItem("Load", KeyEvent.VK_L);
-        menuItem.addActionListener(new LoadBoardListener());
+        menuItem.addActionListener(new LoadBoardListener(mainWindow));
         menu.add(menuItem);
 
         menu.addSeparator();
