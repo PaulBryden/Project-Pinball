@@ -37,7 +37,9 @@ public class GameModel extends Observable implements IModel {
 		gizmos.add(new SquareGizmo("S516", 5, 16));
 		gizmos.add(new SquareGizmo("S616", 6, 16));
 		gizmos.add(new SquareGizmo("S716", 7, 16));
-		gizmos.add(new TriangleGizmo("T1", 5, 5));
+		TriangleGizmo t = new TriangleGizmo("T1", 0, 18);
+		t.rotate(2);
+		gizmos.add(t);
 		gizmos.add(new Absorber("A", 0,19, balls));
 		flipper = new LeftFlipper("LF102", 10, 2);
 		gizmos.add(flipper);

@@ -55,7 +55,8 @@ public abstract class AbstractGizmo implements IGizmo {
 	@Override
 	public void rotate(int steps) {
 		rotation += steps;
-		rotation %= steps;
+		rotation %= 4;
+		generateLinesAndCircles();
 	}
 
 	@Override

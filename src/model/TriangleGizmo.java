@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import physics.Angle;
 import physics.Circle;
+import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
 
@@ -21,14 +23,24 @@ public class TriangleGizmo extends AbstractGizmo {
 
 	@Override
 	protected void generateLinesAndCircles() {
+		Angle a = Angle.ZERO;
+		for (int i = 0; i < rotation; i++)
+			a = a.plus(Angle.DEG_90);
+		Vect centre = new Vect(coords.x() + 0.5, coords.y() + 0.5);
 		circles.clear();
-		circles.add(new Circle(coords.x(), coords.y(), 0));
-		circles.add(new Circle(coords.x() + 1, coords.y(), 0));
-		circles.add(new Circle(coords.x(), coords.y() + 1, 0));
+		Circle c = new Circle(coords.x(), coords.y(), 0);
+		circles.add(Geometry.rotateAround(c, centre, a));
+		c = new Circle(coords.x() + 1, coords.y(), 0);
+		circles.add(Geometry.rotateAround(c, centre, a));
+		c = new Circle(coords.x(), coords.y() + 1, 0);
+		circles.add(Geometry.rotateAround(c, centre, a));
 		lines.clear();
-		lines.add(new LineSegment(coords.x(), coords.y(), coords.x() + 1, coords.y()));
-		lines.add(new LineSegment(coords.x(), coords.y() + 1, coords.x() + 1, coords.y()));
-		lines.add(new LineSegment(coords.x(), coords.y(), coords.x(), coords.y() + 1));
+		LineSegment l = new LineSegment(coords.x(), coords.y(), coords.x() + 1, coords.y());
+		lines.add(Geometry.rotateAround(l, centre, a));
+		l = new LineSegment(coords.x(), coords.y() + 1, coords.x() + 1, coords.y());
+		lines.add(Geometry.rotateAround(l, centre, a));
+		l = new LineSegment(coords.x(), coords.y(), coords.x(), coords.y() + 1);
+		lines.add(Geometry.rotateAround(l, centre, a));
 	}
 
 
