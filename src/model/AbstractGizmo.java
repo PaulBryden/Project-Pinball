@@ -2,7 +2,9 @@ package model;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import physics.Circle;
 import physics.LineSegment;
@@ -19,7 +21,7 @@ public abstract class AbstractGizmo implements IGizmo {
 	protected List<LineSegment> lines;
 	protected List<Circle> circles;
 	protected List<IAction> actions;
-	protected List<IGizmo> triggers;
+	protected Set<IGizmo> triggers;
 
 	public AbstractGizmo(String id, Vect coords, Color colour, boolean isStatic) {
 		this.id = id;
@@ -29,7 +31,7 @@ public abstract class AbstractGizmo implements IGizmo {
 		this.isStatic = isStatic;
 		this.coefficientOfReflection = Constants.DEFAULT_COR;
 		actions = new ArrayList<>();
-		triggers = new ArrayList<>();
+		triggers = new HashSet<>();
 		circles = new ArrayList<>();
 		lines = new ArrayList<>();
 	}
@@ -114,7 +116,7 @@ public abstract class AbstractGizmo implements IGizmo {
 	}
 
 	@Override
-	public List<IGizmo> getGizmosToTrigger() {
+	public Set<IGizmo> getGizmosToTrigger() {
 		return triggers;
 	}
 

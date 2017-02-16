@@ -42,7 +42,7 @@ public class Board extends JPanel implements Observer {
 		width = GRID_WIDTH * 20;
 		height = GRID_WIDTH * 20;
 		gm = m;
-		this.setBackground(Constants.BACKGROUND_DEFAULT_COLOUR);
+		this.setBackground(m.getBackgroundColour());
 		// this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
@@ -134,11 +134,12 @@ public class Board extends JPanel implements Observer {
 		}
 		g.fillPolygon(x, y, l.size());
 	}
-	
+
 	private void drawAbsorber(Absorber a, Graphics2D g) {
 		g.setColor(a.getColour());
 		g.fillRect((int) a.getExactCoords().get(0).x() * GRID_WIDTH, (int) a.getExactCoords().get(0).y() * GRID_WIDTH,
-				(int)(a.getExactCoords().get(2).x()-a.getExactCoords().get(0).x())* GRID_WIDTH, (int) (a.getExactCoords().get(2).y()-a.getExactCoords().get(0).y())* GRID_WIDTH);
+				(int) (a.getExactCoords().get(2).x() - a.getExactCoords().get(0).x()) * GRID_WIDTH,
+				(int) (a.getExactCoords().get(2).y() - a.getExactCoords().get(0).y()) * GRID_WIDTH);
 	}
 
 	@Override

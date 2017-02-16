@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Observer;
 
@@ -21,8 +22,18 @@ public interface IModel {
 	
 	public void addObserver(Observer o);
 
-	public void processKeyTrigger(char keyChar);
+	public void processKeyPressedTrigger(int keyChar);
+
+	public void processKeyReleasedTrigger(int keyChar);
 	
-	public void addKeyTrigger(char keyCode, IGizmo gizmo);
+	public void addKeyPressedTrigger(int keyCode, IGizmo gizmo);
+	
+	public void addKeyReleasedTrigger(int keyCode, IGizmo gizmo);
+	
+	public void reset();
+	
+	public Color getBackgroundColour();
+	
+	public void setBackgroundColour(Color colour);
 
 }
