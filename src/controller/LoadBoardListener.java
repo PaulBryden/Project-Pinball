@@ -13,10 +13,10 @@ import model.IGizmo;
 
 public class LoadBoardListener implements ActionListener{
     private MainWindow mainWindow;
-List<IGizmo> gizmoList;
-GameModel gameloop;
-Board gameBoard;
-BoardFileHandler boardHandler;
+    private List<IGizmo> gizmoList;
+    private GameModel gameloop;
+    private Board gameBoard;
+    private BoardFileHandler boardHandler;
 
     public LoadBoardListener(MainWindow mainWindow){
         this.mainWindow = mainWindow;
@@ -24,5 +24,7 @@ BoardFileHandler boardHandler;
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        mainWindow.revalidate();
+        mainWindow.repaint();
     }
 }

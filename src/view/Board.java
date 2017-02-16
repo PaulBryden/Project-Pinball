@@ -12,9 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import model.IBall;
-import model.IGizmo;
-import model.IModel;
+import model.*;
 
 public class Board extends JPanel implements Observer {
 	
@@ -22,7 +20,6 @@ public class Board extends JPanel implements Observer {
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
 
-	//TODO: Generate View Elements and Store in List
 	public Board(IModel model) {
 		super();
 		this.model = model;
@@ -70,6 +67,29 @@ public class Board extends JPanel implements Observer {
 		super.paintComponent(g);
 		List<IGizmo> gizmos = model.getGizmos();
 		List<IBall> balls = model.getBalls();
+
+		//If load
+		if((viewGizmos.isEmpty() && viewBalls.isEmpty()) && (!gizmos.isEmpty() || !balls.isEmpty())){
+			viewGizmos.clear();
+			viewBalls.clear();
+
+			for(IGizmo gizmo : gizmos){
+				if(gizmo instanceof TriangleGizmo)
+					viewGizmos.add(new TriangleView(gizmo));
+				else if(gizmo instanceof SquareGizmo)
+					viewGizmos.add(new SquareView(gizmo));
+				else if(gizmo instanceof LeftFlipper || gizmo instanceof RightFlipper)
+					viewGizmos.add(new FlipperView((IFlipper) gizmo));
+				else if(gizmo instanceof CircleGizmo)
+					viewGizmos.add(new CircleView((ICircle) gizmo));
+				else if(gizmo instanceof Absorber)
+					viewGizmos.add(new AbsorberView(gizmo, this));
+			}
+
+			for(IBall ball : balls){
+				viewBalls.add(new BallView(ball));
+			}
+		}
 
 		if(!viewGizmos.isEmpty()) {
 			for (int i = 0; i < viewGizmos.size(); i++) {
