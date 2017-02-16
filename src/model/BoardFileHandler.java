@@ -14,10 +14,10 @@ import physics.Vect;
 
 public class BoardFileHandler {
 
-	public boolean save(List<IGizmo> gizmos, String path) {
+	public void save(GameModel model, String path) {
 		try {
 			BufferedWriter save = new BufferedWriter(new FileWriter(path));
-			List<IGizmo> list = gizmos;
+			List<IGizmo> list = model.getGizmos();
 			List<String> connections = new ArrayList<>(); // Connections to be made
 
 			for (IGizmo current : list) {
@@ -39,16 +39,15 @@ public class BoardFileHandler {
 
 			save.close();
 
-			return true; // Save successful, return true
+			System.out.println("Save file written successfully");
 
 		} catch (IOException e) {
 			System.out.println("Error writing to file " + path);
 			e.printStackTrace();
-			return false;
 		}
 	}
 
-	public List<IGizmo> load(String path) {
+	public void load(GameModel model, String path) {
 		try {
 			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading
 			List<String> connections = new ArrayList<>(); // Keeps track of connections from file
@@ -85,17 +84,15 @@ public class BoardFileHandler {
 
 			load.close();
 
-			return gizmos;
+			model.updateGizmoList(gizmos);
 
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found: " + path);
 			e.printStackTrace();
-			return null;
 
 		} catch (IOException e) {
 			System.out.println("Error reading from file " + path);
 			e.printStackTrace();
-			return null;
 		}
 	}
 
