@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +15,7 @@ public class Absorber extends AbstractGizmo {
 	List<IBall> storedBalls;
 	Vect bottomRightCoords;
 	public Absorber(String id, Vect topLeftCoords, Vect bottomRightCoords,  List<IBall> balls) {
-		super(id, topLeftCoords, Color.GREEN, true);
+		super(id, topLeftCoords, Constants.ABSORBER_DEFAULT_COLOUR, true);
 		this.bottomRightCoords=bottomRightCoords;
 		this.absorb = new AbsorbAction(this);
 		this.addTriggerAction(new AbsorberFireAction(this));

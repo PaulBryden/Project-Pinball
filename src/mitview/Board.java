@@ -10,7 +10,10 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import model.Constants;
+
 import model.Absorber;
+import model.CircleGizmo;
 import model.GameModel;
 import model.IBall;
 import model.IFlipper;
@@ -39,6 +42,7 @@ public class Board extends JPanel implements Observer {
 		width = GRID_WIDTH * 20;
 		height = GRID_WIDTH * 20;
 		gm = m;
+		this.setBackground(Constants.BACKGROUND_DEFAULT_COLOUR);
 		// this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
@@ -67,6 +71,9 @@ public class Board extends JPanel implements Observer {
 				drawTriangleGizmo((TriangleGizmo) gizmo, g2);
 			else if (gizmo instanceof Absorber)
 				drawAbsorber((Absorber) gizmo, g2);
+			else if (gizmo instanceof CircleGizmo) {
+				drawCircleGizmo((CircleGizmo) gizmo, g2);
+			}
 		}
 
 		List<IBall> balls = gm.getBalls();
@@ -79,6 +86,14 @@ public class Board extends JPanel implements Observer {
 				g2.fillOval(x, y, width, width);
 			}
 		}
+	}
+
+	private void drawCircleGizmo(CircleGizmo gizmo, Graphics2D g2) {
+		g2.setColor(gizmo.getColour());
+		int x = (int) (gizmo.getGridCoords().x() * GRID_WIDTH);
+		int y = (int) (gizmo.getGridCoords().y() * GRID_WIDTH);
+		int diameter = (int) (2 * gizmo.getRadius() * GRID_WIDTH);
+		g2.fillOval(x, y, diameter, diameter);
 	}
 
 	private void drawSquareGizmo(SquareGizmo gizmo, Graphics2D g) {
@@ -124,11 +139,6 @@ public class Board extends JPanel implements Observer {
 		g.setColor(a.getColour());
 		g.fillRect((int) a.getExactCoords().get(0).x() * GRID_WIDTH, (int) a.getExactCoords().get(0).y() * GRID_WIDTH,
 				(int)(a.getExactCoords().get(2).x()-a.getExactCoords().get(0).x())* GRID_WIDTH, (int) (a.getExactCoords().get(2).y()-a.getExactCoords().get(0).y())* GRID_WIDTH);
-		System.out.println((a.getExactCoords().get(0).x()));
-		System.out.println((a.getExactCoords().get(0).y()));
-		//System.out.println((a.getExactCoords().get(2).x()-a.getExactCoords().get(0).x()));
-		//System.out.println((a.getExactCoords().get(2).y()-a.getExactCoords().get(0).y()));
-
 	}
 
 	@Override
