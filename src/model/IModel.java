@@ -27,8 +27,8 @@ public interface IModel {
 	
 	public void addKeyReleasedTrigger(int keyCode, IGizmo gizmo);
 	
-	public void updateGizmoList(List<IGizmo> gizmos);
-	
 	public void addBall(IBall ball);
+	
+	public void reset();
 
 }

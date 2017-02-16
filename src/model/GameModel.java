@@ -23,17 +23,7 @@ public class GameModel extends Observable implements IModel {
 
 	public GameModel() {
 
-		walls = new LinkedList<>();
-		walls.add(new Wall(0, 0, 0, 20));
-		walls.add(new Wall(0, 0, 20, 0));
-		walls.add(new Wall(20, 0, 20, 20));
-		walls.add(new Wall(0, 20, 20, 20));
-
-		gizmos = new LinkedList<>();
-		balls = new LinkedList<>();
-		
-		keyPressedTriggers = new HashMap<>();
-		keyReleasedTriggers = new HashMap<>();
+		reset();
 
 		fileHandler = new BoardFileHandler(this);
 		fileHandler.load("spec_save_file.txt");
@@ -94,10 +84,6 @@ public class GameModel extends Observable implements IModel {
 		return gizmos;
 	}
 
-	public void updateGizmoList(List<IGizmo> gizmos) {
-		this.gizmos = gizmos;
-	}
-
 	public void addGizmo(IGizmo gizmo) {
 		gizmos.add(gizmo);
 	}
@@ -107,7 +93,17 @@ public class GameModel extends Observable implements IModel {
 	}
 
 	public void reset() {
+		walls = new LinkedList<>();
+		walls.add(new Wall(0, 0, 0, 20));
+		walls.add(new Wall(0, 0, 20, 0));
+		walls.add(new Wall(20, 0, 20, 20));
+		walls.add(new Wall(0, 20, 20, 20));
 
+		gizmos = new LinkedList<>();
+		balls = new LinkedList<>();
+		
+		keyPressedTriggers = new HashMap<>();
+		keyReleasedTriggers = new HashMap<>();
 	}
 
 	public List<IBall> getBalls() {
