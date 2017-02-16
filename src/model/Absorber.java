@@ -96,10 +96,14 @@ public class Absorber extends AbstractGizmo {
 		allBalls.add(ball);
 	}
 	
+	public Vect getBottomRightCoords() {
+		return bottomRightCoords;
+	}
+	
 	@Override
 	public String serializeGizmo() {
 		String serializedGizmo = "Absorber " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
-				+ "\n";
+				+ this.getBottomRightCoords().x() + " " + this.getBottomRightCoords().y() + " " + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
 		}
