@@ -48,7 +48,7 @@ public class GameModel extends Observable implements IModel {
 //		magicGizmo.addGizmoToTrigger(flipper);
 //		gizmos.add(magicGizmo);
 		//balls.add(new BallGizmo("B", 10, 11, 13, 17));
-//		keyTriggers = new HashMap<>();
+		keyTriggers = new HashMap<>();
 //		addKeyTrigger('b', flipper);
 //		absorber.addGizmoToTrigger(absorber);
 //		addKeyTrigger('a', absorber);

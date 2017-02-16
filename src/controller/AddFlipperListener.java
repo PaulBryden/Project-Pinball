@@ -20,5 +20,6 @@ public class AddFlipperListener implements ActionListener{
         IFlipper flipper = new LeftFlipper("LF1617", 10, 15);
         board.addViewGizmo(new FlipperView(flipper));
         board.getModel().addGizmo(flipper);
+        board.getModel().addKeyTrigger('b', flipper);
     }
 }
