@@ -14,7 +14,7 @@ import physics.Vect;
 
 public class FlipperView implements IViewGizmo, IObserver{
 	private IFlipper gizmo;
-	private static final int GRID_WIDTH = 35;
+	private static final int GRID_WIDTH = 20;
 
 	public FlipperView(IFlipper gizmo){
 		this.gizmo = gizmo;

@@ -12,7 +12,7 @@ import physics.Vect;
 
 public class TriangleView implements IViewGizmo, IObserver{
 	private IGizmo gizmo;
-	private static final int GRID_WIDTH = 35;
+	private static final int GRID_WIDTH = 20;
 
 	public TriangleView(IGizmo gizmo){
 		this.gizmo = gizmo;

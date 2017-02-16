@@ -10,7 +10,7 @@ import observer.IObserver;
 public class SquareView implements IViewGizmo, IObserver {
 
 	private IGizmo gizmo;
-	private static final int GRID_WIDTH = 35;
+	private static final int GRID_WIDTH = 20;
 
 	public SquareView(IGizmo gizmo){
 		this.gizmo = gizmo;

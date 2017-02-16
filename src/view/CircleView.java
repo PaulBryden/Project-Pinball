@@ -12,7 +12,7 @@ import observer.IObserver;
 public class CircleView implements IViewGizmo, IObserver{
 	protected ICircle gizmo;
 	private static final int RADIUS = 19;
-	private static final int GRID_WIDTH = 35;
+	private static final int GRID_WIDTH = 20;
 
 	public CircleView(ICircle gizmo){
 		this.gizmo = gizmo;
