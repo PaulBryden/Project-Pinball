@@ -92,18 +92,14 @@ public class Board extends JPanel implements Observer {
 			}
 		}
 
-		if(!viewGizmos.isEmpty()) {
-			for (int i = 0; i < viewGizmos.size(); i++) {
-				viewGizmos.get(i).setGizmo(gizmos.get(i));
-				viewGizmos.get(i).paint(g);
-			}
+		for (int i = 0; i < viewGizmos.size(); i++) {
+			viewGizmos.get(i).setGizmo(gizmos.get(i));
+			viewGizmos.get(i).paint(g);
 		}
 
-		if(!viewBalls.isEmpty()) {
-			for (int i = 0; i < viewBalls.size(); i++) {
-				viewBalls.get(i).setGizmo(balls.get(i));
-				viewBalls.get(i).paint(g);
-			}
+		for (int i = 0; i < viewBalls.size(); i++) {
+			viewBalls.get(i).setGizmo(balls.get(i));
+			viewBalls.get(i).paint(g);
 		}
     }
 
