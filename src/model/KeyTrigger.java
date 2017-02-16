@@ -11,6 +11,11 @@ public class KeyTrigger implements ITrigger {
 		this.gizmos = new LinkedList<>();
 	}
 
+	public KeyTrigger(IGizmo gizmo) {
+		this();
+		addGizmoToTrigger(gizmo);
+	}
+
 	@Override
 	public void addGizmoToTrigger(IGizmo gizmo) {
 		gizmos.add(gizmo);

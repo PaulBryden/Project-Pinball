@@ -19,8 +19,12 @@ public interface IModel {
 	
 	public void addObserver(Observer o);
 
-	public void processKeyTrigger(char keyChar);
+	public void processKeyTrigger(int keyChar);
 	
-	public void addKeyTrigger(char keyCode, IGizmo gizmo);
+	public void addKeyTrigger(int keyCode, IGizmo gizmo);
+	
+	public void updateGizmoList(List<IGizmo> gizmos);
+	
+	public void addBall(IBall ball);
 
 }

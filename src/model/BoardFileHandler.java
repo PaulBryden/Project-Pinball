@@ -14,8 +14,14 @@ import java.util.Scanner;
 import physics.Vect;
 
 public class BoardFileHandler {
+	
+	private IModel model;
+	
+	public BoardFileHandler(IModel model) {
+		this.model = model;
+	}
 
-	public void save(GameModel model, String path) {
+	public void save(String path) {
 		try {
 			BufferedWriter save = new BufferedWriter(new FileWriter(path));
 			List<IGizmo> list = model.getGizmos();
@@ -58,7 +64,7 @@ public class BoardFileHandler {
 		}
 	}
 
-	public void load(GameModel model, String path) {
+	public void load(String path) {
 		try {
 			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading
 			List<String> connections = new ArrayList<>(); // Keeps track of connections from file
@@ -77,7 +83,12 @@ public class BoardFileHandler {
 					} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
 						executeOperation(type, scan, gizmos); // Build mode operation
 					} else {
-						createGizmo(type, scan, gizmos);
+						IGizmo gizmo = createGizmo(type, scan, gizmos);
+						if (gizmo instanceof IBall) {
+							model.addBall((IBall) gizmo);
+						} else {
+							model.addGizmo(gizmo);
+						}
 					}
 
 					scan.close();
@@ -87,14 +98,9 @@ public class BoardFileHandler {
 			}
 
 			// Make connections here
-			createConnections(model, connections, gizmos);
-			
-			// Add balls to absorber
-			assignAbsorberBalls(gizmos);
+			createConnections(connections, gizmos);
 
 			load.close();
-
-			model.updateGizmoList(gizmos);
 
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found: " + path);
@@ -106,7 +112,7 @@ public class BoardFileHandler {
 		}
 	}
 
-	private void createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
+	private IGizmo createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
 		IGizmo newGizmo = null;
 		int x1 = 0;
 		int y1 = 0;
@@ -163,9 +169,10 @@ public class BoardFileHandler {
 		}
 
 		gizmos.add(newGizmo);
+		return newGizmo;
 	}
 
-	private void createConnections(GameModel model, List<String> connections, List<IGizmo> gizmos) {
+	private void createConnections(List<String> connections, List<IGizmo> gizmos) {
 		Scanner scan = null;
 		for (String current : connections) {
 			scan = new Scanner(current);
