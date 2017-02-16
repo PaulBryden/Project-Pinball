@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Observer;
 
@@ -30,5 +31,9 @@ public interface IModel {
 	public void addBall(IBall ball);
 	
 	public void reset();
+	
+	public Color getBackgroundColour();
+	
+	public void setBackgroundColour(Color colour);
 
 }

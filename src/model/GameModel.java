@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class GameModel extends Observable implements IModel {
 	private Map<Integer, ITrigger> keyPressedTriggers;
 	private Map<Integer, ITrigger> keyReleasedTriggers;
 	private boolean pauseGame = false;
+	private Color backgroundColour;
 
 	public GameModel() {
 
@@ -104,6 +106,8 @@ public class GameModel extends Observable implements IModel {
 		
 		keyPressedTriggers = new HashMap<>();
 		keyReleasedTriggers = new HashMap<>();
+		
+		backgroundColour = Constants.BACKGROUND_DEFAULT_COLOUR;
 	}
 
 	public List<IBall> getBalls() {
@@ -212,5 +216,15 @@ public class GameModel extends Observable implements IModel {
 	@Override
 	public void addBall(IBall ball) {
 		this.balls.add(ball);
+	}
+
+	@Override
+	public Color getBackgroundColour() {
+		return this.backgroundColour;
+	}
+
+	@Override
+	public void setBackgroundColour(Color colour) {
+		this.backgroundColour = colour;
 	}
 }

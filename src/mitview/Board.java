@@ -42,7 +42,7 @@ public class Board extends JPanel implements Observer {
 		width = GRID_WIDTH * 20;
 		height = GRID_WIDTH * 20;
 		gm = m;
-		this.setBackground(Constants.BACKGROUND_DEFAULT_COLOUR);
+		this.setBackground(m.getBackgroundColour());
 		// this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
