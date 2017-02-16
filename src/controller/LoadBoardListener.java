@@ -21,7 +21,6 @@ public class LoadBoardListener implements ActionListener{
 
         file.load((GameModel) mainWindow.getBoard().getModel(),
                 "spec_save_file.txt");
-        mainWindow.revalidate();
-        mainWindow.repaint();
+        mainWindow.getBoard().reRender();
     }
 }

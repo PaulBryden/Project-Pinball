@@ -12,7 +12,17 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import model.*;
+import model.Absorber;
+import model.CircleGizmo;
+import model.IBall;
+import model.ICircle;
+import model.IFlipper;
+import model.IGizmo;
+import model.IModel;
+import model.LeftFlipper;
+import model.RightFlipper;
+import model.SquareGizmo;
+import model.TriangleGizmo;
 
 public class Board extends JPanel implements Observer {
 	
@@ -41,26 +51,22 @@ public class Board extends JPanel implements Observer {
 
 	public void addViewGizmo(IViewGizmo gizmo){
 		viewGizmos.add(gizmo);
-		revalidate();
-		repaint();
+		reRender();
 	}
 
 	public void addViewBall(IViewGizmo ball){
 		viewBalls.add(ball);
-		revalidate();
-		repaint();
+		reRender();
 	}
 
 	public void removeViewGizmo(IViewGizmo gizmo){
 		viewGizmos.remove(gizmo);
-		revalidate();
-		repaint();
+		reRender();
 	}
 
 	public void removeViewBall(IViewGizmo ball){
 		viewBalls.remove(ball);
-		revalidate();
-		repaint();
+		reRender();
 	}
 
     @Override
@@ -103,9 +109,13 @@ public class Board extends JPanel implements Observer {
 		}
     }
 
-	@Override
-	public void update(Observable o, Object arg) {
+    public void reRender(){
 		revalidate();
 		repaint();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		reRender();
 	}
 }

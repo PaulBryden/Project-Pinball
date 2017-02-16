@@ -71,6 +71,7 @@ public class MainWindow extends JFrame{
         remove(toolbar);
 
         if(toolbar instanceof RunToolBar){
+            ((RunToolBar) toolbar).stop();
             toolbar = new BuildToolBar(this, board);
         } else {
             toolbar = new RunToolBar(model);
