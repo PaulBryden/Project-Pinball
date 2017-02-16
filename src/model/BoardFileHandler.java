@@ -21,7 +21,6 @@ public class BoardFileHandler {
 			List<String> connections = new ArrayList<>(); // Connections to be made
 
 			for (IGizmo current : list) {
-				// TODO: Ensure that serializeGizmo() is providing correct output!
 				save.write(current.serializeGizmo());
 
 				// Record any connections for later
@@ -135,9 +134,9 @@ public class BoardFileHandler {
 				newGizmo = new RightFlipper(id, x1, y1);
 				break;
 			case "Absorber":
-				double x2 = scan.nextDouble();
-				double y2 = scan.nextDouble();
-//				newGizmo = new Absorber(id, x1, y1, x2, y2); TODO
+				int x2 = scan.nextInt();
+				int y2 = scan.nextInt();
+				newGizmo = new Absorber(id, x1, y1, x2, y2, null);
 				break;
 			case "Ball":
 				double xv = scan.nextDouble();

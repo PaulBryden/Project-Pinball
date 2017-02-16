@@ -50,7 +50,7 @@ public class SquareGizmo extends AbstractGizmo {
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "SquareGizmo " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
+		String serializedGizmo = "Square " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
 				+ "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
