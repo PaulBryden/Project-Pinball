@@ -1,14 +1,16 @@
 package model;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class KeyTrigger implements ITrigger {
 	
-	private List<IGizmo> gizmos;
+	private Set<IGizmo> gizmos;
 	
 	public KeyTrigger() {
-		this.gizmos = new LinkedList<>();
+		this.gizmos = new HashSet<>();
 	}
 
 	public KeyTrigger(IGizmo gizmo) {
@@ -22,7 +24,7 @@ public class KeyTrigger implements ITrigger {
 	}
 
 	@Override
-	public List<IGizmo> getGizmosToTrigger() {
+	public Set<IGizmo> getGizmosToTrigger() {
 		return gizmos;
 	}
 

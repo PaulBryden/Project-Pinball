@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import physics.Vect;
 
@@ -31,7 +32,7 @@ public class BoardFileHandler {
 				save.write(current.serializeGizmo());
 
 				// Record any connections for later
-				List<IGizmo> connectedGizmos = current.getGizmosToTrigger();
+				Set<IGizmo> connectedGizmos = current.getGizmosToTrigger();
 				for (IGizmo destGizmo : connectedGizmos) {
 					connections.add("Connect " + current.getID() + " " + destGizmo.getID());
 				}
@@ -194,9 +195,8 @@ public class BoardFileHandler {
 				int keyID = scan.nextInt();
 				String keyStatus = scan.next(); // Won't be used
 				String gizmoID = scan.next();
-
-				// FIXME: Un-comment once key triggers have been finished in GameModel!
-//				model.addKeyTrigger(keyID, gizmoID);
+				IGizmo gizmo = findGizmoByID(gizmos, gizmoID);
+				model.addKeyTrigger(keyID, gizmo);
 			}
 
 			scan.close();
@@ -233,26 +233,6 @@ public class BoardFileHandler {
 
 		default:
 			System.out.println("No operations applied");
-		}
-	}
-	
-	private void assignAbsorberBalls(List<IGizmo> gizmos) {
-		IGizmo absorber = null;
-		
-		// Find absorber
-		for (IGizmo current : gizmos) {
-			if (current instanceof Absorber) {
-				absorber = current;
-			}
-		}
-		
-		if (absorber != null) {
-			// Find balls and add them to absorber's list of all balls
-			for (IGizmo current : gizmos) {
-				if (current instanceof IBall) {	
-					((Absorber) absorber).addBall((IBall) current);
-				}
-			}
 		}
 	}
 
