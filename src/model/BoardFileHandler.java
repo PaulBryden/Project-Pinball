@@ -193,10 +193,13 @@ public class BoardFileHandler {
 			} else if (type.equals("KeyConnect")) {
 				String keyString = scan.next(); // Won't be used
 				int keyID = scan.nextInt();
-				String keyStatus = scan.next(); // Won't be used
+				String keyStatus = scan.next();
 				String gizmoID = scan.next();
 				IGizmo gizmo = findGizmoByID(gizmos, gizmoID);
-				model.addKeyTrigger(keyID, gizmo);
+				if (keyStatus.equals("down"))
+					model.addKeyPressedTrigger(keyID, gizmo);
+				else if (keyStatus.equals("up"))
+					model.addKeyReleasedTrigger(keyID, gizmo);
 			}
 
 			scan.close();

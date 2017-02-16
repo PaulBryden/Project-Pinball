@@ -17,7 +17,8 @@ public class GameModel extends Observable implements IModel {
 	private List<IGizmo> gizmos;
 	private List<IBall> balls;
 	private List<IWall> walls;
-	private Map<Integer, ITrigger> keyTriggers;
+	private Map<Integer, ITrigger> keyPressedTriggers;
+	private Map<Integer, ITrigger> keyReleasedTriggers;
 	private boolean pauseGame = false;
 
 	public GameModel() {
@@ -31,16 +32,11 @@ public class GameModel extends Observable implements IModel {
 		gizmos = new LinkedList<>();
 		balls = new LinkedList<>();
 		
-		keyTriggers = new HashMap<>();
+		keyPressedTriggers = new HashMap<>();
+		keyReleasedTriggers = new HashMap<>();
 
 		fileHandler = new BoardFileHandler(this);
 		fileHandler.load("spec_save_file.txt");
-
-		for (IGizmo gizmo : gizmos) {
-			if (gizmo instanceof IFlipper) {
-				addKeyTrigger(66, gizmo);
-			}
-		}
 
 		/*
 		 * gizmos.add(new SquareGizmo("S35", 3, 5)); gizmos.add(new
@@ -186,18 +182,34 @@ public class GameModel extends Observable implements IModel {
 	}
 
 	@Override
-	public void processKeyTrigger(int keyCode) {
-		if (keyTriggers.containsKey(keyCode)) {
-			keyTriggers.get(keyCode).triggerConnectedGizmos();
+	public void processKeyPressedTrigger(int keyCode) {
+		if (keyPressedTriggers.containsKey(keyCode)) {
+			keyPressedTriggers.get(keyCode).triggerConnectedGizmos();
 		}
 	}
 
 	@Override
-	public void addKeyTrigger(int keyCode, IGizmo gizmo) {
-		if (keyTriggers.containsKey(keyCode)) {
-			keyTriggers.get(keyCode).addGizmoToTrigger(gizmo);
+	public void processKeyReleasedTrigger(int keyCode) {
+		if (keyReleasedTriggers.containsKey(keyCode)) {
+			keyReleasedTriggers.get(keyCode).triggerConnectedGizmos();
+		}
+	}
+
+	@Override
+	public void addKeyPressedTrigger(int keyCode, IGizmo gizmo) {
+		if (keyPressedTriggers.containsKey(keyCode)) {
+			keyPressedTriggers.get(keyCode).addGizmoToTrigger(gizmo);
 		} else {
-			keyTriggers.put(keyCode, new KeyTrigger(gizmo));
+			keyPressedTriggers.put(keyCode, new KeyTrigger(gizmo));
+		}
+	}
+
+	@Override
+	public void addKeyReleasedTrigger(int keyCode, IGizmo gizmo) {
+		if (keyReleasedTriggers.containsKey(keyCode)) {
+			keyReleasedTriggers.get(keyCode).addGizmoToTrigger(gizmo);
+		} else {
+			keyReleasedTriggers.put(keyCode, new KeyTrigger(gizmo));
 		}
 	}
 

@@ -15,12 +15,12 @@ public class RunKeyListener implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		model.processKeyTrigger(e.getKeyCode());
+		model.processKeyPressedTrigger(e.getKeyCode());
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		model.processKeyTrigger(e.getKeyCode());
+		model.processKeyReleasedTrigger(e.getKeyCode());
 	}
 
 	@Override
