@@ -84,7 +84,7 @@ public class Board extends JPanel implements Observer {
 				else if(gizmo instanceof CircleGizmo)
 					viewGizmos.add(new CircleView((ICircle) gizmo));
 				else if(gizmo instanceof Absorber)
-					viewGizmos.add(new AbsorberView(gizmo, this));
+					viewGizmos.add(new AbsorberView(gizmo));
 			}
 
 			for(IBall ball : balls){
