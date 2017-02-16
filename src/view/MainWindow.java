@@ -20,9 +20,9 @@ public class MainWindow extends JFrame{
     public MainWindow(IModel model){
         super();
         this.model = model;
+        board = new Board(this.model);
         menuBar = new MenuBar(this);
         sideToolBar = new JToolBar();
-        board = new Board(this.model);
         toolbar = new BuildToolBar(this, board);
         constraints = new GridBagConstraints();
     }

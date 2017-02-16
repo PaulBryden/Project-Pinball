@@ -18,8 +18,8 @@ public class AddBallListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         //TODO: Get proper velocity vector
-        IBall ballGizmo = new BallGizmo("B", 16, 17, 1, 1);
-        board.addViewGizmo(new BallView(ballGizmo));
-        board.getModel().addGizmo(ballGizmo);
+        IBall ballGizmo = new BallGizmo("B", 18, 3, 1, 1);
+        board.addViewBall(new BallView(ballGizmo));
+        board.getModel().addBall(ballGizmo);
     }
 }

@@ -27,26 +27,32 @@ public class GameModel extends Observable implements IModel {
 
 		reset();
 
-		fileHandler = new BoardFileHandler(this);
-		fileHandler.load("spec_save_file.txt");
+		//fileHandler = new BoardFileHandler(this);
+		//fileHandler.load("spec_save_file.txt");
 
-		/*
-		 * gizmos.add(new SquareGizmo("S35", 3, 5)); gizmos.add(new
-		 * SquareGizmo("S1310", 13, 10)); gizmos.add(new SquareGizmo("S1319",
-		 * 13, 19)); gizmos.add(new SquareGizmo("S142", 14, 2)); gizmos.add(new
-		 * SquareGizmo("S416", 4, 16)); gizmos.add(new SquareGizmo("S516", 5,
-		 * 16)); gizmos.add(new SquareGizmo("S616", 6, 16)); gizmos.add(new
-		 * SquareGizmo("S716", 7, 16)); gizmos.add(new TriangleGizmo("T2", 1,
-		 * 0)); TriangleGizmo triangle = new TriangleGizmo("T1", 0, 18);
-		 * triangle.rotate(2); gizmos.add(triangle); Absorber absorber = new
-		 * Absorber("A", 1,18,5,20, balls); gizmos.add(absorber); IFlipper
-		 * flipper = new LeftFlipper("LF102", 10, 2); gizmos.add(flipper);
-		 * IGizmo magicGizmo = new SquareGizmo("S1818", 18, 18);
-		 * magicGizmo.addGizmoToTrigger(flipper); gizmos.add(magicGizmo);
-		 * balls.add(new BallGizmo("B", 10, 11, 13, 17)); keyTriggers = new
-		 * HashMap<>(); addKeyTrigger('b', flipper);
-		 * absorber.addGizmoToTrigger(absorber); addKeyTrigger('a', absorber);
-		 */
+//		gizmos.add(new SquareGizmo("S35", 3, 5));
+//		gizmos.add(new SquareGizmo("S1310", 13, 10));
+//		gizmos.add(new SquareGizmo("S1319", 13, 19));
+//		gizmos.add(new SquareGizmo("S142", 14, 2));
+//		gizmos.add(new SquareGizmo("S416", 4, 16));
+//		gizmos.add(new SquareGizmo("S516", 5, 16));
+//		gizmos.add(new SquareGizmo("S616", 6, 16));
+//		gizmos.add(new SquareGizmo("S716", 7, 16));
+//		gizmos.add(new TriangleGizmo("T2", 1, 0));
+//		TriangleGizmo triangle = new TriangleGizmo("T1", 0, 18);
+//		triangle.rotate(2);
+//		gizmos.add(triangle);
+//		Absorber absorber = new Absorber("A", 1,18,5,20, balls);
+//		gizmos.add(absorber);
+//		IFlipper flipper = new LeftFlipper("LF102", 10, 2);
+//		gizmos.add(flipper);
+//		IGizmo magicGizmo = new SquareGizmo("S1818", 18, 18);
+//		magicGizmo.addGizmoToTrigger(flipper);
+//		gizmos.add(magicGizmo);
+		//balls.add(new BallGizmo("B", 10, 11, 13, 17));
+//		addKeyTrigger('b', flipper);
+//		absorber.addGizmoToTrigger(absorber);
+//		addKeyTrigger('a', absorber);
 	}
 
 	public void tick() {
@@ -88,6 +94,10 @@ public class GameModel extends Observable implements IModel {
 
 	public void addGizmo(IGizmo gizmo) {
 		gizmos.add(gizmo);
+	}
+
+	public void addBall(IBall ball) {
+		balls.add(ball);
 	}
 
 	public void removeGizmo(IGizmo gizmo) {
@@ -211,11 +221,6 @@ public class GameModel extends Observable implements IModel {
 		} else {
 			keyReleasedTriggers.put(keyCode, new KeyTrigger(gizmo));
 		}
-	}
-
-	@Override
-	public void addBall(IBall ball) {
-		this.balls.add(ball);
 	}
 
 	@Override

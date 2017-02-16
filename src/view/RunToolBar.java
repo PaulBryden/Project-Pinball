@@ -1,27 +1,34 @@
 package view;
 
-import controller.TickListener;
+import controller.RunListener;
+import controller.RunKeyListener;
 import model.IModel;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
+import java.awt.event.ActionListener;
 
 class RunToolBar extends JToolBar{
     RunToolBar(IModel model){
         super("Run Mode");
         JButton runBtn = new JButton("Run");
-        JButton pauseBtn = new JButton("Pause");
         JButton stopBtn = new JButton("Stop");
         JButton tickBtn = new JButton("Tick");
+        ActionListener runListener = new RunListener(model);
 
         setFloatable(false);
         setRollover(true);
 
+        runBtn.addActionListener(runListener);
+        runBtn.addKeyListener(new RunKeyListener(model));
         add(runBtn);
-        add(pauseBtn);
+
+        stopBtn.addActionListener(runListener);
         add(stopBtn);
+
         addSeparator();
-        tickBtn.addActionListener(new TickListener(model));
+
+        tickBtn.addActionListener(runListener);
         add(tickBtn);
     }
 }

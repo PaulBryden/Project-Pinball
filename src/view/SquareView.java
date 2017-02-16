@@ -10,7 +10,6 @@ import observer.IObserver;
 public class SquareView implements IViewGizmo, IObserver {
 
 	private IGizmo gizmo;
-	private static final int WIDTH = 20;
 	private static final int GRID_WIDTH = 20;
 
 	public SquareView(IGizmo gizmo){
@@ -18,8 +17,9 @@ public class SquareView implements IViewGizmo, IObserver {
 	}
 
 	public void paint(Graphics g){
+		g.setColor(gizmo.getColour());
 		g.fillRect((int) gizmo.getGridCoords().x() * GRID_WIDTH ,
-				(int) gizmo.getGridCoords().y() * GRID_WIDTH, WIDTH, WIDTH);
+				(int) gizmo.getGridCoords().y() * GRID_WIDTH, GRID_WIDTH, GRID_WIDTH);
 	}
 
 	@Override

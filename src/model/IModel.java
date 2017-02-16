@@ -15,7 +15,9 @@ public interface IModel {
 	public List<IWall> getWalls();
 	
 	public void addGizmo(IGizmo gizmo);
-	
+
+	public void addBall(IBall ball);
+
 	public void removeGizmo(IGizmo gizmo);
 	
 	public void addObserver(Observer o);
@@ -27,8 +29,6 @@ public interface IModel {
 	public void addKeyPressedTrigger(int keyCode, IGizmo gizmo);
 	
 	public void addKeyReleasedTrigger(int keyCode, IGizmo gizmo);
-	
-	public void addBall(IBall ball);
 	
 	public void reset();
 	

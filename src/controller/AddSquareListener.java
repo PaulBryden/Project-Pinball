@@ -15,10 +15,9 @@ public class AddSquareListener implements ActionListener{
         this.board = board;
     }
 
-    //TODO: Implement ID generation system and get coords for inital render from mouse click
     @Override
     public void actionPerformed(ActionEvent e) {
-        IGizmo squareGizmo = new SquareGizmo("S00", 0, 0);
+        IGizmo squareGizmo = new SquareGizmo("S1618", 16, 18);
         board.addViewGizmo(new SquareView(squareGizmo));
         board.getModel().addGizmo(squareGizmo);
     }

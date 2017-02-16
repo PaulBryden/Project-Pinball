@@ -1,22 +1,16 @@
 package controller;
 
-import view.Board;
 import view.MainWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import model.BoardFileHandler;
 import model.GameModel;
-import model.IGizmo;
+import model.IModel;
 
 public class LoadBoardListener implements ActionListener{
     private MainWindow mainWindow;
-List<IGizmo> gizmoList;
-GameModel gameloop;
-Board gameBoard;
-BoardFileHandler boardHandler;
 
     public LoadBoardListener(MainWindow mainWindow){
         this.mainWindow = mainWindow;
@@ -24,5 +18,11 @@ BoardFileHandler boardHandler;
 
     @Override
     public void actionPerformed(ActionEvent e) {
+    	IModel model = mainWindow.getBoard().getModel();
+        BoardFileHandler fh = new BoardFileHandler(model);
+        model.reset();
+        fh.load("spec_save_file.txt");
+        mainWindow.revalidate();
+        mainWindow.repaint();
     }
 }

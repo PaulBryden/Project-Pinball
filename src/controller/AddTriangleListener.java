@@ -17,7 +17,7 @@ public class AddTriangleListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        IGizmo triangleGizmo = new TriangleGizmo("T014", 0 ,14);
+        IGizmo triangleGizmo = new TriangleGizmo("T014", 16 ,18);
         board.addViewGizmo(new TriangleView(triangleGizmo));
         board.getModel().addGizmo(triangleGizmo);
     }

@@ -29,10 +29,11 @@ public class AbsorberView implements IViewGizmo, IObserver{
     }
 
     public void paint(Graphics g) {
-        int width = board.getWidth();
-
-        g.fillRect((int) gizmo.getGridCoords().x() * GRID_WIDTH ,
-                (int) gizmo.getGridCoords().y() * GRID_WIDTH, width, width);
+        g.setColor(gizmo.getColour());
+        g.fillRect((int) gizmo.getExactCoords().get(0).x() * GRID_WIDTH,
+                (int) gizmo.getExactCoords().get(0).y() * GRID_WIDTH,
+                (int)(gizmo.getExactCoords().get(2).x() - gizmo.getExactCoords().get(0).x()) * GRID_WIDTH,
+                (int) (gizmo.getExactCoords().get(2).y() - gizmo.getExactCoords().get(0).y()) * GRID_WIDTH);
     }
 
     @Override
