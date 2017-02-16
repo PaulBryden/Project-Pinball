@@ -14,7 +14,9 @@ public interface IModel {
 	public List<IWall> getWalls();
 	
 	public void addGizmo(IGizmo gizmo);
-	
+
+	public void addBall(IBall ball);
+
 	public void removeGizmo(IGizmo gizmo);
 	
 	public void addObserver(Observer o);

@@ -9,19 +9,31 @@ import model.Constants;
 import model.IModel;
 
 public class RunListener  implements ActionListener{
-	IModel model;
-	Timer timer;
+	private IModel model;
+	private Timer timer;
 	
 
-	public RunListener(IModel m) {
-		model = m;
+	public RunListener(IModel model) {
+		this.model = model;
 		timer = new Timer((int) (1000 * Constants.TICK_TIME), this);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		if (e.getSource() == timer) {
+			model.tick();
+		} else
+			switch (e.getActionCommand()) {
+				case "Run":
+					timer.start();
+					break;
+				case "Stop":
+					timer.stop();
+					break;
+				case "Tick":
+					model.tick();
+					break;
+			}
 	}
 
 }

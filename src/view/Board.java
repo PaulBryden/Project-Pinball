@@ -3,7 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -27,8 +27,8 @@ public class Board extends JPanel implements Observer {
 		super();
 		this.model = model;
 		model.addObserver(this);
-		viewGizmos = new ArrayList<>();
-		viewBalls = new ArrayList<>();
+		viewGizmos = new LinkedList<>();
+		viewBalls = new LinkedList<>();
 		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(
 				EtchedBorder.RAISED, Color.BLACK, Color.BLACK)));
 		setSize(new Dimension(400, 400));
@@ -72,14 +72,14 @@ public class Board extends JPanel implements Observer {
 		List<IBall> balls = model.getBalls();
 
 		if(!viewGizmos.isEmpty()) {
-			for (int i = 0; i < gizmos.size(); i++) {
+			for (int i = 0; i < viewGizmos.size(); i++) {
 				viewGizmos.get(i).setGizmo(gizmos.get(i));
 				viewGizmos.get(i).paint(g);
 			}
 		}
 
 		if(!viewBalls.isEmpty()) {
-			for (int i = 0; i < balls.size(); i++) {
+			for (int i = 0; i < viewBalls.size(); i++) {
 				viewBalls.get(i).setGizmo(balls.get(i));
 				viewBalls.get(i).paint(g);
 			}
@@ -88,7 +88,6 @@ public class Board extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("Notified");
 		revalidate();
 		repaint();
 	}
