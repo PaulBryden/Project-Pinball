@@ -30,6 +30,7 @@ public class CircleView implements IViewGizmo, IObserver{
 	}
 
 	public void paint(Graphics g) {
+		g.setColor(gizmo.getColour());
 		g.fillOval((((int) gizmo.getGridCoords().x() * GRID_WIDTH)),
 				(((int) gizmo.getGridCoords().y() * GRID_WIDTH)), RADIUS, RADIUS);
 	}

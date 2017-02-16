@@ -28,6 +28,7 @@ public class Board extends JPanel implements Observer {
 		viewBalls = new LinkedList<>();
 		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(
 				EtchedBorder.RAISED, Color.BLACK, Color.BLACK)));
+		setBackground(Color.BLACK);
 		setSize(new Dimension(400, 400));
 		setPreferredSize(getSize());
 		setMinimumSize(getSize());

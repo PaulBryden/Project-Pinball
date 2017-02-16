@@ -28,6 +28,7 @@ public class TriangleView implements IViewGizmo, IObserver{
 			y[i] = (int) (GRID_WIDTH * exactCoords.get(i).y());
 		}
 
+		g2D.setColor(gizmo.getColour());
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g2D.fillPolygon(x, y, exactCoords.size());

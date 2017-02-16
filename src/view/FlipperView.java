@@ -43,6 +43,7 @@ public class FlipperView implements IViewGizmo, IObserver{
 
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
+		g2D.setColor(gizmo.getColour());
 		g2D.fillOval(x, y, diameter, diameter);
 
 		x = (int) (GRID_WIDTH * gizmo.getEndCentre().x() - diameter / 2);
