@@ -79,6 +79,9 @@ public class BoardFileHandler {
 
 			// Make connections here
 			createConnections(connections, gizmos);
+			
+			// Add balls to absorber
+			assignAbsorberBalls(gizmos);
 
 			load.close();
 
@@ -136,7 +139,8 @@ public class BoardFileHandler {
 			case "Absorber":
 				int x2 = scan.nextInt();
 				int y2 = scan.nextInt();
-				newGizmo = new Absorber(id, x1, y1, x2, y2, null);
+				List<IBall> balls = new ArrayList<>();
+				newGizmo = new Absorber(id, x1, y1, x2, y2, balls);
 				break;
 			case "Ball":
 				double xv = scan.nextDouble();
@@ -214,6 +218,26 @@ public class BoardFileHandler {
 
 		default:
 			System.out.println("No operations applied");
+		}
+	}
+	
+	private void assignAbsorberBalls(List<IGizmo> gizmos) {
+		IGizmo absorber = null;
+		
+		// Find absorber
+		for (IGizmo current : gizmos) {
+			if (current instanceof Absorber) {
+				absorber = current;
+			}
+		}
+		
+		if (absorber != null) {
+			// Find balls and add them to absorber's list of all balls
+			for (IGizmo current : gizmos) {
+				if (current instanceof IBall) {	
+					((Absorber) absorber).addBall((IBall) current);
+				}
+			}
 		}
 	}
 

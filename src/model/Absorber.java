@@ -91,4 +91,18 @@ public class Absorber extends AbstractGizmo {
 			allBalls.remove(ball);
 		}
 	}
+	
+	public void addBall(IBall ball) {
+		allBalls.add(ball);
+	}
+	
+	@Override
+	public String serializeGizmo() {
+		String serializedGizmo = "Absorber " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
+				+ "\n";
+		for (IGizmo gizmo : triggers) {
+			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
+		}
+		return serializedGizmo;
+	}
 }
