@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import physics.Vect;
 public class TriangleGizmo extends AbstractGizmo {
 
 	public TriangleGizmo(String id, Vect coords) {
-		super(id, coords, Color.RED, true);
+		super(id, coords, Constants.TRIANGLE_DEFAULT_COLOUR, true);
 		generateLinesAndCircles();
 	}
 
