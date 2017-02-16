@@ -1,7 +1,6 @@
 package view;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.util.List;
 import java.util.Observable;
 
@@ -19,6 +18,7 @@ public class TriangleView implements IViewGizmo, IObserver{
 	}
 
 	public void paint(Graphics g){
+		Graphics2D g2D = (Graphics2D) g;
 		List<Vect> exactCoords = gizmo.getExactCoords();
 		int[] x = new int[exactCoords.size()];
 		int[] y = new int[exactCoords.size()];
@@ -28,7 +28,9 @@ public class TriangleView implements IViewGizmo, IObserver{
 			y[i] = (int) (GRID_WIDTH * exactCoords.get(i).y());
 		}
 
-		g.fillPolygon(x, y, exactCoords.size());
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		g2D.fillPolygon(x, y, exactCoords.size());
 	}
 
 	@Override

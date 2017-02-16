@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -32,6 +32,7 @@ public class FlipperView implements IViewGizmo, IObserver{
 	}
 
 	public void paint(Graphics g) {
+		Graphics2D g2D = (Graphics2D) g;
 		List<Vect> exactCoords = new LinkedList<>();
 		List<LineSegment> lines = gizmo.getAllLineSegments();
 		int diameter = (int) (GRID_WIDTH * gizmo.getWidth());
@@ -40,12 +41,14 @@ public class FlipperView implements IViewGizmo, IObserver{
 		int[] a;
 		int[] b;
 
-		g.fillOval(x, y, diameter, diameter);
+		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		g2D.fillOval(x, y, diameter, diameter);
 
 		x = (int) (GRID_WIDTH * gizmo.getEndCentre().x() - diameter / 2);
 		y = (int) (GRID_WIDTH * gizmo.getEndCentre().y() - diameter / 2);
 
-		g.fillOval(x, y, diameter, diameter);
+		g2D.fillOval(x, y, diameter, diameter);
 
 		exactCoords.add(lines.get(0).p1());
 		exactCoords.add(lines.get(0).p2());
@@ -60,7 +63,7 @@ public class FlipperView implements IViewGizmo, IObserver{
 			b[i] = (int) (GRID_WIDTH * exactCoords.get(i).y());
 		}
 
-		g.fillPolygon(a, b, exactCoords.size());
+		g2D.fillPolygon(a, b, exactCoords.size());
 	}
 
 	@Override
