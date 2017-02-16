@@ -76,7 +76,7 @@ public class Board extends JPanel implements Observer {
 		List<IBall> balls = model.getBalls();
 
 		//If load
-		if((viewGizmos.isEmpty() && viewBalls.isEmpty()) && (!gizmos.isEmpty() || !balls.isEmpty())){
+		if(gizmos.size() != viewGizmos.size() || balls.size() != viewBalls.size()){
 			viewGizmos.clear();
 			viewBalls.clear();
 
