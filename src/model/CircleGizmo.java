@@ -30,8 +30,8 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Circle " + getID() + " " + physicsCircle.getCenter().x() + " "
-				+ physicsCircle.getCenter().y() + " " + "\n";
+		String serializedGizmo = "Circle " + getID() + " " + (physicsCircle.getCenter().x() - 0.5) + " "
+				+ (physicsCircle.getCenter().y() - 0.5) + " " + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
 		}
