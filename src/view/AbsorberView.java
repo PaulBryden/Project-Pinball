@@ -10,7 +10,7 @@ import observer.IObserver;
 public class AbsorberView implements IViewGizmo, IObserver{
     private IGizmo gizmo;
     private Board board;
-    private static final int GRID_WIDTH = 20;
+    private static final int GRID_WIDTH = 35;
 
     public AbsorberView(IGizmo gizmo, Board board){
         this.gizmo = gizmo;

@@ -1,9 +1,6 @@
 package view;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.geom.RoundRectangle2D;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -17,9 +14,7 @@ import physics.Vect;
 
 public class FlipperView implements IViewGizmo, IObserver{
 	private IFlipper gizmo;
-	private static final int WIDTH = 40;
-	private static final int HEIGHT = 10;
-	private static final int GRID_WIDTH = 20;
+	private static final int GRID_WIDTH = 35;
 
 	public FlipperView(IFlipper gizmo){
 		this.gizmo = gizmo;
@@ -37,27 +32,35 @@ public class FlipperView implements IViewGizmo, IObserver{
 	}
 
 	public void paint(Graphics g) {
-		int d = (int) (GRID_WIDTH * gizmo.getWidth());
-		int x = (int) (GRID_WIDTH * gizmo.getPivot().x() - d / 2);
-		int y = (int) (GRID_WIDTH * gizmo.getPivot().y() - d / 2);
-		g.fillOval(x, y, d, d);
-		x = (int) (GRID_WIDTH * gizmo.getEndCentre().x() - d / 2);
-		y = (int) (GRID_WIDTH * gizmo.getEndCentre().y() - d / 2);
-		g.fillOval(x, y, d, d);
-		List<Vect> l = new LinkedList<>();
+		List<Vect> exactCoords = new LinkedList<>();
 		List<LineSegment> lines = gizmo.getAllLineSegments();
-		l.add(lines.get(0).p1());
-		l.add(lines.get(0).p2());
-		l.add(lines.get(1).p2());
-		l.add(lines.get(1).p1());
+		int diameter = (int) (GRID_WIDTH * gizmo.getWidth());
+		int x = (int) (GRID_WIDTH * gizmo.getPivot().x() - diameter / 2);
+		int y = (int) (GRID_WIDTH * gizmo.getPivot().y() - diameter / 2);
+		int[] a;
+		int[] b;
 
-		int[] a = new int[l.size()];
-		int[] b = new int[l.size()];
-		for (int i = 0; i < l.size(); i++) {
-			a[i] = (int) (GRID_WIDTH * l.get(i).x());
-			b[i] = (int) (GRID_WIDTH * l.get(i).y());
+		g.fillOval(x, y, diameter, diameter);
+
+		x = (int) (GRID_WIDTH * gizmo.getEndCentre().x() - diameter / 2);
+		y = (int) (GRID_WIDTH * gizmo.getEndCentre().y() - diameter / 2);
+
+		g.fillOval(x, y, diameter, diameter);
+
+		exactCoords.add(lines.get(0).p1());
+		exactCoords.add(lines.get(0).p2());
+		exactCoords.add(lines.get(1).p2());
+		exactCoords.add(lines.get(1).p1());
+
+		a = new int[exactCoords.size()];
+		b = new int[exactCoords.size()];
+
+		for (int i = 0; i < exactCoords.size(); i++) {
+			a[i] = (int) (GRID_WIDTH * exactCoords.get(i).x());
+			b[i] = (int) (GRID_WIDTH * exactCoords.get(i).y());
 		}
-		g.fillPolygon(a, b, l.size());
+
+		g.fillPolygon(a, b, exactCoords.size());
 	}
 
 	@Override

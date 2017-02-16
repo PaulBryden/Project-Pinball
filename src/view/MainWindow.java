@@ -32,8 +32,8 @@ public class MainWindow extends JFrame{
         setTitle("Gizmo Ball");
         setJMenuBar(menuBar);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
-        setSize(800, 550);
+        setResizable(true);
+        setSize(800, 820);
 
         constraints.fill = GridBagConstraints.VERTICAL;
         constraints.gridx = 1;

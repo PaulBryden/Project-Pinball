@@ -11,7 +11,7 @@ import observer.IObserver;
 
 public class BallView implements IViewGizmo, IObserver{
     protected IBall gizmo;
-    private static final int GRID_WIDTH = 20;
+    private static final int GRID_WIDTH = 35;
 
     public BallView(IBall gizmo){
         this.gizmo = gizmo;
