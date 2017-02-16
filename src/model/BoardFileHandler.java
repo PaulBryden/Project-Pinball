@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import physics.Vect;
@@ -28,14 +29,24 @@ public class BoardFileHandler {
 				for (IGizmo destGizmo : connectedGizmos) {
 					connections.add("Connect " + current.getID() + " " + destGizmo.getID());
 				}
-
-				// TODO: KeyConnections
 			}
 
-			// Finally, write connections to file
+			// Write connections to file
 			for (String current : connections) {
 				save.write(current);
 			}
+
+			// Finally, write key connections to file
+			// FIXME: Un-comment once key triggers have been finished in GameModel!
+//			Map<Integer, ITrigger> keyTriggers = model.getKeyTriggers();
+//			for (Map.Entry<Integer, ITrigger> current : keyTriggers.entrySet()) {
+//				List<IGizmo> gizmosToTrigger = current.getValue().getGizmosToTrigger();
+//				for (IGizmo gizmo : gizmosToTrigger) {
+//					save.write("KeyConnect key" + current.getKey() + " down " + gizmo.getID());
+//					save.write("KeyConnect key" + current.getKey() + " up " + gizmo.getID());
+//					save.write("\n");
+//				}
+//			}
 
 			save.close();
 
@@ -61,7 +72,6 @@ public class BoardFileHandler {
 					scan = new Scanner(line);
 					String type = scan.next();
 
-					// FIXME: These if statements are a bit ugly
 					if (type.equals("Connect") || type.equals("KeyConnect")) {
 						connections.add(line); // Store connection info for later
 					} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
@@ -77,7 +87,7 @@ public class BoardFileHandler {
 			}
 
 			// Make connections here
-			createConnections(connections, gizmos);
+			createConnections(model, connections, gizmos);
 			
 			// Add balls to absorber
 			assignAbsorberBalls(gizmos);
@@ -155,7 +165,7 @@ public class BoardFileHandler {
 		gizmos.add(newGizmo);
 	}
 
-	private void createConnections(List<String> connections, List<IGizmo> gizmos) {
+	private void createConnections(GameModel model, List<String> connections, List<IGizmo> gizmos) {
 		Scanner scan = null;
 		for (String current : connections) {
 			scan = new Scanner(current);
@@ -173,12 +183,13 @@ public class BoardFileHandler {
 				}
 
 			} else if (type.equals("KeyConnect")) {
-				String keyString = scan.next();
-				String keyID = scan.next();
-				String keyStatus = scan.next();
+				String keyString = scan.next(); // Won't be used
+				int keyID = scan.nextInt();
+				String keyStatus = scan.next(); // Won't be used
 				String gizmoID = scan.next();
 
-				// TODO: Functionality to create key connections!
+				// FIXME: Un-comment once key triggers have been finished in GameModel!
+//				model.addKeyTrigger(keyID, gizmoID);
 			}
 
 			scan.close();
