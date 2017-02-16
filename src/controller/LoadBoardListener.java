@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import model.BoardFileHandler;
-import model.GameModel;
+import model.IModel;
 
 public class LoadBoardListener implements ActionListener{
     private MainWindow mainWindow;
@@ -17,10 +17,10 @@ public class LoadBoardListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        BoardFileHandler file = new BoardFileHandler();
-
-        file.load((GameModel) mainWindow.getBoard().getModel(),
-                "spec_save_file.txt");
+    	IModel model = mainWindow.getBoard().getModel();
+        BoardFileHandler fh = new BoardFileHandler(model);
+        model.reset();
+        fh.load("spec_save_file.txt");
         mainWindow.getBoard().reRender();
     }
 }

@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.MagicKeyListener;
+import controller.RunKeyListener;
 import model.GameModel;
 
 /**
@@ -76,31 +78,7 @@ public class RunGui {
 		cp.add(buttons, BorderLayout.LINE_START);
 		cp.add(board, BorderLayout.CENTER);
 
-		button1.addKeyListener(new KeyListener() {
-
-			private boolean pressed = false;
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (!pressed) {
-					model.processKeyTrigger(e.getKeyChar());
-					pressed = true;
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (pressed) {
-					model.processKeyTrigger(e.getKeyChar());
-					pressed = false;
-				}
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-
-		});
+		button1.addKeyListener(RunKeyListener.createListener(model));
 
 		frame.pack();
 		frame.setLocationRelativeTo(null);

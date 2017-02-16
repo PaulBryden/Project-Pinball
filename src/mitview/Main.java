@@ -20,9 +20,6 @@ public class Main {
 		}
 
 		GameModel model = new GameModel();
-		BoardFileHandler file = new BoardFileHandler();
-		
-		file.load(model, "spec_save_file.txt");
 
 		RunGui gui = new RunGui(model);
 		gui.createAndShowGUI();

@@ -1,7 +1,7 @@
 package view;
 
 import controller.RunListener;
-import controller.KeyListener;
+import controller.RunKeyListener;
 import model.IModel;
 
 import javax.swing.JButton;
@@ -22,7 +22,7 @@ class RunToolBar extends JToolBar{
         setRollover(true);
 
         runBtn.addActionListener(runListener);
-        runBtn.addKeyListener(new KeyListener(model));
+        runBtn.addKeyListener(new RunKeyListener(model));
         add(runBtn);
 
         stopBtn.addActionListener(runListener);

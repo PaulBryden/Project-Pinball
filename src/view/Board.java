@@ -74,7 +74,7 @@ public class Board extends JPanel implements Observer {
 		List<IBall> balls = model.getBalls();
 
 		//If load
-		if(gizmos.size() != viewGizmos.size() || balls.size() != viewBalls.size()){
+		//if(gizmos.size() != viewGizmos.size() || balls.size() != viewBalls.size()){
 			viewGizmos.clear();
 			viewBalls.clear();
 
@@ -94,15 +94,15 @@ public class Board extends JPanel implements Observer {
 			for(IBall ball : balls){
 				viewBalls.add(new BallView(ball));
 			}
-		}
+		//}
 
 		for (int i = 0; i < viewGizmos.size(); i++) {
-			viewGizmos.get(i).setGizmo(gizmos.get(i));
+			//viewGizmos.get(i).setGizmo(gizmos.get(i));
 			viewGizmos.get(i).paint(g);
 		}
 
 		for (int i = 0; i < viewBalls.size(); i++) {
-			viewBalls.get(i).setGizmo(balls.get(i));
+			//viewBalls.get(i).setGizmo(balls.get(i));
 			viewBalls.get(i).paint(g);
 		}
     }
