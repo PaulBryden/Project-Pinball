@@ -34,7 +34,7 @@ class RunToolBar extends JToolBar{
         add(tickBtn);
     }
 
-    public void stop(){
+    void stop(){
         stopBtn.doClick();
     }
 }
