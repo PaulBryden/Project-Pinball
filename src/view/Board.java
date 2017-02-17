@@ -9,6 +9,7 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import controller.BoardMouseListener;
 import model.Absorber;
 import model.CircleGizmo;
 import model.IBall;
@@ -26,6 +27,7 @@ public class Board extends JPanel implements Observer {
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
+	private BoardMouseListener mouseListener;
 
 	public Board(IModel model) {
 		super();
@@ -33,6 +35,9 @@ public class Board extends JPanel implements Observer {
 		model.addObserver(this);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
+		mouseListener = new BoardMouseListener(this);
+
+		addMouseListener(mouseListener);
 		setBackground(model.getBackgroundColour());
 //		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(
 //				EtchedBorder.LOWERED, Color.BLACK, Color.BLACK)));
@@ -44,6 +49,10 @@ public class Board extends JPanel implements Observer {
 
 	public IModel getModel(){
 		return (model);
+	}
+
+	public BoardMouseListener getMouseListener(){
+		return (mouseListener);
 	}
 
 	public void addViewGizmo(IViewGizmo gizmo){
