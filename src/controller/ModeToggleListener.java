@@ -1,6 +1,5 @@
 package controller;
 
-import model.IModel;
 import view.MainWindow;
 
 import java.awt.event.ActionEvent;
@@ -15,6 +14,8 @@ public class ModeToggleListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        mainWindow.getBoard().getMouseListener().setState(BoardMouseListener.STATE.IDLE);
+        mainWindow.getBoard().getMouseListener().setGizmo(BoardMouseListener.CUR_GIZMO.NONE);
         mainWindow.toggleView();
     }
 }
