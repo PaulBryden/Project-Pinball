@@ -4,89 +4,119 @@ import javax.swing.JFrame;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
+import controller.RunKeyListener;
 import model.IModel;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class MainWindow extends JFrame{
-    private IModel model;
-    private MenuBar menuBar;
-    private JToolBar toolbar;
-    private JToolBar sideToolBar;
-    private Board board;
-    private GridBagConstraints constraints;
+public class MainWindow extends JFrame {
 
-    public MainWindow(IModel model){
-        super();
-        this.model = model;
-        board = new Board(this.model);
-        menuBar = new MenuBar(this);
-        sideToolBar = new JToolBar();
-        toolbar = new BuildToolBar(this, board);
-        constraints = new GridBagConstraints();
-    }
+	private static final long serialVersionUID = -2379162245120133571L;
+	private IModel model;
+	private MenuBar menuBar;
+	private JToolBar toolbar;
+	private JToolBar sideToolBar;
+	private Board board;
+	private GridBagConstraints constraints;
+	private KeyListener keyListener;
 
-    public void build(){
-        setLayout(new GridBagLayout());
-        setTitle("Gizmo Ball");
-        setJMenuBar(menuBar);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
-        setSize(800, 550);
+	public MainWindow(IModel model) {
+		super();
+		this.model = model;
+		board = new Board(this.model);
+		menuBar = new MenuBar(this);
+		sideToolBar = new JToolBar();
+		toolbar = new BuildToolBar(this, board);
+		constraints = new GridBagConstraints();
+		setUpKeyListener();
+	}
 
-        constraints.fill = GridBagConstraints.VERTICAL;
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        add(toolbar, constraints);
+	public void build() {
+		setLayout(new GridBagLayout());
+		setTitle("Gizmo Ball");
+		setJMenuBar(menuBar);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setResizable(false);
+		setSize(800, 550);
 
-        constraints.fill = GridBagConstraints.CENTER;
-        constraints.gridx = 1;
-        constraints.gridy = 1;
-        add(board, constraints);
+		constraints.fill = GridBagConstraints.VERTICAL;
+		constraints.gridx = 1;
+		constraints.gridy = 0;
+		add(toolbar, constraints);
 
-        setVisible(true);
-    }
+		constraints.fill = GridBagConstraints.CENTER;
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		add(board, constraints);
 
-    public void addSideToolBar(JToolBar sideToolBar){
-        constraints.fill = GridBagConstraints.VERTICAL;
-        constraints.gridx = 0;
-        constraints.gridy = 1;
+		setVisible(true);
+	}
 
-        remove(this.sideToolBar);
-        this.sideToolBar = sideToolBar;
-        add(this.sideToolBar, constraints);
+	public void addSideToolBar(JToolBar sideToolBar) {
+		constraints.fill = GridBagConstraints.VERTICAL;
+		constraints.gridx = 0;
+		constraints.gridy = 1;
 
-        revalidate();
-        repaint();
-    }
+		remove(this.sideToolBar);
+		this.sideToolBar = sideToolBar;
+		add(this.sideToolBar, constraints);
 
-    public JToolBar getSideToolBar(){
-        return (sideToolBar);
-    }
+		revalidate();
+		repaint();
+	}
 
-    public void toggleView(){
-        constraints.fill = GridBagConstraints.VERTICAL;
+	public JToolBar getSideToolBar() {
+		return (sideToolBar);
+	}
 
-        remove(toolbar);
+	public void toggleView() {
+		constraints.fill = GridBagConstraints.VERTICAL;
 
-        if(toolbar instanceof RunToolBar){
-            toolbar = new BuildToolBar(this, board);
-        } else {
-            toolbar = new RunToolBar(model);
-            remove(sideToolBar);
-            sideToolBar = new JToolBar();
-        }
+		remove(toolbar);
 
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        add(toolbar, constraints);
+		if (toolbar instanceof RunToolBar) {
+			toolbar = new BuildToolBar(this, board);
+		} else {
+			toolbar = new RunToolBar(model);
+			remove(sideToolBar);
+			sideToolBar = new JToolBar();
+		}
 
-        revalidate();
-        repaint();
-    }
+		constraints.gridx = 1;
+		constraints.gridy = 0;
+		add(toolbar, constraints);
 
-    public Board getBoard(){
-        return (board);
-    }
+		revalidate();
+		repaint();
+	}
+
+	public Board getBoard() {
+		return (board);
+	}
+
+	private void setUpKeyListener() {
+		// Use an event dispatcher so that key strokes are captured regardless
+		// of which element of the frame has focus.
+		this.keyListener = RunKeyListener.createListener(model);
+		KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		kfm.addKeyEventDispatcher(new KeyEventDispatcher() {
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e) {
+				if (e.getID() == KeyEvent.KEY_PRESSED) {
+					keyListener.keyPressed(e);
+					return true;
+				}
+				if (e.getID() == KeyEvent.KEY_RELEASED) {
+					keyListener.keyReleased(e);
+					return true;
+				}
+				return false;
+			}
+		});
+	}
 }
