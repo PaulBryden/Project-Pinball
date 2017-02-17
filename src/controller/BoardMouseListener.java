@@ -1,10 +1,7 @@
 package controller;
 
 import model.*;
-import view.BallView;
-import view.Board;
-import view.SquareView;
-import view.TriangleView;
+import view.*;
 
 import java.awt.event.MouseEvent;
 
@@ -47,6 +44,13 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                         IBall ballGizmo = new BallGizmo("B", x, y, 13, 17);
                         board.addViewBall(new BallView(ballGizmo));
                         board.getModel().addBall(ballGizmo);
+                        break;
+                    case FLIPPER: //TODO: Add user defined key connection
+                        IFlipper flipper = new LeftFlipper("LF" + id, x, y);
+                        board.addViewGizmo(new FlipperView(flipper));
+                        board.getModel().addGizmo(flipper);
+                        board.getModel().addKeyPressedTrigger(66, flipper);
+                        board.getModel().addKeyReleasedTrigger(66, flipper);
                         break;
                     case SQUARE:
                         IGizmo squareGizmo = new SquareGizmo("S" + id, x, y);
