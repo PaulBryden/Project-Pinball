@@ -44,16 +44,22 @@ public class BoardFileHandler {
 			}
 
 			// Finally, write key connections to file
-			// FIXME: Un-comment once key triggers have been finished in GameModel!
-//			Map<Integer, ITrigger> keyTriggers = model.getKeyTriggers();
-//			for (Map.Entry<Integer, ITrigger> current : keyTriggers.entrySet()) {
-//				List<IGizmo> gizmosToTrigger = current.getValue().getGizmosToTrigger();
-//				for (IGizmo gizmo : gizmosToTrigger) {
-//					save.write("KeyConnect key" + current.getKey() + " down " + gizmo.getID());
-//					save.write("KeyConnect key" + current.getKey() + " up " + gizmo.getID());
-//					save.write("\n");
-//				}
-//			}
+			Map<Integer, ITrigger> keyPressedTriggers = model.getKeyPressedTriggers();
+			Map<Integer, ITrigger> keyReleasedTriggers = model.getKeyReleasedTriggers();
+
+			for (Map.Entry<Integer, ITrigger> current : keyPressedTriggers.entrySet()) {
+				Set<IGizmo> gizmosToTrigger = current.getValue().getGizmosToTrigger();
+				for (IGizmo gizmo : gizmosToTrigger) {
+					save.write("KeyConnect key " + current.getKey() + " down " + gizmo.getID() + "\n");
+				}
+			}
+
+			for (Map.Entry<Integer, ITrigger> current : keyReleasedTriggers.entrySet()) {
+				Set<IGizmo> gizmosToTrigger = current.getValue().getGizmosToTrigger();
+				for (IGizmo gizmo : gizmosToTrigger) {
+					save.write("KeyConnect key " + current.getKey() + " up " + gizmo.getID() + "\n");
+				}
+			}
 
 			save.close();
 

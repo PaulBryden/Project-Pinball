@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Map;
 import java.util.Observer;
 
 public interface IModel {
@@ -35,5 +36,9 @@ public interface IModel {
 	public Color getBackgroundColour();
 	
 	public void setBackgroundColour(Color colour);
+
+	public Map<Integer, ITrigger> getKeyPressedTriggers();
+
+	public Map<Integer, ITrigger> getKeyReleasedTriggers();
 
 }
