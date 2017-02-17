@@ -45,6 +45,11 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                         board.addViewBall(new BallView(ballGizmo));
                         board.getModel().addBall(ballGizmo);
                         break;
+                    case CIRCLE:
+                        ICircle circleGizmo = new CircleGizmo("C" + id, x, y);
+                        board.addViewGizmo(new CircleView(circleGizmo));
+                        board.getModel().addGizmo(circleGizmo);
+                        break;
                     case FLIPPER: //TODO: Add user defined key connection
                         IFlipper flipper = new LeftFlipper("LF" + id, x, y);
                         board.addViewGizmo(new FlipperView(flipper));

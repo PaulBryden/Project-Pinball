@@ -1,9 +1,6 @@
 package controller;
 
-import model.CircleGizmo;
-import model.ICircle;
 import view.Board;
-import view.CircleView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +14,9 @@ public class AddCircleListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ICircle circleGizmo = new CircleGizmo("C910", 9, 10);
-        board.addViewGizmo(new CircleView(circleGizmo));
-        board.getModel().addGizmo(circleGizmo);
+        board.getMouseListener().setGizmo(BoardMouseListener.CUR_GIZMO.CIRCLE);
+//        ICircle circleGizmo = new CircleGizmo("C910", 9, 10);
+//        board.addViewGizmo(new CircleView(circleGizmo));
+//        board.getModel().addGizmo(circleGizmo);
     }
 }
