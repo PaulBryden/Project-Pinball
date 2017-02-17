@@ -78,7 +78,6 @@ public class Board extends JPanel implements Observer {
 	}
 
 	private void drawGrid(Graphics g) {
-		int gridSize = getWidth() / GRID_WIDTH;
 		int x;
 		int y;
 
@@ -86,8 +85,8 @@ public class Board extends JPanel implements Observer {
 
 		for (int i = 0; i < GRID_WIDTH; i++) {
 			for (int j = 0; j < GRID_WIDTH; j++) {
-				x = i * gridSize;
-				y = j * gridSize;
+				x = i * GRID_WIDTH;
+				y = j * GRID_WIDTH;
 
 				g.drawLine(x, 0, x, getSize().height);
 				g.drawLine(0, y, getSize().width, y);
