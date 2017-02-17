@@ -9,10 +9,12 @@ import javax.swing.JToolBar;
 import java.awt.event.ActionListener;
 
 class RunToolBar extends JToolBar{
+    private JButton stopBtn;
+
     RunToolBar(IModel model){
         super("Run Mode");
         JButton runBtn = new JButton("Run");
-        JButton stopBtn = new JButton("Stop");
+        stopBtn = new JButton("Stop");
         JButton tickBtn = new JButton("Tick");
         ActionListener runListener = new RunListener(model);
 
@@ -29,5 +31,9 @@ class RunToolBar extends JToolBar{
 
         tickBtn.addActionListener(runListener);
         add(tickBtn);
+    }
+
+    void stop(){
+        stopBtn.doClick();
     }
 }

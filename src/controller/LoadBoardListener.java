@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import model.BoardFileHandler;
-import model.GameModel;
 import model.IModel;
 
 public class LoadBoardListener implements ActionListener{
@@ -22,7 +21,6 @@ public class LoadBoardListener implements ActionListener{
         BoardFileHandler fh = new BoardFileHandler(model);
         model.reset();
         fh.load("spec_save_file.txt");
-        mainWindow.revalidate();
-        mainWindow.repaint();
+        mainWindow.getBoard().reRender();
     }
 }

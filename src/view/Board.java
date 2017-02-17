@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -8,11 +7,19 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.border.EtchedBorder;
 
-import model.*;
+import model.Absorber;
+import model.CircleGizmo;
+import model.IBall;
+import model.ICircle;
+import model.IFlipper;
+import model.IGizmo;
+import model.IModel;
+import model.LeftFlipper;
+import model.RightFlipper;
+import model.SquareGizmo;
+import model.TriangleGizmo;
 
 public class Board extends JPanel implements Observer {
 	
@@ -26,9 +33,9 @@ public class Board extends JPanel implements Observer {
 		model.addObserver(this);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
-		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(
-				EtchedBorder.RAISED, Color.BLACK, Color.BLACK)));
-		setBackground(Color.BLACK);
+		setBackground(model.getBackgroundColour());
+//		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(
+//				EtchedBorder.LOWERED, Color.BLACK, Color.BLACK)));
 		setSize(new Dimension(400, 400));
 		setPreferredSize(getSize());
 		setMinimumSize(getSize());
@@ -41,26 +48,22 @@ public class Board extends JPanel implements Observer {
 
 	public void addViewGizmo(IViewGizmo gizmo){
 		viewGizmos.add(gizmo);
-		revalidate();
-		repaint();
+		reRender();
 	}
 
 	public void addViewBall(IViewGizmo ball){
 		viewBalls.add(ball);
-		revalidate();
-		repaint();
+		reRender();
 	}
 
 	public void removeViewGizmo(IViewGizmo gizmo){
 		viewGizmos.remove(gizmo);
-		revalidate();
-		repaint();
+		reRender();
 	}
 
 	public void removeViewBall(IViewGizmo ball){
 		viewBalls.remove(ball);
-		revalidate();
-		repaint();
+		reRender();
 	}
 
     @Override
@@ -69,43 +72,42 @@ public class Board extends JPanel implements Observer {
 		List<IGizmo> gizmos = model.getGizmos();
 		List<IBall> balls = model.getBalls();
 
-		//If load
-		//if((viewGizmos.isEmpty() && viewBalls.isEmpty()) && (!gizmos.isEmpty() || !balls.isEmpty())){
-			viewGizmos.clear();
-			viewBalls.clear();
+		viewGizmos.clear();
+		viewBalls.clear();
 
-			for(IGizmo gizmo : gizmos){
-				if(gizmo instanceof TriangleGizmo)
-					viewGizmos.add(new TriangleView(gizmo));
-				else if(gizmo instanceof SquareGizmo)
-					viewGizmos.add(new SquareView(gizmo));
-				else if(gizmo instanceof LeftFlipper || gizmo instanceof RightFlipper)
-					viewGizmos.add(new FlipperView((IFlipper) gizmo));
-				else if(gizmo instanceof CircleGizmo)
-					viewGizmos.add(new CircleView((ICircle) gizmo));
-				else if(gizmo instanceof Absorber)
-					viewGizmos.add(new AbsorberView(gizmo, this));
-			}
-
-			for(IBall ball : balls){
-				viewBalls.add(new BallView(ball));
-			}
-		//}
-
-		for (int i = 0; i < viewGizmos.size(); i++) {
-			//viewGizmos.get(i).setGizmo(gizmos.get(i));
-			viewGizmos.get(i).paint(g);
+		for(IGizmo gizmo : gizmos){
+			if(gizmo instanceof TriangleGizmo)
+				viewGizmos.add(new TriangleView(gizmo));
+			else if(gizmo instanceof SquareGizmo)
+				viewGizmos.add(new SquareView(gizmo));
+			else if(gizmo instanceof LeftFlipper || gizmo instanceof RightFlipper)
+				viewGizmos.add(new FlipperView((IFlipper) gizmo));
+			else if(gizmo instanceof CircleGizmo)
+				viewGizmos.add(new CircleView((ICircle) gizmo));
+			else if(gizmo instanceof Absorber)
+				viewGizmos.add(new AbsorberView(gizmo));
 		}
 
-		for (int i = 0; i < viewBalls.size(); i++) {
-			//viewBalls.get(i).setGizmo(balls.get(i));
-			viewBalls.get(i).paint(g);
+		for(IBall ball : balls){
+			viewBalls.add(new BallView(ball));
+		}
+
+		for(IViewGizmo viewGizmo : viewGizmos) {
+			viewGizmo.paint(g);
+		}
+
+		for(IViewGizmo viewBall : viewBalls) {
+			viewBall.paint(g);
 		}
     }
 
-	@Override
-	public void update(Observable o, Object arg) {
+    public void reRender(){
 		revalidate();
 		repaint();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		reRender();
 	}
 }
