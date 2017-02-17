@@ -23,16 +23,6 @@ public class SquareView implements IViewGizmo, IObserver {
 	}
 
 	@Override
-	public void setGizmo(IGizmo gizmo) {
-		this.gizmo = gizmo;
-	}
-
-	@Override
-	public Graphics GetViewObject() {
-		return null;
-	}
-
-	@Override
 	public void update(IObservable obsv, Object o) {
 
 	}

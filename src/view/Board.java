@@ -78,18 +78,18 @@ public class Board extends JPanel implements Observer {
 	}
 
 	private void drawGrid(Graphics g) {
-		int x;
-		int y;
+		int xCoord;
+		int yCoord;
 
 		g.setColor(Color.WHITE);
 
-		for (int i = 0; i < GRID_WIDTH; i++) {
-			for (int j = 0; j < GRID_WIDTH; j++) {
-				x = i * GRID_WIDTH;
-				y = j * GRID_WIDTH;
+		for(int x = 0; x < GRID_WIDTH; x++) {
+			for(int y = 0; y < GRID_WIDTH; y++) {
+				xCoord = x * GRID_WIDTH;
+				yCoord = y * GRID_WIDTH;
 
-				g.drawLine(x, 0, x, getHeight());
-				g.drawLine(0, y, getWidth(), y);
+				g.drawLine(xCoord, 0, xCoord, getHeight());
+				g.drawLine(0, yCoord, getWidth(), yCoord);
 			}
 		}
 	}
