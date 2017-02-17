@@ -9,7 +9,6 @@ import model.IModel;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -80,6 +79,7 @@ public class MainWindow extends JFrame {
 		remove(toolbar);
 
 		if (toolbar instanceof RunToolBar) {
+			((RunToolBar) toolbar).stop();
 			toolbar = new BuildToolBar(this, board);
 		} else {
 			toolbar = new RunToolBar(model);
@@ -104,19 +104,16 @@ public class MainWindow extends JFrame {
 		// of which element of the frame has focus.
 		this.keyListener = RunKeyListener.createListener(model);
 		KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		kfm.addKeyEventDispatcher(new KeyEventDispatcher() {
-			@Override
-			public boolean dispatchKeyEvent(KeyEvent e) {
-				if (e.getID() == KeyEvent.KEY_PRESSED) {
-					keyListener.keyPressed(e);
-					return true;
-				}
-				if (e.getID() == KeyEvent.KEY_RELEASED) {
-					keyListener.keyReleased(e);
-					return true;
-				}
-				return false;
-			}
-		});
+		kfm.addKeyEventDispatcher(e -> {
+            if (e.getID() == KeyEvent.KEY_PRESSED) {
+                keyListener.keyPressed(e);
+                return true;
+            }
+            if (e.getID() == KeyEvent.KEY_RELEASED) {
+                keyListener.keyReleased(e);
+                return true;
+            }
+            return false;
+        });
 	}
 }
