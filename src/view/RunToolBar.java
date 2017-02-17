@@ -22,7 +22,6 @@ class RunToolBar extends JToolBar{
         setRollover(true);
 
         runBtn.addActionListener(runListener);
-        runBtn.addKeyListener(new RunKeyListener(model));
         add(runBtn);
 
         stopBtn.addActionListener(runListener);
