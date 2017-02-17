@@ -88,8 +88,8 @@ public class Board extends JPanel implements Observer {
 				x = i * GRID_WIDTH;
 				y = j * GRID_WIDTH;
 
-				g.drawLine(x, 0, x, getSize().height);
-				g.drawLine(0, y, getSize().width, y);
+				g.drawLine(x, 0, x, getHeight());
+				g.drawLine(0, y, getWidth(), y);
 			}
 		}
 	}
