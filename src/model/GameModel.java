@@ -232,4 +232,12 @@ public class GameModel extends Observable implements IModel {
 	public void setBackgroundColour(Color colour) {
 		this.backgroundColour = colour;
 	}
+	
+	public Map<Integer, ITrigger> getKeyPressedTriggers() {
+		return keyPressedTriggers;
+	}
+
+	public Map<Integer, ITrigger> getKeyReleasedTriggers() {
+		return keyReleasedTriggers;
+	}
 }
