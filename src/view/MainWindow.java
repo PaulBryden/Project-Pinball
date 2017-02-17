@@ -7,9 +7,7 @@ import javax.swing.WindowConstants;
 import controller.RunKeyListener;
 import model.IModel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.KeyboardFocusManager;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

@@ -1,13 +1,26 @@
 package controller;
 
-import model.*;
-import view.*;
+import model.BallGizmo;
+import model.CircleGizmo;
+import model.IBall;
+import model.ICircle;
+import model.IFlipper;
+import model.IGizmo;
+import model.LeftFlipper;
+import model.SquareGizmo;
+import model.TriangleGizmo;
+import view.BallView;
+import view.Board;
+import view.CircleView;
+import view.FlipperView;
+import view.SquareView;
+import view.TriangleView;
 
 import java.awt.event.MouseEvent;
 
 public class BoardMouseListener implements java.awt.event.MouseListener{
     public enum STATE {
-        IDLE, ADD, REMOVE
+        BUILD, RUN, ADD, REMOVE
     }
     public enum CUR_GIZMO {
         BALL, SQUARE, TRIANGLE, FLIPPER, CIRCLE, ABSORBER, NONE
@@ -19,7 +32,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
 
     public BoardMouseListener(Board board){
         this.board = board;
-        state = STATE.IDLE;
+        state = STATE.BUILD;
         gizmo = CUR_GIZMO.NONE;
     }
 
@@ -29,6 +42,10 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
 
     void setGizmo(CUR_GIZMO gizmo){
         this.gizmo = gizmo;
+    }
+
+    public STATE getState(){
+        return (state);
     }
 
     @Override

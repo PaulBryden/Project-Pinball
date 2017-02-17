@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -28,6 +29,7 @@ public class Board extends JPanel implements Observer {
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
 	private BoardMouseListener mouseListener;
+	private static final int GRID_WIDTH = 20;
 
 	public Board(IModel model) {
 		super();
@@ -75,6 +77,24 @@ public class Board extends JPanel implements Observer {
 		reRender();
 	}
 
+	private void drawGrid(Graphics g) {
+		int gridSize = getWidth() / GRID_WIDTH;
+		int x;
+		int y;
+
+		g.setColor(Color.WHITE);
+
+		for (int i = 0; i < GRID_WIDTH; i++) {
+			for (int j = 0; j < GRID_WIDTH; j++) {
+				x = i * gridSize;
+				y = j * gridSize;
+
+				g.drawLine(x, 0, x, getSize().height);
+				g.drawLine(0, y, getSize().width, y);
+			}
+		}
+	}
+
     @Override
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -100,6 +120,9 @@ public class Board extends JPanel implements Observer {
 		for(IBall ball : balls){
 			viewBalls.add(new BallView(ball));
 		}
+
+		if(!mouseListener.getState().equals(BoardMouseListener.STATE.RUN))
+			drawGrid(g);
 
 		for(IViewGizmo viewGizmo : viewGizmos) {
 			viewGizmo.paint(g);
