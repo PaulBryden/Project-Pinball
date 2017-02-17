@@ -2,8 +2,11 @@ package controller;
 
 import model.BallGizmo;
 import model.IBall;
+import model.IGizmo;
+import model.SquareGizmo;
 import view.BallView;
 import view.Board;
+import view.SquareView;
 
 import java.awt.event.MouseEvent;
 
@@ -37,13 +40,19 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
     public void mouseClicked(MouseEvent e) {
         switch (state){
             case ADD:
-                System.out.println(e.getX() + " " + e.getY());
+                int x = e.getX() / GRID_WIDTH;
+                int y = e.getY() / GRID_WIDTH;
+
                 switch (gizmo){
                     case BALL:
-                        IBall ballGizmo = new BallGizmo("B", Math.round(e.getX() / GRID_WIDTH),
-                                Math.round(e.getY() / GRID_WIDTH), 13, 17);
+                        IBall ballGizmo = new BallGizmo("B", x, y, 13, 17);
                         board.addViewBall(new BallView(ballGizmo));
                         board.getModel().addBall(ballGizmo);
+                        break;
+                    case SQUARE:
+                        IGizmo squareGizmo = new SquareGizmo("S" + x + "" + y, x, y);
+                        board.addViewGizmo(new SquareView(squareGizmo));
+                        board.getModel().addGizmo(squareGizmo);
                         break;
                 }
                 break;
