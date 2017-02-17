@@ -1,12 +1,10 @@
 package controller;
 
-import model.BallGizmo;
-import model.IBall;
-import model.IGizmo;
-import model.SquareGizmo;
+import model.*;
 import view.BallView;
 import view.Board;
 import view.SquareView;
+import view.TriangleView;
 
 import java.awt.event.MouseEvent;
 
@@ -42,6 +40,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
             case ADD:
                 int x = e.getX() / GRID_WIDTH;
                 int y = e.getY() / GRID_WIDTH;
+                String id = x + "" + y;
 
                 switch (gizmo){
                     case BALL:
@@ -50,9 +49,14 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                         board.getModel().addBall(ballGizmo);
                         break;
                     case SQUARE:
-                        IGizmo squareGizmo = new SquareGizmo("S" + x + "" + y, x, y);
+                        IGizmo squareGizmo = new SquareGizmo("S" + id, x, y);
                         board.addViewGizmo(new SquareView(squareGizmo));
                         board.getModel().addGizmo(squareGizmo);
+                        break;
+                    case TRIANGLE:
+                        IGizmo triangleGizmo = new TriangleGizmo("T" + id, x ,y);
+                        board.addViewGizmo(new TriangleView(triangleGizmo));
+                        board.getModel().addGizmo(triangleGizmo);
                         break;
                 }
                 break;
