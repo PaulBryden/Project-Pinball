@@ -58,7 +58,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
 
                 switch (gizmo){
                     case BALL:
-                        IBall ballGizmo = new BallGizmo("B", x, y, 13, 17);
+                        IBall ballGizmo = new BallGizmo("B", x + 0.5, y + 0.5, 13, 17);
                         board.addViewBall(new BallView(ballGizmo));
                         board.getModel().addBall(ballGizmo);
                         break;
