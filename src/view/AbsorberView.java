@@ -15,10 +15,6 @@ public class AbsorberView implements IViewGizmo, IObserver{
         this.gizmo = gizmo;
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-    }
-
     public void paint(Graphics g) {
         g.setColor(gizmo.getColour());
         g.fillRect((int) gizmo.getExactCoords().get(0).x() * GRID_WIDTH,
@@ -28,11 +24,11 @@ public class AbsorberView implements IViewGizmo, IObserver{
     }
 
     @Override
-    public void setGizmo(IGizmo gizmo) {
-        this.gizmo = gizmo;
+    public void update(IObservable obsv, Object o) {
     }
 
     @Override
-    public void update(IObservable obsv, Object o) {
+    public void update(Observable observable, Object o) {
+
     }
 }

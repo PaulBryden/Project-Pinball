@@ -37,18 +37,11 @@ public class TriangleView implements IViewGizmo, IObserver{
 	}
 
 	@Override
-	public void setGizmo(IGizmo gizmo) {
-		this.gizmo = gizmo;
-	}
-
-	@Override
 	public void update(IObservable obsv, Object o) {
-
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-
 	}
 
 }

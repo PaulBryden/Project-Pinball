@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Observable;
 
 import model.IFlipper;
-import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 import physics.LineSegment;
@@ -20,11 +19,6 @@ public class FlipperView implements IViewGizmo, IObserver{
 
 	public FlipperView(IFlipper gizmo){
 		this.gizmo = gizmo;
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		//update graphic
 	}
 
 	public void paint(Graphics g) {
@@ -64,14 +58,14 @@ public class FlipperView implements IViewGizmo, IObserver{
 	}
 
 	@Override
-	public void setGizmo(IGizmo gizmo) {
-		this.gizmo = (IFlipper) gizmo;
-	}
-
-	@Override
 	public void update(IObservable obsv, Object o) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		//update graphic
 	}
 
 }

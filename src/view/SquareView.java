@@ -22,12 +22,6 @@ public class SquareView implements IViewGizmo, IObserver {
 				(int) gizmo.getGridCoords().y() * GRID_WIDTH, GRID_WIDTH, GRID_WIDTH);
 	}
 
-	@Override
-	public void setGizmo(IGizmo gizmo) {
-		this.gizmo = gizmo;
-	}
-
-	@Override
 	public void update(IObservable obsv, Object o) {
 
 	}
