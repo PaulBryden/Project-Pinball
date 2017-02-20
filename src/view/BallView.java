@@ -23,12 +23,6 @@ public class BallView implements IViewGizmo, IObserver{
         //UPDATE GRAPHICS OBJECT
     }
 
-    @Override
-    public Graphics GetViewObject() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public void paint(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
         double radius = gizmo.getRadius();

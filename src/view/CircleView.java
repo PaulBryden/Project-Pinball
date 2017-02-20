@@ -22,12 +22,6 @@ public class CircleView implements IViewGizmo, IObserver{
 		//UPDATE GRAPHICS OBJECT
 	}
 
-	@Override
-	public Graphics GetViewObject() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void paint(Graphics g) {
 		g.setColor(gizmo.getColour());
 		g.fillOval((((int) gizmo.getGridCoords().x() * GRID_WIDTH)),

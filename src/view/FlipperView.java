@@ -27,12 +27,6 @@ public class FlipperView implements IViewGizmo, IObserver{
 		//update graphic
 	}
 
-	@Override
-	public Graphics GetViewObject() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void paint(Graphics g) {
 		Graphics2D g2D = (Graphics2D) g;
 		List<Vect> exactCoords = new LinkedList<>();

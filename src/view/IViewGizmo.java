@@ -7,8 +7,6 @@ import java.util.Observer;
 
 public interface IViewGizmo extends Observer{
 
-	Graphics GetViewObject();
-
 	void paint(Graphics g);
 
 	void setGizmo(IGizmo gizmo);

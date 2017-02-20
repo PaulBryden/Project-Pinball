@@ -17,13 +17,6 @@ public class AbsorberView implements IViewGizmo, IObserver{
 
     @Override
     public void update(Observable o, Object arg) {
-        //UPDATE GRAPHICS OBJECT
-
-    }
-
-    @Override    public Graphics GetViewObject() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     public void paint(Graphics g) {
@@ -41,7 +34,5 @@ public class AbsorberView implements IViewGizmo, IObserver{
 
     @Override
     public void update(IObservable obsv, Object o) {
-        // TODO Auto-generated method stub
     }
-
 }
