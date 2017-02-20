@@ -9,12 +9,10 @@ import observer.IObserver;
 
 public class AbsorberView implements IViewGizmo, IObserver{
     private IGizmo gizmo;
-    private Board board;
     private static final int GRID_WIDTH = 20;
 
-    public AbsorberView(IGizmo gizmo, Board board){
+    public AbsorberView(IGizmo gizmo){
         this.gizmo = gizmo;
-        this.board = board;
     }
 
     @Override
@@ -23,21 +21,12 @@ public class AbsorberView implements IViewGizmo, IObserver{
 
     }
 
-    @Override    public Graphics GetViewObject() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public void paint(Graphics g) {
-        int width = board.getWidth();
-
-        g.fillRect((int) gizmo.getGridCoords().x() * GRID_WIDTH ,
-                (int) gizmo.getGridCoords().y() * GRID_WIDTH, width, width);
-    }
-
-    @Override
-    public void setGizmo(IGizmo gizmo) {
-        this.gizmo = gizmo;
+        g.setColor(gizmo.getColour());
+        g.fillRect((int) gizmo.getExactCoords().get(0).x() * GRID_WIDTH,
+                (int) gizmo.getExactCoords().get(0).y() * GRID_WIDTH,
+                (int)(gizmo.getExactCoords().get(2).x() - gizmo.getExactCoords().get(0).x()) * GRID_WIDTH,
+                (int) (gizmo.getExactCoords().get(2).y() - gizmo.getExactCoords().get(0).y()) * GRID_WIDTH);
     }
 
     @Override

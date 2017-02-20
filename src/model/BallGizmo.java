@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.Color;
 import java.util.List;
 
 import physics.Circle;
@@ -13,7 +12,7 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 	private Vect velocity;
 
 	public BallGizmo(String id, Vect coords, Vect velo) {
-		super(id, coords, Color.BLUE, false);
+		super(id, coords, Constants.BALL_DEFAULT_COLOUR, false);
 		this.radius = 0.3;
 		velocity = velo;
 		generateLinesAndCircles();

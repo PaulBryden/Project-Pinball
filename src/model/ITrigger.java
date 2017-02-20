@@ -1,12 +1,12 @@
 package model;
 
-import java.util.List;
+import java.util.Set;
 
 public interface ITrigger {
 
 	public void addGizmoToTrigger(IGizmo gizmo);
 	
-	public List<IGizmo> getGizmosToTrigger();
+	public Set<IGizmo> getGizmosToTrigger();
 
 	public void triggerConnectedGizmos();
 	

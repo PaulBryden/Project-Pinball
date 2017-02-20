@@ -16,8 +16,8 @@ public class AddAbsorberListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Absorber absorber = new Absorber("A", 0, 19, null);
-        board.addViewGizmo(new AbsorberView(absorber, board));
+        Absorber absorber = new Absorber("A", 0, 19, 1, 20, null);
+        board.addViewGizmo(new AbsorberView(absorber));
         board.getModel().addGizmo(absorber);
     }
 }

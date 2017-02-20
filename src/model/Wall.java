@@ -1,8 +1,9 @@
 package model;
 
 import java.awt.Color;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import physics.Circle;
 import physics.LineSegment;
@@ -10,13 +11,13 @@ import physics.Vect;
 
 public class Wall implements IWall {
 	
-	private List<IGizmo> triggers;
+	private Set<IGizmo> triggers;
 	private LineSegment line;
 	private double coefficientOfReflection;
 	
 	public Wall(Vect p1, Vect p2) {
 		line = new LineSegment(p1, p2);
-		triggers = new LinkedList<>();
+		triggers = new HashSet<>();
 		coefficientOfReflection = Constants.DEFAULT_COR;
 	}
 	
@@ -45,7 +46,7 @@ public class Wall implements IWall {
 	}
 	
 	@Override
-	public List<IGizmo> getGizmosToTrigger() {
+	public Set<IGizmo> getGizmosToTrigger() {
 		return triggers;
 	}
 

@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,40 +14,44 @@ import physics.Vect;
 
 public class GameModel extends Observable implements IModel {
 
+	BoardFileHandler fileHandler;
 	private List<IGizmo> gizmos;
 	private List<IBall> balls;
 	private List<IWall> walls;
-	private Map<Character, ITrigger> keyTriggers;
+	private Map<Integer, ITrigger> keyPressedTriggers;
+	private Map<Integer, ITrigger> keyReleasedTriggers;
 	private boolean pauseGame = false;
-	private IFlipper flipper;
+	private Color backgroundColour;
 
 	public GameModel() {
-		// listOfGizmos = new GizmoList();
-		gizmos = new LinkedList<>();
-		balls = new LinkedList<>();
-		walls = new LinkedList<>();
-		walls.add(new Wall(0, 0, 0, 20));
-		walls.add(new Wall(0, 0, 20, 0));
-		walls.add(new Wall(20, 0, 20, 20));
-		walls.add(new Wall(0, 20, 20, 20));
-		gizmos.add(new SquareGizmo("S35", 3, 5));
-		gizmos.add(new SquareGizmo("S1310", 13, 10));
-		gizmos.add(new SquareGizmo("S1319", 13, 19));
-		gizmos.add(new SquareGizmo("S142", 14, 2));
-		gizmos.add(new SquareGizmo("S416", 4, 16));
-		gizmos.add(new SquareGizmo("S516", 5, 16));
-		gizmos.add(new SquareGizmo("S616", 6, 16));
-		gizmos.add(new SquareGizmo("S716", 7, 16));
-		gizmos.add(new TriangleGizmo("T1", 5, 5));
-		gizmos.add(new Absorber("A", 0,19, balls));
-		flipper = new LeftFlipper("LF102", 10, 2);
-		gizmos.add(flipper);
-		IGizmo magicGizmo = new SquareGizmo("S1818", 18, 18);
-		magicGizmo.addGizmoToTrigger(flipper);
-		gizmos.add(magicGizmo);
-		balls.add(new BallGizmo("B", 10, 11, 0, -27));
-		keyTriggers = new HashMap<>();
-		addKeyTrigger('b', flipper);
+		reset();
+
+		//fileHandler = new BoardFileHandler(this);
+		//fileHandler.load("spec_save_file.txt");
+
+//		gizmos.add(new SquareGizmo("S35", 3, 5));
+//		gizmos.add(new SquareGizmo("S1310", 13, 10));
+//		gizmos.add(new SquareGizmo("S1319", 13, 19));
+//		gizmos.add(new SquareGizmo("S142", 14, 2));
+//		gizmos.add(new SquareGizmo("S416", 4, 16));
+//		gizmos.add(new SquareGizmo("S516", 5, 16));
+//		gizmos.add(new SquareGizmo("S616", 6, 16));
+//		gizmos.add(new SquareGizmo("S716", 7, 16));
+//		gizmos.add(new TriangleGizmo("T2", 1, 0));
+//		TriangleGizmo triangle = new TriangleGizmo("T1", 0, 18);
+//		triangle.rotate(2);
+//		gizmos.add(triangle);
+//		Absorber absorber = new Absorber("A", 1,18,5,20, balls);
+//		gizmos.add(absorber);
+//		IFlipper flipper = new LeftFlipper("LF102", 10, 2);
+//		gizmos.add(flipper);
+//		IGizmo magicGizmo = new SquareGizmo("S1818", 18, 18);
+//		magicGizmo.addGizmoToTrigger(flipper);
+//		gizmos.add(magicGizmo);
+		//balls.add(new BallGizmo("B", 10, 11, 13, 17));
+//		addKeyTrigger('b', flipper);
+//		absorber.addGizmoToTrigger(absorber);
+//		addKeyTrigger('a', absorber);
 	}
 
 	public void tick() {
@@ -74,12 +79,9 @@ public class GameModel extends Observable implements IModel {
 		applyGravity(tick);
 		applyFriction(tick);
 		// Trigger any gizmos that have been collided with
-		if (collision != null && collision.getGizmo() != null){
+		if (collision != null && collision.getGizmo() != null) {
+			collision.getGizmo().onCollision(collision.getBall());
 			collision.getGizmo().triggerConnectedGizmos();
-			if (collision.getGizmo() instanceof Absorber) {
-				((Absorber) collision.getGizmo()).performActions(collision.getBall());
-			}
-			//collision.getGizmo().onCollision(collision.getBall());
 		}
 		// Update view
 		for (IGizmo gizmo : gizmos) {
@@ -95,12 +97,12 @@ public class GameModel extends Observable implements IModel {
 		return gizmos;
 	}
 
-	public void updateGizmoList(List<IGizmo> gizmos) {
-		this.gizmos = gizmos;
-	}
-
 	public void addGizmo(IGizmo gizmo) {
 		gizmos.add(gizmo);
+	}
+
+	public void addBall(IBall ball) {
+		balls.add(ball);
 	}
 
 	public void removeGizmo(IGizmo gizmo) {
@@ -108,7 +110,19 @@ public class GameModel extends Observable implements IModel {
 	}
 
 	public void reset() {
+		walls = new LinkedList<>();
+		walls.add(new Wall(0, 0, 0, 20));
+		walls.add(new Wall(0, 0, 20, 0));
+		walls.add(new Wall(20, 0, 20, 20));
+		walls.add(new Wall(0, 20, 20, 20));
 
+		gizmos = new LinkedList<>();
+		balls = new LinkedList<>();
+		
+		keyPressedTriggers = new HashMap<>();
+		keyReleasedTriggers = new HashMap<>();
+		
+		backgroundColour = Constants.BACKGROUND_DEFAULT_COLOUR;
 	}
 
 	public List<IBall> getBalls() {
@@ -141,7 +155,8 @@ public class GameModel extends Observable implements IModel {
 			}
 			for (IWall wall : walls) {
 				cd = evaluateCollisionWithStaticLine(ball, wall.getLine(), wall);
-				if (cd != null && (collision == null || cd.getTuc() < collision.getTuc()) && cd.getTuc() < Constants.TICK_TIME)
+				if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
+						&& cd.getTuc() < Constants.TICK_TIME)
 					collision = cd;
 			}
 		}
@@ -182,21 +197,52 @@ public class GameModel extends Observable implements IModel {
 	}
 
 	@Override
-	public void processKeyTrigger(char keyChar) {
-		if (keyTriggers.containsKey(keyChar)) {
-			keyTriggers.get(keyChar).triggerConnectedGizmos();
+	public void processKeyPressedTrigger(int keyCode) {
+		if (keyPressedTriggers.containsKey(keyCode)) {
+			keyPressedTriggers.get(keyCode).triggerConnectedGizmos();
 		}
 	}
 
 	@Override
-	public void addKeyTrigger(char keyChar, IGizmo gizmo) {
-		ITrigger trigger;
-		if (keyTriggers.containsKey(keyChar)) {
-			trigger = keyTriggers.get(keyChar);
-		} else {
-			trigger = new KeyTrigger();
+	public void processKeyReleasedTrigger(int keyCode) {
+		if (keyReleasedTriggers.containsKey(keyCode)) {
+			keyReleasedTriggers.get(keyCode).triggerConnectedGizmos();
 		}
-		trigger.addGizmoToTrigger(gizmo);
-		keyTriggers.put(keyChar, trigger);
+	}
+
+	@Override
+	public void addKeyPressedTrigger(int keyCode, IGizmo gizmo) {
+		if (keyPressedTriggers.containsKey(keyCode)) {
+			keyPressedTriggers.get(keyCode).addGizmoToTrigger(gizmo);
+		} else {
+			keyPressedTriggers.put(keyCode, new KeyTrigger(gizmo));
+		}
+	}
+
+	@Override
+	public void addKeyReleasedTrigger(int keyCode, IGizmo gizmo) {
+		if (keyReleasedTriggers.containsKey(keyCode)) {
+			keyReleasedTriggers.get(keyCode).addGizmoToTrigger(gizmo);
+		} else {
+			keyReleasedTriggers.put(keyCode, new KeyTrigger(gizmo));
+		}
+	}
+
+	@Override
+	public Color getBackgroundColour() {
+		return this.backgroundColour;
+	}
+
+	@Override
+	public void setBackgroundColour(Color colour) {
+		this.backgroundColour = colour;
+	}
+	
+	public Map<Integer, ITrigger> getKeyPressedTriggers() {
+		return keyPressedTriggers;
+	}
+
+	public Map<Integer, ITrigger> getKeyReleasedTriggers() {
+		return keyReleasedTriggers;
 	}
 }

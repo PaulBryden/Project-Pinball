@@ -1,8 +1,5 @@
 package controller;
 
-import model.BallGizmo;
-import model.IBall;
-import view.BallView;
 import view.Board;
 
 import java.awt.event.ActionEvent;
@@ -17,9 +14,9 @@ public class AddBallListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //TODO: Get proper velocity vector
-        IBall ballGizmo = new BallGizmo("B", 16, 17, 1, 1);
-        board.addViewGizmo(new BallView(ballGizmo));
-        board.getModel().addGizmo(ballGizmo);
+        board.getMouseListener().setGizmo(BoardMouseListener.CUR_GIZMO.BALL);
+//        IBall ballGizmo = new BallGizmo("B", 18, 3, 1, 1);
+//        board.addViewBall(new BallView(ballGizmo));
+//        board.getModel().addBall(ballGizmo);
     }
 }

@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.Color;
 import java.util.List;
 
 import physics.Circle;
@@ -12,7 +11,7 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 	private Circle physicsCircle;
 
 	public CircleGizmo(String id, Vect coords) {
-		super(id, coords, Color.YELLOW, true);
+		super(id, coords, Constants.CIRCLE_DEFAULT_COLOUR, true);
 		this.radius = 0.5;
 		generateLinesAndCircles();
 	}
@@ -30,8 +29,8 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Circle " + getID() + " " + physicsCircle.getCenter().x() + " "
-				+ physicsCircle.getCenter().y() + " " + "\n";
+		String serializedGizmo = "Circle " + getID() + " " + (physicsCircle.getCenter().x() - 0.5) + " "
+				+ (physicsCircle.getCenter().y() - 0.5) + " " + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
 		}

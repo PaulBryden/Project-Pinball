@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import physics.Vect;
 public class SquareGizmo extends AbstractGizmo {
 
 	public SquareGizmo(String id, Vect coords) {
-		super(id, coords, Color.GREEN, true);
+		super(id, coords, Constants.SQUARE_DEFAULT_COLOUR, true);
 		generateLinesAndCircles();
 	}
 
@@ -50,7 +49,7 @@ public class SquareGizmo extends AbstractGizmo {
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "SquareGizmo " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
+		String serializedGizmo = "Square " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
 				+ "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
