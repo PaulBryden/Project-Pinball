@@ -1,0 +1,16 @@
+before_script:
+  - export USER=Tester
+  - export LOGFILE=./JUnitTest.log
+  - export DATE=`date "+%Y-%m-%d %a %T"`
+  - if [ ! -e `dirname $LOGFILE` ]; then mkdir `dirname $LOGFILE` ; fi
+  - if [ ! -e $LOGFILE ]; then touch $LOGFILE ; fi
+  
+gizmoball_build_and_test:
+  only:
+    - develop
+  script:
+    - if [ ! -e bin ] ; then mkdir bin ; fi
+    - echo "--------- TEST RUN START ---------" >> $LOGFILE
+    - echo "---" $DATE $USER $CI_BUILD_REF >> $LOGFILE
+    - javac -cp bin:/usr/share/java/junit4.jar -d bin src/*/*.java | tee -a $LOGFILE
+    - java -cp bin:/usr/share/java/junit4.jar org.junit.runner.JUnitCore tests.UnitTest | sed -r -e '/^\s+at/d' | tee -a $LOGFILE
