@@ -1,6 +1,5 @@
 package controller;
 
-import view.BallView;
 import view.Board;
 
 import java.awt.event.ActionEvent;
@@ -15,6 +14,9 @@ public class AddBallListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.addViewGizmo(new BallView(null));
+        board.getMouseListener().setGizmo(BoardMouseListener.CUR_GIZMO.BALL);
+//        IBall ballGizmo = new BallGizmo("B", 18, 3, 1, 1);
+//        board.addViewBall(new BallView(ballGizmo));
+//        board.getModel().addBall(ballGizmo);
     }
 }

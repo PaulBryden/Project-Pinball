@@ -6,11 +6,15 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.MagicKeyListener;
+import controller.RunKeyListener;
 import model.GameModel;
 
 /**
@@ -27,7 +31,8 @@ public class RunGui {
 	public RunGui(GameModel m) {
 		model = m;
 
-		// RunListener catches all GUI events. In reality might have many listeners.
+		// RunListener catches all GUI events. In reality might have many
+		// listeners.
 		listener = new RunListener(m);
 	}
 
@@ -72,6 +77,8 @@ public class RunGui {
 
 		cp.add(buttons, BorderLayout.LINE_START);
 		cp.add(board, BorderLayout.CENTER);
+
+		button1.addKeyListener(RunKeyListener.createListener(model));
 
 		frame.pack();
 		frame.setLocationRelativeTo(null);

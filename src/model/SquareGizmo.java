@@ -1,6 +1,7 @@
 package model;
 
-import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import physics.Circle;
 import physics.LineSegment;
@@ -8,12 +9,12 @@ import physics.Vect;
 
 public class SquareGizmo extends AbstractGizmo {
 
-	public SquareGizmo(int id, Vect coords) {
-		super("S" + id, coords, Color.GREEN, true);
+	public SquareGizmo(String id, Vect coords) {
+		super(id, coords, Constants.SQUARE_DEFAULT_COLOUR, true);
 		generateLinesAndCircles();
 	}
 
-	public SquareGizmo(int id, int x, int y) {
+	public SquareGizmo(String id, int x, int y) {
 		this(id, new Vect(x, y));
 	}
 
@@ -31,14 +32,28 @@ public class SquareGizmo extends AbstractGizmo {
 		lines.add(new LineSegment(coords.x() + 1, coords.y(), coords.x() + 1, coords.y() + 1));
 	}
 
+
+
+	@Override
+	public List<Vect> getExactCoords() {
+		// TODO Auto-generated method stub
+		List<Vect> coordVector = new ArrayList<Vect>();
+		coordVector.add(this.getAllLineSegments().get(0).p1());
+		coordVector.add(this.getAllLineSegments().get(0).p2());
+		coordVector.add(this.getAllLineSegments().get(1).p2());
+		coordVector.add(this.getAllLineSegments().get(2).p2());
+
+		return coordVector;
+		
+	}
+
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Square" + getID() + " " + lines.get(0).p1().x() + " " + lines.get(0).p1().y() + " "
+		String serializedGizmo = "Square " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
 				+ "\n";
 		for (IGizmo gizmo : triggers) {
-			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
+			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
 		}
 		return serializedGizmo;
 	}
-
 }

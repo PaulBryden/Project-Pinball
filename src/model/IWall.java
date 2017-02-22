@@ -3,7 +3,7 @@ package model;
 import physics.LineSegment;
 import physics.Vect;
 
-public interface IWall extends ITrigger {
+public interface IWall extends IGizmo {
 	
 	public LineSegment getLine();
 	

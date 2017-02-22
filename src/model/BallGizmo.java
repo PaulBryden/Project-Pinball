@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.Color;
+import java.util.List;
 
 import physics.Circle;
 import physics.Vect;
@@ -11,14 +11,14 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 	private Circle physicsCircle;
 	private Vect velocity;
 
-	public BallGizmo(int id, Vect coords, Vect velo) {
-		super("B" + id, coords, Color.BLUE, false);
+	public BallGizmo(String id, Vect coords, Vect velo) {
+		super(id, coords, Constants.BALL_DEFAULT_COLOUR, false);
 		this.radius = 0.3;
 		velocity = velo;
 		generateLinesAndCircles();
 	}
 
-	public BallGizmo(int id, int x, int y, int vx, int vy) {
+	public BallGizmo(String id, double x, double y, double vx, double vy) {
 		this(id, new Vect(x, y), new Vect(vx, vy));
 	}
 
@@ -62,8 +62,9 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Ball" + getID() + " " + physicsCircle.getCenter().x() + " "
-				+ physicsCircle.getCenter().y() + " " + "\n";
+		String serializedGizmo = "Ball " + getID() + " " + physicsCircle.getCenter().x() + " "
+				+ physicsCircle.getCenter().y()  + " " + this.getVelo().x() + " "
+						+ this.getVelo().y() +  "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
 		}
@@ -74,12 +75,18 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 	public void moveForTime(double tickTime) {
 		double x = physicsCircle.getCenter().x() + velocity.x() * tickTime;
 		double y = physicsCircle.getCenter().y() + velocity.y() * tickTime;
-		setCoords(new Vect(x, y));
+		setGridCoords(new Vect(x, y));
 	}
 
 	@Override
-	public Vect getCoords() {
+	public Vect getGridCoords() {
 		return physicsCircle.getCenter();
+	}
+
+	@Override
+	public List<Vect> getExactCoords() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

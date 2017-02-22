@@ -2,6 +2,7 @@ package mitview;
 
 import javax.swing.UIManager;
 
+import model.BoardFileHandler;
 import model.GameModel;
 
 /**

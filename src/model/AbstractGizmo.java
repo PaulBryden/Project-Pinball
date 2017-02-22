@@ -2,7 +2,9 @@ package model;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import physics.Circle;
 import physics.LineSegment;
@@ -15,10 +17,11 @@ public abstract class AbstractGizmo implements IGizmo {
 	protected int rotation;
 	protected Color colour;
 	protected boolean isStatic;
+	protected double coefficientOfReflection;
 	protected List<LineSegment> lines;
 	protected List<Circle> circles;
 	protected List<IAction> actions;
-	protected List<IGizmo> triggers;
+	protected Set<IGizmo> triggers;
 
 	public AbstractGizmo(String id, Vect coords, Color colour, boolean isStatic) {
 		this.id = id;
@@ -26,8 +29,9 @@ public abstract class AbstractGizmo implements IGizmo {
 		rotation = 0;
 		this.colour = colour;
 		this.isStatic = isStatic;
+		this.coefficientOfReflection = Constants.DEFAULT_COR;
 		actions = new ArrayList<>();
-		triggers = new ArrayList<>();
+		triggers = new HashSet<>();
 		circles = new ArrayList<>();
 		lines = new ArrayList<>();
 	}
@@ -40,20 +44,21 @@ public abstract class AbstractGizmo implements IGizmo {
 	}
 
 	@Override
-	public void setCoords(Vect coords) {
+	public void setGridCoords(Vect coords) {
 		this.coords = coords;
 		generateLinesAndCircles();
 	}
 
 	@Override
-	public Vect getCoords() {
+	public Vect getGridCoords() {
 		return coords;
 	}
 
 	@Override
 	public void rotate(int steps) {
 		rotation += steps;
-		rotation %= steps;
+		rotation %= 4;
+		generateLinesAndCircles();
 	}
 
 	@Override
@@ -111,7 +116,7 @@ public abstract class AbstractGizmo implements IGizmo {
 	}
 
 	@Override
-	public List<IGizmo> getGizmosToTrigger() {
+	public Set<IGizmo> getGizmosToTrigger() {
 		return triggers;
 	}
 
@@ -119,6 +124,19 @@ public abstract class AbstractGizmo implements IGizmo {
 	public void onCollision(IBall ball) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public String serializeGizmo() {
+		String serializedGizmo = getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
+				+ "\n";
+		for (IGizmo gizmo : triggers) {
+			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
+		}
+		return serializedGizmo;
+	}
+
+	public double getCoefficientOfReflection() {
+		return coefficientOfReflection;
 	}
 
 }

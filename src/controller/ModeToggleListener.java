@@ -14,6 +14,10 @@ public class ModeToggleListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        mainWindow.getBoard().getMouseListener().setState(
+                mainWindow.getBoard().getMouseListener().getState().equals(BoardMouseListener.STATE.RUN)
+                        ? BoardMouseListener.STATE.BUILD : BoardMouseListener.STATE.RUN);
+        mainWindow.getBoard().getMouseListener().setGizmo(BoardMouseListener.CUR_GIZMO.NONE);
         mainWindow.toggleView();
     }
 }

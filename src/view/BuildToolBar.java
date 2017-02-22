@@ -6,7 +6,6 @@ import controller.RotateGizmoListener;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
-import java.awt.*;
 
 class BuildToolBar extends JToolBar{
     BuildToolBar(MainWindow mainWindow, Board board){

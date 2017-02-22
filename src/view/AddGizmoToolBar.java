@@ -1,10 +1,16 @@
 package view;
 
-import controller.*;
+import controller.AddAbsorberListener;
+import controller.AddBallListener;
+import controller.AddCircleListener;
+import controller.AddFlipperListener;
+import controller.AddSquareListener;
+import controller.AddTriangleListener;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 public class AddGizmoToolBar extends JToolBar{
     public AddGizmoToolBar(Board board) {
@@ -12,7 +18,6 @@ public class AddGizmoToolBar extends JToolBar{
         JButton ballBtn = new JButton("Ball");
         JButton absorberBtn = new JButton("Absorber");
         JButton circleBtn = new JButton("Circle");
-        JButton lineBtn = new JButton("Line");
         JButton squareBtn = new JButton("Square");
         JButton triangleBtn = new JButton("Triangle");
         JButton lFlipperBtn = new JButton("L.Flipper");
@@ -38,22 +43,18 @@ public class AddGizmoToolBar extends JToolBar{
         add(circleBtn, constraints);
 
         constraints.gridy = 3;
-        lineBtn.addActionListener(new AddLineListener(board));
-        add(lineBtn, constraints);
-
-        constraints.gridy = 4;
         squareBtn.addActionListener(new AddSquareListener(board));
         add(squareBtn, constraints);
 
-        constraints.gridy = 5;
+        constraints.gridy = 4;
         triangleBtn.addActionListener(new AddTriangleListener(board));
         add(triangleBtn, constraints);
 
-        constraints.gridy = 6;
+        constraints.gridy = 5;
         lFlipperBtn.addActionListener(new AddFlipperListener(board));
         add(lFlipperBtn, constraints);
 
-        constraints.gridy = 7;
+        constraints.gridy = 6;
         add(rFlipperBtn, constraints);
     }
 }

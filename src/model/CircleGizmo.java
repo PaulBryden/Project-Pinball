@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.Color;
+import java.util.List;
 
 import physics.Circle;
 import physics.Vect;
@@ -10,13 +10,13 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 	private double radius;
 	private Circle physicsCircle;
 
-	public CircleGizmo(int id, Vect coords) {
-		super("C" + id, coords, Color.YELLOW, true);
+	public CircleGizmo(String id, Vect coords) {
+		super(id, coords, Constants.CIRCLE_DEFAULT_COLOUR, true);
 		this.radius = 0.5;
 		generateLinesAndCircles();
 	}
 
-	public CircleGizmo(int id, int x, int y) {
+	public CircleGizmo(String id, int x, int y) {
 		this(id, new Vect(x, y));
 	}
 
@@ -29,8 +29,8 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Circle" + getID() + " " + physicsCircle.getCenter().x() + " "
-				+ physicsCircle.getCenter().y() + " " + "\n";
+		String serializedGizmo = "Circle " + getID() + " " + (physicsCircle.getCenter().x() - 0.5) + " "
+				+ (physicsCircle.getCenter().y() - 0.5) + " " + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
 		}
@@ -56,6 +56,12 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 	@Override
 	public boolean isBall() {
 		return false;
+	}
+
+	@Override
+	public List<Vect> getExactCoords() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

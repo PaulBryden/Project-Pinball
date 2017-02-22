@@ -1,60 +1,94 @@
 package model;
 
+import java.awt.Color;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
 import physics.Circle;
 import physics.Geometry;
 import physics.LineSegment;
+import physics.Vect;
 
 public class GameModel extends Observable implements IModel {
 
+	BoardFileHandler fileHandler;
 	private List<IGizmo> gizmos;
 	private List<IBall> balls;
 	private List<IWall> walls;
+	private Map<Integer, ITrigger> keyPressedTriggers;
+	private Map<Integer, ITrigger> keyReleasedTriggers;
 	private boolean pauseGame = false;
-	private static final double TICK_TIME = 0.02; // in seconds
+	private Color backgroundColour;
 
 	public GameModel() {
-		//listOfGizmos = new GizmoList();
-		gizmos = new LinkedList<>();
-		balls = new LinkedList<>();
-		walls = new LinkedList<>();
-		walls.add(new Wall(0, 0, 0, 20));
-		walls.add(new Wall(0, 0, 20, 0));
-		walls.add(new Wall(20, 0, 20, 20));
-		walls.add(new Wall(0, 20, 20, 20));
-		gizmos.add(new SquareGizmo(1, 3, 5));
-		gizmos.add(new SquareGizmo(2,18, 18));
-		gizmos.add(new SquareGizmo(3,13, 10));
-		gizmos.add(new SquareGizmo(4,13, 19));
-		gizmos.add(new SquareGizmo(5,14, 2));
-		gizmos.add(new SquareGizmo(6,4, 16));
-		gizmos.add(new SquareGizmo(7,5, 16));
-		gizmos.add(new SquareGizmo(8,6, 16));
-		gizmos.add(new SquareGizmo(9, 7, 16));
-		balls.add(new BallGizmo(10, 10, 11, 9, 11));
+		reset();
+
+		//fileHandler = new BoardFileHandler(this);
+		//fileHandler.load("spec_save_file.txt");
+
+//		gizmos.add(new SquareGizmo("S35", 3, 5));
+//		gizmos.add(new SquareGizmo("S1310", 13, 10));
+//		gizmos.add(new SquareGizmo("S1319", 13, 19));
+//		gizmos.add(new SquareGizmo("S142", 14, 2));
+//		gizmos.add(new SquareGizmo("S416", 4, 16));
+//		gizmos.add(new SquareGizmo("S516", 5, 16));
+//		gizmos.add(new SquareGizmo("S616", 6, 16));
+//		gizmos.add(new SquareGizmo("S716", 7, 16));
+//		gizmos.add(new TriangleGizmo("T2", 1, 0));
+//		TriangleGizmo triangle = new TriangleGizmo("T1", 0, 18);
+//		triangle.rotate(2);
+//		gizmos.add(triangle);
+//		Absorber absorber = new Absorber("A", 1,18,5,20, balls);
+//		gizmos.add(absorber);
+//		IFlipper flipper = new LeftFlipper("LF102", 10, 2);
+//		gizmos.add(flipper);
+//		IGizmo magicGizmo = new SquareGizmo("S1818", 18, 18);
+//		magicGizmo.addGizmoToTrigger(flipper);
+//		gizmos.add(magicGizmo);
+		//balls.add(new BallGizmo("B", 10, 11, 13, 17));
+//		addKeyTrigger('b', flipper);
+//		absorber.addGizmoToTrigger(absorber);
+//		addKeyTrigger('a', absorber);
 	}
 
 	public void tick() {
 		// Evaluate collisions for all items in Gizmolist
 		CollisionDetails collision = evaluateCollisions();
 		// Use smallest tick time until next collision.
-		double tick = (collision == null) ? TICK_TIME : collision.getTuc();
+		double tick = (collision == null) ? Constants.TICK_TIME : collision.getTuc();
 		// Move all items based on that tick time
 		for (IBall ball : balls) {
 			ball.moveForTime(tick);
 		}
 		// Resolve collision
 		if (collision != null) {
-			collision.getBall().setVelo(collision.getVelo());
+			System.out.println(collision.getBall().getVelo().toString());
+			double coeff = collision.getGizmo().getCoefficientOfReflection();
+			Vect velo = collision.getVelo().times(coeff);
+			velo = (velo.length() > Constants.MIN_VELOCITY) ? velo : Vect.ZERO;
+			
+			/*double velox = (Math.abs(velo.x()) > -0.1) ? velo.x() : 0.0;
+			double veloy = (Math.abs(velo.y()) > Constants.MIN_VELOCITY) ? velo.y() : 0.0;
+			velo = new Vect(velox,veloy);*/
+			collision.getBall().setVelo(velo);
 		}
-		// TODO Apply friction and gravity here
+		
+		applyGravity(tick);
+		applyFriction(tick);
 		// Trigger any gizmos that have been collided with
-		if (collision != null && collision.getTrigger() != null)
-			collision.getTrigger().triggerConnectedGizmos();
+		if (collision != null && collision.getGizmo() != null) {
+			collision.getGizmo().onCollision(collision.getBall());
+			collision.getGizmo().triggerConnectedGizmos();
+		}
 		// Update view
+		for (IGizmo gizmo : gizmos) {
+			if (gizmo instanceof IFlipper) {
+				((IFlipper) gizmo).moveForTime(tick);
+			}
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -63,12 +97,12 @@ public class GameModel extends Observable implements IModel {
 		return gizmos;
 	}
 
-	public void updateGizmoList(List<IGizmo> gizmos) {
-		this.gizmos = gizmos;
-	}
-
 	public void addGizmo(IGizmo gizmo) {
 		gizmos.add(gizmo);
+	}
+
+	public void addBall(IBall ball) {
+		balls.add(ball);
 	}
 
 	public void removeGizmo(IGizmo gizmo) {
@@ -76,13 +110,25 @@ public class GameModel extends Observable implements IModel {
 	}
 
 	public void reset() {
+		walls = new LinkedList<>();
+		walls.add(new Wall(0, 0, 0, 20));
+		walls.add(new Wall(0, 0, 20, 0));
+		walls.add(new Wall(20, 0, 20, 20));
+		walls.add(new Wall(0, 20, 20, 20));
 
+		gizmos = new LinkedList<>();
+		balls = new LinkedList<>();
+		
+		keyPressedTriggers = new HashMap<>();
+		keyReleasedTriggers = new HashMap<>();
+		
+		backgroundColour = Constants.BACKGROUND_DEFAULT_COLOUR;
 	}
 
 	public List<IBall> getBalls() {
 		return balls;
 	}
-	
+
 	public List<IWall> getWalls() {
 		return walls;
 	}
@@ -91,43 +137,112 @@ public class GameModel extends Observable implements IModel {
 		CollisionDetails collision = null;
 		CollisionDetails cd;
 		for (IBall ball : balls) {
-			for (IGizmo gizmo : gizmos) { // .returnGizmoList()) {
+			for (IGizmo gizmo : gizmos) {
 				if (gizmo.isStatic()) {
 					for (Circle circle : gizmo.getAllCircles()) {
 						cd = evaluateCollisionWithStaticCircle(ball, circle, gizmo);
-						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc()) && cd.getTuc() < TICK_TIME)
+						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
+								&& cd.getTuc() < Constants.TICK_TIME)
 							collision = cd;
 					}
 					for (LineSegment line : gizmo.getAllLineSegments()) {
 						cd = evaluateCollisionWithStaticLine(ball, line, gizmo);
-						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc()) && cd.getTuc() < TICK_TIME)
+						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
+								&& cd.getTuc() < Constants.TICK_TIME)
 							collision = cd;
 					}
 				}
 			}
 			for (IWall wall : walls) {
 				cd = evaluateCollisionWithStaticLine(ball, wall.getLine(), wall);
-				if (cd != null && (collision == null || cd.getTuc() < collision.getTuc()) && cd.getTuc() < TICK_TIME)
+				if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
+						&& cd.getTuc() < Constants.TICK_TIME)
 					collision = cd;
 			}
 		}
 		return collision;
 	}
 
-	private CollisionDetails evaluateCollisionWithStaticCircle(IBall ball, Circle circle, ITrigger trigger) {
+	private CollisionDetails evaluateCollisionWithStaticCircle(IBall ball, Circle circle, IGizmo gizmo) {
 		Circle ballCircle = ball.getAllCircles().get(0);
 		double tuc = Geometry.timeUntilCircleCollision(circle, ballCircle, ball.getVelo());
 		if (tuc == Double.POSITIVE_INFINITY)
 			return null;
 		return new CollisionDetails(tuc,
-				Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ball.getVelo()), ball, trigger);
+				Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ball.getVelo()), ball, gizmo);
 	}
 
-	private CollisionDetails evaluateCollisionWithStaticLine(IBall ball, LineSegment line, ITrigger trigger) {
+	private CollisionDetails evaluateCollisionWithStaticLine(IBall ball, LineSegment line, IGizmo gizmo) {
 		Circle ballCircle = ball.getAllCircles().get(0);
 		double tuc = Geometry.timeUntilWallCollision(line, ballCircle, ball.getVelo());
 		if (tuc == Double.POSITIVE_INFINITY)
 			return null;
-		return new CollisionDetails(tuc, Geometry.reflectWall(line, ball.getVelo()), ball, trigger);
+		return new CollisionDetails(tuc, Geometry.reflectWall(line, ball.getVelo()), ball, gizmo);
+	}
+
+	private void applyGravity(double tickTime) {
+		for (IBall ball : balls) {
+			Vect v = ball.getVelo();
+			Vect gravComponent = new Vect(0, Constants.GRAVITY * tickTime);
+			ball.setVelo(v.plus(gravComponent));
+		}
+	}
+
+	private void applyFriction(double tickTime) {
+		for (IBall ball : balls) {
+			Vect v = ball.getVelo();
+			double frictionScale = (1 - Constants.MU * tickTime - Constants.MU2 * v.length() * tickTime);
+			ball.setVelo(v.times(frictionScale));
+		}
+	}
+
+	@Override
+	public void processKeyPressedTrigger(int keyCode) {
+		if (keyPressedTriggers.containsKey(keyCode)) {
+			keyPressedTriggers.get(keyCode).triggerConnectedGizmos();
+		}
+	}
+
+	@Override
+	public void processKeyReleasedTrigger(int keyCode) {
+		if (keyReleasedTriggers.containsKey(keyCode)) {
+			keyReleasedTriggers.get(keyCode).triggerConnectedGizmos();
+		}
+	}
+
+	@Override
+	public void addKeyPressedTrigger(int keyCode, IGizmo gizmo) {
+		if (keyPressedTriggers.containsKey(keyCode)) {
+			keyPressedTriggers.get(keyCode).addGizmoToTrigger(gizmo);
+		} else {
+			keyPressedTriggers.put(keyCode, new KeyTrigger(gizmo));
+		}
+	}
+
+	@Override
+	public void addKeyReleasedTrigger(int keyCode, IGizmo gizmo) {
+		if (keyReleasedTriggers.containsKey(keyCode)) {
+			keyReleasedTriggers.get(keyCode).addGizmoToTrigger(gizmo);
+		} else {
+			keyReleasedTriggers.put(keyCode, new KeyTrigger(gizmo));
+		}
+	}
+
+	@Override
+	public Color getBackgroundColour() {
+		return this.backgroundColour;
+	}
+
+	@Override
+	public void setBackgroundColour(Color colour) {
+		this.backgroundColour = colour;
+	}
+	
+	public Map<Integer, ITrigger> getKeyPressedTriggers() {
+		return keyPressedTriggers;
+	}
+
+	public Map<Integer, ITrigger> getKeyReleasedTriggers() {
+		return keyReleasedTriggers;
 	}
 }

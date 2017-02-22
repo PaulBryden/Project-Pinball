@@ -23,9 +23,11 @@ public interface IGizmo extends ITrigger {
 
 	public void onCollision(IBall ball);
 
-	public Vect getCoords();
+	public Vect getGridCoords();
 
-	public void setCoords(Vect coords);
+	public void setGridCoords(Vect coords);
+	
+	public List<Vect> getExactCoords();
 
 	public List<Circle> getAllCircles();
 
@@ -38,5 +40,7 @@ public interface IGizmo extends ITrigger {
 	public void rotate(int steps);
 
 	public int getRotation();
+	
+	public double getCoefficientOfReflection();
 
 }

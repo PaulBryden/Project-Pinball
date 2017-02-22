@@ -8,65 +8,99 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
+
+import physics.Vect;
 
 public class BoardFileHandler {
+	
+	private IModel model;
+	
+	public BoardFileHandler(IModel model) {
+		this.model = model;
+	}
 
-	public boolean save(List<IGizmo> gizmos, String path) {
+	public void save(String path) {
 		try {
 			BufferedWriter save = new BufferedWriter(new FileWriter(path));
-			List<IGizmo> list = gizmos;
-			List<String> connections = new ArrayList<>(); // connections to be made
+			List<IGizmo> list = model.getGizmos();
+			List<String> connections = new ArrayList<>(); // Connections to be made
 
 			for (IGizmo current : list) {
-				// TODO: Ensure that serializeGizmo() is providing correct output!
 				save.write(current.serializeGizmo());
 
 				// Record any connections for later
-				List<IGizmo> connectedGizmos = current.getGizmosToTrigger();
+				Set<IGizmo> connectedGizmos = current.getGizmosToTrigger();
 				for (IGizmo destGizmo : connectedGizmos) {
 					connections.add("Connect " + current.getID() + " " + destGizmo.getID());
 				}
-
-				// TODO: KeyConnections
 			}
 
-			// Finally, write connections to file
+			// Write connections to file
 			for (String current : connections) {
 				save.write(current);
 			}
 
+			// Finally, write key connections to file
+			Map<Integer, ITrigger> keyPressedTriggers = model.getKeyPressedTriggers();
+			Map<Integer, ITrigger> keyReleasedTriggers = model.getKeyReleasedTriggers();
+
+			for (Map.Entry<Integer, ITrigger> current : keyPressedTriggers.entrySet()) {
+				Set<IGizmo> gizmosToTrigger = current.getValue().getGizmosToTrigger();
+				for (IGizmo gizmo : gizmosToTrigger) {
+					save.write("KeyConnect key " + current.getKey() + " down " + gizmo.getID() + "\n");
+				}
+			}
+
+			for (Map.Entry<Integer, ITrigger> current : keyReleasedTriggers.entrySet()) {
+				Set<IGizmo> gizmosToTrigger = current.getValue().getGizmosToTrigger();
+				for (IGizmo gizmo : gizmosToTrigger) {
+					save.write("KeyConnect key " + current.getKey() + " up " + gizmo.getID() + "\n");
+				}
+			}
+
 			save.close();
 
-			return true; // Save successful, return true
+			System.out.println("Save file written successfully");
 
 		} catch (IOException e) {
 			System.out.println("Error writing to file " + path);
 			e.printStackTrace();
-			return false;
 		}
 	}
 
-	public List<IGizmo> load(String path) {
+	public void load(String path) {
 		try {
 			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading
-			ArrayList<String> connections = new ArrayList<>(); // Keeps track of connections from file
+			List<String> connections = new ArrayList<>(); // Keeps track of connections from file
 
 			BufferedReader load = new BufferedReader(new FileReader(path));
 			String line = load.readLine();
 			Scanner scan = null;
 
 			while (line != null) {
-				scan = new Scanner(line);
-				String type = scan.next();
+				if (!line.isEmpty()) {
+					scan = new Scanner(line);
+					String type = scan.next();
 
-				if (type.equals("Connect") || type.equals("KeyConnect")) {
-					connections.add(line); // Store connection info for later
-				} else {
-					createGizmo(type, scan, gizmos);
+					if (type.equals("Connect") || type.equals("KeyConnect")) {
+						connections.add(line); // Store connection info for later
+					} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
+						executeOperation(type, scan, gizmos); // Build mode operation
+					} else {
+						IGizmo gizmo = createGizmo(type, scan, gizmos);
+						if (gizmo instanceof IBall) {
+							model.addBall((IBall) gizmo);
+						} else {
+							model.addGizmo(gizmo);
+						}
+					}
+
+					scan.close();
 				}
 
-				scan.close();
 				line = load.readLine();
 			}
 
@@ -75,77 +109,66 @@ public class BoardFileHandler {
 
 			load.close();
 
-			return gizmos;
-
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found: " + path);
 			e.printStackTrace();
-			return null;
 
 		} catch (IOException e) {
 			System.out.println("Error reading from file " + path);
 			e.printStackTrace();
-			return null;
 		}
 	}
 
-	private void createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
+	private IGizmo createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
 		IGizmo newGizmo = null;
-		String id = null;
-		double x1 = 0.0;
-		double y1 = 0.0;
+		int x1 = 0;
+		int y1 = 0;
 
-		// Only for Absorber
-		double x2 = 0.0;
-		double y2 = 0.0;
-
-		// Velocity, only for Ball
-		double xv = 0.0;
-		double yv = 0.0;
+		// Ball uses doubles for its co-ords
+		double ballx1 = 0.0;
+		double bally1 = 0.0;
 
 		// Collect base info for gizmo (every gizmo will follow this starting format)
-		id = scan.next();
-		x1 = scan.nextDouble();
-		y1 = scan.nextDouble();
+		String id = scan.next();
 
-		// Collect extra info for Absorber and Ball
-		if (type.equals("Absorber")) {
-			x2 = scan.nextDouble();
-			y2 = scan.nextDouble();
-		} else if (type.equals("Ball")) {
-			xv = scan.nextDouble();
-			yv = scan.nextDouble();
+		if (type.equals("Ball")) {
+			ballx1 = scan.nextDouble();
+			bally1 = scan.nextDouble();
+		} else {
+			x1 = scan.nextInt();
+			y1 = scan.nextInt();
 		}
 
-		// TODO: Gizmo constructors to follow the following format
-		// Should Absorber be a SquareGizmo, or its own gizmo class?
-		//^^Absorber should be a square gizmo with absorber action.
 		try {
 			switch (type) {
 			case "Square":
-				// newGizmo = SquareGizmo(id, x1, y1, null, null);
+				newGizmo = new SquareGizmo(id, x1, y1);
 				break;
 			case "Triangle":
-				// newGizmo = TriangleGizmo(id, x1, y1);
+				newGizmo = new TriangleGizmo(id, x1, y1);
 				break;
 			case "Circle":
-				// newGizmo = CircleGizmo(id, x1, y1);
+				newGizmo = new CircleGizmo(id, x1, y1);
 				break;
 			case "LeftFlipper":
-				// newGizmo = LeftFlipperGizmo(id, x1, y1);
+				newGizmo = new LeftFlipper(id, x1, y1);
 				break;
 			case "RightFlipper":
-				// newGizmo = RightFlipperGizmo(id, x1, y1);
+				newGizmo = new RightFlipper(id, x1, y1);
 				break;
 			case "Absorber":
-//				newGizmo = SquareGizmo(id, x1, y1, x2, y2);
-//				IAction action = new Action(); // absorber behaviour
-//				newGizmo.addTriggerAction(action);
+				int x2 = scan.nextInt();
+				int y2 = scan.nextInt();
+				List<IBall> balls = new ArrayList<>();
+				newGizmo = new Absorber(id, x1, y1, x2, y2, balls);
 				break;
 			case "Ball":
-//				newGizmo = BallGizmo(id, x1, y1, xv, yv);
+				double xv = scan.nextDouble();
+				double yv = scan.nextDouble();
+				newGizmo = new BallGizmo(id, ballx1, bally1, xv, yv);
 				break;
 			default:
+				System.out.println("No gizmo created");
 			}
 		} catch (Exception e) {
 			System.out.println("Error occurred when creating Gizmo");
@@ -153,9 +176,10 @@ public class BoardFileHandler {
 		}
 
 		gizmos.add(newGizmo);
+		return newGizmo;
 	}
 
-	private void createConnections(ArrayList<String> connections, List<IGizmo> gizmos) {
+	private void createConnections(List<String> connections, List<IGizmo> gizmos) {
 		Scanner scan = null;
 		for (String current : connections) {
 			scan = new Scanner(current);
@@ -165,19 +189,59 @@ public class BoardFileHandler {
 				String firstGizmo = scan.next();
 				String secondGizmo = scan.next();
 
-				// TODO: GizmoList function that creates connection between two gizmos in its list
-				// gizmos.createConnection(firstGizmo, secondGizmo);
+				if (firstGizmo != null && secondGizmo != null)
+					findGizmoByID(gizmos, firstGizmo).addGizmoToTrigger(findGizmoByID(gizmos, secondGizmo));
+				else {
+					System.out.println("Error connecting gizmos!");
+					System.out.println("Gizmo 1: " + firstGizmo + ", Gizmo 2: " + secondGizmo);
+				}
 
 			} else if (type.equals("KeyConnect")) {
-				String keyString = scan.next();
-				String keyID = scan.next();
+				String keyString = scan.next(); // Won't be used
+				int keyID = scan.nextInt();
 				String keyStatus = scan.next();
 				String gizmoID = scan.next();
-
-				// TODO: Functionality to create key connections!
+				IGizmo gizmo = findGizmoByID(gizmos, gizmoID);
+				if (keyStatus.equals("down"))
+					model.addKeyPressedTrigger(keyID, gizmo);
+				else if (keyStatus.equals("up"))
+					model.addKeyReleasedTrigger(keyID, gizmo);
 			}
 
 			scan.close();
+		}
+	}
+
+	private IGizmo findGizmoByID(List<IGizmo> gizmos, String gizmoID) {
+		for (int i = 0; i < gizmos.size(); i++) {
+			if (gizmos.get(i).getID().equals(gizmoID))
+				return gizmos.get(i);
+		}
+
+		return null;
+	}
+
+	private void executeOperation(String type, Scanner scan, List<IGizmo> gizmos) {
+		String id = scan.next();
+
+		switch (type) {
+		case "Move":
+			double x = scan.nextDouble();
+			double y = scan.nextDouble();
+			Vect newCoords = new Vect(x, y);
+			findGizmoByID(gizmos, id).setGridCoords(newCoords);
+			break;
+
+		case "Rotate":
+			findGizmoByID(gizmos, id).rotate(1);
+			break;
+
+		case "Delete":
+			gizmos.remove(findGizmoByID(gizmos, id));
+			break;
+
+		default:
+			System.out.println("No operations applied");
 		}
 	}
 

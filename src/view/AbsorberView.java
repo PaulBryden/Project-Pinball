@@ -1,40 +1,34 @@
 package view;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.util.Observable;
 
-import model.ICircle;
+import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 
 public class AbsorberView implements IViewGizmo, IObserver{
-    private ICircle gizmo;
-    private Board board;
+    private IGizmo gizmo;
+    private static final int GRID_WIDTH = 20;
 
-    public AbsorberView(ICircle gizmo, Board board){
+    public AbsorberView(IGizmo gizmo){
         this.gizmo = gizmo;
-        this.board = board;
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        //UPDATE GRAPHICS OBJECT
-
-    }
-
-    @Override
-    public Graphics GetViewObject() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     public void paint(Graphics g) {
-        g.fillRect(0, board.getY() + 303, board.getWidth(), 30);
+        g.setColor(gizmo.getColour());
+        g.fillRect((int) gizmo.getExactCoords().get(0).x() * GRID_WIDTH,
+                (int) gizmo.getExactCoords().get(0).y() * GRID_WIDTH,
+                (int)(gizmo.getExactCoords().get(2).x() - gizmo.getExactCoords().get(0).x()) * GRID_WIDTH,
+                (int) (gizmo.getExactCoords().get(2).y() - gizmo.getExactCoords().get(0).y()) * GRID_WIDTH);
     }
 
     @Override
     public void update(IObservable obsv, Object o) {
-        // TODO Auto-generated method stub
     }
 
+    @Override
+    public void update(Observable observable, Object o) {
+
+    }
 }
