@@ -75,14 +75,17 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 	}
 	
 	public void moveForTime(double time) {
-		if (open && angle.equals(openAngle) || !open && angle.equals(Angle.ZERO))
+		if (open && angle.equals(openAngle) || !open && angle.equals(Angle.ZERO)) {
 			return;
+		}
+		this.isStatic = false;
 		double rad = angularVelocity * time;
 		boolean clockwise = open == openClockwise;
 		if (open) { // flipper trying to open
 			Angle remaining = angle.minus(openAngle);
 			if (Math.abs(remaining.radians()) < rad) {
 				angle = new Angle(openAngle.radians());
+				this.isStatic = true;
 			} else {
 				rad *= clockwise ? 1 : -1;
 				Angle rot = new Angle(rad);
@@ -91,6 +94,7 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 		} else { // flipper trying to close
 			if (Math.abs(angle.radians()) < rad) {
 				angle = Angle.ZERO;
+				this.isStatic = true;
 			} else {
 				rad *= clockwise ? 1 : -1;
 				Angle rot = new Angle(rad);
