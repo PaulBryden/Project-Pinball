@@ -25,33 +25,6 @@ public class GameModel extends Observable implements IModel {
 
 	public GameModel() {
 		reset();
-
-		//fileHandler = new BoardFileHandler(this);
-		//fileHandler.load("spec_save_file.txt");
-
-//		gizmos.add(new SquareGizmo("S35", 3, 5));
-//		gizmos.add(new SquareGizmo("S1310", 13, 10));
-//		gizmos.add(new SquareGizmo("S1319", 13, 19));
-//		gizmos.add(new SquareGizmo("S142", 14, 2));
-//		gizmos.add(new SquareGizmo("S416", 4, 16));
-//		gizmos.add(new SquareGizmo("S516", 5, 16));
-//		gizmos.add(new SquareGizmo("S616", 6, 16));
-//		gizmos.add(new SquareGizmo("S716", 7, 16));
-//		gizmos.add(new TriangleGizmo("T2", 1, 0));
-//		TriangleGizmo triangle = new TriangleGizmo("T1", 0, 18);
-//		triangle.rotate(2);
-//		gizmos.add(triangle);
-//		Absorber absorber = new Absorber("A", 1,18,5,20, balls);
-//		gizmos.add(absorber);
-//		IFlipper flipper = new LeftFlipper("LF102", 10, 2);
-//		gizmos.add(flipper);
-//		IGizmo magicGizmo = new SquareGizmo("S1818", 18, 18);
-//		magicGizmo.addGizmoToTrigger(flipper);
-//		gizmos.add(magicGizmo);
-		//balls.add(new BallGizmo("B", 10, 11, 13, 17));
-//		addKeyTrigger('b', flipper);
-//		absorber.addGizmoToTrigger(absorber);
-//		addKeyTrigger('a', absorber);
 	}
 
 	public void tick() {
@@ -59,13 +32,20 @@ public class GameModel extends Observable implements IModel {
 		CollisionDetails collision = evaluateCollisions();
 		// Use smallest tick time until next collision.
 		double tick = (collision == null) ? Constants.TICK_TIME : collision.getTuc();
+		// Check if flipper will stop moving within the tick time.
+		for (IFlipper flipper : getFlippers()) {
+			double tus = flipper.timeUntilStatic(); 
+			if (tus < tick && tus > 0) {
+				collision = null;
+				tick = tus;
+			}
+		}
 		// Move all items based on that tick time
 		for (IBall ball : balls) {
 			ball.moveForTime(tick);
 		}
 		// Resolve collision
 		if (collision != null) {
-			System.out.println(collision.getBall().getVelo().toString());
 			double coeff = collision.getGizmo().getCoefficientOfReflection();
 			Vect velo = collision.getVelo().times(coeff);
 			velo = (velo.length() > Constants.MIN_VELOCITY) ? velo : Vect.ZERO;
@@ -91,6 +71,16 @@ public class GameModel extends Observable implements IModel {
 		}
 		setChanged();
 		notifyObservers();
+	}
+	
+	private List<IFlipper> getFlippers() {
+		List<IFlipper> flippers = new LinkedList<>();
+		for (IGizmo gizmo : gizmos) {
+			if (gizmo instanceof IFlipper) {
+				flippers.add((IFlipper) gizmo);
+			}
+		}
+		return flippers;
 	}
 
 	public List<IGizmo> getGizmos() {
@@ -152,6 +142,9 @@ public class GameModel extends Observable implements IModel {
 							collision = cd;
 					}
 				}
+			}
+			for (IFlipper flipper : getFlippers()) {
+				// evaluate flipper collisions
 			}
 			for (IWall wall : walls) {
 				cd = evaluateCollisionWithStaticLine(ball, wall.getLine(), wall);
