@@ -12,6 +12,7 @@ import physics.Vect;
 public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
 	
 	protected static final double RADIUS = 0.25;
+	protected static final double ABS_ANGULAR_VELOCITY = 18.85; // in rad/sec, approx. 1080 deg/sec
 	protected double angularVelocity;
 	protected Angle angle;
 	protected boolean open;
@@ -23,7 +24,7 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 	
 	public AbstractFlipper(String id, Vect coords) {
 		super(id, coords, Constants.FLIPPER_DEFAULT_COLOUR, true); // static for now - until we resolve flipper collisions properly.
-		this.angularVelocity = 18.85; // in rad/sec, approx. 1080 deg/sec
+		this.angularVelocity = 0;
 		this.angle = Angle.ZERO;
 		this.open = false;
 		this.addTriggerAction(new FlipperAction(this));
@@ -77,22 +78,26 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 	public double timeUntilStatic() {
 		if (isStatic)
 			return 0;
-		Angle remaining = angle.minus(openAngle);
-		return Math.abs(remaining.radians()) / angularVelocity;
+		Angle remaining = open ? openAngle.minus(angle) : angle;
+		return Math.abs(remaining.radians() / angularVelocity);
 	}
 	
 	public void moveForTime(double time) {
 		if (open && angle.equals(openAngle) || !open && angle.equals(Angle.ZERO)) {
 			return;
 		}
+		angularVelocity = ABS_ANGULAR_VELOCITY;
 		this.isStatic = false;
 		double rad = angularVelocity * time;
 		boolean clockwise = open == openClockwise;
+		if (!clockwise)
+			angularVelocity *= -1;
 		if (open) { // flipper trying to open
 			Angle remaining = angle.minus(openAngle);
 			if (Math.abs(remaining.radians()) - Constants.FLOAT_MARGIN < rad) {
 				angle = new Angle(openAngle.radians());
 				this.isStatic = true;
+				angularVelocity = 0;
 			} else {
 				rad *= clockwise ? 1 : -1;
 				Angle rot = new Angle(rad);
@@ -102,6 +107,7 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 			if (Math.abs(angle.radians()) - Constants.FLOAT_MARGIN < rad) {
 				angle = Angle.ZERO;
 				this.isStatic = true;
+				angularVelocity = 0;
 			} else {
 				rad *= clockwise ? 1 : -1;
 				Angle rot = new Angle(rad);

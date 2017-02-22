@@ -34,7 +34,7 @@ public class GameModel extends Observable implements IModel {
 		double tick = (collision == null) ? Constants.TICK_TIME : collision.getTuc();
 		// Check if flipper will stop moving within the tick time.
 		for (IFlipper flipper : getFlippers()) {
-			double tus = flipper.timeUntilStatic(); 
+			double tus = flipper.timeUntilStatic();
 			if (tus < tick && tus > 0) {
 				collision = null;
 				tick = tus;
@@ -44,18 +44,23 @@ public class GameModel extends Observable implements IModel {
 		for (IBall ball : balls) {
 			ball.moveForTime(tick);
 		}
+		for (IFlipper flipper : getFlippers()) {
+			flipper.moveForTime(tick);
+		}
 		// Resolve collision
 		if (collision != null) {
 			double coeff = collision.getGizmo().getCoefficientOfReflection();
 			Vect velo = collision.getVelo().times(coeff);
 			velo = (velo.length() > Constants.MIN_VELOCITY) ? velo : Vect.ZERO;
-			
-			/*double velox = (Math.abs(velo.x()) > -0.1) ? velo.x() : 0.0;
-			double veloy = (Math.abs(velo.y()) > Constants.MIN_VELOCITY) ? velo.y() : 0.0;
-			velo = new Vect(velox,veloy);*/
+
+			/*
+			 * double velox = (Math.abs(velo.x()) > -0.1) ? velo.x() : 0.0;
+			 * double veloy = (Math.abs(velo.y()) > Constants.MIN_VELOCITY) ?
+			 * velo.y() : 0.0; velo = new Vect(velox,veloy);
+			 */
 			collision.getBall().setVelo(velo);
 		}
-		
+		// Apply friction and gravity
 		applyGravity(tick);
 		applyFriction(tick);
 		// Trigger any gizmos that have been collided with
@@ -64,15 +69,10 @@ public class GameModel extends Observable implements IModel {
 			collision.getGizmo().triggerConnectedGizmos();
 		}
 		// Update view
-		for (IGizmo gizmo : gizmos) {
-			if (gizmo instanceof IFlipper) {
-				((IFlipper) gizmo).moveForTime(tick);
-			}
-		}
 		setChanged();
 		notifyObservers();
 	}
-	
+
 	private List<IFlipper> getFlippers() {
 		List<IFlipper> flippers = new LinkedList<>();
 		for (IGizmo gizmo : gizmos) {
@@ -108,10 +108,10 @@ public class GameModel extends Observable implements IModel {
 
 		gizmos = new LinkedList<>();
 		balls = new LinkedList<>();
-		
+
 		keyPressedTriggers = new HashMap<>();
 		keyReleasedTriggers = new HashMap<>();
-		
+
 		backgroundColour = Constants.BACKGROUND_DEFAULT_COLOUR;
 	}
 
@@ -144,7 +144,20 @@ public class GameModel extends Observable implements IModel {
 				}
 			}
 			for (IFlipper flipper : getFlippers()) {
-				// evaluate flipper collisions
+				if (!flipper.isStatic()) {
+					for (Circle circle : flipper.getAllCircles()) {
+						cd = evaluateCollisionWithRotatingCircle(ball, circle, flipper);
+						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
+								&& cd.getTuc() < Constants.TICK_TIME)
+							collision = cd;
+					}
+					for (LineSegment line : flipper.getAllLineSegments()) {
+						cd = evaluateCollisionWithRotatingLine(ball, line, flipper);
+						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
+								&& cd.getTuc() < Constants.TICK_TIME)
+							collision = cd;
+					}
+				}
 			}
 			for (IWall wall : walls) {
 				cd = evaluateCollisionWithStaticLine(ball, wall.getLine(), wall);
@@ -161,8 +174,19 @@ public class GameModel extends Observable implements IModel {
 		double tuc = Geometry.timeUntilCircleCollision(circle, ballCircle, ball.getVelo());
 		if (tuc == Double.POSITIVE_INFINITY)
 			return null;
-		return new CollisionDetails(tuc,
-				Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ball.getVelo()), ball, gizmo);
+		Vect newVelo = Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ball.getVelo());
+		return new CollisionDetails(tuc, newVelo, ball, gizmo);
+	}
+
+	private CollisionDetails evaluateCollisionWithRotatingCircle(IBall ball, Circle circle, IFlipper flipper) {
+		Circle ballCircle = ball.getAllCircles().get(0);
+		double tuc = Geometry.timeUntilRotatingCircleCollision(circle, flipper.getPivot(), flipper.getAngularVelocity(),
+				ballCircle, ball.getVelo());
+		if (tuc == Double.POSITIVE_INFINITY)
+			return null;
+		Vect newVelo = Geometry.reflectRotatingCircle(circle, flipper.getPivot(), flipper.getAngularVelocity(),
+				ballCircle, ball.getVelo());
+		return new CollisionDetails(tuc, newVelo, ball, flipper);
 	}
 
 	private CollisionDetails evaluateCollisionWithStaticLine(IBall ball, LineSegment line, IGizmo gizmo) {
@@ -170,7 +194,19 @@ public class GameModel extends Observable implements IModel {
 		double tuc = Geometry.timeUntilWallCollision(line, ballCircle, ball.getVelo());
 		if (tuc == Double.POSITIVE_INFINITY)
 			return null;
-		return new CollisionDetails(tuc, Geometry.reflectWall(line, ball.getVelo()), ball, gizmo);
+		Vect newVelo = Geometry.reflectWall(line, ball.getVelo());
+		return new CollisionDetails(tuc, newVelo, ball, gizmo);
+	}
+
+	private CollisionDetails evaluateCollisionWithRotatingLine(IBall ball, LineSegment line, IFlipper flipper) {
+		Circle ballCircle = ball.getAllCircles().get(0);
+		double tuc = Geometry.timeUntilRotatingWallCollision(line, flipper.getPivot(), flipper.getAngularVelocity(),
+				ballCircle, ball.getVelo());
+		if (tuc == Double.POSITIVE_INFINITY)
+			return null;
+		Vect newVelo = Geometry.reflectRotatingWall(line, flipper.getPivot(), flipper.getAngularVelocity(), ballCircle,
+				ball.getVelo());
+		return new CollisionDetails(tuc, newVelo, ball, flipper);
 	}
 
 	private void applyGravity(double tickTime) {
@@ -230,7 +266,7 @@ public class GameModel extends Observable implements IModel {
 	public void setBackgroundColour(Color colour) {
 		this.backgroundColour = colour;
 	}
-	
+
 	public Map<Integer, ITrigger> getKeyPressedTriggers() {
 		return keyPressedTriggers;
 	}
