@@ -50,6 +50,22 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
         return (state);
     }
 
+    private boolean isCellEmpty(int x, int y){
+        for(IGizmo gizmo : board.getModel().getGizmos()){
+            if(gizmo.getGridCoords().equals(new Vect(x, y))){
+                return (false);
+            }
+        }
+
+        for(IBall ball : board.getModel().getBalls()){
+            if(ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5))){
+                return (false);
+            }
+        }
+
+        return (true);
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         int x = e.getX() / GRID_WIDTH;
@@ -58,53 +74,57 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
 
         switch (state){
             case ADD:
-                switch (gizmo){
-                    case BALL:
-                        IBall ballGizmo = new BallGizmo("B", x + 0.5, y + 0.5, 13, 17);
-                        board.addViewBall(new BallView(ballGizmo));
-                        board.getModel().addBall(ballGizmo);
-                        break;
-                    case CIRCLE:
-                        ICircle circleGizmo = new CircleGizmo("C" + id, x, y);
-                        board.addViewGizmo(new CircleView(circleGizmo));
-                        board.getModel().addGizmo(circleGizmo);
-                        break;
-                    case FLIPPER: //TODO: Add user defined key connection
-                        IFlipper flipper = new LeftFlipper("LF" + id, x, y);
-                        board.addViewGizmo(new FlipperView(flipper));
-                        board.getModel().addGizmo(flipper);
-                        board.getModel().addKeyPressedTrigger(66, flipper);
-                        board.getModel().addKeyReleasedTrigger(66, flipper);
-                        break;
-                    case SQUARE:
-                        IGizmo squareGizmo = new SquareGizmo("S" + id, x, y);
-                        board.addViewGizmo(new SquareView(squareGizmo));
-                        board.getModel().addGizmo(squareGizmo);
-                        break;
-                    case TRIANGLE:
-                        IGizmo triangleGizmo = new TriangleGizmo("T" + id, x ,y);
-                        board.addViewGizmo(new TriangleView(triangleGizmo));
-                        board.getModel().addGizmo(triangleGizmo);
-                        break;
+                if(isCellEmpty(x, y)) {
+                    switch (gizmo) {
+                        case BALL:
+                            IBall ballGizmo = new BallGizmo("B", x + 0.5, y + 0.5, 13, 17);
+                            board.addViewBall(new BallView(ballGizmo));
+                            board.getModel().addBall(ballGizmo);
+                            break;
+                        case CIRCLE:
+                            ICircle circleGizmo = new CircleGizmo("C" + id, x, y);
+                            board.addViewGizmo(new CircleView(circleGizmo));
+                            board.getModel().addGizmo(circleGizmo);
+                            break;
+                        case FLIPPER: //TODO: Add user defined key connection
+                            IFlipper flipper = new LeftFlipper("LF" + id, x, y);
+                            board.addViewGizmo(new FlipperView(flipper));
+                            board.getModel().addGizmo(flipper);
+                            board.getModel().addKeyPressedTrigger(66, flipper);
+                            board.getModel().addKeyReleasedTrigger(66, flipper);
+                            break;
+                        case SQUARE:
+                            IGizmo squareGizmo = new SquareGizmo("S" + id, x, y);
+                            board.addViewGizmo(new SquareView(squareGizmo));
+                            board.getModel().addGizmo(squareGizmo);
+                            break;
+                        case TRIANGLE:
+                            IGizmo triangleGizmo = new TriangleGizmo("T" + id, x, y);
+                            board.addViewGizmo(new TriangleView(triangleGizmo));
+                            board.getModel().addGizmo(triangleGizmo);
+                            break;
+                    }
                 }
                 break;
             case REMOVE:
-                boolean removed = false;
+                if(!isCellEmpty(x, y)) {
+                    boolean removed = false;
 
-                for (Iterator<IGizmo> iterator = board.getModel().getGizmos().iterator(); iterator.hasNext();){
-                    if (iterator.next().getGridCoords().equals(new Vect(x, y))) {
-                        iterator.remove();
-                        removed = true;
-                        break;
+                    for (Iterator<IGizmo> iterator = board.getModel().getGizmos().iterator(); iterator.hasNext(); ) {
+                        if (iterator.next().getGridCoords().equals(new Vect(x, y))) {
+                            iterator.remove();
+                            removed = true;
+                            break;
+                        }
                     }
-                }
 
-                if(!removed){
-                    board.getModel().getBalls().removeIf(
-                            ball -> ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5)));
-                }
+                    if (!removed) {
+                        board.getModel().getBalls().removeIf(
+                                ball -> ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5)));
+                    }
 
-                board.reRender();
+                    board.reRender();
+                }
                 break;
         }
     }

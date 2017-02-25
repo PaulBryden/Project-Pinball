@@ -67,16 +67,6 @@ public class Board extends JPanel implements Observer {
 		reRender();
 	}
 
-	public void removeViewGizmo(IViewGizmo gizmo){
-		viewGizmos.remove(gizmo);
-		reRender();
-	}
-
-	public void removeViewBall(IViewGizmo ball){
-		viewBalls.remove(ball);
-		reRender();
-	}
-
 	private void drawGrid(Graphics g) {
 		int coord;
 
