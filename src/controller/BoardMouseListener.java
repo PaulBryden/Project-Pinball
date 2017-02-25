@@ -9,6 +9,7 @@ import model.IGizmo;
 import model.LeftFlipper;
 import model.SquareGizmo;
 import model.TriangleGizmo;
+import physics.Vect;
 import view.BallView;
 import view.Board;
 import view.CircleView;
@@ -17,6 +18,7 @@ import view.SquareView;
 import view.TriangleView;
 
 import java.awt.event.MouseEvent;
+import java.util.Iterator;
 
 public class BoardMouseListener implements java.awt.event.MouseListener{
     public enum STATE {
@@ -50,12 +52,12 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        int x = e.getX() / GRID_WIDTH;
+        int y = e.getY() / GRID_WIDTH;
+        String id = x + "" + y;
+
         switch (state){
             case ADD:
-                int x = e.getX() / GRID_WIDTH;
-                int y = e.getY() / GRID_WIDTH;
-                String id = x + "" + y;
-
                 switch (gizmo){
                     case BALL:
                         IBall ballGizmo = new BallGizmo("B", x + 0.5, y + 0.5, 13, 17);
@@ -85,6 +87,24 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                         board.getModel().addGizmo(triangleGizmo);
                         break;
                 }
+                break;
+            case REMOVE:
+                boolean removed = false;
+
+                for (Iterator<IGizmo> iterator = board.getModel().getGizmos().iterator(); iterator.hasNext();){
+                    if (iterator.next().getGridCoords().equals(new Vect(x, y))) {
+                        iterator.remove();
+                        removed = true;
+                        break;
+                    }
+                }
+
+                if(!removed){
+                    board.getModel().getBalls().removeIf(
+                            ball -> ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5)));
+                }
+
+                board.reRender();
                 break;
         }
     }
