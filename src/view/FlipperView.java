@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Observable;
 
 import model.IFlipper;
+import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 import physics.LineSegment;
@@ -55,6 +56,11 @@ public class FlipperView implements IViewGizmo, IObserver{
 		}
 
 		g2D.fillPolygon(a, b, exactCoords.size());
+	}
+
+	@Override
+	public IGizmo getGizmo() {
+		return (gizmo);
 	}
 
 	@Override

@@ -24,6 +24,11 @@ public class AbsorberView implements IViewGizmo, IObserver{
     }
 
     @Override
+    public IGizmo getGizmo() {
+        return (gizmo);
+    }
+
+    @Override
     public void update(IObservable obsv, Object o) {
     }
 
