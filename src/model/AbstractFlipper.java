@@ -73,7 +73,7 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 	public double getWidth() {
 		return 2 * RADIUS;
 	}
-	
+
 	public void moveForTime(double time) {
 		if (open && angle.equals(openAngle) || !open && angle.equals(Angle.ZERO))
 			return;

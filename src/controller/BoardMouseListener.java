@@ -1,6 +1,11 @@
 package controller;
 
-import model.*;
+import model.BallGizmo;
+import model.CircleGizmo;
+import model.IFlipper;
+import model.LeftFlipper;
+import model.SquareGizmo;
+import model.TriangleGizmo;
 import physics.Vect;
 import view.Board;
 import view.CircleView;
