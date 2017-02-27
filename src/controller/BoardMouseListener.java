@@ -1,11 +1,6 @@
 package controller;
 
-import model.BallGizmo;
-import model.CircleGizmo;
-import model.IFlipper;
-import model.LeftFlipper;
-import model.SquareGizmo;
-import model.TriangleGizmo;
+import model.*;
 import physics.Vect;
 import view.Board;
 import view.CircleView;
@@ -20,7 +15,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
         BUILD, RUN, ADD, REMOVE, MOVE
     }
     public enum CUR_GIZMO {
-        BALL, SQUARE, TRIANGLE, FLIPPER, CIRCLE, ABSORBER, NONE
+        BALL, SQUARE, TRIANGLE, LFLIPPER, RFLIPPER, CIRCLE, ABSORBER, NONE
     }
     private static final int GRID_WIDTH = 20;
     private STATE state;
@@ -63,11 +58,17 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                         case CIRCLE:
                             board.addGizmo(new CircleView(new CircleGizmo("C" + id, x, y)));
                             break;
-                        case FLIPPER: //TODO: Add user defined key connection
-                            IFlipper flipper = new LeftFlipper("LF" + id, x, y);
-                            board.addGizmo(new FlipperView(flipper));
-                            board.getModel().addKeyPressedTrigger(66, flipper);
-                            board.getModel().addKeyReleasedTrigger(66, flipper);
+                        case LFLIPPER: //TODO: Add user defined key connection
+                            IFlipper lFlipper = new LeftFlipper("LF" + id, x, y);
+                            board.addGizmo(new FlipperView(lFlipper));
+                            board.getModel().addKeyPressedTrigger(66, lFlipper);
+                            board.getModel().addKeyReleasedTrigger(66, lFlipper);
+                            break;
+                        case RFLIPPER:
+                            IFlipper rFlipper = new RightFlipper("RF" + id, x, y);
+                            board.addGizmo(new FlipperView(rFlipper));
+                            board.getModel().addKeyPressedTrigger(66, rFlipper);
+                            board.getModel().addKeyReleasedTrigger(66, rFlipper);
                             break;
                         case SQUARE:
                             board.addGizmo(new SquareView(new SquareGizmo("S" + id, x, y)));

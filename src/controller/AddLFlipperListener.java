@@ -5,17 +5,17 @@ import view.Board;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static controller.BoardMouseListener.CUR_GIZMO.FLIPPER;
+import static controller.BoardMouseListener.CUR_GIZMO.LFLIPPER;
 
-public class AddFlipperListener implements ActionListener {
+public class AddLFlipperListener implements ActionListener {
 	private Board board;
 
-	public AddFlipperListener(Board board) {
+	public AddLFlipperListener(Board board) {
 		this.board = board;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		board.getMouseListener().setGizmo(FLIPPER);
+		board.getMouseListener().setGizmo(LFLIPPER);
 	}
 }
