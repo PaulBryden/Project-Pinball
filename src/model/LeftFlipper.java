@@ -28,6 +28,11 @@ public class LeftFlipper extends AbstractFlipper implements IFlipper{
 	}
 
 	@Override
+	public Vect getGridCoords(){
+		return (new Vect(this.pivot.x() - RADIUS, this.pivot.y() - RADIUS));
+	}
+
+	@Override
 	public String serializeGizmo() {
 		String serializedGizmo = "LeftFlipper " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
 				+ "\n";
