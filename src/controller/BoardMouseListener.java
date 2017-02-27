@@ -1,11 +1,7 @@
 package controller;
 
-import model.BallGizmo;
-import model.CircleGizmo;
-import model.IFlipper;
-import model.LeftFlipper;
-import model.SquareGizmo;
-import model.TriangleGizmo;
+import model.*;
+import physics.Vect;
 import view.Board;
 import view.CircleView;
 import view.FlipperView;
@@ -16,7 +12,7 @@ import java.awt.event.MouseEvent;
 
 public class BoardMouseListener implements java.awt.event.MouseListener{
     public enum STATE {
-        BUILD, RUN, ADD, REMOVE
+        BUILD, RUN, ADD, REMOVE, MOVE
     }
     public enum CUR_GIZMO {
         BALL, SQUARE, TRIANGLE, FLIPPER, CIRCLE, ABSORBER, NONE
@@ -25,11 +21,13 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
     private STATE state;
     private CUR_GIZMO gizmo;
     private Board board;
+    private Vect gizmoCoords;
 
     public BoardMouseListener(Board board){
         this.board = board;
         state = STATE.BUILD;
         gizmo = CUR_GIZMO.NONE;
+        gizmoCoords = null;
     }
 
     void setState(STATE state){
@@ -78,10 +76,18 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
             case REMOVE:
                 if(!board.isCellEmpty(x, y)){
                     board.removeGizmo(x, y);
-                    board.reRender();
+                }
+                break;
+            case MOVE:
+                if(!board.isCellEmpty(x, y)){
+                    gizmoCoords = new Vect(x, y);
+                } else if(board.isCellEmpty(x, y) && gizmoCoords != null){
+                    board.moveGizmo(gizmoCoords, new Vect(x, y));
+                    gizmoCoords = null;
                 }
                 break;
         }
+        board.reRender();
     }
 
     @Override

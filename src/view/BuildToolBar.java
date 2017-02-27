@@ -2,6 +2,7 @@ package view;
 
 import controller.DeleteGizmoListener;
 import controller.AddGizmoListener;
+import controller.MoveGizmoListener;
 import controller.RotateGizmoListener;
 
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ class BuildToolBar extends JToolBar{
         placeBtn.addActionListener(new AddGizmoListener(mainWindow, board));
         deleteBtn.addActionListener(new DeleteGizmoListener(mainWindow));
         rotateBtn.addActionListener(new RotateGizmoListener(mainWindow));
+        moveBtn.addActionListener(new MoveGizmoListener(mainWindow));
 
         setFloatable(false);
         setRollover(true);

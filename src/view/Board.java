@@ -78,6 +78,14 @@ public class Board extends JPanel implements Observer {
 		model.getBalls().removeIf(ball -> ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5)));
 	}
 
+	public void moveGizmo(Vect oldCoords, Vect newCoords){
+		for(IGizmo gizmo : model.getGizmos()){
+			if(gizmo.getGridCoords().equals(oldCoords)){
+				gizmo.setGridCoords(newCoords);
+			}
+		}
+	}
+
 	private void drawGrid(Graphics g) {
 		int coord;
 
@@ -137,6 +145,7 @@ public class Board extends JPanel implements Observer {
 			drawGrid(g);
 
 		for(IViewGizmo viewGizmo : viewGizmos) {
+			System.out.println(viewGizmo.getGizmo().getGridCoords());
 			viewGizmo.paint(g);
 		}
 

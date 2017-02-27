@@ -3,15 +3,24 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import model.IGizmo;
-import view.IViewGizmo;
+import view.MainWindow;
+import view.MoveGizmoToolBar;
+import view.RotateGizmoToolBar;
+
+import static controller.BoardMouseListener.STATE.MOVE;
 
 public class MoveGizmoListener  implements ActionListener{
-	IGizmo gizmo;
-	IViewGizmo gizmoView;
+	private MainWindow mainWindow;
+
+	public MoveGizmoListener(MainWindow mainWindow){
+		this.mainWindow = mainWindow;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(!(mainWindow.getSideToolBar() instanceof MoveGizmoToolBar)) {
+			mainWindow.addSideToolBar(new MoveGizmoToolBar());
+			mainWindow.getBoard().getMouseListener().setState(MOVE);
+		}
 	}
 }
