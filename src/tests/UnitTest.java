@@ -2,7 +2,7 @@ package tests;
 
 import org.junit.Test;
 
-import static org.testng.Assert.fail;
+import static org.junit.Assert.fail;
 
 public class UnitTest {
 
