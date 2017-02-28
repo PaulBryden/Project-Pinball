@@ -17,7 +17,6 @@ public class GameModel extends Observable implements IModel {
 	BoardFileHandler fileHandler;
 	private List<IGizmo> gizmos;
 	private List<IBall> balls;
-	private List<IWall> walls;
 	private Map<Integer, ITrigger> keyPressedTriggers;
 	private Map<Integer, ITrigger> keyReleasedTriggers;
 	private boolean pauseGame = false;
@@ -33,13 +32,15 @@ public class GameModel extends Observable implements IModel {
 		// Use smallest tick time until next collision.
 		double tick = (collision == null) ? Constants.TICK_TIME : collision.getTuc();
 		// Check if flipper will stop moving within the tick time.
+		System.out.println(tick);
 		for (IFlipper flipper : getFlippers()) {
 			double tus = flipper.timeUntilStatic();
-			if (tus < tick && tus > 0) {
+			if (tus < tick && tus > Constants.FLOAT_MARGIN) {
 				collision = null;
 				tick = tus;
 			}
 		}
+		System.out.println(tick);
 		// Move all items based on that tick time
 		for (IBall ball : balls) {
 			ball.moveForTime(tick);
@@ -47,10 +48,23 @@ public class GameModel extends Observable implements IModel {
 		for (IFlipper flipper : getFlippers()) {
 			flipper.moveForTime(tick);
 		}
+		if (collision != null) {
+		System.out.println("=============");
+		System.out.println("Time until collision: " + collision.getTuc());
+		System.out.println("Ball id: " + collision.getBall().getID());
+		System.out.println("Ball position: " + collision.getBall().getCentre());
+		System.out.println("Ball velocity: " + collision.getBall().getVelo());
+		System.out.println("Collision gizmo: " + collision.getGizmo().getID());
+		System.out.println("Collision velo: " + collision.getVelo());
+		} else {
+			System.out.println("========\nnull");
+		}
 		// Resolve collision
 		if (collision != null) {
 			double coeff = collision.getGizmo().getCoefficientOfReflection();
-			Vect velo = collision.getVelo().times(coeff);
+			Vect init = collision.getBall().getVelo();
+			Vect velo = collision.getVelo();
+			velo = Geometry.applyReflectionCoeff(init, velo, coeff);
 			velo = (velo.length() > Constants.MIN_VELOCITY) ? velo : Vect.ZERO;
 
 			/*
@@ -100,13 +114,12 @@ public class GameModel extends Observable implements IModel {
 	}
 
 	public void reset() {
-		walls = new LinkedList<>();
-		walls.add(new Wall(0, 0, 0, 20));
-		walls.add(new Wall(0, 0, 20, 0));
-		walls.add(new Wall(20, 0, 20, 20));
-		walls.add(new Wall(0, 20, 20, 20));
-
 		gizmos = new LinkedList<>();
+		gizmos.add(new Wall(0, 0, 0, 20));
+		gizmos.add(new Wall(0, 0, 20, 0));
+		gizmos.add(new Wall(20, 0, 20, 20));
+		gizmos.add(new Wall(0, 20, 20, 20));
+
 		balls = new LinkedList<>();
 
 		keyPressedTriggers = new HashMap<>();
@@ -117,10 +130,6 @@ public class GameModel extends Observable implements IModel {
 
 	public List<IBall> getBalls() {
 		return balls;
-	}
-
-	public List<IWall> getWalls() {
-		return walls;
 	}
 
 	private CollisionDetails evaluateCollisions() {
@@ -158,12 +167,6 @@ public class GameModel extends Observable implements IModel {
 							collision = cd;
 					}
 				}
-			}
-			for (IWall wall : walls) {
-				cd = evaluateCollisionWithStaticLine(ball, wall.getLine(), wall);
-				if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
-						&& cd.getTuc() < Constants.TICK_TIME)
-					collision = cd;
 			}
 		}
 		return collision;

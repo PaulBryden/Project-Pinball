@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Color;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -107,12 +108,14 @@ public class Wall implements IWall {
 
 	@Override
 	public List<Circle> getAllCircles() {
-		return null;
+		return new LinkedList<>();
 	}
 
 	@Override
 	public List<LineSegment> getAllLineSegments() {
-		return null;
+		List<LineSegment> l = new LinkedList<>();
+		l.add(this.line);
+		return l;
 	}
 
 	@Override
