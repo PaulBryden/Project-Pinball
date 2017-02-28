@@ -87,20 +87,18 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public void removeGizmo(Vect coords){
-		try {
-			model.getGizmos().remove(getGizmo(coords));
-			return;
-		} catch (NoSuchElementException ignored){}
+		model.getGizmos().remove(getGizmo(coords));
+	}
 
+	public void removeBall(Vect coords){
 		model.getBalls().remove(getBall(coords));
-
 	}
 
 	public void moveGizmo(Vect oldCoords, Vect newCoords){
-		try {
-			getGizmo(oldCoords).setGridCoords(newCoords);
-		} catch (NoSuchElementException ignored){}
+		getGizmo(oldCoords).setGridCoords(newCoords);
+	}
 
+	public void moveBall(Vect oldCoords, Vect newCoords){
 		getBall(oldCoords).setGridCoords(new Vect(newCoords.x() + 0.5, newCoords.y() + 0.5));
 	}
 

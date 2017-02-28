@@ -5,6 +5,7 @@ import physics.Vect;
 import view.*;
 
 import java.awt.event.MouseEvent;
+import java.util.NoSuchElementException;
 
 //                                if(x < initalAbsorberCoords.x() && y < initalAbsorberCoords.y()) { //TOP-LEFT
 //                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(x, y), new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y() + 1), board.getModel().getBalls())));
@@ -114,14 +115,22 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                 break;
             case REMOVE:
                 if(!board.isCellEmpty(coords)){
-                    board.removeGizmo(coords);
+                    try {
+                        board.removeGizmo(coords);
+                    } catch (NoSuchElementException E) {
+                        board.removeBall(coords);
+                    }
                 }
                 break;
             case MOVE:
                 if(!board.isCellEmpty(coords)){
                     gizmoCoords = coords;
                 } else if(board.isCellEmpty(coords) && gizmoCoords != null){
-                    board.moveGizmo(gizmoCoords, coords);
+                    try {
+                        board.moveGizmo(gizmoCoords, coords);
+                    } catch (NoSuchElementException E) {
+                        board.moveBall(gizmoCoords, coords);
+                    }
                     gizmoCoords = null;
                 }
                 break;
