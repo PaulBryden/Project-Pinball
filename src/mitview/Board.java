@@ -56,11 +56,6 @@ public class Board extends JPanel implements Observer {
 
 		Graphics2D g2 = (Graphics2D) g;
 
-		for (IWall wall : gm.getWalls()) {
-			g2.drawLine((int) (wall.p1().x() * GRID_WIDTH), (int) (wall.p1().y() * GRID_WIDTH),
-					(int) (wall.p2().x() * GRID_WIDTH), (int) (wall.p2().y() * GRID_WIDTH));
-		}
-
 		// Draw all the vertical lines
 		for (IGizmo gizmo : gm.getGizmos()) {
 			if (gizmo instanceof SquareGizmo)
