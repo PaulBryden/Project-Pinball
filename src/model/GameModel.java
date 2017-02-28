@@ -33,7 +33,6 @@ public class GameModel extends Observable implements IModel {
 		// Use smallest tick time until next collision.
 		double tick = (collision == null) ? Constants.TICK_TIME : collision.getTuc();
 		// Check if flipper will stop moving within the tick time.
-		System.out.println(tick);
 		for (IFlipper flipper : getFlippers()) {
 			double tus = flipper.timeUntilStatic();
 			if (tus < tick && tus > Constants.FLOAT_MARGIN) {
@@ -41,7 +40,6 @@ public class GameModel extends Observable implements IModel {
 				tick = tus;
 			}
 		}
-		System.out.println(tick);
 		// Move all items based on that tick time
 		for (IBall ball : balls) {
 			ball.moveForTime(tick);
