@@ -133,7 +133,7 @@ public class GameModel extends Observable implements IModel {
 		return walls;
 	}
 
-	private CollisionDetails evaluateCollisions() {
+	public CollisionDetails evaluateCollisions() {
 		CollisionDetails collision = null;
 		CollisionDetails cd;
 		for (IBall ball : balls) {
