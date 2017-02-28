@@ -73,15 +73,11 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                         case ABSORBER:
                             if(initalAbsorberCoords == null){
                                 initalAbsorberCoords = coords;
-                            } else { //simplify some more
-                                if((coords.x() < initalAbsorberCoords.x() && coords.y() <= initalAbsorberCoords.y()) || (coords.y() < initalAbsorberCoords.y() && coords.x() <= initalAbsorberCoords.x())) { //LEFT, UP, TOP-LEFT
-                                    board.addGizmo(new AbsorberView(new Absorber("A", coords, new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y() + 1), board.getModel().getBalls())));
-                                } else if(coords.x() < initalAbsorberCoords.x() && coords.y() > initalAbsorberCoords.y()){ //BOTTOM-LEFT
-                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(coords.x(), coords.y() + 1), new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y()), board.getModel().getBalls())));
-                                } else if(coords.x() > initalAbsorberCoords.x() && coords.y() < initalAbsorberCoords.y()){ //TOP-RIGHT
-                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(initalAbsorberCoords.x(), initalAbsorberCoords.y() + 1), new Vect(coords.x() + 1, coords.y()), board.getModel().getBalls())));
-                                } else { //DOWN, RIGHT, BOTTOM-RIGHT, NEUTRAL
-                                    board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords,  new Vect(coords.x() + 1, coords.y() + 1), board.getModel().getBalls())));
+                            } else {
+                                if(coords.x() < initalAbsorberCoords.x() || coords.y() < initalAbsorberCoords.y()) {
+                                    System.err.println("FIRST CLICK MUST BE TOP LEFT GRID SQUARE");
+                                } else {
+                                    board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords, coords.plus(new Vect(1, 1)), board.getModel().getBalls())));
                                 }
                                 initalAbsorberCoords = null;
                             }
