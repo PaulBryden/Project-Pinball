@@ -13,8 +13,6 @@ public interface IModel {
 	
 	public List<IBall> getBalls();
 	
-	public List<IWall> getWalls();
-	
 	public void addGizmo(IGizmo gizmo);
 
 	public void addBall(IBall ball);

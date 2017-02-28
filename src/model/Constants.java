@@ -3,6 +3,8 @@ package model;
 import java.awt.Color;
 
 public final class Constants {
+	
+	public static final double FLOAT_MARGIN = 0.0000001;
 
 	public static final double TICK_TIME = 0.01; // in seconds
 	public static final double GRAVITY = 25.0;
