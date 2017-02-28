@@ -1,5 +1,6 @@
 package model;
 
+import physics.Geometry.VectPair;
 import physics.Vect;
 
 public class CollisionDetails {
@@ -8,12 +9,18 @@ public class CollisionDetails {
 	private Vect velo;
 	private IBall ball;
 	private IGizmo gizmo;
+	private Vect otherBallVelo;
 
 	public CollisionDetails(double t, Vect v, IBall ball, IGizmo gizmo) {
 		tuc = t;
 		velo = v;
 		this.ball = ball;
 		this.gizmo = gizmo;
+	}
+	
+	public CollisionDetails(double t, IBall ball, IBall other, VectPair velos) {
+		this(t, velos.v1, ball, other);
+		this.otherBallVelo = velos.v2;
 	}
 
 	public double getTuc() {
@@ -22,6 +29,10 @@ public class CollisionDetails {
 
 	public Vect getVelo() {
 		return velo;
+	}
+	
+	public Vect getOtherBallVelo() {
+		return otherBallVelo;
 	}
 	
 	public IBall getBall() {

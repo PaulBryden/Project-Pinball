@@ -115,7 +115,7 @@ public class Board extends JPanel implements Observer {
 		}
 
 		for(IBall ball : model.getBalls()){
-			if(ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5))){
+			if(ball.getGridCoords() != null && ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5))){
 				return (false);
 			}
 		}
