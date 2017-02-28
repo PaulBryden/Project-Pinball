@@ -86,7 +86,8 @@ public class Board extends JPanel implements Observer {
 
 	public void moveGizmo(Vect oldCoords, Vect newCoords){
 		for(IGizmo gizmo : model.getGizmos()){
-			if(gizmo.getGridCoords().equals(oldCoords)){
+			Vect gizmoCoords = gizmo.getGridCoords();
+			if(gizmoCoords != null && gizmoCoords.equals(oldCoords)){
 				gizmo.setGridCoords(newCoords);
 			}
 		}
@@ -107,7 +108,8 @@ public class Board extends JPanel implements Observer {
 
 	public boolean isCellEmpty(int x, int y){
 		for(IGizmo gizmo : model.getGizmos()){
-			if(gizmo.getGridCoords().equals(new Vect(x, y))){
+			Vect gizmoCoords = gizmo.getGridCoords();
+			if(gizmoCoords != null && gizmoCoords.equals(new Vect(x, y))){
 				return (false);
 			}
 		}

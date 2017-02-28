@@ -76,18 +76,13 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                             } else { //simplify some more
                                 if((x < initalAbsorberCoords.x() && y <= initalAbsorberCoords.y()) || (y < initalAbsorberCoords.y() && x <= initalAbsorberCoords.x())) { //LEFT, UP, TOP-LEFT
                                     board.addGizmo(new AbsorberView(new Absorber("A", new Vect(x, y), new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y() + 1), board.getModel().getBalls())));
-                                    System.out.println("1\n===============");
                                 } else if(x < initalAbsorberCoords.x() && y > initalAbsorberCoords.y()){ //BOTTOM-LEFT
                                     board.addGizmo(new AbsorberView(new Absorber("A", new Vect(x, y + 1), new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y()), board.getModel().getBalls())));
-                                    System.out.println("2\n===============");
                                 } else if(x > initalAbsorberCoords.x() && y < initalAbsorberCoords.y()){ //TOP-RIGHT
                                     board.addGizmo(new AbsorberView(new Absorber("A", new Vect(initalAbsorberCoords.x(), initalAbsorberCoords.y() + 1), new Vect(x + 1, y), board.getModel().getBalls())));
-                                    System.out.println("3\n===============");
                                 } else { //DOWN, RIGHT, BOTTOM-RIGHT, NEUTRAL
                                     board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords,  new Vect(x + 1, y + 1), board.getModel().getBalls())));
-                                    System.out.println("4\n===============");
                                 }
-
                                 initalAbsorberCoords = null;
                             }
                             break;
