@@ -3,11 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 import javax.swing.JPanel;
 
@@ -73,15 +69,16 @@ public class Board extends JPanel implements Observer {
 		reRender();
 	}
 
-	public void removeGizmo(int x, int y){
+	public void removeGizmo(Vect coords){
 		for (Iterator<IGizmo> iterator = model.getGizmos().iterator(); iterator.hasNext(); ) {
-			if (iterator.next().getGridCoords().equals(new Vect(x, y))) {
+			Vect gizmoCoords = iterator.next().getGridCoords();
+			if (gizmoCoords != null && gizmoCoords.equals(coords)) {
 				iterator.remove();
 				return;
 			}
 		}
 
-		model.getBalls().removeIf(ball -> ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5)));
+		model.getBalls().removeIf(ball -> ball.getGridCoords().equals(new Vect(coords.x() + 0.5, coords.y() + 0.5)));
 	}
 
 	public void moveGizmo(Vect oldCoords, Vect newCoords){
@@ -106,16 +103,16 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
-	public boolean isCellEmpty(int x, int y){
+	public boolean isCellEmpty(Vect coords){
 		for(IGizmo gizmo : model.getGizmos()){
 			Vect gizmoCoords = gizmo.getGridCoords();
-			if(gizmoCoords != null && gizmoCoords.equals(new Vect(x, y))){
+			if(gizmoCoords != null && gizmoCoords.equals(coords)){
 				return (false);
 			}
 		}
 
 		for(IBall ball : model.getBalls()){
-			if(ball.getGridCoords() != null && ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5))){
+			if(ball.getGridCoords() != null && ball.getGridCoords().equals(new Vect(coords.x() + 0.5, coords.y() + 0.5))){
 				return (false);
 			}
 		}

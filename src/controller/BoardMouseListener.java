@@ -62,67 +62,66 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int x = e.getX() / GRID_WIDTH;
-        int y = e.getY() / GRID_WIDTH;
-        String id = x + "" + y;
+        Vect coords = new Vect(e.getX() / GRID_WIDTH, e.getY() / GRID_WIDTH);
+        String id = coords.x() + "" + coords.y();
 
         switch (state){
             case ADD:
-                if(board.isCellEmpty(x, y)) {
+                if(board.isCellEmpty(coords)) {
                     switch (gizmo) {
                         case ABSORBER:
                             if(initalAbsorberCoords == null){
-                                initalAbsorberCoords = new Vect(x, y);
+                                initalAbsorberCoords = coords;
                             } else { //simplify some more
-                                if((x < initalAbsorberCoords.x() && y <= initalAbsorberCoords.y()) || (y < initalAbsorberCoords.y() && x <= initalAbsorberCoords.x())) { //LEFT, UP, TOP-LEFT
-                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(x, y), new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y() + 1), board.getModel().getBalls())));
-                                } else if(x < initalAbsorberCoords.x() && y > initalAbsorberCoords.y()){ //BOTTOM-LEFT
-                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(x, y + 1), new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y()), board.getModel().getBalls())));
-                                } else if(x > initalAbsorberCoords.x() && y < initalAbsorberCoords.y()){ //TOP-RIGHT
-                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(initalAbsorberCoords.x(), initalAbsorberCoords.y() + 1), new Vect(x + 1, y), board.getModel().getBalls())));
+                                if((coords.x() < initalAbsorberCoords.x() && coords.y() <= initalAbsorberCoords.y()) || (coords.y() < initalAbsorberCoords.y() && coords.x() <= initalAbsorberCoords.x())) { //LEFT, UP, TOP-LEFT
+                                    board.addGizmo(new AbsorberView(new Absorber("A", coords, new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y() + 1), board.getModel().getBalls())));
+                                } else if(coords.x() < initalAbsorberCoords.x() && coords.y() > initalAbsorberCoords.y()){ //BOTTOM-LEFT
+                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(coords.x(), coords.y() + 1), new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y()), board.getModel().getBalls())));
+                                } else if(coords.x() > initalAbsorberCoords.x() && coords.y() < initalAbsorberCoords.y()){ //TOP-RIGHT
+                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(initalAbsorberCoords.x(), initalAbsorberCoords.y() + 1), new Vect(coords.x() + 1, coords.y()), board.getModel().getBalls())));
                                 } else { //DOWN, RIGHT, BOTTOM-RIGHT, NEUTRAL
-                                    board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords,  new Vect(x + 1, y + 1), board.getModel().getBalls())));
+                                    board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords,  new Vect(coords.x() + 1, coords.y() + 1), board.getModel().getBalls())));
                                 }
                                 initalAbsorberCoords = null;
                             }
                             break;
                         case BALL:
-                            board.addBall(new BallGizmo("B", x + 0.5, y + 0.5, 13, 17));
+                            board.addBall(new BallGizmo("B", coords.x() + 0.5, coords.y() + 0.5, 13, 17));
                             break;
                         case CIRCLE:
-                            board.addGizmo(new CircleView(new CircleGizmo("C" + id, x, y)));
+                            board.addGizmo(new CircleView(new CircleGizmo("C" + id, coords)));
                             break;
                         case LFLIPPER: //TODO: Add user defined key connection
-                            IFlipper lFlipper = new LeftFlipper("LF" + id, x, y);
+                            IFlipper lFlipper = new LeftFlipper("LF" + id, coords);
                             board.addGizmo(new FlipperView(lFlipper));
                             board.getModel().addKeyPressedTrigger(66, lFlipper);
                             board.getModel().addKeyReleasedTrigger(66, lFlipper);
                             break;
                         case RFLIPPER:
-                            IFlipper rFlipper = new RightFlipper("RF" + id, x, y);
+                            IFlipper rFlipper = new RightFlipper("RF" + id, coords);
                             board.addGizmo(new FlipperView(rFlipper));
                             board.getModel().addKeyPressedTrigger(66, rFlipper);
                             board.getModel().addKeyReleasedTrigger(66, rFlipper);
                             break;
                         case SQUARE:
-                            board.addGizmo(new SquareView(new SquareGizmo("S" + id, x, y)));
+                            board.addGizmo(new SquareView(new SquareGizmo("S" + id, coords)));
                             break;
                         case TRIANGLE:
-                            board.addGizmo(new TriangleView(new TriangleGizmo("T" + id, x, y)));
+                            board.addGizmo(new TriangleView(new TriangleGizmo("T" + id, coords)));
                             break;
                     }
                 }
                 break;
             case REMOVE:
-                if(!board.isCellEmpty(x, y)){
-                    board.removeGizmo(x, y);
+                if(!board.isCellEmpty(coords)){
+                    board.removeGizmo(coords);
                 }
                 break;
             case MOVE:
-                if(!board.isCellEmpty(x, y)){
-                    gizmoCoords = new Vect(x, y);
-                } else if(board.isCellEmpty(x, y) && gizmoCoords != null){
-                    board.moveGizmo(gizmoCoords, new Vect(x, y));
+                if(!board.isCellEmpty(coords)){
+                    gizmoCoords = coords;
+                } else if(board.isCellEmpty(coords) && gizmoCoords != null){
+                    board.moveGizmo(gizmoCoords, coords);
                     gizmoCoords = null;
                 }
                 break;
