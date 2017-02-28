@@ -14,7 +14,6 @@ import physics.LineSegment;
 import physics.Vect;
 
 public class GameModel extends Observable implements IModel {
-
 	BoardFileHandler fileHandler;
 	private List<IGizmo> gizmos;
 	private List<IBall> balls;

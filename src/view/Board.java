@@ -145,7 +145,6 @@ public class Board extends JPanel implements Observer {
 			drawGrid(g);
 
 		for(IViewGizmo viewGizmo : viewGizmos) {
-			System.out.println(viewGizmo.getGizmo().getGridCoords());
 			viewGizmo.paint(g);
 		}
 
