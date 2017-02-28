@@ -3,10 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 import javax.swing.JPanel;
 
@@ -22,6 +19,7 @@ import model.LeftFlipper;
 import model.RightFlipper;
 import model.SquareGizmo;
 import model.TriangleGizmo;
+import physics.Vect;
 
 public class Board extends JPanel implements Observer {
 	
@@ -57,24 +55,35 @@ public class Board extends JPanel implements Observer {
 		return (mouseListener);
 	}
 
-	public void addViewGizmo(IViewGizmo gizmo){
+	public void addGizmo(IViewGizmo gizmo){
 		viewGizmos.add(gizmo);
+		model.addGizmo(gizmo.getGizmo());
 		reRender();
 	}
 
-	public void addViewBall(IViewGizmo ball){
-		viewBalls.add(ball);
+	public void addBall(IBall ball){
+		viewBalls.add(new BallView(ball));
+		model.addBall(ball);
 		reRender();
 	}
 
-	public void removeViewGizmo(IViewGizmo gizmo){
-		viewGizmos.remove(gizmo);
-		reRender();
+	public void removeGizmo(int x, int y){
+		for (Iterator<IGizmo> iterator = model.getGizmos().iterator(); iterator.hasNext(); ) {
+			if (iterator.next().getGridCoords().equals(new Vect(x, y))) {
+				iterator.remove();
+				return;
+			}
+		}
+
+		model.getBalls().removeIf(ball -> ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5)));
 	}
 
-	public void removeViewBall(IViewGizmo ball){
-		viewBalls.remove(ball);
-		reRender();
+	public void moveGizmo(Vect oldCoords, Vect newCoords){
+		for(IGizmo gizmo : model.getGizmos()){
+			if(gizmo.getGridCoords().equals(oldCoords)){
+				gizmo.setGridCoords(newCoords);
+			}
+		}
 	}
 
 	private void drawGrid(Graphics g) {
@@ -88,6 +97,22 @@ public class Board extends JPanel implements Observer {
 			g.drawLine(coord, 0, coord, getHeight());
 			g.drawLine(0, coord, getWidth(), coord);
 		}
+	}
+
+	public boolean isCellEmpty(int x, int y){
+		for(IGizmo gizmo : model.getGizmos()){
+			if(gizmo.getGridCoords().equals(new Vect(x, y))){
+				return (false);
+			}
+		}
+
+		for(IBall ball : model.getBalls()){
+			if(ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5))){
+				return (false);
+			}
+		}
+
+		return (true);
 	}
 
     @Override
@@ -120,6 +145,7 @@ public class Board extends JPanel implements Observer {
 			drawGrid(g);
 
 		for(IViewGizmo viewGizmo : viewGizmos) {
+			System.out.println(viewGizmo.getGizmo().getGridCoords());
 			viewGizmo.paint(g);
 		}
 

@@ -15,6 +15,7 @@ public class RunKeyListener implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println(e.getKeyCode());
 		model.processKeyPressedTrigger(e.getKeyCode());
 	}
 

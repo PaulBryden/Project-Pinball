@@ -1,0 +1,63 @@
+package tests;
+
+import org.junit.Test;
+
+import model.Absorber;
+import model.BallGizmo;
+import model.CircleGizmo;
+import model.CollisionDetails;
+import model.GameModel;
+import model.IBall;
+import model.LeftFlipper;
+import model.RightFlipper;
+import model.SquareGizmo;
+import model.TriangleGizmo;
+import model.Wall;
+import physics.Vect;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
+import org.junit.After;
+import org.junit.Before;
+
+public class CollisionTest {
+	
+	@Before
+	public void setup(){
+		
+	}
+	@Test
+	public void PhysicsEvaluationSingleWall() {
+		Vect topLeft = new Vect(1,1);
+		Vect wallTop = new Vect (3,1);
+		BallGizmo ball = new BallGizmo("B1",topLeft, new Vect(40,0));
+		Wall wall = new Wall(new Vect(3,1), new Vect(3,9));
+		GameModel gameModel = new GameModel();
+		gameModel.addBall(ball);
+		gameModel.addGizmo(wall);
+		CollisionDetails newCollisions=gameModel.evaluateCollisions();
+		
+		assert(newCollisions.getBall().equals(ball));
+	}
+	
+	@Test
+	public void PhysicsEvaluationSingleSquare() {
+		Vect topLeft = new Vect(1,1);
+		Vect wallTop = new Vect (3,1);
+		BallGizmo ball = new BallGizmo("B1",topLeft, new Vect(40,0));
+		SquareGizmo gizmo = new SquareGizmo("S1",new Vect(3,1));
+		GameModel gameModel = new GameModel();
+		gameModel.addBall(ball);
+		gameModel.addGizmo(gizmo);
+		CollisionDetails newCollisions=gameModel.evaluateCollisions();
+		
+		assert(newCollisions.getBall().equals(ball));
+	}
+	
+	@After
+	public void teardown(){
+		
+	}
+}

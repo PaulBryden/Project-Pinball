@@ -5,6 +5,8 @@ import view.Board;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static controller.BoardMouseListener.CUR_GIZMO.SQUARE;
+
 public class AddSquareListener implements ActionListener{
     private Board board;
 
@@ -14,9 +16,6 @@ public class AddSquareListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.getMouseListener().setGizmo(BoardMouseListener.CUR_GIZMO.SQUARE);
-//        IGizmo squareGizmo = new SquareGizmo("S1618", 16, 18);
-//        board.addViewGizmo(new SquareView(squareGizmo));
-//        board.getModel().addGizmo(squareGizmo);
+        board.getMouseListener().setGizmo(SQUARE);
     }
 }

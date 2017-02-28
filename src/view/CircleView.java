@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.Observable;
 
 import model.ICircle;
+import model.IGizmo;
 import observer.IObservable;
 import observer.IObserver;
 
@@ -18,6 +19,10 @@ public class CircleView implements IViewGizmo, IObserver{
 	@Override
 	public void update(Observable o, Object arg) {
 		//UPDATE GRAPHICS OBJECT
+	}
+
+	public IGizmo getGizmo(){
+		return (gizmo);
 	}
 
 	public void paint(Graphics g) {

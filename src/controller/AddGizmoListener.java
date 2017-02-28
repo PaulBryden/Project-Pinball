@@ -7,6 +7,8 @@ import view.AddGizmoToolBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static controller.BoardMouseListener.STATE.ADD;
+
 public class AddGizmoListener implements ActionListener{
     private MainWindow mainWindow;
     private Board board;
@@ -20,7 +22,7 @@ public class AddGizmoListener implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(!(mainWindow.getSideToolBar() instanceof AddGizmoToolBar)) {
             mainWindow.addSideToolBar(new AddGizmoToolBar(board));
-            mainWindow.getBoard().getMouseListener().setState(BoardMouseListener.STATE.ADD);
+            mainWindow.getBoard().getMouseListener().setState(ADD);
         }
     }
 }
