@@ -3,7 +3,11 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 
@@ -20,6 +24,8 @@ import model.RightFlipper;
 import model.SquareGizmo;
 import model.TriangleGizmo;
 import physics.Vect;
+
+import static controller.BoardMouseListener.STATE.RUN;
 
 public class Board extends JPanel implements Observer {
 	
@@ -141,11 +147,10 @@ public class Board extends JPanel implements Observer {
 			viewBalls.add(new BallView(ball));
 		}
 
-		if(!mouseListener.getState().equals(BoardMouseListener.STATE.RUN))
+		if(!mouseListener.getState().equals(RUN))
 			drawGrid(g);
 
 		for(IViewGizmo viewGizmo : viewGizmos) {
-			System.out.println(viewGizmo.getGizmo().getGridCoords());
 			viewGizmo.paint(g);
 		}
 
