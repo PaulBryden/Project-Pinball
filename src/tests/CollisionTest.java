@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
 
-public class CollisionTests {
+public class CollisionTest {
 	
 	@Before
 	public void setup(){
