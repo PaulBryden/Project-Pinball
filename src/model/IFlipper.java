@@ -18,5 +18,7 @@ public interface IFlipper extends IGizmo {
 	public double getWidth();
 
 	public void moveForTime(double tickTime);
+	
+	public double timeUntilStatic();
 
 }

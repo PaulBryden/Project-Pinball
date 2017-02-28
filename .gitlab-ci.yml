@@ -13,4 +13,5 @@ gizmoball_build_and_test:
     - echo "--------- TEST RUN START ---------" >> $LOGFILE
     - echo "---" $DATE $USER $CI_BUILD_REF >> $LOGFILE
     - javac -cp bin:/usr/share/java/junit4.jar -d bin src/*/*.java | tee -a $LOGFILE
-    - java -cp bin:/usr/share/java/junit4.jar org.junit.runner.JUnitCore tests.UnitTest | sed -r -e '/^\s+at/d' | tee -a $LOGFILE
+    - java -cp bin:/usr/share/java/junit4.jar org.junit.runner.JUnitCore tests.CollisionTest | sed -r -e '/^\s+at/d' | tee -a $LOGFILE
+    - java -cp bin:/usr/share/java/junit4.jar org.junit.runner.JUnitCore tests.GizmoTest | sed -r -e '/^\s+at/d' | tee -a $LOGFILE	
