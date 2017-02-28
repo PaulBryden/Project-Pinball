@@ -101,13 +101,13 @@ public class Board extends JPanel implements Observer {
 
 	public boolean isCellEmpty(int x, int y){
 		for(IGizmo gizmo : model.getGizmos()){
-			if(gizmo.getGridCoords().equals(new Vect(x, y))){
+			if(gizmo.getGridCoords() != null && gizmo.getGridCoords().equals(new Vect(x, y))){
 				return (false);
 			}
 		}
 
 		for(IBall ball : model.getBalls()){
-			if(ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5))){
+			if(ball.getGridCoords() != null && ball.getGridCoords().equals(new Vect(x + 0.5, y + 0.5))){
 				return (false);
 			}
 		}

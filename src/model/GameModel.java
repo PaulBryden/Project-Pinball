@@ -9,6 +9,7 @@ import java.util.Observable;
 
 import physics.Circle;
 import physics.Geometry;
+import physics.Geometry.VectPair;
 import physics.LineSegment;
 import physics.Vect;
 
@@ -48,31 +49,9 @@ public class GameModel extends Observable implements IModel {
 		for (IFlipper flipper : getFlippers()) {
 			flipper.moveForTime(tick);
 		}
-		if (collision != null) {
-		System.out.println("=============");
-		System.out.println("Time until collision: " + collision.getTuc());
-		System.out.println("Ball id: " + collision.getBall().getID());
-		System.out.println("Ball position: " + collision.getBall().getCentre());
-		System.out.println("Ball velocity: " + collision.getBall().getVelo());
-		System.out.println("Collision gizmo: " + collision.getGizmo().getID());
-		System.out.println("Collision velo: " + collision.getVelo());
-		} else {
-			System.out.println("========\nnull");
-		}
 		// Resolve collision
 		if (collision != null) {
-			double coeff = collision.getGizmo().getCoefficientOfReflection();
-			Vect init = collision.getBall().getVelo();
-			Vect velo = collision.getVelo();
-			velo = Geometry.applyReflectionCoeff(init, velo, coeff);
-			velo = (velo.length() > Constants.MIN_VELOCITY) ? velo : Vect.ZERO;
-
-			/*
-			 * double velox = (Math.abs(velo.x()) > -0.1) ? velo.x() : 0.0;
-			 * double veloy = (Math.abs(velo.y()) > Constants.MIN_VELOCITY) ?
-			 * velo.y() : 0.0; velo = new Vect(velox,veloy);
-			 */
-			collision.getBall().setVelo(velo);
+			resolveCollision(collision);
 		}
 		// Apply friction and gravity
 		applyGravity(tick);
@@ -132,6 +111,28 @@ public class GameModel extends Observable implements IModel {
 		return balls;
 	}
 
+	private void resolveCollision(CollisionDetails collision) {
+		if (collision.getGizmo() instanceof IBall) {
+			IBall other = (IBall) collision.getGizmo();
+			resolveSingleCollision(other, collision.getBall(), collision.getOtherBallVelo());
+		}
+		resolveSingleCollision(collision.getBall(), collision.getGizmo(), collision.getVelo());	
+	}
+	
+	private void resolveSingleCollision(IBall ball, IGizmo gizmo, Vect velo) {
+		double coeff = gizmo.getCoefficientOfReflection();
+		Vect initialVelo = ball.getVelo();
+		velo = Geometry.applyReflectionCoeff(initialVelo, velo, coeff);
+		velo = (velo.length() > Constants.MIN_VELOCITY) ? velo : Vect.ZERO;
+
+		/*
+		 * double velox = (Math.abs(velo.x()) > -0.1) ? velo.x() : 0.0;
+		 * double veloy = (Math.abs(velo.y()) > Constants.MIN_VELOCITY) ?
+		 * velo.y() : 0.0; velo = new Vect(velox,veloy);
+		 */
+		ball.setVelo(velo);
+	}
+	
 	public CollisionDetails evaluateCollisions() {
 		CollisionDetails collision = null;
 		CollisionDetails cd;
@@ -140,15 +141,11 @@ public class GameModel extends Observable implements IModel {
 				if (gizmo.isStatic()) {
 					for (Circle circle : gizmo.getAllCircles()) {
 						cd = evaluateCollisionWithStaticCircle(ball, circle, gizmo);
-						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
-								&& cd.getTuc() < Constants.TICK_TIME)
-							collision = cd;
+						collision = soonerCollision(cd, collision);
 					}
 					for (LineSegment line : gizmo.getAllLineSegments()) {
 						cd = evaluateCollisionWithStaticLine(ball, line, gizmo);
-						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
-								&& cd.getTuc() < Constants.TICK_TIME)
-							collision = cd;
+						collision = soonerCollision(cd, collision);
 					}
 				}
 			}
@@ -156,20 +153,34 @@ public class GameModel extends Observable implements IModel {
 				if (!flipper.isStatic()) {
 					for (Circle circle : flipper.getAllCircles()) {
 						cd = evaluateCollisionWithRotatingCircle(ball, circle, flipper);
-						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
-								&& cd.getTuc() < Constants.TICK_TIME)
-							collision = cd;
+						collision = soonerCollision(cd, collision);
 					}
 					for (LineSegment line : flipper.getAllLineSegments()) {
 						cd = evaluateCollisionWithRotatingLine(ball, line, flipper);
-						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
-								&& cd.getTuc() < Constants.TICK_TIME)
-							collision = cd;
+						collision = soonerCollision(cd, collision);
 					}
+				}
+			}
+			for (IBall other : balls) {
+				if (!ball.equals(other)) {
+					cd = evaluateCollisionWithBall(ball, other);
+					collision = soonerCollision(cd, collision);
 				}
 			}
 		}
 		return collision;
+	}
+	
+	private CollisionDetails soonerCollision(CollisionDetails cd1, CollisionDetails cd2) {
+		if (cd1 != null && cd1.getTuc() > Constants.TICK_TIME)
+			cd1 = null;
+		if (cd2 != null && cd2.getTuc() > Constants.TICK_TIME)
+			cd2 = null;
+		if (cd1 == null)
+			return cd2;
+		if (cd2 == null)
+			return cd1;
+		return (cd1.getTuc() < cd2.getTuc()) ? cd1 : cd2;
 	}
 
 	private CollisionDetails evaluateCollisionWithStaticCircle(IBall ball, Circle circle, IGizmo gizmo) {
@@ -179,6 +190,17 @@ public class GameModel extends Observable implements IModel {
 			return null;
 		Vect newVelo = Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ball.getVelo());
 		return new CollisionDetails(tuc, newVelo, ball, gizmo);
+	}
+
+	private CollisionDetails evaluateCollisionWithBall(IBall ball, IBall otherBall) {
+		Circle ballCircle = ball.getAllCircles().get(0);
+		Circle otherBallCircle = otherBall.getAllCircles().get(0);
+		double tuc = Geometry.timeUntilBallBallCollision(otherBallCircle, otherBall.getVelo(), ballCircle,
+				ball.getVelo());
+		if (tuc == Double.POSITIVE_INFINITY)
+			return null;
+		VectPair velos = Geometry.reflectBalls(ballCircle.getCenter(), 1, ball.getVelo(), otherBallCircle.getCenter(), 1, otherBall.getVelo());
+		return new CollisionDetails(tuc, ball, otherBall, velos);
 	}
 
 	private CollisionDetails evaluateCollisionWithRotatingCircle(IBall ball, Circle circle, IFlipper flipper) {

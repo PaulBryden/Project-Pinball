@@ -33,27 +33,27 @@ public class CollisionTest {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
 		BallGizmo ball = new BallGizmo("B1",topLeft, new Vect(40,0));
-		Wall wall = new Wall(new Vect(3,1), new Vect(3,9));
+		Wall wall = new Wall(new Vect(1.6,1), new Vect(1.6,9));
 		GameModel gameModel = new GameModel();
 		gameModel.addBall(ball);
 		gameModel.addGizmo(wall);
 		CollisionDetails newCollisions=gameModel.evaluateCollisions();
 		
-		assert(newCollisions.getBall().equals(ball));
+		assertTrue(newCollisions.getBall().equals(ball));
 	}
 	
 	@Test
 	public void PhysicsEvaluationSingleSquare() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
-		BallGizmo ball = new BallGizmo("B1",topLeft, new Vect(40,0));
-		SquareGizmo gizmo = new SquareGizmo("S1",new Vect(3,1));
+		BallGizmo ball = new BallGizmo("B1",topLeft, new Vect(100,0));
+		SquareGizmo gizmo = new SquareGizmo("S1",new Vect(2,1));
 		GameModel gameModel = new GameModel();
 		gameModel.addBall(ball);
 		gameModel.addGizmo(gizmo);
 		CollisionDetails newCollisions=gameModel.evaluateCollisions();
 		
-		assert(newCollisions.getBall().equals(ball));
+		assertTrue(newCollisions.getBall().equals(ball));
 	}
 	
 	@After
