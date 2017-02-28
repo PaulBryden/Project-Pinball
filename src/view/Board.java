@@ -57,6 +57,23 @@ public class Board extends JPanel implements Observer {
 		return (mouseListener);
 	}
 
+	private IGizmo getGizmo(Vect coords){
+		for(IGizmo gizmo : model.getGizmos()){
+			Vect gizmoCoords = gizmo.getGridCoords();
+			if(gizmoCoords != null && gizmoCoords.equals(coords)) return (gizmo);
+		}
+
+		throw new NoSuchElementException("Gizmo not found");
+	}
+
+	private IBall getBall(Vect coords){
+		for(IBall ball : model.getBalls()){
+			if(ball.getGridCoords().equals(new Vect(coords.x() + 0.5, coords.y() + 0.5))) return (ball);
+		}
+
+		throw new NoSuchElementException("Ball not found");
+	}
+
 	public void addGizmo(IViewGizmo gizmo){
 		viewGizmos.add(gizmo);
 		model.addGizmo(gizmo.getGizmo());
@@ -70,24 +87,21 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public void removeGizmo(Vect coords){
-		for (Iterator<IGizmo> iterator = model.getGizmos().iterator(); iterator.hasNext(); ) {
-			Vect gizmoCoords = iterator.next().getGridCoords();
-			if (gizmoCoords != null && gizmoCoords.equals(coords)) {
-				iterator.remove();
-				return;
-			}
-		}
+		try {
+			model.getGizmos().remove(getGizmo(coords));
+			return;
+		} catch (NoSuchElementException ignored){}
 
-		model.getBalls().removeIf(ball -> ball.getGridCoords().equals(new Vect(coords.x() + 0.5, coords.y() + 0.5)));
+		model.getBalls().remove(getBall(coords));
+
 	}
 
 	public void moveGizmo(Vect oldCoords, Vect newCoords){
-		for(IGizmo gizmo : model.getGizmos()){
-			Vect gizmoCoords = gizmo.getGridCoords();
-			if(gizmoCoords != null && gizmoCoords.equals(oldCoords)){
-				gizmo.setGridCoords(newCoords);
-			}
-		}
+		try {
+			getGizmo(oldCoords).setGridCoords(newCoords);
+		} catch (NoSuchElementException ignored){}
+
+		getBall(oldCoords).setGridCoords(new Vect(newCoords.x() + 0.5, newCoords.y() + 0.5));
 	}
 
 	private void drawGrid(Graphics g) {
@@ -104,20 +118,17 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public boolean isCellEmpty(Vect coords){
-		for(IGizmo gizmo : model.getGizmos()){
-			Vect gizmoCoords = gizmo.getGridCoords();
-			if(gizmoCoords != null && gizmoCoords.equals(coords)){
-				return (false);
-			}
-		}
+		try {
+			getGizmo(coords);
+			return (false);
+		} catch (NoSuchElementException ignored){}
 
-		for(IBall ball : model.getBalls()){
-			if(ball.getGridCoords() != null && ball.getGridCoords().equals(new Vect(coords.x() + 0.5, coords.y() + 0.5))){
-				return (false);
-			}
+		try {
+			getBall(coords);
+			return (false);
+		} catch (NoSuchElementException e){
+			return (true);
 		}
-
-		return (true);
 	}
 
     @Override
