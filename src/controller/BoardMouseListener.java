@@ -83,7 +83,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                             }
                             break;
                         case BALL:
-                            board.addBall(new BallGizmo("B", coords.x() + 0.5, coords.y() + 0.5, 13, 17));
+                            board.addBall(new BallGizmo("B", coords.plus(new Vect(0.5, 0.5)), new Vect(13, 17)));
                             break;
                         case CIRCLE:
                             board.addGizmo(new CircleView(new CircleGizmo("C" + id, coords)));
