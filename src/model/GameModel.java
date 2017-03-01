@@ -21,24 +21,16 @@ public class GameModel extends Observable implements IModel {
 	private Map<Integer, ITrigger> keyReleasedTriggers;
 	private boolean pauseGame = false;
 	private Color backgroundColour;
-
+	private CollisionEvaluator collisionEvaluator;
+	private PhysicsEvaluator physicsEvaluator;
 	public GameModel() {
 		reset();
 	}
 
 	public void tick() {
 		// Evaluate collisions for all items in Gizmolist
-		CollisionDetails collision = evaluateCollisions();
-		// Use smallest tick time until next collision.
-		double tick = (collision == null) ? Constants.TICK_TIME : collision.getTuc();
-		// Check if flipper will stop moving within the tick time.
-		for (IFlipper flipper : getFlippers()) {
-			double tus = flipper.timeUntilStatic();
-			if (tus < tick && tus > Constants.FLOAT_MARGIN) {
-				collision = null;
-				tick = tus;
-			}
-		}
+		collisionEvaluator.evaluate();
+		double tick = collisionEvaluator.getTickTime();
 		// Move all items based on that tick time
 		for (IBall ball : balls) {
 			ball.moveForTime(tick);
@@ -47,23 +39,18 @@ public class GameModel extends Observable implements IModel {
 			flipper.moveForTime(tick);
 		}
 		// Resolve collision
-		if (collision != null) {
-			resolveCollision(collision);
-		}
+		
+		collisionEvaluator.resolveCollision();
 		// Apply friction and gravity
-		applyGravity(tick);
-		applyFriction(tick);
-		// Trigger any gizmos that have been collided with
-		if (collision != null && collision.getGizmo() != null) {
-			collision.getGizmo().onCollision(collision.getBall());
-			collision.getGizmo().triggerConnectedGizmos();
-		}
+		physicsEvaluator.applyGravity(tick);
+		physicsEvaluator.applyFriction(tick);
+		
 		// Update view
 		setChanged();
 		notifyObservers();
 	}
 
-	private List<IFlipper> getFlippers() {
+	public List<IFlipper> getFlippers() {
 		List<IFlipper> flippers = new LinkedList<>();
 		for (IGizmo gizmo : gizmos) {
 			if (gizmo instanceof IFlipper) {
@@ -102,149 +89,12 @@ public class GameModel extends Observable implements IModel {
 		keyReleasedTriggers = new HashMap<>();
 
 		backgroundColour = Constants.BACKGROUND_DEFAULT_COLOUR;
+		collisionEvaluator = new CollisionEvaluator(this);
+		physicsEvaluator = new PhysicsEvaluator(this);
 	}
 
 	public List<IBall> getBalls() {
 		return balls;
-	}
-
-	private void resolveCollision(CollisionDetails collision) {
-		if (collision.getGizmo() instanceof IBall) {
-			IBall other = (IBall) collision.getGizmo();
-			resolveSingleCollision(other, collision.getBall(), collision.getOtherBallVelo());
-		}
-		resolveSingleCollision(collision.getBall(), collision.getGizmo(), collision.getVelo());	
-	}
-	
-	private void resolveSingleCollision(IBall ball, IGizmo gizmo, Vect velo) {
-		double coeff = gizmo.getCoefficientOfReflection();
-		Vect initialVelo = ball.getVelo();
-		velo = Geometry.applyReflectionCoeff(initialVelo, velo, coeff);
-		velo = (velo.length() > Constants.MIN_VELOCITY) ? velo : Vect.ZERO;
-
-		/*
-		 * double velox = (Math.abs(velo.x()) > -0.1) ? velo.x() : 0.0;
-		 * double veloy = (Math.abs(velo.y()) > Constants.MIN_VELOCITY) ?
-		 * velo.y() : 0.0; velo = new Vect(velox,veloy);
-		 */
-		ball.setVelo(velo);
-	}
-	
-	public CollisionDetails evaluateCollisions() {
-		CollisionDetails collision = null;
-		CollisionDetails cd;
-		for (IBall ball : balls) {
-			for (IGizmo gizmo : gizmos) {
-				if (gizmo.isStatic()) {
-					for (Circle circle : gizmo.getAllCircles()) {
-						cd = evaluateCollisionWithStaticCircle(ball, circle, gizmo);
-						collision = soonerCollision(cd, collision);
-					}
-					for (LineSegment line : gizmo.getAllLineSegments()) {
-						cd = evaluateCollisionWithStaticLine(ball, line, gizmo);
-						collision = soonerCollision(cd, collision);
-					}
-				}
-			}
-			for (IFlipper flipper : getFlippers()) {
-				if (!flipper.isStatic()) {
-					for (Circle circle : flipper.getAllCircles()) {
-						cd = evaluateCollisionWithRotatingCircle(ball, circle, flipper);
-						collision = soonerCollision(cd, collision);
-					}
-					for (LineSegment line : flipper.getAllLineSegments()) {
-						cd = evaluateCollisionWithRotatingLine(ball, line, flipper);
-						collision = soonerCollision(cd, collision);
-					}
-				}
-			}
-			for (IBall other : balls) {
-				if (!ball.equals(other)) {
-					cd = evaluateCollisionWithBall(ball, other);
-					collision = soonerCollision(cd, collision);
-				}
-			}
-		}
-		return collision;
-	}
-	
-	private CollisionDetails soonerCollision(CollisionDetails cd1, CollisionDetails cd2) {
-		if (cd1 != null && cd1.getTuc() > Constants.TICK_TIME)
-			cd1 = null;
-		if (cd2 != null && cd2.getTuc() > Constants.TICK_TIME)
-			cd2 = null;
-		if (cd1 == null)
-			return cd2;
-		if (cd2 == null)
-			return cd1;
-		return (cd1.getTuc() < cd2.getTuc()) ? cd1 : cd2;
-	}
-
-	private CollisionDetails evaluateCollisionWithStaticCircle(IBall ball, Circle circle, IGizmo gizmo) {
-		Circle ballCircle = ball.getAllCircles().get(0);
-		double tuc = Geometry.timeUntilCircleCollision(circle, ballCircle, ball.getVelo());
-		if (tuc == Double.POSITIVE_INFINITY)
-			return null;
-		Vect newVelo = Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ball.getVelo());
-		return new CollisionDetails(tuc, newVelo, ball, gizmo);
-	}
-
-	private CollisionDetails evaluateCollisionWithBall(IBall ball, IBall otherBall) {
-		Circle ballCircle = ball.getAllCircles().get(0);
-		Circle otherBallCircle = otherBall.getAllCircles().get(0);
-		double tuc = Geometry.timeUntilBallBallCollision(otherBallCircle, otherBall.getVelo(), ballCircle,
-				ball.getVelo());
-		if (tuc == Double.POSITIVE_INFINITY)
-			return null;
-		VectPair velos = Geometry.reflectBalls(ballCircle.getCenter(), 1, ball.getVelo(), otherBallCircle.getCenter(), 1, otherBall.getVelo());
-		return new CollisionDetails(tuc, ball, otherBall, velos);
-	}
-
-	private CollisionDetails evaluateCollisionWithRotatingCircle(IBall ball, Circle circle, IFlipper flipper) {
-		Circle ballCircle = ball.getAllCircles().get(0);
-		double tuc = Geometry.timeUntilRotatingCircleCollision(circle, flipper.getPivot(), flipper.getAngularVelocity(),
-				ballCircle, ball.getVelo());
-		if (tuc == Double.POSITIVE_INFINITY)
-			return null;
-		Vect newVelo = Geometry.reflectRotatingCircle(circle, flipper.getPivot(), flipper.getAngularVelocity(),
-				ballCircle, ball.getVelo());
-		return new CollisionDetails(tuc, newVelo, ball, flipper);
-	}
-
-	private CollisionDetails evaluateCollisionWithStaticLine(IBall ball, LineSegment line, IGizmo gizmo) {
-		Circle ballCircle = ball.getAllCircles().get(0);
-		double tuc = Geometry.timeUntilWallCollision(line, ballCircle, ball.getVelo());
-		if (tuc == Double.POSITIVE_INFINITY)
-			return null;
-		Vect newVelo = Geometry.reflectWall(line, ball.getVelo());
-		return new CollisionDetails(tuc, newVelo, ball, gizmo);
-	}
-
-	private CollisionDetails evaluateCollisionWithRotatingLine(IBall ball, LineSegment line, IFlipper flipper) {
-		Circle ballCircle = ball.getAllCircles().get(0);
-		double tuc = Geometry.timeUntilRotatingWallCollision(line, flipper.getPivot(), flipper.getAngularVelocity(),
-				ballCircle, ball.getVelo());
-		if (tuc == Double.POSITIVE_INFINITY)
-			return null;
-		Vect newVelo = Geometry.reflectRotatingWall(line, flipper.getPivot(), flipper.getAngularVelocity(), ballCircle,
-				ball.getVelo());
-		return new CollisionDetails(tuc, newVelo, ball, flipper);
-	}
-
-	private void applyGravity(double tickTime) {
-		for (IBall ball : balls) {
-			Vect v = ball.getVelo();
-			Vect gravComponent = new Vect(0, Constants.GRAVITY * tickTime);
-			ball.setVelo(v.plus(gravComponent));
-		}
-	}
-
-	private void applyFriction(double tickTime) {
-		for (IBall ball : balls) {
-			Vect v = ball.getVelo();
-			double frictionScale = (1 - Constants.MU * tickTime - Constants.MU2 * v.length() * tickTime);
-			ball.setVelo(v.times(frictionScale));
-		}
 	}
 
 	@Override
