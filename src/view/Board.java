@@ -40,8 +40,6 @@ public class Board extends JPanel implements Observer {
 
 		addMouseListener(mouseListener);
 		setBackground(model.getBackgroundColour());
-//		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(
-//				EtchedBorder.LOWERED, Color.BLACK, Color.BLACK)));
 		setSize(new Dimension(400, 400));
 		setPreferredSize(getSize());
 		setMinimumSize(getSize());

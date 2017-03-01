@@ -17,6 +17,6 @@ public class AddBallListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         mainWindow.getBoard().getMouseListener().setGizmo(BALL);
-        mainWindow.setStatusLabel("Adding Ball");
+        mainWindow.setStatusLabel("Placing Ball");
     }
 }

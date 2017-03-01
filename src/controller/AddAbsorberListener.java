@@ -17,6 +17,6 @@ public class AddAbsorberListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         mainWindow.getBoard().getMouseListener().setGizmo(ABSORBER);
-        mainWindow.setStatusLabel("Adding Absorber");
+        mainWindow.setStatusLabel("Placing Absorber");
     }
 }

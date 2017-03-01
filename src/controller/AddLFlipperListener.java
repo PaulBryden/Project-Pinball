@@ -17,6 +17,6 @@ public class AddLFlipperListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		mainWindow.getBoard().getMouseListener().setGizmo(LFLIPPER);
-		mainWindow.setStatusLabel("Adding Left-Flipper");
+		mainWindow.setStatusLabel("Placing Left-Flipper");
 	}
 }

@@ -64,41 +64,48 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                         case ABSORBER:
                             if(initalAbsorberCoords == null){
                                 initalAbsorberCoords = coords;
+                                mainWindow.setStatusLabel("Selected top-left cell of absorber at " + coords);
                             } else {
                                 if(coords.x() < initalAbsorberCoords.x() || coords.y() < initalAbsorberCoords.y()) {
-                                    System.err.println("FIRST CLICK MUST BE TOP LEFT GRID SQUARE");
+                                    mainWindow.setStatusLabel("Invalid cell, you might want to make that the top-left cell, try again");
                                 } else {
                                     board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords, coords.plus(new Vect(1, 1)), board.getModel().getBalls())));
+                                    mainWindow.setStatusLabel("Placed Absorber");
                                 }
                                 initalAbsorberCoords = null;
                             }
                             break;
                         case BALL:
                             board.addBall(new BallGizmo("B", coords.plus(new Vect(0.5, 0.5)), new Vect(13, 17)));
+                            mainWindow.setStatusLabel("Placed Ball");
                             break;
                         case CIRCLE:
                             board.addGizmo(new CircleView(new CircleGizmo("C" + id, coords)));
+                            mainWindow.setStatusLabel("Placed Circle");
                             break;
                         case LFLIPPER: //TODO: Add user defined key connection
                             IFlipper lFlipper = new LeftFlipper("LF" + id, coords);
                             board.addGizmo(new FlipperView(lFlipper));
                             board.getModel().addKeyPressedTrigger(66, lFlipper);
                             board.getModel().addKeyReleasedTrigger(66, lFlipper);
+                            mainWindow.setStatusLabel("Placed Left-Flipper");
                             break;
                         case RFLIPPER:
                             IFlipper rFlipper = new RightFlipper("RF" + id, coords);
                             board.addGizmo(new FlipperView(rFlipper));
                             board.getModel().addKeyPressedTrigger(66, rFlipper);
                             board.getModel().addKeyReleasedTrigger(66, rFlipper);
+                            mainWindow.setStatusLabel("Placed Right-Flipper");
                             break;
                         case SQUARE:
                             board.addGizmo(new SquareView(new SquareGizmo("S" + id, coords)));
+                            mainWindow.setStatusLabel("Placed Square");
                             break;
                         case TRIANGLE:
                             board.addGizmo(new TriangleView(new TriangleGizmo("T" + id, coords)));
+                            mainWindow.setStatusLabel("Placed Triangle");
                             break;
                     }
-                    mainWindow.setStatusLabel("Added " + gizmo.toString().toLowerCase());
                 }
                 break;
             case REMOVE:
@@ -115,6 +122,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
             case MOVE:
                 if(!board.isCellEmpty(coords)){
                     gizmoCoords = coords;
+                    mainWindow.setStatusLabel("Selected gizmo at " + coords);
                 } else if(board.isCellEmpty(coords) && gizmoCoords != null){
                     try {
                         board.moveGizmo(gizmoCoords, coords);

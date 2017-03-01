@@ -18,6 +18,6 @@ public class AddSquareListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         mainWindow.getBoard().getMouseListener().setGizmo(SQUARE);
-        mainWindow.setStatusLabel("Adding Square");
+        mainWindow.setStatusLabel("Placing Square");
     }
 }
