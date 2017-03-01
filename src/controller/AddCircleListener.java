@@ -1,6 +1,7 @@
 package controller;
 
 import view.Board;
+import view.MainWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,14 +9,15 @@ import java.awt.event.ActionListener;
 import static controller.BoardMouseListener.CUR_GIZMO.CIRCLE;
 
 public class AddCircleListener implements ActionListener{
-    private Board board;
+    private MainWindow mainWindow;
 
-    public AddCircleListener(Board board){
-        this.board = board;
+    public AddCircleListener(MainWindow mainWindow){
+        this.mainWindow = mainWindow;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.getMouseListener().setGizmo(CIRCLE);
+        mainWindow.getBoard().getMouseListener().setGizmo(CIRCLE);
+        mainWindow.setStatusLabel("Adding Circle");
     }
 }

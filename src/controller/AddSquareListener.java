@@ -1,6 +1,7 @@
 package controller;
 
 import view.Board;
+import view.MainWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,14 +9,15 @@ import java.awt.event.ActionListener;
 import static controller.BoardMouseListener.CUR_GIZMO.SQUARE;
 
 public class AddSquareListener implements ActionListener{
-    private Board board;
+    private MainWindow mainWindow;
 
-    public AddSquareListener(Board board){
-        this.board = board;
+    public AddSquareListener(MainWindow mainWindow){
+        this.mainWindow = mainWindow;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.getMouseListener().setGizmo(SQUARE);
+        mainWindow.getBoard().getMouseListener().setGizmo(SQUARE);
+        mainWindow.setStatusLabel("Adding Square");
     }
 }

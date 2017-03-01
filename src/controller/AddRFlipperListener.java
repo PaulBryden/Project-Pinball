@@ -1,6 +1,6 @@
 package controller;
 
-import view.Board;
+import view.MainWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,14 +8,15 @@ import java.awt.event.ActionListener;
 import static controller.BoardMouseListener.CUR_GIZMO.RFLIPPER;
 
 public class AddRFlipperListener implements ActionListener {
-    private Board board;
+    private MainWindow mainWindow;
 
-    public AddRFlipperListener(Board board) {
-        this.board = board;
+    public AddRFlipperListener(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.getMouseListener().setGizmo(RFLIPPER);
+        mainWindow.getBoard().getMouseListener().setGizmo(RFLIPPER);
+        mainWindow.setStatusLabel("Adding Right-Flipper");
     }
 }

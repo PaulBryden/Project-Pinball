@@ -1,6 +1,6 @@
 package controller;
 
-import view.Board;
+import view.MainWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,14 +8,15 @@ import java.awt.event.ActionListener;
 import static controller.BoardMouseListener.CUR_GIZMO.ABSORBER;
 
 public class AddAbsorberListener implements ActionListener{
-    private Board board;
+    private MainWindow mainWindow;
 
-    public AddAbsorberListener(Board board){
-        this.board = board;
+    public AddAbsorberListener(MainWindow mainWindow){
+        this.mainWindow = mainWindow;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.getMouseListener().setGizmo(ABSORBER);
+        mainWindow.getBoard().getMouseListener().setGizmo(ABSORBER);
+        mainWindow.setStatusLabel("Adding Absorber");
     }
 }

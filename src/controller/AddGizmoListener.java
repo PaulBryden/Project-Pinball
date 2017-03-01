@@ -19,7 +19,7 @@ public class AddGizmoListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(!(mainWindow.getSideToolBar() instanceof AddGizmoToolBar)) {
-            mainWindow.addSideToolBar(new AddGizmoToolBar(mainWindow.getBoard()));
+            mainWindow.addSideToolBar(new AddGizmoToolBar(mainWindow));
             mainWindow.getBoard().getMouseListener().setState(ADD);
             mainWindow.setStatusLabel("Adding Gizmo(s)");
         }
