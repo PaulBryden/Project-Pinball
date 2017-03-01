@@ -9,12 +9,7 @@ import model.RightFlipper;
 import model.SquareGizmo;
 import model.TriangleGizmo;
 import physics.Vect;
-import view.AbsorberView;
-import view.Board;
-import view.CircleView;
-import view.FlipperView;
-import view.SquareView;
-import view.TriangleView;
+import view.*;
 
 import java.awt.event.MouseEvent;
 import java.util.NoSuchElementException;
@@ -32,12 +27,12 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
     private static final int GRID_WIDTH = 20;
     private STATE state;
     private CUR_GIZMO gizmo;
-    private Board board;
+    private MainWindow mainWindow;
     private Vect gizmoCoords;
     private Vect initalAbsorberCoords;
 
-    public BoardMouseListener(Board board){
-        this.board = board;
+    public BoardMouseListener(MainWindow mainWindow){
+        this.mainWindow = mainWindow;
         state = BUILD;
         gizmo = NONE;
         gizmoCoords = null;
@@ -60,6 +55,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
     public void mouseClicked(MouseEvent e) {
         Vect coords = new Vect(e.getX() / GRID_WIDTH, e.getY() / GRID_WIDTH);
         String id = coords.x() + "" + coords.y();
+        Board board = mainWindow.getBoard();
 
         switch (state){
             case ADD:
@@ -102,14 +98,17 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                             board.addGizmo(new TriangleView(new TriangleGizmo("T" + id, coords)));
                             break;
                     }
+                    mainWindow.setStatusLabel("Added " + gizmo.toString().toLowerCase());
                 }
                 break;
             case REMOVE:
                 if(!board.isCellEmpty(coords)){
                     try {
                         board.removeGizmo(coords);
+                        mainWindow.setStatusLabel("Removed gizmo");
                     } catch (NoSuchElementException E) {
                         board.removeBall(coords);
+                        mainWindow.setStatusLabel("Removed ball");
                     }
                 }
                 break;
@@ -119,8 +118,10 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                 } else if(board.isCellEmpty(coords) && gizmoCoords != null){
                     try {
                         board.moveGizmo(gizmoCoords, coords);
+                        mainWindow.setStatusLabel("Moved gizmo from " + gizmoCoords + " to " + coords);
                     } catch (NoSuchElementException E) {
                         board.moveBall(gizmoCoords, coords);
+                        mainWindow.setStatusLabel("Moved ball from " + gizmoCoords + " to " + coords);
                     }
                     gizmoCoords = null;
                 }

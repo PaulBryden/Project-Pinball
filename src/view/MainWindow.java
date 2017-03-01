@@ -1,14 +1,20 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JToolBar;
+import javax.swing.WindowConstants;
 
 import controller.RunKeyListener;
 import model.IModel;
 
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import static java.awt.Color.BLUE;
 import static java.awt.GridBagConstraints.CENTER;
 import static java.awt.GridBagConstraints.VERTICAL;
 
@@ -27,7 +33,7 @@ public class MainWindow extends JFrame {
 	public MainWindow(IModel model) {
 		super();
 		this.model = model;
-		board = new Board(this.model);
+		board = new Board(this, this.model);
 		menuBar = new MenuBar(this);
 		sideToolBar = new JToolBar();
 		toolbar = new BuildToolBar(this);
@@ -54,6 +60,7 @@ public class MainWindow extends JFrame {
 		add(board, constraints);
 
 		constraints.gridy = 2;
+		statusLabel.setForeground(BLUE);
 		add(statusLabel, constraints);
 
 		setVisible(true);
@@ -84,10 +91,12 @@ public class MainWindow extends JFrame {
 		if (toolbar instanceof RunToolBar) {
 			((RunToolBar) toolbar).stop();
 			toolbar = new BuildToolBar(this);
+			setStatusLabel("");
 		} else {
 			toolbar = new RunToolBar(this, model);
 			remove(sideToolBar);
 			sideToolBar = new JToolBar();
+			setStatusLabel("Stopped");
 		}
 
 		constraints.gridx = 1;

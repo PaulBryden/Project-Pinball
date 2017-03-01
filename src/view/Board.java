@@ -24,20 +24,19 @@ import physics.Vect;
 import static controller.BoardMouseListener.STATE.RUN;
 
 public class Board extends JPanel implements Observer {
-	
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
 	private BoardMouseListener mouseListener;
 	private static final int GRID_WIDTH = 20;
 
-	public Board(IModel model) {
+	public Board(MainWindow mainWindow, IModel model) {
 		super();
 		this.model = model;
 		model.addObserver(this);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
-		mouseListener = new BoardMouseListener(this);
+		mouseListener = new BoardMouseListener(mainWindow);
 
 		addMouseListener(mouseListener);
 		setBackground(model.getBackgroundColour());
