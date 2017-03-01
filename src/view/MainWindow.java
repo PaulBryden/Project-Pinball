@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import static java.awt.Color.BLUE;
+import static java.awt.Color.RED;
 import static java.awt.GridBagConstraints.CENTER;
 import static java.awt.GridBagConstraints.VERTICAL;
 
@@ -60,7 +61,6 @@ public class MainWindow extends JFrame {
 		add(board, constraints);
 
 		constraints.gridy = 2;
-		statusLabel.setForeground(BLUE);
 		add(statusLabel, constraints);
 
 		setVisible(true);
@@ -112,7 +112,13 @@ public class MainWindow extends JFrame {
 	}
 
 	public void setStatusLabel(String status){
+		statusLabel.setForeground(BLUE);
 		statusLabel.setText(status);
+	}
+
+	public void setWarningLabel(String warning){
+		statusLabel.setForeground(RED);
+		statusLabel.setText(warning);
 	}
 
 	private void setUpKeyListener() {

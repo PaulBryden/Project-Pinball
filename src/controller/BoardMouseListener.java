@@ -67,7 +67,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                                 mainWindow.setStatusLabel("Selected top-left cell of absorber at " + coords);
                             } else {
                                 if(coords.x() < initalAbsorberCoords.x() || coords.y() < initalAbsorberCoords.y()) {
-                                    mainWindow.setStatusLabel("Invalid cell, you might want to make that the top-left cell, try again");
+                                    mainWindow.setWarningLabel("Invalid cell, you might want to make that the top-left cell, try again");
                                 } else {
                                     board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords, coords.plus(new Vect(1, 1)), board.getModel().getBalls())));
                                     mainWindow.setStatusLabel("Placed Absorber");
@@ -106,6 +106,8 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                             mainWindow.setStatusLabel("Placed Triangle");
                             break;
                     }
+                } else {
+                    mainWindow.setWarningLabel("Cannot place here, this cell is already occupied. Select an empty cell or remove what is in this cell");
                 }
                 break;
             case REMOVE:
@@ -117,6 +119,8 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                         board.removeBall(coords);
                         mainWindow.setStatusLabel("Removed ball");
                     }
+                } else {
+                    mainWindow.setWarningLabel("Cannot remove from here, this cell is empty. Select an occupied cell");
                 }
                 break;
             case MOVE:
@@ -132,6 +136,8 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                         mainWindow.setStatusLabel("Moved ball from " + gizmoCoords + " to " + coords);
                     }
                     gizmoCoords = null;
+                } else {
+                    mainWindow.setWarningLabel("Cannot move from here, this cell is empty. Select an occupied cell.");
                 }
                 break;
         }
