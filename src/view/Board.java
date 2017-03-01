@@ -24,19 +24,30 @@ import physics.Vect;
 import static controller.BoardMouseListener.STATE.RUN;
 
 public class Board extends JPanel implements Observer {
+	private MainWindow mainWindow;
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
+	private Map<Character, String> gizmoNames;
 	private BoardMouseListener mouseListener;
 	private static final int GRID_WIDTH = 20;
 
 	public Board(MainWindow mainWindow, IModel model) {
 		super();
+		this.mainWindow = mainWindow;
 		this.model = model;
 		model.addObserver(this);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
+		gizmoNames = new HashMap<Character, String>();
 		mouseListener = new BoardMouseListener(mainWindow);
+
+		gizmoNames.put('A', "Absorber");
+		gizmoNames.put('S', "Square");
+		gizmoNames.put('T', "Triangle");
+		gizmoNames.put('C', "Circle");
+		gizmoNames.put('L', "Left-Flipper");
+		gizmoNames.put('R', "Right-Flipper");
 
 		addMouseListener(mouseListener);
 		setBackground(model.getBackgroundColour());
@@ -54,7 +65,11 @@ public class Board extends JPanel implements Observer {
 		return (mouseListener);
 	}
 
-	private IGizmo getGizmo(Vect coords){
+	public String getGizmoName(IGizmo gizmo){
+		return (gizmoNames.get(gizmo.getID().charAt(0)));
+	}
+
+	public IGizmo getGizmo(Vect coords){
 		for(IGizmo gizmo : model.getGizmos()){
 			Vect gizmoCoords = gizmo.getGridCoords();
 			if(gizmoCoords != null && gizmoCoords.equals(coords)) return (gizmo);
@@ -74,29 +89,39 @@ public class Board extends JPanel implements Observer {
 	public void addGizmo(IViewGizmo gizmo){
 		viewGizmos.add(gizmo);
 		model.addGizmo(gizmo.getGizmo());
+		mainWindow.setStatusLabel("Placed " + getGizmoName(gizmo.getGizmo()));
 		reRender();
 	}
 
 	public void addBall(IBall ball){
 		viewBalls.add(new BallView(ball));
 		model.addBall(ball);
+		mainWindow.setStatusLabel("Placed Ball");
 		reRender();
 	}
 
 	public void removeGizmo(Vect coords){
-		model.getGizmos().remove(getGizmo(coords));
+		IGizmo gizmo = getGizmo(coords);
+
+		model.getGizmos().remove(gizmo);
+		mainWindow.setStatusLabel("Removed " + getGizmoName(gizmo));
 	}
 
 	public void removeBall(Vect coords){
 		model.getBalls().remove(getBall(coords));
+		mainWindow.setStatusLabel("Removed ball");
 	}
 
 	public void moveGizmo(Vect oldCoords, Vect newCoords){
-		getGizmo(oldCoords).setGridCoords(newCoords);
+		IGizmo gizmo = getGizmo(oldCoords);
+
+		gizmo.setGridCoords(newCoords);
+		mainWindow.setStatusLabel("Moved " + getGizmoName(gizmo) + " from " + oldCoords + " to " + newCoords);
 	}
 
 	public void moveBall(Vect oldCoords, Vect newCoords){
 		getBall(oldCoords).setGridCoords(newCoords.plus(new Vect(0.5, 0.5)));
+		mainWindow.setStatusLabel("Moved Ball from " + oldCoords + " to " + newCoords);
 	}
 
 	private void drawGrid(Graphics g) {
