@@ -20,6 +20,7 @@ public class DeleteGizmoListener implements ActionListener{
         if(!(mainWindow.getSideToolBar() instanceof DeleteGizmoToolBar)) {
             mainWindow.addSideToolBar(new DeleteGizmoToolBar());
             mainWindow.getBoard().getMouseListener().setState(REMOVE);
+            mainWindow.setStatusLabel("Deleting Gizmo(s)");
         }
     }
 }

@@ -11,18 +11,17 @@ import static controller.BoardMouseListener.STATE.ADD;
 
 public class AddGizmoListener implements ActionListener{
     private MainWindow mainWindow;
-    private Board board;
 
-    public AddGizmoListener(MainWindow mainWindow, Board board){
+    public AddGizmoListener(MainWindow mainWindow){
         this.mainWindow = mainWindow;
-        this.board = board;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(!(mainWindow.getSideToolBar() instanceof AddGizmoToolBar)) {
-            mainWindow.addSideToolBar(new AddGizmoToolBar(board));
+            mainWindow.addSideToolBar(new AddGizmoToolBar(mainWindow.getBoard()));
             mainWindow.getBoard().getMouseListener().setState(ADD);
+            mainWindow.setStatusLabel("Adding Gizmo(s)");
         }
     }
 }

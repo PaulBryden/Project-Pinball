@@ -21,6 +21,7 @@ public class MoveGizmoListener  implements ActionListener{
 		if(!(mainWindow.getSideToolBar() instanceof MoveGizmoToolBar)) {
 			mainWindow.addSideToolBar(new MoveGizmoToolBar());
 			mainWindow.getBoard().getMouseListener().setState(MOVE);
+			mainWindow.setStatusLabel("Moving Gizmo(s)");
 		}
 	}
 }
