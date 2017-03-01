@@ -29,19 +29,28 @@ public class BoardFileHandler {
 			List<String> connections = new ArrayList<>(); // Connections to be made
 
 			for (IGizmo current : list) {
-				save.write(current.serializeGizmo());
+				if (!(current instanceof Wall)) {
+					save.write(current.serializeGizmo());
 
-				// Record any connections for later
-				Set<IGizmo> connectedGizmos = current.getGizmosToTrigger();
-				for (IGizmo destGizmo : connectedGizmos) {
-					connections.add("Connect " + current.getID() + " " + destGizmo.getID());
+					// Record any connections for later
+//					Set<IGizmo> connectedGizmos = current.getGizmosToTrigger();
+//					for (IGizmo destGizmo : connectedGizmos) {
+//						connections.add("Connect " + current.getID() + " " + destGizmo.getID() + "\n");
+//					}
 				}
+			}
+			
+			// Write balls to file
+			List<IBall> balls = model.getBalls();
+			for (IBall current : balls) {
+				save.write(current.serializeGizmo());
 			}
 
 			// Write connections to file
-			for (String current : connections) {
-				save.write(current);
-			}
+			// NOT REQUIRED, as gizmos contain connection info in serializeGizmo() method
+//			for (String current : connections) {
+//				save.write(current);
+//			}
 
 			// Finally, write key connections to file
 			Map<Integer, ITrigger> keyPressedTriggers = model.getKeyPressedTriggers();
