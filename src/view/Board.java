@@ -39,7 +39,7 @@ public class Board extends JPanel implements Observer {
 		model.addObserver(this);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
-		gizmoNames = new HashMap<Character, String>();
+		gizmoNames = new HashMap<>();
 		mouseListener = new BoardMouseListener(mainWindow);
 
 		gizmoNames.put('A', "Absorber");
@@ -89,14 +89,14 @@ public class Board extends JPanel implements Observer {
 	public void addGizmo(IViewGizmo gizmo){
 		viewGizmos.add(gizmo);
 		model.addGizmo(gizmo.getGizmo());
-		mainWindow.setStatusLabel("Placed " + getGizmoName(gizmo.getGizmo()));
+		mainWindow.setStatusLabel(getGizmoName(gizmo.getGizmo()) + " Placed");
 		reRender();
 	}
 
 	public void addBall(IBall ball){
 		viewBalls.add(new BallView(ball));
 		model.addBall(ball);
-		mainWindow.setStatusLabel("Placed Ball");
+		mainWindow.setStatusLabel("Ball Placed");
 		reRender();
 	}
 
@@ -104,7 +104,7 @@ public class Board extends JPanel implements Observer {
 		IGizmo gizmo = getGizmo(coords);
 
 		model.getGizmos().remove(gizmo);
-		mainWindow.setStatusLabel("Removed " + getGizmoName(gizmo));
+		mainWindow.setStatusLabel(getGizmoName(gizmo) + " Removed");
 	}
 
 	public void removeBall(Vect coords){
