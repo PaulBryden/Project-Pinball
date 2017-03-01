@@ -101,8 +101,8 @@ public class Absorber extends AbstractGizmo {
 	
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Absorber " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
-				+ this.getBottomRightCoords().x() + " " + this.getBottomRightCoords().y() + " " + "\n";
+		String serializedGizmo = "Absorber " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y() + " "
+				+ (int) this.getBottomRightCoords().x() + " " + (int) this.getBottomRightCoords().y() + " " + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
 		}
