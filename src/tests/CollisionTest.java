@@ -6,6 +6,7 @@ import model.Absorber;
 import model.BallGizmo;
 import model.CircleGizmo;
 import model.CollisionDetails;
+import model.CollisionEvaluator;
 import model.GameModel;
 import model.IBall;
 import model.LeftFlipper;
@@ -37,8 +38,9 @@ public class CollisionTest {
 		GameModel gameModel = new GameModel();
 		gameModel.addBall(ball);
 		gameModel.addGizmo(wall);
-		CollisionDetails newCollisions=gameModel.evaluateCollisions();
-		
+		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+		ce.evaluate();
+		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ball);
 	}
 	
@@ -51,8 +53,9 @@ public class CollisionTest {
 		GameModel gameModel = new GameModel();
 		gameModel.addBall(ball);
 		gameModel.addGizmo(gizmo);
-		CollisionDetails newCollisions=gameModel.evaluateCollisions();
-		
+		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+		ce.evaluate();
+		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ball);
 	}
 	
@@ -65,8 +68,9 @@ public class CollisionTest {
 		GameModel gameModel = new GameModel();
 		gameModel.addBall(ball);
 		gameModel.addGizmo(gizmo);
-		CollisionDetails newCollisions=gameModel.evaluateCollisions();
-		
+		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+		ce.evaluate();
+		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ball);
 	}
 	
@@ -79,8 +83,9 @@ public class CollisionTest {
 		GameModel gameModel = new GameModel();
 		gameModel.addBall(ball);
 		gameModel.addGizmo(gizmo);
-		CollisionDetails newCollisions=gameModel.evaluateCollisions();
-		
+		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+		ce.evaluate();
+		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ball);
 	}
 	
@@ -95,8 +100,9 @@ public class CollisionTest {
 		gameModel.addBall(ballFast);
 		gameModel.addBall(ballSlow);
 		gameModel.addGizmo(gizmo);
-		CollisionDetails newCollisions=gameModel.evaluateCollisions();
-		
+		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+		ce.evaluate();
+		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ballFast);
 	}
 	
@@ -112,8 +118,9 @@ public class CollisionTest {
 		gameModel.addBall(ballFast);
 		gameModel.addBall(ballSlow);
 		gameModel.addGizmo(gizmo);
-		CollisionDetails newCollisions=gameModel.evaluateCollisions();
-		
+		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+		ce.evaluate();
+		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ballFast);
 	}
 	

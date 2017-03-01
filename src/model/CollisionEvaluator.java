@@ -28,18 +28,19 @@ public class CollisionEvaluator {
 		}
 		return tick;
 	}
+	
+	public CollisionDetails getCollision() {
+		return this.collision;
+	}
 
 	public void resolveCollision() {
-
 		if (collision != null) {
 			if (collision.getGizmo() instanceof IBall) {
 				IBall other = (IBall) collision.getGizmo();
 				resolveSingleCollision(other, collision.getBall(), collision.getOtherBallVelo());
 			}
 			resolveSingleCollision(collision.getBall(), collision.getGizmo(), collision.getVelo());
-
 		}
-
 		// Trigger any gizmos that have been collided with
 		if (collision != null && collision.getGizmo() != null) {
 			collision.getGizmo().onCollision(collision.getBall());
