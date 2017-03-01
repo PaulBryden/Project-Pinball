@@ -1,6 +1,7 @@
 .idea/
 bin/
 classes/
+lib/
 *.iml
 *.uml
 *.umlcd
