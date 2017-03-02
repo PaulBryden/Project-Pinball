@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 
@@ -28,7 +29,6 @@ public class Board extends JPanel implements Observer {
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
-	private Map<Character, String> gizmoNames;
 	private BoardMouseListener mouseListener;
 	private static final int GRID_WIDTH = 20;
 
@@ -39,15 +39,7 @@ public class Board extends JPanel implements Observer {
 		model.addObserver(this);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
-		gizmoNames = new HashMap<>();
 		mouseListener = new BoardMouseListener(mainWindow);
-
-		gizmoNames.put('A', "Absorber");
-		gizmoNames.put('S', "Square");
-		gizmoNames.put('T', "Triangle");
-		gizmoNames.put('C', "Circle");
-		gizmoNames.put('L', "Left-Flipper");
-		gizmoNames.put('R', "Right-Flipper");
 
 		addMouseListener(mouseListener);
 		setBackground(model.getBackgroundColour());
@@ -66,7 +58,14 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public String getGizmoName(IGizmo gizmo){
-		return (gizmoNames.get(gizmo.getID().charAt(0)));
+		switch (gizmo.getID().charAt(0)){
+			case ('A'): return ("Absorber");
+			case ('C'): return ("Circle");
+			case ('L'): return ("Left-Flipper");
+			case ('R'): return ("Right-Flipper");
+			case ('S'): return("Square");
+			default: return ("Triangle");
+		}
 	}
 
 	public IGizmo getGizmo(Vect coords){
@@ -173,9 +172,7 @@ public class Board extends JPanel implements Observer {
 				viewGizmos.add(new AbsorberView(gizmo));
 		}
 
-		for(IBall ball : balls){
-			viewBalls.add(new BallView(ball));
-		}
+		viewBalls.addAll(balls.stream().map(BallView::new).collect(Collectors.toList()));
 
 		if(!mouseListener.getState().equals(RUN))
 			drawGrid(g);
