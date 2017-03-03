@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.Before;
@@ -28,7 +29,12 @@ public class FileHandlerTest {
 
 	@Test
 	public void testLoadSquare() {
-		file.load("src/tests/test_file_square.txt");
+		try {
+			file.load("src/tests/test_file_square.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		List<IGizmo> gizmos = model.getGizmos();
 		IGizmo square = null;
 		
@@ -42,7 +48,12 @@ public class FileHandlerTest {
 
 	@Test
 	public void testLoadAbsorber() {
-		file.load("src/tests/test_file_absorber.txt");
+		try {
+			file.load("src/tests/test_file_absorber.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		List<IGizmo> gizmos = model.getGizmos();
 		IGizmo absorber = null;
 		
@@ -56,7 +67,12 @@ public class FileHandlerTest {
 
 	@Test
 	public void testLoadBall() {
-		file.load("src/tests/test_file_ball.txt");
+		try {
+			file.load("src/tests/test_file_ball.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		List<IBall> balls = model.getBalls();
 		IGizmo ball = null;
 		

@@ -4,6 +4,7 @@ import view.MainWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import model.BoardFileHandler;
 import model.IModel;
@@ -20,7 +21,12 @@ public class LoadBoardListener implements ActionListener{
     	IModel model = mainWindow.getBoard().getModel();
         BoardFileHandler fh = new BoardFileHandler(model);
         model.reset();
-        fh.load("spec_save_file.txt");
+        try {
+			fh.load("spec_save_file.txt");
+		} catch (IOException e1) {
+			System.out.println("Error reading from file");
+			e1.printStackTrace();
+		}
         mainWindow.getBoard().reRender();
     }
 }

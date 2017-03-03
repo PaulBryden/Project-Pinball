@@ -22,21 +22,13 @@ public class BoardFileHandler {
 		this.model = model;
 	}
 
-	public void save(String path) {
-		try {
+	public void save(String path) throws IOException {
 			BufferedWriter save = new BufferedWriter(new FileWriter(path));
 			List<IGizmo> list = model.getGizmos();
-			List<String> connections = new ArrayList<>(); // Connections to be made
 
 			for (IGizmo current : list) {
 				if (!(current instanceof Wall)) {
-					save.write(current.serializeGizmo());
-
-					// Record any connections for later
-//					Set<IGizmo> connectedGizmos = current.getGizmosToTrigger();
-//					for (IGizmo destGizmo : connectedGizmos) {
-//						connections.add("Connect " + current.getID() + " " + destGizmo.getID() + "\n");
-//					}
+					save.write(current.serializeGizmo()); // Also contains connection info
 				}
 			}
 			
@@ -45,12 +37,6 @@ public class BoardFileHandler {
 			for (IBall current : balls) {
 				save.write(current.serializeGizmo());
 			}
-
-			// Write connections to file
-			// NOT REQUIRED, as gizmos contain connection info in serializeGizmo() method
-//			for (String current : connections) {
-//				save.write(current);
-//			}
 
 			// Finally, write key connections to file
 			Map<Integer, ITrigger> keyPressedTriggers = model.getKeyPressedTriggers();
@@ -74,14 +60,9 @@ public class BoardFileHandler {
 
 			System.out.println("Save file written successfully");
 
-		} catch (IOException e) {
-			System.out.println("Error writing to file " + path);
-			e.printStackTrace();
-		}
 	}
 
-	public void load(String path) {
-		try {
+	public void load(String path) throws IOException {
 			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading
 			List<String> connections = new ArrayList<>(); // Keeps track of connections from file
 
@@ -113,19 +94,11 @@ public class BoardFileHandler {
 				line = load.readLine();
 			}
 
-			// Make connections here
+			// Create connections after all gizmos have been loaded
 			createConnections(connections, gizmos);
 
 			load.close();
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found: " + path);
-			e.printStackTrace();
-
-		} catch (IOException e) {
-			System.out.println("Error reading from file " + path);
-			e.printStackTrace();
-		}
 	}
 
 	private IGizmo createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
