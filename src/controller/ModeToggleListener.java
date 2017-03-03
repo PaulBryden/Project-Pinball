@@ -5,6 +5,10 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static controller.BoardMouseListener.CUR_GIZMO.NONE;
+import static controller.BoardMouseListener.STATE.BUILD;
+import static controller.BoardMouseListener.STATE.RUN;
+
 public class ModeToggleListener implements ActionListener {
     private MainWindow mainWindow;
 
@@ -14,10 +18,10 @@ public class ModeToggleListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        mainWindow.getBoard().getMouseListener().setState(
-                mainWindow.getBoard().getMouseListener().getState().equals(BoardMouseListener.STATE.RUN)
-                        ? BoardMouseListener.STATE.BUILD : BoardMouseListener.STATE.RUN);
-        mainWindow.getBoard().getMouseListener().setGizmo(BoardMouseListener.CUR_GIZMO.NONE);
+        BoardMouseListener mouseListener = mainWindow.getBoard().getMouseListener();
+
+        mouseListener.setState(mouseListener.getState().equals(RUN) ? BUILD : RUN);
+        mouseListener.setGizmo(NONE);
         mainWindow.toggleView();
     }
 }

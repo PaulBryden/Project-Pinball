@@ -17,6 +17,7 @@ public class RotateGizmoListener implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(!(mainWindow.getSideToolBar() instanceof RotateGizmoToolBar)) {
             mainWindow.addSideToolBar(new RotateGizmoToolBar());
+            mainWindow.setStatusLabel("Rotating Gizmo(s)");
         }
     }
 }

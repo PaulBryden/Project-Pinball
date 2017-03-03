@@ -1,31 +1,21 @@
 package controller;
 
-import model.*;
+import model.Absorber;
+import model.BallGizmo;
+import model.CircleGizmo;
+import model.IFlipper;
+import model.LeftFlipper;
+import model.RightFlipper;
+import model.SquareGizmo;
+import model.TriangleGizmo;
 import physics.Vect;
 import view.*;
 
 import java.awt.event.MouseEvent;
 import java.util.NoSuchElementException;
 
-//                                if(x < initalAbsorberCoords.x() && y < initalAbsorberCoords.y()) { //TOP-LEFT
-//                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(x, y), new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y() + 1), board.getModel().getBalls())));
-//                                    System.out.println("FIRST\n==================");
-//                                } else if(x < initalAbsorberCoords.x() && y > initalAbsorberCoords.y()){ //BOTTOM-LEFT
-//                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(x, y + 1), new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y()), board.getModel().getBalls())));
-//                                    System.out.println("SECOND\n===============");
-//                                } else if(x > initalAbsorberCoords.x() && y < initalAbsorberCoords.y()){ //TOP-RIGHT
-//                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(initalAbsorberCoords.x(), initalAbsorberCoords.y() + 1), new Vect(x + 1, y), board.getModel().getBalls())));
-//                                    System.out.println("THIRD\n===============");
-//                                } else if(x < initalAbsorberCoords.x()) { // LEFT
-//                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(x, y), new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y() + 1), board.getModel().getBalls())));
-//                                    System.out.println("FOURTH\n===============");
-//                                } else if(y < initalAbsorberCoords.y()) { //UP
-//                                    board.addGizmo(new AbsorberView(new Absorber("A", new Vect(x, y), new Vect(initalAbsorberCoords.x() + 1, initalAbsorberCoords.y() + 1), board.getModel().getBalls())));
-//                                    System.out.println("FIFTH\n===============");
-//                                } else { //DOWN, RIGHT, BOTTOM-RIGHT, NEUTRAL,
-//                                    board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords,  new Vect(x + 1, y + 1), board.getModel().getBalls())));
-//                                    System.out.println("SIXTH\n===============");
-//                                }
+import static controller.BoardMouseListener.CUR_GIZMO.NONE;
+import static controller.BoardMouseListener.STATE.BUILD;
 
 public class BoardMouseListener implements java.awt.event.MouseListener{
     public enum STATE {
@@ -37,14 +27,14 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
     private static final int GRID_WIDTH = 20;
     private STATE state;
     private CUR_GIZMO gizmo;
-    private Board board;
+    private MainWindow mainWindow;
     private Vect gizmoCoords;
     private Vect initalAbsorberCoords;
 
-    public BoardMouseListener(Board board){
-        this.board = board;
-        state = STATE.BUILD;
-        gizmo = CUR_GIZMO.NONE;
+    public BoardMouseListener(MainWindow mainWindow){
+        this.mainWindow = mainWindow;
+        state = BUILD;
+        gizmo = NONE;
         gizmoCoords = null;
         initalAbsorberCoords = null;
     }
@@ -65,6 +55,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
     public void mouseClicked(MouseEvent e) {
         Vect coords = new Vect(e.getX() / GRID_WIDTH, e.getY() / GRID_WIDTH);
         String id = coords.x() + "" + coords.y();
+        Board board = mainWindow.getBoard();
 
         switch (state){
             case ADD:
@@ -73,11 +64,14 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                         case ABSORBER:
                             if(initalAbsorberCoords == null){
                                 initalAbsorberCoords = coords;
+                                mainWindow.setStatusLabel("Selected top-left cell of absorber at " + coords);
                             } else {
                                 if(coords.x() < initalAbsorberCoords.x() || coords.y() < initalAbsorberCoords.y()) {
-                                    System.err.println("FIRST CLICK MUST BE TOP LEFT GRID SQUARE");
+                                    mainWindow.setWarningLabel("Invalid cell, you might want to make that the top-left cell, " +
+                                            "try again");
                                 } else {
-                                    board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords, coords.plus(new Vect(1, 1)), board.getModel().getBalls())));
+                                    board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords,
+                                            coords.plus(new Vect(1, 1)), board.getModel().getBalls())));
                                 }
                                 initalAbsorberCoords = null;
                             }
@@ -107,6 +101,9 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                             board.addGizmo(new TriangleView(new TriangleGizmo("T" + id, coords)));
                             break;
                     }
+                } else {
+                    mainWindow.setWarningLabel("Cannot place here, this cell is already occupied. " +
+                            "Select an empty cell or remove what is in this cell");
                 }
                 break;
             case REMOVE:
@@ -116,11 +113,18 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                     } catch (NoSuchElementException E) {
                         board.removeBall(coords);
                     }
+                } else {
+                    mainWindow.setWarningLabel("Cannot remove from here, this cell is empty. Select an occupied cell");
                 }
                 break;
             case MOVE:
                 if(!board.isCellEmpty(coords)){
                     gizmoCoords = coords;
+                    try {
+                        mainWindow.setStatusLabel("Selected " + board.getGizmoName(board.getGizmo(gizmoCoords)) + " at " + gizmoCoords);
+                    } catch (NoSuchElementException E){
+                        mainWindow.setStatusLabel("Selected Ball at " + gizmoCoords);
+                    }
                 } else if(board.isCellEmpty(coords) && gizmoCoords != null){
                     try {
                         board.moveGizmo(gizmoCoords, coords);
@@ -128,6 +132,8 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                         board.moveBall(gizmoCoords, coords);
                     }
                     gizmoCoords = null;
+                } else {
+                    mainWindow.setWarningLabel("Cannot move from here, this cell is empty. Select an occupied cell.");
                 }
                 break;
         }

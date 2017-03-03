@@ -8,7 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 public class AddGizmoToolBar extends JToolBar{
-    public AddGizmoToolBar(Board board) {
+    public AddGizmoToolBar(MainWindow mainWindow) {
         super("Place Gizmo Toolbar");
         JButton ballBtn = new JButton("Ball");
         JButton absorberBtn = new JButton("Absorber");
@@ -26,31 +26,31 @@ public class AddGizmoToolBar extends JToolBar{
         constraints.fill = GridBagConstraints.VERTICAL;
 
         constraints.gridy = 0;
-        ballBtn.addActionListener(new AddBallListener(board));
+        ballBtn.addActionListener(new AddBallListener(mainWindow));
         add(ballBtn, constraints);
 
         constraints.gridy = 1;
-        absorberBtn.addActionListener(new AddAbsorberListener(board));
+        absorberBtn.addActionListener(new AddAbsorberListener(mainWindow));
         add(absorberBtn, constraints);
 
         constraints.gridy = 2;
-        circleBtn.addActionListener(new AddCircleListener(board));
+        circleBtn.addActionListener(new AddCircleListener(mainWindow));
         add(circleBtn, constraints);
 
         constraints.gridy = 3;
-        squareBtn.addActionListener(new AddSquareListener(board));
+        squareBtn.addActionListener(new AddSquareListener(mainWindow));
         add(squareBtn, constraints);
 
         constraints.gridy = 4;
-        triangleBtn.addActionListener(new AddTriangleListener(board));
+        triangleBtn.addActionListener(new AddTriangleListener(mainWindow));
         add(triangleBtn, constraints);
 
         constraints.gridy = 5;
-        lFlipperBtn.addActionListener(new AddLFlipperListener(board));
+        lFlipperBtn.addActionListener(new AddLFlipperListener(mainWindow));
         add(lFlipperBtn, constraints);
 
         constraints.gridy = 6;
-        rFlipperBtn.addActionListener(new AddRFlipperListener(board));
+        rFlipperBtn.addActionListener(new AddRFlipperListener(mainWindow));
         add(rFlipperBtn, constraints);
     }
 }

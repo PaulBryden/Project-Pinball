@@ -1,15 +1,23 @@
 package view;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
 import controller.RunKeyListener;
 import model.IModel;
 
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import static java.awt.Color.BLUE;
+import static java.awt.Color.RED;
+import static java.awt.GridBagConstraints.CENTER;
+import static java.awt.GridBagConstraints.VERTICAL;
 
 public class MainWindow extends JFrame {
 
@@ -21,15 +29,17 @@ public class MainWindow extends JFrame {
 	private Board board;
 	private GridBagConstraints constraints;
 	private KeyListener keyListener;
+	private JLabel statusLabel;
 
 	public MainWindow(IModel model) {
 		super();
 		this.model = model;
-		board = new Board(this.model);
+		board = new Board(this, this.model);
 		menuBar = new MenuBar(this);
 		sideToolBar = new JToolBar();
-		toolbar = new BuildToolBar(this, board);
+		toolbar = new BuildToolBar(this);
 		constraints = new GridBagConstraints();
+		statusLabel = new JLabel("");
 		setUpKeyListener();
 	}
 
@@ -41,21 +51,23 @@ public class MainWindow extends JFrame {
 		setResizable(false);
 		setSize(800, 550);
 
-		constraints.fill = GridBagConstraints.VERTICAL;
+		constraints.fill = VERTICAL;
 		constraints.gridx = 1;
 		constraints.gridy = 0;
 		add(toolbar, constraints);
 
-		constraints.fill = GridBagConstraints.CENTER;
-		constraints.gridx = 1;
+		constraints.fill = CENTER;
 		constraints.gridy = 1;
 		add(board, constraints);
+
+		constraints.gridy = 2;
+		add(statusLabel, constraints);
 
 		setVisible(true);
 	}
 
 	public void addSideToolBar(JToolBar sideToolBar) {
-		constraints.fill = GridBagConstraints.VERTICAL;
+		constraints.fill = VERTICAL;
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 
@@ -72,17 +84,19 @@ public class MainWindow extends JFrame {
 	}
 
 	public void toggleView() {
-		constraints.fill = GridBagConstraints.VERTICAL;
+		constraints.fill = VERTICAL;
 
 		remove(toolbar);
 
 		if (toolbar instanceof RunToolBar) {
 			((RunToolBar) toolbar).stop();
-			toolbar = new BuildToolBar(this, board);
+			toolbar = new BuildToolBar(this);
+			setStatusLabel("");
 		} else {
-			toolbar = new RunToolBar(model);
+			toolbar = new RunToolBar(this, model);
 			remove(sideToolBar);
 			sideToolBar = new JToolBar();
+			setStatusLabel("Stopped");
 		}
 
 		constraints.gridx = 1;
@@ -95,6 +109,16 @@ public class MainWindow extends JFrame {
 
 	public Board getBoard() {
 		return (board);
+	}
+
+	public void setStatusLabel(String status){
+		statusLabel.setForeground(BLUE);
+		statusLabel.setText(status);
+	}
+
+	public void setWarningLabel(String warning){
+		statusLabel.setForeground(RED);
+		statusLabel.setText(warning);
 	}
 
 	private void setUpKeyListener() {

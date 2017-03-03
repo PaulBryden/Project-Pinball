@@ -7,13 +7,15 @@ import javax.swing.Timer;
 
 import model.Constants;
 import model.IModel;
+import view.MainWindow;
 
 public class RunListener  implements ActionListener{
+	private MainWindow mainWindow;
 	private IModel model;
 	private Timer timer;
-	
 
-	public RunListener(IModel model) {
+	public RunListener(MainWindow mainWindow, IModel model) {
+		this.mainWindow = mainWindow;
 		this.model = model;
 		timer = new Timer((int) (1000 * Constants.TICK_TIME), this);
 	}
@@ -26,12 +28,16 @@ public class RunListener  implements ActionListener{
 			switch (e.getActionCommand()) {
 				case "Run":
 					timer.start();
+					mainWindow.setStatusLabel("Running");
 					break;
 				case "Stop":
 					timer.stop();
+					mainWindow.setStatusLabel("Stopped");
 					break;
 				case "Tick":
+					if(timer.isRunning()) timer.stop();
 					model.tick();
+					mainWindow.setStatusLabel("Ticking");
 					break;
 			}
 	}
