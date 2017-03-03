@@ -98,7 +98,8 @@ public class BoardFileHandler {
 			createConnections(connections, gizmos);
 
 			load.close();
-
+			
+			System.out.println("File loaded successfully");
 	}
 
 	private IGizmo createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
