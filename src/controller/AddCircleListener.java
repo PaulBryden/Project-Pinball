@@ -18,6 +18,6 @@ public class AddCircleListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         mainWindow.getBoard().getMouseListener().setGizmo(CIRCLE);
-        mainWindow.setStatusLabel("Placing Circle");
+        mainWindow.setStatusLabel("Placing Circle. Please click a grid cell to place it.");
     }
 }

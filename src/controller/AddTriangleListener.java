@@ -17,6 +17,6 @@ public class AddTriangleListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         mainWindow.getBoard().getMouseListener().setGizmo(TRIANGLE);
-        mainWindow.setStatusLabel("Placing Triangle");
+        mainWindow.setStatusLabel("Placing Triangle. Please click a grid cell to place it.");
     }
 }

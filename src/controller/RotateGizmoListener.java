@@ -20,7 +20,7 @@ public class RotateGizmoListener implements ActionListener{
         if(!(mainWindow.getSideToolBar() instanceof RotateGizmoToolBar)) {
             mainWindow.addSideToolBar(new RotateGizmoToolBar());
             mainWindow.getBoard().getMouseListener().setState(ROTATE);
-            mainWindow.setStatusLabel("Rotating Gizmo(s)");
+            mainWindow.setStatusLabel("Rotating Gizmo(s). Please click a gizmo on the board to rotate it.");
         }
     }
 }

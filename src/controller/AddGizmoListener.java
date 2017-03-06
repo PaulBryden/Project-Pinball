@@ -21,7 +21,7 @@ public class AddGizmoListener implements ActionListener{
         if(!(mainWindow.getSideToolBar() instanceof AddGizmoToolBar)) {
             mainWindow.addSideToolBar(new AddGizmoToolBar(mainWindow));
             mainWindow.getBoard().getMouseListener().setState(ADD);
-            mainWindow.setStatusLabel("Placing Gizmo(s)");
+            mainWindow.setStatusLabel("Placing Gizmo(s). Please select a gizmo from the left.");
         }
     }
 }

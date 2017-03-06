@@ -96,7 +96,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                     }
                 } else {
                     mainWindow.setWarningLabel("Cannot place here, this cell is already occupied. " +
-                            "Select an empty cell or remove what is in this cell");
+                            "Select an empty cell or remove what is in this cell.");
                 }
                 break;
             case REMOVE:
@@ -114,7 +114,8 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                 if(!board.isCellEmpty(coords)){
                     gizmoCoords = coords;
                     try {
-                        mainWindow.setStatusLabel("Selected " + board.getGizmoName(board.getGizmo(gizmoCoords)) + " at " + gizmoCoords);
+                        mainWindow.setStatusLabel("Selected " + board.getGizmoName(board.getGizmo(gizmoCoords)) +
+                                " at " + gizmoCoords + ". Please click a grid cell to move it to");
                     } catch (NoSuchElementException E){
                         mainWindow.setStatusLabel("Selected Ball at " + gizmoCoords);
                     }
@@ -147,22 +148,14 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
+    public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    public void mouseExited(MouseEvent e) {}
 }

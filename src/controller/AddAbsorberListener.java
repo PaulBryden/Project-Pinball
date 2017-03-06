@@ -17,6 +17,6 @@ public class AddAbsorberListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         mainWindow.getBoard().getMouseListener().setGizmo(ABSORBER);
-        mainWindow.setStatusLabel("Placing Absorber");
+        mainWindow.setStatusLabel("Placing Absorber. Please click a grid cell to place it.");
     }
 }

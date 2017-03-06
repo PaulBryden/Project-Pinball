@@ -17,6 +17,6 @@ public class AddRFlipperListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         mainWindow.getBoard().getMouseListener().setGizmo(RFLIPPER);
-        mainWindow.setStatusLabel("Placing Right-Flipper");
+        mainWindow.setStatusLabel("Placing Right-Flipper. Please click a grid cell to place it.");
     }
 }

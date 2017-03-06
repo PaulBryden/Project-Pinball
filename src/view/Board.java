@@ -112,7 +112,7 @@ public class Board extends JPanel implements Observer {
 
 	public void removeBall(Vect coords){
 		model.getBalls().remove(getBall(coords));
-		mainWindow.setStatusLabel("Removed ball");
+		mainWindow.setStatusLabel("Ball Removed");
 	}
 
 	public void moveGizmo(Vect oldCoords, Vect newCoords){
