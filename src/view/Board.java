@@ -3,7 +3,11 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.stream.Collectors;
 
 import javax.swing.JPanel;

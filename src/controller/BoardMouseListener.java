@@ -1,13 +1,6 @@
 package controller;
 
-import model.Absorber;
-import model.BallGizmo;
-import model.CircleGizmo;
-import model.IFlipper;
-import model.LeftFlipper;
-import model.RightFlipper;
-import model.SquareGizmo;
-import model.TriangleGizmo;
+import model.*;
 import physics.Vect;
 import view.*;
 
@@ -19,7 +12,7 @@ import static controller.BoardMouseListener.STATE.BUILD;
 
 public class BoardMouseListener implements java.awt.event.MouseListener{
     public enum STATE {
-        BUILD, RUN, ADD, REMOVE, MOVE
+        BUILD, RUN, ADD, REMOVE, MOVE, ROTATE
     }
     public enum CUR_GIZMO {
         BALL, SQUARE, TRIANGLE, LFLIPPER, RFLIPPER, CIRCLE, ABSORBER, NONE
@@ -67,8 +60,8 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                                 mainWindow.setStatusLabel("Selected top-left cell of absorber at " + coords);
                             } else {
                                 if(coords.x() < initalAbsorberCoords.x() || coords.y() < initalAbsorberCoords.y()) {
-                                    mainWindow.setWarningLabel("Invalid cell, you might want to make that the top-left cell, " +
-                                            "try again");
+                                    mainWindow.setWarningLabel("Invalid cell, you might want to make that the " +
+                                            "top-left cell, try again");
                                 } else {
                                     board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords,
                                             coords.plus(new Vect(1, 1)), board.getModel().getBalls())));
@@ -134,6 +127,19 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                     gizmoCoords = null;
                 } else {
                     mainWindow.setWarningLabel("Cannot move from here, this cell is empty. Select an occupied cell.");
+                }
+                break;
+            case ROTATE:
+                if(!board.isCellEmpty(coords)){
+                    try {
+                        IGizmo gizmo = board.getGizmo(coords);
+                        gizmo.rotate(1);
+                        mainWindow.setStatusLabel("" + board.getGizmoName(gizmo) + " Rotated");
+                    } catch (NoSuchElementException E){
+                        mainWindow.setWarningLabel("Cannot rotate a ball. Select a gizmo.");
+                    }
+                } else {
+                    mainWindow.setWarningLabel("Cannot rotate, this cell is empty. Select an occupied cell.");
                 }
                 break;
         }
