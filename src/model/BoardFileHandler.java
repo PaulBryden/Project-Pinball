@@ -143,7 +143,7 @@ public class BoardFileHandler {
 				int x2 = scan.nextInt();
 				int y2 = scan.nextInt();
 				List<IBall> balls = new ArrayList<>();
-				newGizmo = new Absorber(id, x1, y1, x2, y2, balls);
+				newGizmo = new Absorber(id, x1, y1, x2, y2, model.getBalls());
 				break;
 			case "Ball":
 				double xv = scan.nextDouble();

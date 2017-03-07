@@ -5,6 +5,7 @@ import physics.Vect;
 import view.*;
 
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import static controller.BoardMouseListener.CUR_GIZMO.NONE;
@@ -58,7 +59,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                                     "top-left cell, try again");
                         } else {
                             board.addGizmo(new AbsorberView(new Absorber("A", initalAbsorberCoords,
-                                    coords.plus(new Vect(1, 1)), board.getModel().getBalls())));
+                                   new Vect(coords.x()+1, coords.y()+1), board.getModel().getBalls())));
                         }
                         initalAbsorberCoords = null;
                     }
