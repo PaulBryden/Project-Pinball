@@ -81,7 +81,7 @@ public class Board extends JPanel implements Observer {
 		throw new NoSuchElementException("Gizmo not found");
 	}
 
-	private IBall getBall(Vect coords){
+	public IBall getBall(Vect coords){
 		for(IBall ball : model.getBalls()){
 			if(ball.getGridCoords().equals(coords.plus(new Vect(0.5, 0.5)))) return (ball);
 		}

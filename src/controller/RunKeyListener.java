@@ -2,7 +2,9 @@ package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.NoSuchElementException;
 
+import model.IBall;
 import model.IGizmo;
 import model.IModel;
 import view.Board;
@@ -24,15 +26,22 @@ public class RunKeyListener implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		Board board = mainWindow.getBoard();
 		int keyCode = e.getKeyCode();
-		System.out.println(e.getKeyCode());
+		char keyChar = e.getKeyChar();
 
 		if(board.getMouseListener().getState().equals(KEY_CONNECT)){
-			IGizmo gizmo =  board.getGizmo(board.getMouseListener().getGizmoCoords());
-			board.getModel().addKeyPressedTrigger(keyCode, gizmo);
-            board.getModel().addKeyReleasedTrigger(keyCode, gizmo);
-            mainWindow.setStatusLabel("Gizmo connected to key");
+			try {
+				IGizmo gizmo = board.getGizmo(board.getMouseListener().getGizmoCoords());
+				model.addKeyPressedTrigger(keyCode, gizmo);
+				model.addKeyReleasedTrigger(keyCode, gizmo);
+				mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " connected to the " + keyChar + " key.");
+			} catch (NoSuchElementException E){
+				IBall ball = board.getBall(board.getMouseListener().getGizmoCoords());
+				model.addKeyPressedTrigger(keyCode, ball);
+				model.addKeyReleasedTrigger(keyCode, ball);
+				mainWindow.setStatusLabel("Ball connected to the " + keyChar + " key.");
+			}
 		} else {
-			model.processKeyPressedTrigger(e.getKeyCode());
+			model.processKeyPressedTrigger(keyCode);
 		}
 	}
 

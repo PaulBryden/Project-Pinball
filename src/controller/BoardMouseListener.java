@@ -43,18 +43,18 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
         gizmo = NONE;
     }
 
-    private void resetEnums(){
+    private void resetStoredCoords(){
         gizmoCoords = null;
         initalAbsorberCoords = null;
     }
 
     void setState(STATE state){
-        resetEnums();
+        resetStoredCoords();
         this.state = state;
     }
 
     void setGizmo(CUR_GIZMO gizmo){
-        resetEnums();
+        resetStoredCoords();
         this.gizmo = gizmo;
     }
 
@@ -160,9 +160,13 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
     private void handleKeyConnect(Vect coords, Board board){
         if(!board.isCellEmpty(coords)) {
             gizmoCoords = coords;
+            try {
+                mainWindow.setStatusLabel("Selected " + board.getGizmoName(board.getGizmo(gizmoCoords)) +
+                        " at " + gizmoCoords + ". Please type a key to connect this gizmo to");
+            } catch (NoSuchElementException e){
+                mainWindow.setStatusLabel("Selected ball at " + gizmoCoords + ". Please type a key to connect this ball to");
+            }
         } else {
-//            board.getModel().addKeyPressedTrigger(66, lFlipper);
-//            board.getModel().addKeyReleasedTrigger(66, lFlipper);
             mainWindow.setWarningLabel("Cannot add key connection, this cell is empty. Select an occupied cell.");
         }
     }
