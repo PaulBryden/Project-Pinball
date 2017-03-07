@@ -62,7 +62,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
         return (state);
     }
 
-    public Vect getGizmoCoords(){
+    Vect getGizmoCoords(){
         return (gizmoCoords);
     }
 

@@ -15,7 +15,7 @@ public class RunKeyListener implements KeyListener {
 	private IModel model;
 	private MainWindow mainWindow;
 
-	public RunKeyListener(IModel model, MainWindow mainWindow) {
+	private RunKeyListener(IModel model, MainWindow mainWindow) {
 		this.model = model;
 		this.mainWindow = mainWindow;
 	}
@@ -44,7 +44,7 @@ public class RunKeyListener implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) { }
 	
-	public static final KeyListener createListener(IModel model, MainWindow mainWindow) {
+	public static KeyListener createListener(IModel model, MainWindow mainWindow) {
 		return new MagicKeyListener(new RunKeyListener(model, mainWindow));
 	}
 
