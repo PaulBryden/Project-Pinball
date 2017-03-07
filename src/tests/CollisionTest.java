@@ -124,6 +124,24 @@ public class CollisionTest {
 		assertEquals(newCollisions.getBall(),ballFast);
 	}
 	
+	
+	@Test
+	public void BallOnBallCollision() {
+		Vect topLeft = new Vect(1,1);
+		Vect topLeft2 = new Vect(3,1);
+		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
+		BallGizmo ballSlow = new BallGizmo("B2",topLeft2, new Vect(-1000,0));
+		GameModel gameModel = new GameModel();
+	
+		gameModel.addBall(ballFast);
+		gameModel.addBall(ballSlow);
+		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+		ce.evaluate();
+		CollisionDetails newCollisions=ce.getCollision();
+		
+		assertTrue(((newCollisions.getBall().equals(ballFast))&&newCollisions.getOtherBallVelo().equals(ballSlow.getVelo()))||((newCollisions.getBall().equals(ballSlow))&&newCollisions.getOtherBallVelo().equals(ballFast.getVelo())));
+	}
+	
 	@Test
 	public void AbsorberBallAbsorbTest() {
 		Vect topLeft = new Vect(1,1);
