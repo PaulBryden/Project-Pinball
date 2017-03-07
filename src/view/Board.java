@@ -67,8 +67,9 @@ public class Board extends JPanel implements Observer {
 			case ('C'): return ("Circle");
 			case ('L'): return ("Left-Flipper");
 			case ('R'): return ("Right-Flipper");
-			case ('S'): return("Square");
-			default: return ("Triangle");
+			case ('S'): return ("Square");
+			case ('T'): return ("Triangle");
+			default: return ("Ball");
 		}
 	}
 

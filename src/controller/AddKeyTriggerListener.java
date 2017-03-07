@@ -2,6 +2,7 @@ package controller;
 
 import view.MainWindow;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +17,7 @@ public class AddKeyTriggerListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		mainWindow.addSideToolBar(new JToolBar());
 		mainWindow.getBoard().getMouseListener().setState(KEY_CONNECT);
 		mainWindow.setStatusLabel("Connecting gizmo to key. Please select a gizmo on the board.");
 	}

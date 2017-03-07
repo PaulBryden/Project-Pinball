@@ -4,9 +4,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.NoSuchElementException;
 
-import model.IBall;
 import model.IGizmo;
 import model.IModel;
+import physics.Vect;
 import view.Board;
 import view.MainWindow;
 
@@ -24,30 +24,30 @@ public class RunKeyListener implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		Board board = mainWindow.getBoard();
-		int keyCode = e.getKeyCode();
-		char keyChar = e.getKeyChar();
-
-		if(board.getMouseListener().getState().equals(KEY_CONNECT)){
-			try {
-				IGizmo gizmo = board.getGizmo(board.getMouseListener().getGizmoCoords());
-				model.addKeyPressedTrigger(keyCode, gizmo);
-				model.addKeyReleasedTrigger(keyCode, gizmo);
-				mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " connected to the " + keyChar + " key.");
-			} catch (NoSuchElementException E){
-				IBall ball = board.getBall(board.getMouseListener().getGizmoCoords());
-				model.addKeyPressedTrigger(keyCode, ball);
-				model.addKeyReleasedTrigger(keyCode, ball);
-				mainWindow.setStatusLabel("Ball connected to the " + keyChar + " key.");
-			}
-		} else {
-			model.processKeyPressedTrigger(keyCode);
-		}
+		model.processKeyPressedTrigger(e.getKeyCode());
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		model.processKeyReleasedTrigger(e.getKeyCode());
+		Board board = mainWindow.getBoard();
+		Vect gizmoCoords = board.getMouseListener().getGizmoCoords();
+		int keyCode = e.getKeyCode();
+		char keyChar = e.getKeyChar();
+		IGizmo gizmo;
+
+		if(board.getMouseListener().getState().equals(KEY_CONNECT) && gizmoCoords != null){
+			try {
+				gizmo = board.getGizmo(gizmoCoords);
+			} catch (NoSuchElementException E){
+				gizmo = board.getBall(gizmoCoords);
+			}
+
+			model.addKeyPressedTrigger(keyCode, gizmo);
+			model.addKeyReleasedTrigger(keyCode, gizmo);
+			mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " connected to the " + keyChar + " key.");
+		} else {
+			model.processKeyReleasedTrigger(keyCode);
+		}
 	}
 
 	@Override
