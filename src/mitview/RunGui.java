@@ -78,7 +78,7 @@ public class RunGui {
 		cp.add(buttons, BorderLayout.LINE_START);
 		cp.add(board, BorderLayout.CENTER);
 
-		button1.addKeyListener(RunKeyListener.createListener(model));
+		button1.addKeyListener(RunKeyListener.createListener(model, null));
 
 		frame.pack();
 		frame.setLocationRelativeTo(null);

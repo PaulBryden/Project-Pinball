@@ -124,7 +124,7 @@ public class MainWindow extends JFrame {
 	private void setUpKeyListener() {
 		// Use an event dispatcher so that key strokes are captured regardless
 		// of which element of the frame has focus.
-		this.keyListener = RunKeyListener.createListener(model);
+		this.keyListener = RunKeyListener.createListener(model, this);
 		KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		kfm.addKeyEventDispatcher(e -> {
             if (e.getID() == KeyEvent.KEY_PRESSED) {

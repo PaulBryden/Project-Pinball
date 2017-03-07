@@ -1,8 +1,21 @@
 package controller;
 
-import model.*;
+import model.Absorber;
+import model.BallGizmo;
+import model.CircleGizmo;
+import model.IGizmo;
+import model.LeftFlipper;
+import model.RightFlipper;
+import model.SquareGizmo;
+import model.TriangleGizmo;
 import physics.Vect;
-import view.*;
+import view.AbsorberView;
+import view.Board;
+import view.CircleView;
+import view.FlipperView;
+import view.MainWindow;
+import view.SquareView;
+import view.TriangleView;
 
 import java.awt.event.MouseEvent;
 import java.util.NoSuchElementException;
@@ -12,7 +25,7 @@ import static controller.BoardMouseListener.STATE.BUILD;
 
 public class BoardMouseListener implements java.awt.event.MouseListener{
     public enum STATE {
-        BUILD, RUN, ADD, REMOVE, MOVE, ROTATE
+        BUILD, RUN, ADD, REMOVE, MOVE, ROTATE, KEY_CONNECT
     }
     public enum CUR_GIZMO {
         BALL, SQUARE, TRIANGLE, LFLIPPER, RFLIPPER, CIRCLE, ABSORBER, NONE
@@ -28,20 +41,29 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
         this.mainWindow = mainWindow;
         state = BUILD;
         gizmo = NONE;
+    }
+
+    private void resetEnums(){
         gizmoCoords = null;
         initalAbsorberCoords = null;
     }
 
     void setState(STATE state){
+        resetEnums();
         this.state = state;
     }
 
     void setGizmo(CUR_GIZMO gizmo){
+        resetEnums();
         this.gizmo = gizmo;
     }
 
     public STATE getState(){
         return (state);
+    }
+
+    public Vect getGizmoCoords(){
+        return (gizmoCoords);
     }
 
     private void handleAdd(Vect coords, Board board){
@@ -69,17 +91,11 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                 case CIRCLE:
                     board.addGizmo(new CircleView(new CircleGizmo("C" + id, coords)));
                     break;
-                case LFLIPPER: //TODO: Add user defined key connection
-                    IFlipper lFlipper = new LeftFlipper("LF" + id, coords);
-                    board.addGizmo(new FlipperView(lFlipper));
-                    board.getModel().addKeyPressedTrigger(66, lFlipper);
-                    board.getModel().addKeyReleasedTrigger(66, lFlipper);
+                case LFLIPPER:
+                    board.addGizmo(new FlipperView(new LeftFlipper("LF" + id, coords)));
                     break;
                 case RFLIPPER:
-                    IFlipper rFlipper = new RightFlipper("RF" + id, coords);
-                    board.addGizmo(new FlipperView(rFlipper));
-                    board.getModel().addKeyPressedTrigger(66, rFlipper);
-                    board.getModel().addKeyReleasedTrigger(66, rFlipper);
+                    board.addGizmo(new FlipperView(new RightFlipper("RF" + id, coords)));
                     break;
                 case SQUARE:
                     board.addGizmo(new SquareView(new SquareGizmo("S" + id, coords)));
@@ -141,6 +157,16 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
         }
     }
 
+    private void handleKeyConnect(Vect coords, Board board){
+        if(!board.isCellEmpty(coords)) {
+            gizmoCoords = coords;
+        } else {
+//            board.getModel().addKeyPressedTrigger(66, lFlipper);
+//            board.getModel().addKeyReleasedTrigger(66, lFlipper);
+            mainWindow.setWarningLabel("Cannot add key connection, this cell is empty. Select an occupied cell.");
+        }
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         Vect coords = new Vect(e.getX() / GRID_WIDTH, e.getY() / GRID_WIDTH);
@@ -158,6 +184,9 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                 break;
             case ROTATE:
                 handleRotate(coords, board);
+                break;
+            case KEY_CONNECT:
+                handleKeyConnect(coords, board);
                 break;
         }
 
