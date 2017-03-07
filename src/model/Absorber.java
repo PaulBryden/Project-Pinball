@@ -76,6 +76,7 @@ public class Absorber extends AbstractGizmo {
 			ball.setVelo(new Vect(0, -50));
 			ball.setGridCoords(new Vect(bottomRightCoords.x() - ball.getRadius(), bottomRightCoords.y() -1- ball.getRadius()));
 			allBalls.add(ball);
+			ball.setCentre(new Vect(bottomRightCoords.x() - ball.getRadius(), coords.y()- ball.getRadius()));
 		}
 	}
 	

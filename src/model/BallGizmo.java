@@ -89,4 +89,11 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 		return null;
 	}
 
+	@Override
+	public void setCentre(Vect v) {
+		// TODO Auto-generated method stub
+		physicsCircle=new Circle(v,physicsCircle.getRadius());
+	}
+	
+	
 }
