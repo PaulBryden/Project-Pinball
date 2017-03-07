@@ -74,21 +74,15 @@ public class Absorber extends AbstractGizmo {
 		if (!storedBalls.isEmpty()) {
 			IBall ball = storedBalls.remove(0);
 			ball.setVelo(new Vect(0, -50));
-			ball.setGridCoords(new Vect(bottomRightCoords.x() - 1 + ball.getRadius(), bottomRightCoords.y() - 2 - ball.getRadius()));
+			ball.setGridCoords(new Vect(bottomRightCoords.x() - ball.getRadius(), bottomRightCoords.y() -1- ball.getRadius()));
 			allBalls.add(ball);
 		}
 	}
 	
 	public void absorbBall(IBall ball) {
-		if (storedBalls.size() > 0) {
-			allBalls.add(storedBalls.get(0));
-			storedBalls.remove(0);
-			storedBalls.add(ball);
-			ball.setVelo(new Vect(0, -50));
-		} else {
 			storedBalls.add(ball);
 			allBalls.remove(ball);
-		}
+		
 	}
 	
 	public void addBall(IBall ball) {

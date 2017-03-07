@@ -46,17 +46,18 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 		LineSegment l = new LineSegment(pivot.x() - RADIUS, pivot.y(), restingEndCentre.x() - RADIUS,
 				restingEndCentre.y());
 		lines.add(Geometry.rotateAround(l, pivot, angle));
-		addEndPoints(l);
 		l = new LineSegment(pivot.x() + RADIUS, pivot.y(), restingEndCentre.x() + RADIUS, restingEndCentre.y());
 		lines.add(Geometry.rotateAround(l, pivot, angle));
-		addEndPoints(l);
+		addEndPoints();
 		endCentre = (Geometry.rotateAround(restingEndCentre, pivot, angle));
 		circles.add(new Circle(endCentre, RADIUS));
 	}
 
-	private void addEndPoints(LineSegment line) {
-		circles.add(new Circle(line.p1(), 0));
-		circles.add(new Circle(line.p2(), 0));
+	private void addEndPoints() {
+		for (LineSegment line: lines) {
+			circles.add(new Circle(line.p1(), 0));
+			circles.add(new Circle(line.p2(), 0));
+		}
 	}
 
 	public Angle getAngle() {

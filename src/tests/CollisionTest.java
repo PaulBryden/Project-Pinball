@@ -29,7 +29,9 @@ public class CollisionTest {
 	public void setup(){
 		
 	}
+	
 	@Test
+	//SIngle Ball Single Wall Collision Evaluation
 	public void PhysicsEvaluationSingleWall() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
@@ -45,6 +47,7 @@ public class CollisionTest {
 	}
 	
 	@Test
+	//Single Ball Single Square Collision Evaluation
 	public void PhysicsEvaluationSingleSquare() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
@@ -60,6 +63,7 @@ public class CollisionTest {
 	}
 	
 	@Test
+	//Single Ball Single Circle Collision Evaluation
 	public void PhysicsEvaluationSingleCircle() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
@@ -75,6 +79,7 @@ public class CollisionTest {
 	}
 	
 	@Test
+	//Single Ball Single Flipper Collision Evaluation
 	public void PhysicsEvaluationSingleFlipper() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
@@ -90,6 +95,8 @@ public class CollisionTest {
 	}
 	
 	@Test
+
+	//Ensures the flipper collision is handled correctly, if 2 balls are destined to collide with it.
 	public void PhysicsEvaluation2BallCollisionFlipper() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
@@ -107,6 +114,7 @@ public class CollisionTest {
 	}
 	
 	@Test
+	//Ensures the absorber collision is handled correctly, if 2 balls are destined to collide with it.
 	public void PhysicsEvaluation2BallCollisionAbsorber() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
@@ -124,7 +132,26 @@ public class CollisionTest {
 		assertEquals(newCollisions.getBall(),ballFast);
 	}
 	
+	
 	@Test
+	//Checks the collision is being handled, and the resultant post-collision velocities are being correctly set.
+	public void BallOnBallCollision() {
+		Vect topLeft = new Vect(1,1);
+		Vect topLeft2 = new Vect(3,1);
+		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
+		BallGizmo ballSlow = new BallGizmo("B2",topLeft2, new Vect(-1000,0));
+		GameModel gameModel = new GameModel();
+	
+		gameModel.addBall(ballFast);
+		gameModel.addBall(ballSlow);
+		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+		ce.evaluate();
+		CollisionDetails newCollisions=ce.getCollision();
+		assertTrue(((newCollisions.getBall().equals(ballFast))&&newCollisions.getOtherBallVelo().x()>ballSlow.getVelo().x())||((newCollisions.getBall().equals(ballSlow))&&newCollisions.getOtherBallVelo().x()<ballFast.getVelo().x()));
+	}
+	
+	@Test
+	//Ensures Balls are correctly absorbed on absorber collision.
 	public void AbsorberBallAbsorbTest() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
@@ -134,8 +161,22 @@ public class CollisionTest {
 		gameModel.addBall(ballFast);
 		gameModel.addGizmo(gizmo);
 		gizmo.absorbBall(ballFast);
-		
 		assertTrue(gameModel.getBalls().size()==0);
+	}
+	
+	@Test
+	//Absorber trigger correct operation.
+	public void AbsorberBallAbsorbTriggerTest() {
+		Vect topLeft = new Vect(1,1);
+		Vect wallTop = new Vect (3,1);
+		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
+		GameModel gameModel = new GameModel();
+		Absorber gizmo = new Absorber("LF1",new Vect(3,1),new Vect(4,2),gameModel.getBalls());
+		gameModel.addBall(ballFast);
+		gameModel.addGizmo(gizmo);
+		gizmo.absorbBall(ballFast);
+		gizmo.performActions();
+		assertTrue(gameModel.getBalls().size()==1);
 	}
 	
 	@After
