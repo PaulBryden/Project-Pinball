@@ -18,7 +18,6 @@ import view.SquareView;
 import view.TriangleView;
 
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import static controller.BoardMouseListener.CUR_GIZMO.NONE;
@@ -26,7 +25,7 @@ import static controller.BoardMouseListener.STATE.BUILD;
 
 public class BoardMouseListener implements java.awt.event.MouseListener{
     public enum STATE {
-        BUILD, RUN, ADD, REMOVE, MOVE, ROTATE, KEY_CONNECT
+        BUILD, RUN, ADD, REMOVE, MOVE, ROTATE, GIZMO_CONNECT, KEY_CONNECT
     }
     public enum CUR_GIZMO {
         BALL, SQUARE, TRIANGLE, LFLIPPER, RFLIPPER, CIRCLE, ABSORBER, NONE
@@ -158,6 +157,27 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
         }
     }
 
+    private void handleGizmoConnect(Vect coords, Board board){
+        if(!board.isCellEmpty(coords)){
+            if(gizmoCoords == null) {
+                gizmoCoords = coords;
+                try {
+                    mainWindow.setStatusLabel("Selected " + board.getGizmoName(board.getGizmo(gizmoCoords)) +
+                            " at " + gizmoCoords + ". Please type a key to connect this gizmo to");
+                } catch (NoSuchElementException e) {
+                    mainWindow.setStatusLabel("Selected ball at " + gizmoCoords + ". Please type a key to connect this ball to");
+                }
+            } else {
+                board.getGizmo(gizmoCoords).addGizmoToTrigger(board.getGizmo(coords));
+                mainWindow.setStatusLabel("Connected " + board.getGizmoName(board.getGizmo(gizmoCoords)) +
+                        " to " + board.getGizmoName(board.getGizmo(coords)));
+                gizmoCoords = null;
+            }
+        } else {
+            mainWindow.setWarningLabel("Cannot add gizmo connection, this cell is empty. Select an occupied cell.");
+        }
+    }
+
     private void handleKeyConnect(Vect coords, Board board){
         if(!board.isCellEmpty(coords)) {
             gizmoCoords = coords;
@@ -189,6 +209,9 @@ public class BoardMouseListener implements java.awt.event.MouseListener{
                 break;
             case ROTATE:
                 handleRotate(coords, board);
+                break;
+            case GIZMO_CONNECT:
+                handleGizmoConnect(coords, board);
                 break;
             case KEY_CONNECT:
                 handleKeyConnect(coords, board);

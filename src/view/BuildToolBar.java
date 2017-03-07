@@ -19,6 +19,7 @@ class BuildToolBar extends JToolBar{
         deleteBtn.addActionListener(new DeleteGizmoListener(mainWindow));
         rotateBtn.addActionListener(new RotateGizmoListener(mainWindow));
         moveBtn.addActionListener(new MoveGizmoListener(mainWindow));
+        connectGizmoBtn.addActionListener(new LinkGizmosListener(mainWindow));
         keyConnectBtn.addActionListener(new AddKeyTriggerListener(mainWindow));
 
         setFloatable(false);
