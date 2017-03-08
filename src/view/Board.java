@@ -5,9 +5,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
@@ -20,6 +22,7 @@ import model.ICircle;
 import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
+import model.ITrigger;
 import model.LeftFlipper;
 import model.RightFlipper;
 import model.SquareGizmo;
@@ -87,10 +90,27 @@ public class Board extends JPanel implements Observer {
 		reRender();
 	}
 
+	private  void removeKeyConnections(Map<Integer, ITrigger> map, IGizmo gizmo){
+		for(Object o : map.entrySet()){
+			Set<IGizmo> gizmos = ((ITrigger) ((Map.Entry) o).getValue()).getGizmosToTrigger();
+			gizmos.stream().filter(gizmo1 -> gizmo1.equals(gizmo)).forEach(gizmos::remove);
+		}
+	}
+
+	private void removeGizmoConnections(IGizmo gizmo){
+		for(IGizmo gizmo1 : model.getGizmos()){
+			Set<IGizmo> gizmosToTrigger = gizmo1.getGizmosToTrigger();
+			gizmosToTrigger.stream().filter(gizmo2 -> gizmo2.equals(gizmo)).forEach(gizmosToTrigger::remove);
+		}
+	}
+
 	public void removeGizmo(Vect coords){
 		IGizmo gizmo = model.getGizmo(coords);
 
 		model.getGizmos().remove(gizmo);
+		removeKeyConnections(model.getKeyPressedTriggers(), gizmo);
+		removeKeyConnections(model.getKeyReleasedTriggers(), gizmo);
+		removeGizmoConnections(gizmo);
 		mainWindow.setStatusLabel(getGizmoName(gizmo) + " Removed");
 	}
 
