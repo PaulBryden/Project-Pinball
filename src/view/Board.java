@@ -107,10 +107,17 @@ public class Board extends JPanel implements Observer {
 		reRender();
 	}
 
-	private  void removeConnections(Map<Integer, ITrigger> map, IGizmo gizmo){
+	private  void removeKeyConnections(Map<Integer, ITrigger> map, IGizmo gizmo){
 		for(Object o : map.entrySet()){
 			Set<IGizmo> gizmos = ((ITrigger) ((Map.Entry) o).getValue()).getGizmosToTrigger();
 			gizmos.stream().filter(gizmo1 -> gizmo1.equals(gizmo)).forEach(gizmos::remove);
+		}
+	}
+
+	private void removeGizmoConnections(IGizmo gizmo){
+		for(IGizmo gizmo1 : model.getGizmos()){
+			Set<IGizmo> gizmosToTrigger = gizmo1.getGizmosToTrigger();
+			gizmosToTrigger.stream().filter(gizmo2 -> gizmo2.equals(gizmo)).forEach(gizmosToTrigger::remove);
 		}
 	}
 
@@ -118,8 +125,9 @@ public class Board extends JPanel implements Observer {
 		IGizmo gizmo = getGizmo(coords);
 
 		model.getGizmos().remove(gizmo);
-		removeConnections(model.getKeyPressedTriggers(), gizmo);
-		removeConnections(model.getKeyReleasedTriggers(), gizmo);
+		removeKeyConnections(model.getKeyPressedTriggers(), gizmo);
+		removeKeyConnections(model.getKeyReleasedTriggers(), gizmo);
+		removeGizmoConnections(gizmo);
 		mainWindow.setStatusLabel(getGizmoName(gizmo) + " Removed");
 	}
 
