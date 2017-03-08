@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Observable;
 
 import physics.Circle;
@@ -19,10 +20,10 @@ public class GameModel extends Observable implements IModel {
 	private List<IBall> balls;
 	private Map<Integer, ITrigger> keyPressedTriggers;
 	private Map<Integer, ITrigger> keyReleasedTriggers;
-	private boolean pauseGame = false;
 	private Color backgroundColour;
 	private CollisionEvaluator collisionEvaluator;
 	private PhysicsEvaluator physicsEvaluator;
+
 	public GameModel() {
 		reset();
 	}
@@ -38,13 +39,16 @@ public class GameModel extends Observable implements IModel {
 		for (IFlipper flipper : getFlippers()) {
 			flipper.moveForTime(tick);
 		}
+		for (Absorber absorber : getAbsorbers()) {
+			absorber.updateFiring();
+		}
 		// Resolve collision
-		
+
 		collisionEvaluator.resolveCollision();
 		// Apply friction and gravity
 		physicsEvaluator.applyGravity(tick);
 		physicsEvaluator.applyFriction(tick);
-		
+
 		// Update view
 		setChanged();
 		notifyObservers();
@@ -59,6 +63,45 @@ public class GameModel extends Observable implements IModel {
 		}
 		return flippers;
 	}
+	
+	public List<Absorber> getAbsorbers() {
+		List<Absorber> absorbers = new LinkedList<>();
+		for (IGizmo gizmo : gizmos) {
+			if (gizmo instanceof Absorber) {
+				absorbers.add((Absorber) gizmo);
+			}
+		}
+		return absorbers;
+	
+	}
+	
+	public IBall getBall(Vect coords) {
+		for (IBall ball : balls) {
+			Vect pos = ball.getCentre();
+			double r = ball.getRadius();
+			if (pos.x() + r > coords.x() && pos.x() - r < coords.x() + 1
+					&& pos.y() + r > coords.y() && pos.y() - r < coords.y() + 1)
+				return ball;
+		}
+		return null;
+	}
+
+	public IGizmo getGizmo(Vect coords) {
+		for (IGizmo gizmo : gizmos) {
+			Vect gizmoCoords = gizmo.getGridCoords();
+			int width = gizmo.getGridWidth();
+			int height = gizmo.getGridHeight();
+			if (gizmoCoords != null && coords.x() >= gizmoCoords.x() && coords.x() < gizmoCoords.x() + width
+					&& coords.y() >= gizmoCoords.y() && coords.y() < gizmoCoords.y() + height) {
+				return gizmo;
+			}
+		}
+		return null;
+	}
+
+	public boolean isCellEmpty(Vect coords) {
+		return getGizmo(coords) == null && getBall(coords) == null;
+	}
 
 	public List<IGizmo> getGizmos() {
 		return gizmos;
@@ -70,6 +113,10 @@ public class GameModel extends Observable implements IModel {
 
 	public void addBall(IBall ball) {
 		balls.add(ball);
+	}
+	
+	public void removeBall(IBall ball) {
+		balls.remove(ball);
 	}
 
 	public void removeGizmo(IGizmo gizmo) {

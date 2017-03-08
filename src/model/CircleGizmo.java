@@ -11,7 +11,7 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 	private Circle physicsCircle;
 
 	public CircleGizmo(String id, Vect coords) {
-		super(id, coords, Constants.CIRCLE_DEFAULT_COLOUR, true);
+		super(id, coords, 1, 1, Constants.CIRCLE_DEFAULT_COLOUR, true);
 		this.radius = 0.5;
 		generateLinesAndCircles();
 	}

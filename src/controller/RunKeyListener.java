@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.NoSuchElementException;
 
+import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
 import physics.Vect;
@@ -35,14 +36,15 @@ public class RunKeyListener implements KeyListener {
 		char keyChar = e.getKeyChar();
 		IGizmo gizmo;
 
-		if(board.getMouseListener().getState().equals(KEY_CONNECT) && gizmoCoords != null){
+		if (board.getMouseListener().getState().equals(KEY_CONNECT) && gizmoCoords != null) {
 			try {
-				gizmo = board.getGizmo(gizmoCoords);
-			} catch (NoSuchElementException E){
-				gizmo = board.getBall(gizmoCoords);
+				gizmo = board.getModel().getGizmo(gizmoCoords);
+			} catch (NoSuchElementException E) {
+				gizmo = model.getBall(gizmoCoords);
 			}
-
-			model.addKeyPressedTrigger(keyCode, gizmo);
+			if (gizmo instanceof IFlipper) {
+				model.addKeyPressedTrigger(keyCode, gizmo);
+			}
 			model.addKeyReleasedTrigger(keyCode, gizmo);
 			mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " connected to the " + keyChar + " key.");
 		} else {
@@ -51,8 +53,9 @@ public class RunKeyListener implements KeyListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) { }
-	
+	public void keyTyped(KeyEvent e) {
+	}
+
 	public static KeyListener createListener(IModel model, MainWindow mainWindow) {
 		return new MagicKeyListener(new RunKeyListener(model, mainWindow));
 	}

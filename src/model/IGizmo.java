@@ -24,6 +24,10 @@ public interface IGizmo extends ITrigger {
 	public void onCollision(IBall ball);
 
 	public Vect getGridCoords();
+	
+	public int getGridWidth();
+	
+	public int getGridHeight();
 
 	public void setGridCoords(Vect coords);
 	
