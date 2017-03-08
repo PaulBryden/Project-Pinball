@@ -60,7 +60,7 @@ public class TriangleGizmo extends AbstractGizmo {
 	
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Triangle " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y() + " "
+		String serializedGizmo = "Triangle " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y()
 				+ "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
