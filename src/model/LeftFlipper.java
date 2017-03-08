@@ -34,7 +34,7 @@ public class LeftFlipper extends AbstractFlipper implements IFlipper{
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "LeftFlipper " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y() + " "
+		String serializedGizmo = "LeftFlipper " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y()
 				+ "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
