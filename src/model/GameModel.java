@@ -39,6 +39,9 @@ public class GameModel extends Observable implements IModel {
 		for (IFlipper flipper : getFlippers()) {
 			flipper.moveForTime(tick);
 		}
+		for (Absorber absorber : getAbsorbers()) {
+			absorber.updateFiring();
+		}
 		// Resolve collision
 
 		collisionEvaluator.resolveCollision();
@@ -59,6 +62,17 @@ public class GameModel extends Observable implements IModel {
 			}
 		}
 		return flippers;
+	}
+	
+	public List<Absorber> getAbsorbers() {
+		List<Absorber> absorbers = new LinkedList<>();
+		for (IGizmo gizmo : gizmos) {
+			if (gizmo instanceof Absorber) {
+				absorbers.add((Absorber) gizmo);
+			}
+		}
+		return absorbers;
+	
 	}
 	
 	public IBall getBall(Vect coords) {
