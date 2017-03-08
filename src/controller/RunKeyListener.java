@@ -39,7 +39,7 @@ public class RunKeyListener implements KeyListener {
 			try {
 				gizmo = board.getModel().getGizmo(gizmoCoords);
 			} catch (NoSuchElementException E){
-				gizmo = board.getBall(gizmoCoords);
+				gizmo = model.getBall(gizmoCoords);
 			}
 
 			model.addKeyPressedTrigger(keyCode, gizmo);

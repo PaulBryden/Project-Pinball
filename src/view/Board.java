@@ -73,14 +73,6 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
-	public IBall getBall(Vect coords){
-		for(IBall ball : model.getBalls()){
-			if(ball.getGridCoords().equals(coords.plus(new Vect(0.5, 0.5)))) return (ball);
-		}
-
-		throw new NoSuchElementException("Ball not found");
-	}
-
 	public void addGizmo(IViewGizmo gizmo){
 		viewGizmos.add(gizmo);
 		model.addGizmo(gizmo.getGizmo());
@@ -103,7 +95,7 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public void removeBall(Vect coords){
-		model.getBalls().remove(getBall(coords));
+		model.getBalls().remove(model.getBall(coords));
 		mainWindow.setStatusLabel("Ball Removed");
 	}
 
@@ -115,7 +107,7 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public void moveBall(Vect oldCoords, Vect newCoords){
-		getBall(oldCoords).setGridCoords(newCoords.plus(new Vect(0.5, 0.5)));
+		model.getBall(oldCoords).setGridCoords(newCoords.plus(new Vect(0.5, 0.5)));
 		mainWindow.setStatusLabel("Moved Ball from " + oldCoords + " to " + newCoords);
 	}
 

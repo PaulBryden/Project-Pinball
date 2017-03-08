@@ -25,6 +25,8 @@ public interface IModel {
 
 	public IGizmo getGizmo(Vect coords);
 	
+	public IBall getBall(Vect coords);
+	
 	public boolean isCellEmpty(Vect coords);
 	
 	public void addObserver(Observer o);
@@ -46,5 +48,6 @@ public interface IModel {
 	public Map<Integer, ITrigger> getKeyPressedTriggers();
 
 	public Map<Integer, ITrigger> getKeyReleasedTriggers();
+
 
 }

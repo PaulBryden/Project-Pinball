@@ -20,7 +20,6 @@ public class GameModel extends Observable implements IModel {
 	private List<IBall> balls;
 	private Map<Integer, ITrigger> keyPressedTriggers;
 	private Map<Integer, ITrigger> keyReleasedTriggers;
-	private boolean pauseGame = false;
 	private Color backgroundColour;
 	private CollisionEvaluator collisionEvaluator;
 	private PhysicsEvaluator physicsEvaluator;
@@ -61,6 +60,17 @@ public class GameModel extends Observable implements IModel {
 		}
 		return flippers;
 	}
+	
+	public IBall getBall(Vect coords) {
+		for (IBall ball : balls) {
+			Vect pos = ball.getCentre();
+			double r = ball.getRadius();
+			if (pos.x() + r > coords.x() && pos.x() - r < coords.x() + 1
+					&& pos.y() + r > coords.y() && pos.y() - r < coords.y() + 1)
+				return ball;
+		}
+		return null;
+	}
 
 	public IGizmo getGizmo(Vect coords) {
 		for (IGizmo gizmo : gizmos) {
@@ -76,7 +86,7 @@ public class GameModel extends Observable implements IModel {
 	}
 
 	public boolean isCellEmpty(Vect coords) {
-		return getGizmo(coords) == null; // TODO also check balls
+		return getGizmo(coords) == null && getBall(coords) == null;
 	}
 
 	public List<IGizmo> getGizmos() {
