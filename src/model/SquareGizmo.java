@@ -10,7 +10,7 @@ import physics.Vect;
 public class SquareGizmo extends AbstractGizmo {
 
 	public SquareGizmo(String id, Vect coords) {
-		super(id, coords, Constants.SQUARE_DEFAULT_COLOUR, true);
+		super(id, coords, 1, 1, Constants.SQUARE_DEFAULT_COLOUR, true);
 		generateLinesAndCircles();
 	}
 

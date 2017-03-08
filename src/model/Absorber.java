@@ -9,24 +9,35 @@ import physics.LineSegment;
 import physics.Vect;
 
 public class Absorber extends AbstractGizmo {
-	
+
 	private AbsorbAction absorb;
-	List<IBall> allBalls;
 	List<IBall> storedBalls;
 	Vect bottomRightCoords;
-	public Absorber(String id, Vect topLeftCoords, Vect bottomRightCoords,  List<IBall> balls) {
-		super(id, topLeftCoords, Constants.ABSORBER_DEFAULT_COLOUR, true);
-		this.bottomRightCoords=bottomRightCoords;
+	private int ballsToFire;
+	private IModel model;
+
+	public Absorber(IModel model, String id, Vect topLeftCoords, Vect bottomRightCoords, List<IBall> storedBalls) {
+		super(id, topLeftCoords, (int) (bottomRightCoords.x() - topLeftCoords.x()), (int) (bottomRightCoords.y() - topLeftCoords.y()), Constants.ABSORBER_DEFAULT_COLOUR, true);
+		this.model = model;
+		this.bottomRightCoords = bottomRightCoords;
 		this.absorb = new AbsorbAction(this);
 		this.addTriggerAction(new AbsorberFireAction(this));
 		generateLinesAndCircles();
 		this.coefficientOfReflection = 0;
-		this.allBalls = balls;
-		this.storedBalls = new LinkedList<>();
+		this.storedBalls = storedBalls;
+		this.ballsToFire = 0;
 	}
 
-	public Absorber(String id, int x1, int y1, int x2, int y2, List<IBall> balls) {
-		this(id, new Vect(x1, y1), new Vect(x2,y2), balls);
+	public Absorber(IModel model, String id, int x1, int y1, int x2, int y2, List<IBall> balls) {
+		this(model, id, new Vect(x1, y1), new Vect(x2, y2), balls);
+	}
+
+	public Absorber(IModel model, String id, int x1, int y1, int x2, int y2) {
+		this(model, id, x1, y1, x2, y2, new LinkedList<>());
+	}
+
+	public Absorber(IModel model, String id, Vect topLeftCoords, Vect bottomRightCoords) {
+		this(model, id, topLeftCoords, bottomRightCoords, new LinkedList<>());
 	}
 
 	@Override
@@ -50,57 +61,64 @@ public class Absorber extends AbstractGizmo {
 
 	@Override
 	public List<Vect> getExactCoords() {
-		// TODO Auto-generated method stub
 		List<Vect> coordVector = new ArrayList<Vect>();
 		coordVector.add(this.getAllLineSegments().get(0).p1());
 		coordVector.add(this.getAllLineSegments().get(0).p2());
 		coordVector.add(this.getAllLineSegments().get(1).p2());
 		coordVector.add(this.getAllLineSegments().get(2).p2());
-
 		return coordVector;
-		
 	}
-	
+
 	@Override
 	public void setGridCoords(Vect coords) {
-		int xdiff=(int) (coords.x()-this.coords.x());
-		int ydiff=(int) (coords.y()-this.coords.y());
+		int xdiff = (int) (coords.x() - this.coords.x());
+		int ydiff = (int) (coords.y() - this.coords.y());
 		this.coords = coords;
-		this.bottomRightCoords = new Vect(bottomRightCoords.x()+xdiff, bottomRightCoords.y()+ydiff);
+		this.bottomRightCoords = new Vect(bottomRightCoords.x() + xdiff, bottomRightCoords.y() + ydiff);
 		generateLinesAndCircles();
 	}
 
 	public void fireBall() {
-		if (!storedBalls.isEmpty()) {
-			IBall ball = storedBalls.remove(0);
-			ball.setVelo(new Vect(0, -50));
-			ball.setGridCoords(new Vect(bottomRightCoords.x() - ball.getRadius(), bottomRightCoords.y() -1- ball.getRadius()));
-			allBalls.add(ball);
-			ball.setCentre(new Vect(bottomRightCoords.x() - ball.getRadius(), coords.y()- ball.getRadius()));
+		if (storedBalls.size() > ballsToFire) {
+			ballsToFire++;
+			if (hasSpaceToFire()) {
+				IBall ball = storedBalls.remove(0);
+				ball.setVelo(new Vect(0, -50));
+				ball.setGridCoords(new Vect(bottomRightCoords.x() - ball.getRadius(),
+						bottomRightCoords.y() - 1 - ball.getRadius()));
+				model.addBall(ball);
+				ball.setCentre(new Vect(bottomRightCoords.x() - ball.getRadius(), coords.y() - ball.getRadius()));
+				ballsToFire--;
+			}
 		}
 	}
-	
+
 	public void absorbBall(IBall ball) {
-			storedBalls.add(ball);
-			allBalls.remove(ball);
-		
+		storedBalls.add(ball);
+		model.removeBall(ball);
 	}
-	
-	public void addBall(IBall ball) {
-		allBalls.add(ball);
-	}
-	
+
 	public Vect getBottomRightCoords() {
 		return bottomRightCoords;
 	}
-	
+
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Absorber " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y() + " "
-				+ (int) this.getBottomRightCoords().x() + " " + (int) this.getBottomRightCoords().y() + "\n";
+		String serializedGizmo = "Absorber " + getID() + " " + (int) this.getGridCoords().x() + " "
+				+ (int) this.getGridCoords().y() + " " + (int) this.getBottomRightCoords().x() + " "
+				+ (int) this.getBottomRightCoords().y() + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
 		}
 		return serializedGizmo;
+	}
+
+	/**
+	 * 
+	 * @return If there is enough space above the absorber to fire a ball
+	 */
+	private boolean hasSpaceToFire() {
+		Vect firingCell = new Vect(getGridCoords().x() + gridWidth - 1, getGridCoords().y() - 1);
+		return model.isCellEmpty(firingCell);
 	}
 }

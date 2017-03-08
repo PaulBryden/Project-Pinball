@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observer;
 
+import physics.Vect;
+
 public interface IModel {
 	
 	public void tick();
@@ -16,8 +18,14 @@ public interface IModel {
 	public void addGizmo(IGizmo gizmo);
 
 	public void addBall(IBall ball);
+	
+	public void removeBall(IBall ball);
 
 	public void removeGizmo(IGizmo gizmo);
+
+	public IGizmo getGizmo(Vect coords);
+	
+	public boolean isCellEmpty(Vect coords);
 	
 	public void addObserver(Observer o);
 

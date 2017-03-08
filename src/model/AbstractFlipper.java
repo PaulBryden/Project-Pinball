@@ -25,13 +25,7 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 	protected Vect endCentre;
 
 	public AbstractFlipper(String id, Vect coords) {
-		super(id, coords, Constants.FLIPPER_DEFAULT_COLOUR, true); // static for
-																	// now -
-																	// until we
-																	// resolve
-																	// flipper
-																	// collisions
-																	// properly.
+		super(id, coords, 2, 2, Constants.FLIPPER_DEFAULT_COLOUR, true);
 		this.angularVelocity = 0;
 		this.angle = Angle.ZERO;
 		this.open = false;

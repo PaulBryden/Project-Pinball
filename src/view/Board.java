@@ -43,7 +43,7 @@ public class Board extends JPanel implements Observer {
 		model.addObserver(this);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
-		mouseListener = new BoardMouseListener(mainWindow);
+		mouseListener = new BoardMouseListener(mainWindow, model);
 
 		addMouseListener(mouseListener);
 		setBackground(model.getBackgroundColour());
@@ -73,15 +73,6 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
-	public IGizmo getGizmo(Vect coords){
-		for(IGizmo gizmo : model.getGizmos()){
-			Vect gizmoCoords = gizmo.getGridCoords();
-			if(gizmoCoords != null && gizmoCoords.equals(coords)) return (gizmo);
-		}
-
-		throw new NoSuchElementException("Gizmo not found");
-	}
-
 	public IBall getBall(Vect coords){
 		for(IBall ball : model.getBalls()){
 			if(ball.getGridCoords().equals(coords.plus(new Vect(0.5, 0.5)))) return (ball);
@@ -105,7 +96,7 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public void removeGizmo(Vect coords){
-		IGizmo gizmo = getGizmo(coords);
+		IGizmo gizmo = model.getGizmo(coords);
 
 		model.getGizmos().remove(gizmo);
 		mainWindow.setStatusLabel(getGizmoName(gizmo) + " Removed");
@@ -117,7 +108,7 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public void moveGizmo(Vect oldCoords, Vect newCoords){
-		IGizmo gizmo = getGizmo(oldCoords);
+		IGizmo gizmo = model.getGizmo(oldCoords);
 
 		gizmo.setGridCoords(newCoords);
 		mainWindow.setStatusLabel("Moved " + getGizmoName(gizmo) + " from " + oldCoords + " to " + newCoords);
@@ -138,20 +129,6 @@ public class Board extends JPanel implements Observer {
 
 			g.drawLine(coord, 0, coord, getHeight());
 			g.drawLine(0, coord, getWidth(), coord);
-		}
-	}
-
-	public boolean isCellEmpty(Vect coords){
-		try {
-			getGizmo(coords);
-			return (false);
-		} catch (NoSuchElementException ignored){}
-
-		try {
-			getBall(coords);
-			return (false);
-		} catch (NoSuchElementException e){
-			return (true);
 		}
 	}
 

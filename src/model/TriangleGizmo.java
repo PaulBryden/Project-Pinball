@@ -12,7 +12,7 @@ import physics.Vect;
 public class TriangleGizmo extends AbstractGizmo {
 
 	public TriangleGizmo(String id, Vect coords) {
-		super(id, coords, Constants.TRIANGLE_DEFAULT_COLOUR, true);
+		super(id, coords, 1, 1, Constants.TRIANGLE_DEFAULT_COLOUR, true);
 		generateLinesAndCircles();
 	}
 

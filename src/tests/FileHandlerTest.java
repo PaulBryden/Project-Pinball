@@ -178,7 +178,7 @@ public class FileHandlerTest {
 	
 	@Test
 	public void testSaveAbsorber() throws IOException {
-		IGizmo gizmo = new Absorber("A", 5, 5, 15, 15, model.getBalls());
+		IGizmo gizmo = new Absorber(model, "A", 5, 5, 15, 15);
 		model.addGizmo(gizmo);
 		file.save("test_save_file.txt");
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Observable;
 
 import physics.Circle;
@@ -23,6 +24,7 @@ public class GameModel extends Observable implements IModel {
 	private Color backgroundColour;
 	private CollisionEvaluator collisionEvaluator;
 	private PhysicsEvaluator physicsEvaluator;
+
 	public GameModel() {
 		reset();
 	}
@@ -39,12 +41,12 @@ public class GameModel extends Observable implements IModel {
 			flipper.moveForTime(tick);
 		}
 		// Resolve collision
-		
+
 		collisionEvaluator.resolveCollision();
 		// Apply friction and gravity
 		physicsEvaluator.applyGravity(tick);
 		physicsEvaluator.applyFriction(tick);
-		
+
 		// Update view
 		setChanged();
 		notifyObservers();
@@ -60,6 +62,23 @@ public class GameModel extends Observable implements IModel {
 		return flippers;
 	}
 
+	public IGizmo getGizmo(Vect coords) {
+		for (IGizmo gizmo : gizmos) {
+			Vect gizmoCoords = gizmo.getGridCoords();
+			int width = gizmo.getGridWidth();
+			int height = gizmo.getGridHeight();
+			if (gizmoCoords != null && coords.x() >= gizmoCoords.x() && coords.x() < gizmoCoords.x() + width
+					&& coords.y() >= gizmoCoords.y() && coords.y() < gizmoCoords.y() + height) {
+				return gizmo;
+			}
+		}
+		return null;
+	}
+
+	public boolean isCellEmpty(Vect coords) {
+		return getGizmo(coords) == null; // TODO also check balls
+	}
+
 	public List<IGizmo> getGizmos() {
 		return gizmos;
 	}
@@ -70,6 +89,10 @@ public class GameModel extends Observable implements IModel {
 
 	public void addBall(IBall ball) {
 		balls.add(ball);
+	}
+	
+	public void removeBall(IBall ball) {
+		balls.remove(ball);
 	}
 
 	public void removeGizmo(IGizmo gizmo) {

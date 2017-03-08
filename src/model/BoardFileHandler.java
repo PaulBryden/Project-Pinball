@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -142,8 +143,7 @@ public class BoardFileHandler {
 			case "Absorber":
 				int x2 = scan.nextInt();
 				int y2 = scan.nextInt();
-				List<IBall> balls = new ArrayList<>();
-				newGizmo = new Absorber(id, x1, y1, x2, y2, model.getBalls());
+				newGizmo = new Absorber(model, id, x1, y1, x2, y2);
 				break;
 			case "Ball":
 				double xv = scan.nextDouble();

@@ -37,7 +37,7 @@ public class RunKeyListener implements KeyListener {
 
 		if(board.getMouseListener().getState().equals(KEY_CONNECT) && gizmoCoords != null){
 			try {
-				gizmo = board.getGizmo(gizmoCoords);
+				gizmo = board.getModel().getGizmo(gizmoCoords);
 			} catch (NoSuchElementException E){
 				gizmo = board.getBall(gizmoCoords);
 			}
