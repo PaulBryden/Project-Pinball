@@ -61,6 +61,82 @@ public class BoardFileHandler {
 			System.out.println("Save file written successfully");
 
 	}
+	
+
+	public String saveToString() throws IOException {
+		String saveString="";	
+	//BufferedWriter save = new BufferedWriter(new FileWriter(path));
+			
+			List<IGizmo> list = model.getGizmos();
+
+			for (IGizmo current : list) {
+				if (!(current instanceof Wall)) {
+					saveString+=current.serializeGizmo(); // Also contains connection info
+				}
+			}
+			
+			// Write balls to file
+			List<IBall> balls = model.getBalls();
+			for (IBall current : balls) {
+				saveString+=current.serializeGizmo();
+			}
+
+
+			return saveString;
+
+
+	}
+	
+
+	public void loadFromString(String recieved) throws IOException {
+			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading
+			List<String> connections = new ArrayList<>(); // Keeps track of connections from file
+			model.setBalls(new ArrayList<IBall>());
+			model.setGizmos(new ArrayList<IGizmo>());
+
+			String line = recieved;
+			Scanner scan = null;
+
+			String type;
+			scan = new Scanner(recieved);
+			while(scan.hasNextLine()) {
+					type = scan.next();
+					System.out.println(type);
+					if (type.equals("Connect") || type.equals("KeyConnect")) {
+						if(type.equals("KeyConnect")){
+						scan.next();
+						scan.next();
+						scan.next();
+						scan.next();
+						}else{
+
+							scan.next();
+							scan.next();
+						}
+						//connections.add(line); // Store connection info for later
+					} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
+						executeOperation(type, scan, gizmos); // Build mode operation
+					} else if(!((type.toCharArray()[0]>=65)&&(type.toCharArray()[0]<=122))){
+						
+					}
+						else {
+						IGizmo gizmo = createGizmo(type, scan, gizmos);
+						if (gizmo instanceof IBall) {
+							model.addBall((IBall) gizmo);
+						} else {
+							model.addGizmo(gizmo);
+						}
+					}
+				
+				}
+			scan.close();
+
+			
+
+
+			
+			System.out.println("File loaded successfully");
+	}
 
 	public void load(String path) throws IOException {
 			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading

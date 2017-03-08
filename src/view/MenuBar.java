@@ -5,6 +5,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import java.awt.event.KeyEvent;
 
+import controller.ClientBoardListener;
+import controller.HostBoardListener;
 import controller.LoadBoardListener;
 import controller.QuitListener;
 import controller.ModeToggleListener;
@@ -30,11 +32,23 @@ class MenuBar extends JMenuBar {
         menu.add(menuItem);
 
         menu.addSeparator();
-
+        
         menuItem = new JMenuItem("Quit", KeyEvent.VK_Q);
         menuItem.addActionListener(new QuitListener());
         menu.add(menuItem);
 
+        menu.addSeparator();
+        
+        menuItem = new JMenuItem("Host", KeyEvent.VK_Q);
+        menuItem.addActionListener(new HostBoardListener(mainWindow));
+        menu.add(menuItem);
+
+        menu.addSeparator();
+        
+        menuItem = new JMenuItem("Connect", KeyEvent.VK_Q);
+        menuItem.addActionListener(new ClientBoardListener(mainWindow));
+        menu.add(menuItem);
+        
         menu.setText("Menu");
         menu.setMnemonic(KeyEvent.VK_M);
         add(menu);
