@@ -5,16 +5,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Observable;
 
-import physics.Circle;
-import physics.Geometry;
-import physics.Geometry.VectPair;
-import physics.LineSegment;
 import physics.Vect;
 
 public class GameModel extends Observable implements IModel {
+	
 	BoardFileHandler fileHandler;
 	private List<IGizmo> gizmos;
 	private List<IBall> balls;
@@ -23,9 +19,13 @@ public class GameModel extends Observable implements IModel {
 	private Color backgroundColour;
 	private CollisionEvaluator collisionEvaluator;
 	private PhysicsEvaluator physicsEvaluator;
-
+	private double gravity;
+	private double mu;
+	private double mu2;
+	
 	public GameModel() {
 		reset();
+		setDefaultPhysics();
 	}
 
 	public void tick() {
@@ -192,5 +192,42 @@ public class GameModel extends Observable implements IModel {
 
 	public Map<Integer, ITrigger> getKeyReleasedTriggers() {
 		return keyReleasedTriggers;
+	}
+
+	@Override
+	public double getGravity() {
+		return gravity;
+	}
+
+	@Override
+	public double getFrictionMu() {
+		return mu;
+	}
+
+	@Override
+	public double getFrictionMu2() {
+		return mu2;
+	}
+
+	@Override
+	public void setGravity(double gravity) {
+		this.gravity = gravity;
+	}
+
+	@Override
+	public void setFrictionMu(double mu) {
+		this.mu = mu;
+	}
+
+	@Override
+	public void setFrictionMu2(double mu2) {
+		this.mu2 = mu2;
+	}
+
+	@Override
+	public void setDefaultPhysics() {
+		this.gravity = Constants.DEFAULT_GRAVITY;
+		this.mu = Constants.DEFAULT_MU;
+		this.mu2 = Constants.DEFAULT_MU2;
 	}
 }
