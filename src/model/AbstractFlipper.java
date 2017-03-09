@@ -23,6 +23,7 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 	protected Vect pivot;
 	protected Vect restingEndCentre;
 	protected Vect endCentre;
+	private boolean vertical;
 
 	public AbstractFlipper(String id, Vect coords) {
 		super(id, coords, 2, 2, Constants.FLIPPER_DEFAULT_COLOUR, true);
@@ -31,16 +32,25 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 		this.open = false;
 		this.addTriggerAction(new FlipperAction(this));
 		this.coefficientOfReflection = 0.95;
+		this.vertical = true;
 	}
 
 	protected void generateLinesAndCircles() {
 		circles.clear();
 		circles.add(new Circle(pivot, RADIUS));
 		lines.clear();
-		LineSegment l = new LineSegment(pivot.x() - RADIUS, pivot.y(), restingEndCentre.x() - RADIUS,
-				restingEndCentre.y());
+		LineSegment l;
+		if (vertical) {
+			l = new LineSegment(pivot.x() - RADIUS, pivot.y(), restingEndCentre.x() - RADIUS, restingEndCentre.y());
+		} else {
+			l = new LineSegment(pivot.x(), pivot.y() - RADIUS, restingEndCentre.x(), restingEndCentre.y() - RADIUS);
+		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
-		l = new LineSegment(pivot.x() + RADIUS, pivot.y(), restingEndCentre.x() + RADIUS, restingEndCentre.y());
+		if (vertical) {
+			l = new LineSegment(pivot.x() + RADIUS, pivot.y(), restingEndCentre.x() + RADIUS, restingEndCentre.y());
+		} else {
+			l = new LineSegment(pivot.x(), pivot.y() + RADIUS, restingEndCentre.x(), restingEndCentre.y() + RADIUS);
+		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
 		addEndPoints();
 		endCentre = (Geometry.rotateAround(restingEndCentre, pivot, angle));
@@ -48,10 +58,34 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 	}
 
 	private void addEndPoints() {
-		for (LineSegment line: lines) {
+		for (LineSegment line : lines) {
 			circles.add(new Circle(line.p1(), 0));
 			circles.add(new Circle(line.p2(), 0));
 		}
+	}
+
+	@Override
+	public void rotate(int steps) {
+		Angle a = Angle.ZERO;
+		Vect cor = new Vect(coords.x() + 1, coords.y() + 1);
+		for (int i = 0; i < steps; i++) {
+			vertical = !vertical;
+			a = a.plus(Angle.DEG_90);
+		}
+		restingEndCentre = Geometry.rotateAround(restingEndCentre, cor, a);
+		endCentre = Geometry.rotateAround(endCentre, cor, a);
+		pivot = Geometry.rotateAround(pivot, cor, a);
+		super.rotate(steps);
+	}
+
+	@Override
+	public void setGridCoords(Vect coords) {
+		Vect shift = coords.minus(this.coords);
+		this.coords = coords;
+		this.pivot = pivot.plus(shift);
+		this.endCentre = endCentre.plus(shift);
+		this.restingEndCentre = restingEndCentre.plus(shift);
+		generateLinesAndCircles();
 	}
 
 	public Angle getAngle() {
