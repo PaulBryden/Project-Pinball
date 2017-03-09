@@ -49,5 +49,18 @@ public interface IModel {
 
 	public Map<Integer, ITrigger> getKeyReleasedTriggers();
 
+	public double getGravity();
+
+	public double getFrictionMu();
+
+	public double getFrictionMu2();
+
+	public void setGravity(double gravity);
+
+	public void setFrictionMu(double mu);
+
+	public void setFrictionMu2(double mu2);
+	
+	public void setDefaultPhysics();
 
 }

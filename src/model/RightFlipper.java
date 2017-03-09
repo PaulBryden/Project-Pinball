@@ -20,19 +20,6 @@ public class RightFlipper extends AbstractFlipper implements IFlipper{
 	}
 
 	@Override
-	public void setGridCoords(Vect coords) {
-		this.pivot = new Vect(coords.x() + 2 - RADIUS, coords.y() + RADIUS);
-		this.endCentre = new Vect(coords.x() + 2 - RADIUS, coords.y() + 2 - RADIUS);
-		this.restingEndCentre = endCentre;
-		generateLinesAndCircles();
-	}
-
-	@Override
-	public Vect getGridCoords(){
-		return (new Vect(this.pivot.x() - 2 + RADIUS, this.pivot.y() - RADIUS));
-	}
-
-	@Override
 	public String serializeGizmo() {
 		String serializedGizmo = "RightFlipper " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y()
 				+ "\n";
