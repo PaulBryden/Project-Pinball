@@ -63,6 +63,12 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 	public Angle getAngle() {
 		return angle;
 	}
+	
+	public void setAngle(Angle angle) {
+		this.angle=angle;
+		generateLinesAndCircles();
+		
+	}
 
 	public double getAngularVelocity() {
 		return angularVelocity;
@@ -133,5 +139,5 @@ public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper 
 		}
 		generateLinesAndCircles();
 	}
-
+	
 }

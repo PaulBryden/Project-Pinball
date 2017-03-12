@@ -24,7 +24,11 @@ public class RunKeyListener implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if (model.isClient()){
+			model.addKeyToSend(e.getKeyCode());
+		}else{
 		model.processKeyPressedTrigger(e.getKeyCode());
+		}
 	}
 
 	@Override

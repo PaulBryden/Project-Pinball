@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import physics.Angle;
 import physics.Vect;
 
 public class BoardFileHandler {
@@ -70,7 +71,15 @@ public class BoardFileHandler {
 			List<IGizmo> list = model.getGizmos();
 
 			for (IGizmo current : list) {
-				if (!(current instanceof Wall)) {
+				if (current instanceof RightFlipper){
+					current=(AbstractFlipper) current;
+					saveString+="RightFlipper " + current.getID() + " " + (int) current.getGridCoords().x() + " " + (int) current.getGridCoords().y()
+					+" "+((AbstractFlipper)current).getAngle().radians()+"\n";
+				}else if (current instanceof LeftFlipper){
+					current=(AbstractFlipper) current;
+					saveString+="LeftFlipper " + current.getID() + " " + (int) current.getGridCoords().x() + " " + (int) current.getGridCoords().y()
+					+" "+((AbstractFlipper)current).getAngle().radians()+"\n";
+				}else if (!(current instanceof Wall)) {
 					saveString+=current.serializeGizmo(); // Also contains connection info
 				}
 			}
@@ -118,6 +127,35 @@ public class BoardFileHandler {
 						executeOperation(type, scan, gizmos); // Build mode operation
 					} else if(!((type.toCharArray()[0]>=65)&&(type.toCharArray()[0]<=122))){
 						
+					}else if(type.equals("RightFlipper")){
+						IFlipper newGizmo = null;
+						int x1 = 0;
+						int y1 = 0;
+						double angle=0;
+
+						// Collect base info for gizmo (every gizmo will follow this starting format)
+						String id = scan.next();
+							x1 = scan.nextInt();
+							y1 = scan.nextInt();
+							angle=scan.nextDouble();
+							newGizmo = new RightFlipper(id, x1, y1);
+							newGizmo.setAngle(new Angle(angle));
+							model.addGizmo(newGizmo);
+							
+					}else if(type.equals("LeftFlipper")){
+						IFlipper newGizmo = null;
+						int x1 = 0;
+						int y1 = 0;
+						double angle=0;
+
+						// Collect base info for gizmo (every gizmo will follow this starting format)
+						String id = scan.next();
+							x1 = scan.nextInt();
+							y1 = scan.nextInt();
+							angle=scan.nextDouble();
+							newGizmo = new LeftFlipper(id, x1, y1);
+							newGizmo.setAngle(new Angle(angle));
+							model.addGizmo(newGizmo);
 					}
 						else {
 						IGizmo gizmo = createGizmo(type, scan, gizmos);

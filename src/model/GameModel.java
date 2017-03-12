@@ -15,6 +15,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -44,11 +45,13 @@ public class GameModel extends Observable implements IModel, Runnable {
 	private CollisionEvaluator collisionEvaluator;
 	private PhysicsEvaluator physicsEvaluator;
     DatagramSocket serverSocket;
-    byte[] receiveData = new byte[10240];
-    byte[] sendData = new byte[10240];
+    byte[] receiveData = new byte[2048];
+    byte[] sendData = new byte[2048];
     boolean isHost;
+    boolean isClient;
     InetAddress returnAddr;
     HashMap<InetAddress,Integer> listOfClients;
+    ArrayList<Integer> keysToSend;
 	public GameModel() {
 
 		listOfClients=new HashMap<>();
@@ -232,6 +235,7 @@ public class GameModel extends Observable implements IModel, Runnable {
 		}
 	
 	public void startClient(){
+		
 		BufferedReader inFromUser =
 		         new BufferedReader(new InputStreamReader(System.in));
 		      DatagramSocket clientSocket = null;
@@ -248,8 +252,8 @@ public class GameModel extends Observable implements IModel, Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		      byte[] sendData = new byte[1024];
-		      byte[] receiveData = new byte[1024];
+		      byte[] sendData = new byte[2048];
+		      byte[] receiveData = new byte[2048];
 		     sendData[0]='C';
 		      DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 1003);
 		      try {
@@ -261,6 +265,7 @@ public class GameModel extends Observable implements IModel, Runnable {
 		      DatagramPacket receivePacket;
 		      String loadedData;
 		      BoardFileHandler newHandler;
+		      isClient=true;
 		      while(true){
 		      receivePacket = new DatagramPacket(receiveData, receiveData.length);
 		      try {
@@ -295,9 +300,19 @@ public class GameModel extends Observable implements IModel, Runnable {
 	    gizmos.add(gizmoModel);
 
 	}
+	
+	public void addKeyToSend(int keyCode){
+		keysToSend.add(keyCode);
+	}
 
 	@Override
 	public void run() {
 		this.startClient();
+	}
+
+	@Override
+	public boolean isClient() {
+		// TODO Auto-generated method stub
+		return isClient;
 	}
 }

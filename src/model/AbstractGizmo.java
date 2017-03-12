@@ -139,4 +139,6 @@ public abstract class AbstractGizmo implements IGizmo {
 		return coefficientOfReflection;
 	}
 
+
+
 }

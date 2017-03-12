@@ -29,6 +29,9 @@ public interface IModel {
 	
 	public void addKeyReleasedTrigger(int keyCode, IGizmo gizmo);
 	
+	public boolean isClient();
+	public void addKeyToSend(int keyCode);
+	
 	public void reset();
 	
 	public Color getBackgroundColour();
