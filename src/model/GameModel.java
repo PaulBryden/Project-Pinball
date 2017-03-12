@@ -15,7 +15,9 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,6 +25,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Queue;
+import java.util.Scanner;
 
 import physics.Circle;
 import physics.Geometry;
@@ -51,10 +55,11 @@ public class GameModel extends Observable implements IModel, Runnable {
     boolean isClient;
     InetAddress returnAddr;
     HashMap<InetAddress,Integer> listOfClients;
-    ArrayList<Integer> keysToSend;
+    Deque<String> keysToSend;
 	public GameModel() {
 
 		listOfClients=new HashMap<>();
+		keysToSend=new ArrayDeque<String>();
 		reset();
 	}
 
@@ -102,7 +107,28 @@ public class GameModel extends Observable implements IModel, Runnable {
 							System.out.println("Failed to send Packet");
 						} 
             }
+		      DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		      try {
+		    
+				serverSocket.receive(receivePacket);
+				String type;
+		           String loadedData = new String(receivePacket.getData());
 
+				      Scanner scan = new Scanner(loadedData);
+				      String nextString=scan.next();
+				      System.out.println(nextString);
+				      if(nextString.contains("Pressed")){
+				    	  this.processKeyPressedTrigger(scan.nextInt());
+				      }else if((nextString.contains("Released"))){
+				    	  this.processKeyReleasedTrigger(scan.nextInt());
+				      }
+		          System.out.println(loadedData);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		      
+            
 		}
 	}
 
@@ -230,8 +256,10 @@ public class GameModel extends Observable implements IModel, Runnable {
         System.out.println(receivePacket.getAddress());
         System.out.println(receivePacket.getPort());
 
+	
         listOfClients.put(receivePacket.getAddress(), receivePacket.getPort());
 		}
+		
 		}
 	
 	public void startClient(){
@@ -288,7 +316,32 @@ public class GameModel extends Observable implements IModel, Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-		      
+		          if(keysToSend.size()>0){
+		          while(keysToSend.size()>0){
+		        	  byte[] keyCode= keysToSend.remove().getBytes();
+		          DatagramPacket senderPacket =
+	                        new DatagramPacket(keyCode, keyCode.length,receivePacket.getAddress(),receivePacket.getPort() );
+	                        try {
+	                        	System.out.println(keyCode);
+	                        	clientSocket.send(senderPacket);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								System.out.println("Failed to send Packet");
+							} 
+		          }
+		          
+		          }else{
+		        	  byte[] test={1,1,1,1};
+		        	  DatagramPacket senderPacket =
+		                        new DatagramPacket(test,test.length,receivePacket.getAddress(),receivePacket.getPort() );
+		                        try {
+		                        	clientSocket.send(senderPacket);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									System.out.println("Failed to send Packet");
+								} 
+		          }
+
 			}
 	}
 	public  void deserializeList(byte[] data) throws IOException, ClassNotFoundException {
@@ -301,8 +354,8 @@ public class GameModel extends Observable implements IModel, Runnable {
 
 	}
 	
-	public void addKeyToSend(int keyCode){
-		keysToSend.add(keyCode);
+	public void addKeyToSend(String keyData){
+		keysToSend.add(keyData);
 	}
 
 	@Override

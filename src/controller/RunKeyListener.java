@@ -25,7 +25,7 @@ public class RunKeyListener implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (model.isClient()){
-			model.addKeyToSend(e.getKeyCode());
+			model.addKeyToSend(" Pressed "+e.getKeyCode()+" /n");
 		}else{
 		model.processKeyPressedTrigger(e.getKeyCode());
 		}
@@ -33,6 +33,10 @@ public class RunKeyListener implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		if (model.isClient()){
+			model.addKeyToSend(" Released "+e.getKeyCode()+" /n");
+			System.out.println("Firing Key Released Event");
+		}else{
 		Board board = mainWindow.getBoard();
 		Vect gizmoCoords = board.getMouseListener().getGizmoCoords();
 		int keyCode = e.getKeyCode();
@@ -51,6 +55,7 @@ public class RunKeyListener implements KeyListener {
 			mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " connected to the " + keyChar + " key.");
 		} else {
 			model.processKeyReleasedTrigger(keyCode);
+		}
 		}
 	}
 
