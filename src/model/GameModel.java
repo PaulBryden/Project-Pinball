@@ -28,26 +28,19 @@ import java.util.Observable;
 import java.util.Queue;
 import java.util.Scanner;
 
-import physics.Circle;
-import physics.Geometry;
-import physics.Geometry.VectPair;
-import physics.LineSegment;
 import physics.Vect;
 
 public class GameModel extends Observable implements IModel, Runnable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -534290548267481179L;
+
 	BoardFileHandler fileHandler;
 	private List<IGizmo> gizmos;
 	private List<IBall> balls;
 	private Map<Integer, ITrigger> keyPressedTriggers;
 	private Map<Integer, ITrigger> keyReleasedTriggers;
-	private boolean pauseGame = false;
 	private Color backgroundColour;
 	private CollisionEvaluator collisionEvaluator;
 	private PhysicsEvaluator physicsEvaluator;
+
     DatagramSocket serverSocket;
     byte[] receiveData = new byte[2048];
     byte[] sendData = new byte[2048];
@@ -56,11 +49,17 @@ public class GameModel extends Observable implements IModel, Runnable {
     InetAddress returnAddr;
     HashMap<InetAddress,Integer> listOfClients;
     Deque<String> keysToSend;
+
+	private double gravity;
+	private double mu;
+	private double mu2;
+
 	public GameModel() {
 
 		listOfClients=new HashMap<>();
 		keysToSend=new ArrayDeque<String>();
 		reset();
+		setDefaultPhysics();
 	}
 
 	public void tick() {
@@ -74,13 +73,16 @@ public class GameModel extends Observable implements IModel, Runnable {
 		for (IFlipper flipper : getFlippers()) {
 			flipper.moveForTime(tick);
 		}
+		for (Absorber absorber : getAbsorbers()) {
+			absorber.updateFiring();
+		}
 		// Resolve collision
-		
+
 		collisionEvaluator.resolveCollision();
 		// Apply friction and gravity
 		physicsEvaluator.applyGravity(tick);
 		physicsEvaluator.applyFriction(tick);
-		
+
 		// Update view
 		setChanged();
 		notifyObservers();
@@ -141,6 +143,45 @@ public class GameModel extends Observable implements IModel, Runnable {
 		}
 		return flippers;
 	}
+	
+	public List<Absorber> getAbsorbers() {
+		List<Absorber> absorbers = new LinkedList<>();
+		for (IGizmo gizmo : gizmos) {
+			if (gizmo instanceof Absorber) {
+				absorbers.add((Absorber) gizmo);
+			}
+		}
+		return absorbers;
+	
+	}
+	
+	public IBall getBall(Vect coords) {
+		for (IBall ball : balls) {
+			Vect pos = ball.getCentre();
+			double r = ball.getRadius();
+			if (pos.x() + r > coords.x() && pos.x() - r < coords.x() + 1
+					&& pos.y() + r > coords.y() && pos.y() - r < coords.y() + 1)
+				return ball;
+		}
+		return null;
+	}
+
+	public IGizmo getGizmo(Vect coords) {
+		for (IGizmo gizmo : gizmos) {
+			Vect gizmoCoords = gizmo.getGridCoords();
+			int width = gizmo.getGridWidth();
+			int height = gizmo.getGridHeight();
+			if (gizmoCoords != null && coords.x() >= gizmoCoords.x() && coords.x() < gizmoCoords.x() + width
+					&& coords.y() >= gizmoCoords.y() && coords.y() < gizmoCoords.y() + height) {
+				return gizmo;
+			}
+		}
+		return null;
+	}
+
+	public boolean isCellEmpty(Vect coords) {
+		return getGizmo(coords) == null && getBall(coords) == null;
+	}
 
 	public List<IGizmo> getGizmos() {
 		return gizmos;
@@ -152,6 +193,10 @@ public class GameModel extends Observable implements IModel, Runnable {
 
 	public void addBall(IBall ball) {
 		balls.add(ball);
+	}
+	
+	public void removeBall(IBall ball) {
+		balls.remove(ball);
 	}
 
 	public void removeGizmo(IGizmo gizmo) {
@@ -234,6 +279,7 @@ public class GameModel extends Observable implements IModel, Runnable {
 	public Map<Integer, ITrigger> getKeyReleasedTriggers() {
 		return keyReleasedTriggers;
 	}
+
 	public void startHosting(){
 		try {
 			serverSocket= new DatagramSocket(1003);
@@ -367,5 +413,43 @@ public class GameModel extends Observable implements IModel, Runnable {
 	public boolean isClient() {
 		// TODO Auto-generated method stub
 		return isClient;
+	}
+
+	@Override
+	public double getGravity() {
+		return gravity;
+	}
+
+	@Override
+	public double getFrictionMu() {
+		return mu;
+	}
+
+	@Override
+	public double getFrictionMu2() {
+		return mu2;
+	}
+
+	@Override
+	public void setGravity(double gravity) {
+		this.gravity = gravity;
+	}
+
+	@Override
+	public void setFrictionMu(double mu) {
+		this.mu = mu;
+	}
+
+	@Override
+	public void setFrictionMu2(double mu2) {
+		this.mu2 = mu2;
+	}
+
+	@Override
+	public void setDefaultPhysics() {
+		this.gravity = Constants.DEFAULT_GRAVITY;
+		this.mu = Constants.DEFAULT_MU;
+		this.mu2 = Constants.DEFAULT_MU2;
+
 	}
 }

@@ -20,8 +20,12 @@ import model.CircleGizmo;
 import model.GameModel;
 import model.IBall;
 import model.IGizmo;
+import model.IWall;
+import model.LeftFlipper;
+import model.RightFlipper;
 import model.SquareGizmo;
 import model.TriangleGizmo;
+import model.Wall;
 
 public class FileHandlerTest {
 	
@@ -62,6 +66,10 @@ public class FileHandlerTest {
 	public void testLoadSpecFile() throws IOException {
 		file.load("spec_save_file.txt");
 	}
+	
+	
+	
+	// LOADING - INDIVIDUAL GIZMOS
 
 	@Test
 	public void testLoadSquareID() throws IOException {
@@ -105,6 +113,62 @@ public class FileHandlerTest {
 		assertEquals(ball.getID(), "B");
 	}
 	
+	@Test
+	public void testLoadCircleID() throws IOException {
+		file.load("src/tests/test_file_circle.txt");
+		List<IGizmo> gizmos = model.getGizmos();
+		IGizmo circle = null;
+		
+		for (IGizmo current : gizmos) {
+			if (current instanceof CircleGizmo)
+				circle = current;
+		}
+		
+		assertEquals(circle.getID(), "C157");
+	}
+
+	@Test
+	public void testLoadTriangleID() throws IOException {
+		file.load("src/tests/test_file_triangle.txt");
+		List<IGizmo> gizmos = model.getGizmos();
+		IGizmo triangle = null;
+		
+		for (IGizmo current : gizmos) {
+			if (current instanceof TriangleGizmo)
+				triangle = current;
+		}
+		
+		assertEquals(triangle.getID(), "T72");
+	}
+
+	@Test
+	public void testLoadLeftFlipperID() throws IOException {
+		file.load("src/tests/test_file_left_flipper.txt");
+		List<IGizmo> gizmos = model.getGizmos();
+		IGizmo flipper = null;
+		
+		for (IGizmo current : gizmos) {
+			if (current instanceof LeftFlipper)
+				flipper = current;
+		}
+		
+		assertEquals(flipper.getID(), "LF195");
+	}
+
+	@Test
+	public void testLoadRightFlipperID() throws IOException {
+		file.load("src/tests/test_file_right_flipper.txt");
+		List<IGizmo> gizmos = model.getGizmos();
+		IGizmo flipper = null;
+		
+		for (IGizmo current : gizmos) {
+			if (current instanceof RightFlipper)
+				flipper = current;
+		}
+		
+		assertEquals(flipper.getID(), "RF182");
+	}
+	
 	
 	
 	// SAVING TESTS
@@ -123,6 +187,10 @@ public class FileHandlerTest {
 		File testFile = new File("test_save_file.txt");
 		assertEquals(testFile.length(), 0);
 	}
+	
+	
+
+	// SAVING - INDIVIDUAL GIZMOS
 	
 	@Test
 	public void testSaveSquare() throws IOException {
@@ -178,7 +246,7 @@ public class FileHandlerTest {
 	
 	@Test
 	public void testSaveAbsorber() throws IOException {
-		IGizmo gizmo = new Absorber("A", 5, 5, 15, 15, model.getBalls());
+		IGizmo gizmo = new Absorber(model, "A", 5, 5, 15, 15);
 		model.addGizmo(gizmo);
 		file.save("test_save_file.txt");
 
@@ -187,5 +255,42 @@ public class FileHandlerTest {
 		br.close();
 		
 		assertTrue(line.equals("Absorber A 5 5 15 15"));
+	}
+	
+	@Test
+	public void testSaveLeftFlipper() throws IOException {
+		IGizmo gizmo = new LeftFlipper("LF79", 7, 9);
+		model.addGizmo(gizmo);
+		file.save("test_save_file.txt");
+
+		BufferedReader br = new BufferedReader(new FileReader("test_save_file.txt"));
+		String line = br.readLine();
+		br.close();
+		
+		assertTrue(line.equals("LeftFlipper LF79 7 9"));
+	}
+
+	@Test
+	public void testSaveRightFlipper() throws IOException {
+		IGizmo gizmo = new RightFlipper("RF141", 14, 1);
+		model.addGizmo(gizmo);
+		file.save("test_save_file.txt");
+
+		BufferedReader br = new BufferedReader(new FileReader("test_save_file.txt"));
+		String line = br.readLine();
+		br.close();
+		
+		assertTrue(line.equals("RightFlipper RF141 14 1"));
+	}
+
+	@Test
+	public void testSaveWall() throws IOException {
+		// Walls shouldn't be written
+		IWall wall = new Wall(0, 0, 0, 0);
+		model.addGizmo(wall);
+		file.save("test_save_file.txt");
+
+		File testFile = new File("test_save_file.txt");
+		assertEquals(testFile.length(), 0);
 	}
 }

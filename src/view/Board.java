@@ -5,9 +5,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
@@ -20,6 +22,7 @@ import model.ICircle;
 import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
+import model.ITrigger;
 import model.LeftFlipper;
 import model.RightFlipper;
 import model.SquareGizmo;
@@ -43,7 +46,7 @@ public class Board extends JPanel implements Observer {
 		model.addObserver(this);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
-		mouseListener = new BoardMouseListener(mainWindow);
+		mouseListener = new BoardMouseListener(mainWindow, model);
 
 		addMouseListener(mouseListener);
 		setBackground(model.getBackgroundColour());
@@ -73,23 +76,6 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
-	public IGizmo getGizmo(Vect coords){
-		for(IGizmo gizmo : model.getGizmos()){
-			Vect gizmoCoords = gizmo.getGridCoords();
-			if(gizmoCoords != null && gizmoCoords.equals(coords)) return (gizmo);
-		}
-
-		throw new NoSuchElementException("Gizmo not found");
-	}
-
-	public IBall getBall(Vect coords){
-		for(IBall ball : model.getBalls()){
-			if(ball.getGridCoords().equals(coords.plus(new Vect(0.5, 0.5)))) return (ball);
-		}
-
-		throw new NoSuchElementException("Ball not found");
-	}
-
 	public void addGizmo(IViewGizmo gizmo){
 		viewGizmos.add(gizmo);
 		model.addGizmo(gizmo.getGizmo());
@@ -104,27 +90,44 @@ public class Board extends JPanel implements Observer {
 		reRender();
 	}
 
+	private  void removeKeyConnections(Map<Integer, ITrigger> map, IGizmo gizmo){
+		for(Object o : map.entrySet()){
+			Set<IGizmo> gizmos = ((ITrigger) ((Map.Entry) o).getValue()).getGizmosToTrigger();
+			gizmos.stream().filter(gizmo1 -> gizmo1.equals(gizmo)).forEach(gizmos::remove);
+		}
+	}
+
+	private void removeGizmoConnections(IGizmo gizmo){
+		for(IGizmo gizmo1 : model.getGizmos()){
+			Set<IGizmo> gizmosToTrigger = gizmo1.getGizmosToTrigger();
+			gizmosToTrigger.stream().filter(gizmo2 -> gizmo2.equals(gizmo)).forEach(gizmosToTrigger::remove);
+		}
+	}
+
 	public void removeGizmo(Vect coords){
-		IGizmo gizmo = getGizmo(coords);
+		IGizmo gizmo = model.getGizmo(coords);
 
 		model.getGizmos().remove(gizmo);
+		removeKeyConnections(model.getKeyPressedTriggers(), gizmo);
+		removeKeyConnections(model.getKeyReleasedTriggers(), gizmo);
+		removeGizmoConnections(gizmo);
 		mainWindow.setStatusLabel(getGizmoName(gizmo) + " Removed");
 	}
 
 	public void removeBall(Vect coords){
-		model.getBalls().remove(getBall(coords));
+		model.getBalls().remove(model.getBall(coords));
 		mainWindow.setStatusLabel("Ball Removed");
 	}
 
 	public void moveGizmo(Vect oldCoords, Vect newCoords){
-		IGizmo gizmo = getGizmo(oldCoords);
+		IGizmo gizmo = model.getGizmo(oldCoords);
 
 		gizmo.setGridCoords(newCoords);
 		mainWindow.setStatusLabel("Moved " + getGizmoName(gizmo) + " from " + oldCoords + " to " + newCoords);
 	}
 
 	public void moveBall(Vect oldCoords, Vect newCoords){
-		getBall(oldCoords).setGridCoords(newCoords.plus(new Vect(0.5, 0.5)));
+		model.getBall(oldCoords).setGridCoords(newCoords.plus(new Vect(0.5, 0.5)));
 		mainWindow.setStatusLabel("Moved Ball from " + oldCoords + " to " + newCoords);
 	}
 
@@ -138,20 +141,6 @@ public class Board extends JPanel implements Observer {
 
 			g.drawLine(coord, 0, coord, getHeight());
 			g.drawLine(0, coord, getWidth(), coord);
-		}
-	}
-
-	public boolean isCellEmpty(Vect coords){
-		try {
-			getGizmo(coords);
-			return (false);
-		} catch (NoSuchElementException ignored){}
-
-		try {
-			getBall(coords);
-			return (false);
-		} catch (NoSuchElementException e){
-			return (true);
 		}
 	}
 

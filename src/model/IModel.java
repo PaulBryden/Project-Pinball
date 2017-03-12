@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observer;
 
+import physics.Vect;
+
 public interface IModel {
 	
 	public void tick();
@@ -16,8 +18,16 @@ public interface IModel {
 	public void addGizmo(IGizmo gizmo);
 
 	public void addBall(IBall ball);
+	
+	public void removeBall(IBall ball);
 
 	public void removeGizmo(IGizmo gizmo);
+
+	public IGizmo getGizmo(Vect coords);
+	
+	public IBall getBall(Vect coords);
+	
+	public boolean isCellEmpty(Vect coords);
 	
 	public void addObserver(Observer o);
 
@@ -45,5 +55,19 @@ public interface IModel {
 	public void startClient();
 	public void setBalls(List<IBall> balls);
 	public void setGizmos(List<IGizmo> gizmos);
+
+	public double getGravity();
+
+	public double getFrictionMu();
+
+	public double getFrictionMu2();
+
+	public void setGravity(double gravity);
+
+	public void setFrictionMu(double mu);
+
+	public void setFrictionMu2(double mu2);
+	
+	public void setDefaultPhysics();
 
 }

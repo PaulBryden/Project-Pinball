@@ -145,4 +145,14 @@ public class Wall implements IWall {
 		return coefficientOfReflection;
 	}
 
+	@Override
+	public int getGridWidth() {
+		return -1;
+	}
+
+	@Override
+	public int getGridHeight() {
+		return -1;
+	}
+
 }

@@ -14,6 +14,8 @@ public abstract class AbstractGizmo implements IGizmo {
 
 	protected String id;
 	protected Vect coords;
+	protected int gridWidth;
+	protected int gridHeight;
 	protected int rotation;
 	protected Color colour;
 	protected boolean isStatic;
@@ -23,9 +25,11 @@ public abstract class AbstractGizmo implements IGizmo {
 	protected List<IAction> actions;
 	protected Set<IGizmo> triggers;
 
-	public AbstractGizmo(String id, Vect coords, Color colour, boolean isStatic) {
+	public AbstractGizmo(String id, Vect coords, int gridWidth, int gridHeight, Color colour, boolean isStatic) {
 		this.id = id;
 		this.coords = coords;
+		this.gridWidth = gridWidth;
+		this.gridHeight = gridHeight;
 		rotation = 0;
 		this.colour = colour;
 		this.isStatic = isStatic;
@@ -53,7 +57,17 @@ public abstract class AbstractGizmo implements IGizmo {
 	public Vect getGridCoords() {
 		return coords;
 	}
-
+	
+	@Override
+	public int getGridWidth() {
+		return gridWidth;
+	}
+	
+	@Override
+	public int getGridHeight() {
+		return gridHeight;
+	}
+	
 	@Override
 	public void rotate(int steps) {
 		rotation += steps;

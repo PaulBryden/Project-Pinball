@@ -16,7 +16,7 @@ public class SquareGizmo extends AbstractGizmo implements Serializable{
 	private static final long serialVersionUID = 94783270148181126L;
 
 	public SquareGizmo(String id, Vect coords) {
-		super(id, coords, Constants.SQUARE_DEFAULT_COLOUR, true);
+		super(id, coords, 1, 1, Constants.SQUARE_DEFAULT_COLOUR, true);
 		generateLinesAndCircles();
 	}
 

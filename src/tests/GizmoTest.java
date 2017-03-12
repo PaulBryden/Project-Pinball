@@ -33,7 +33,7 @@ public class GizmoTest {
 	public void AbsorberCreationTest() {
 		Vect topLeft = new Vect(1,1);
 		Vect bottomRight = new Vect(2,2); 
-		Absorber newAbsorber = new Absorber("A1",topLeft,bottomRight,new ArrayList<IBall>());
+		Absorber newAbsorber = new Absorber(new GameModel(),"A1",topLeft,bottomRight);
 		
 		assertEquals(newAbsorber.getBottomRightCoords(),bottomRight);
 	}

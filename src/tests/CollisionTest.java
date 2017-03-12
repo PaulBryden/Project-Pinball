@@ -122,7 +122,7 @@ public class CollisionTest {
 		BallGizmo ballSlow = new BallGizmo("B2",topLeft, new Vect(1000,0));
 		GameModel gameModel = new GameModel();
 
-		Absorber gizmo = new Absorber("LF1",new Vect(3,1),new Vect(4,2),gameModel.getBalls());
+		Absorber gizmo = new Absorber(gameModel,"LF1",new Vect(3,1),new Vect(4,2));
 		gameModel.addBall(ballFast);
 		gameModel.addBall(ballSlow);
 		gameModel.addGizmo(gizmo);
@@ -157,7 +157,7 @@ public class CollisionTest {
 		Vect wallTop = new Vect (3,1);
 		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
 		GameModel gameModel = new GameModel();
-		Absorber gizmo = new Absorber("LF1",new Vect(3,1),new Vect(4,2),gameModel.getBalls());
+		Absorber gizmo = new Absorber(gameModel,"LF1",new Vect(3,1),new Vect(4,2));
 		gameModel.addBall(ballFast);
 		gameModel.addGizmo(gizmo);
 		gizmo.absorbBall(ballFast);
@@ -171,7 +171,7 @@ public class CollisionTest {
 		Vect wallTop = new Vect (3,1);
 		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
 		GameModel gameModel = new GameModel();
-		Absorber gizmo = new Absorber("LF1",new Vect(3,1),new Vect(4,2),gameModel.getBalls());
+		Absorber gizmo = new Absorber(gameModel,"LF1",new Vect(3,1),new Vect(4,2));
 		gameModel.addBall(ballFast);
 		gameModel.addGizmo(gizmo);
 		gizmo.absorbBall(ballFast);
