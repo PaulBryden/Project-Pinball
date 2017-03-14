@@ -62,6 +62,9 @@ public class BoardFileHandler {
 					save.write("KeyConnect key " + current.getKey() + " up " + gizmo.getID() + "\n");
 				}
 			}
+			
+			save.write("Gravity " + model.getGravity() + "\n");
+			save.write("Friction " + model.getFrictionMu() + " " + model.getFrictionMu2() + "\n");
 
 			save.close();
 
