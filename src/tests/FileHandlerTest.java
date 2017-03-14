@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.LineNumberReader;
 import java.util.List;
 import java.util.InputMismatchException;
 
@@ -181,11 +182,19 @@ public class FileHandlerTest {
 	
 	@Test
 	public void testSaveEmptyModel() throws IOException {
-		// Should produce an empty file
+		// Should produce file with only Gravity and Friction
 		file.save("test_save_file.txt");
 		
-		File testFile = new File("test_save_file.txt");
-		assertEquals(testFile.length(), 0);
+		BufferedReader br = new BufferedReader(new FileReader("test_save_file.txt"));
+		int count = 0;
+		String line = null;
+		
+		while ((line = br.readLine()) != null)
+			count++;
+
+		assertEquals(count, 2);
+
+		br.close();
 	}
 	
 	
@@ -290,7 +299,15 @@ public class FileHandlerTest {
 		model.addGizmo(wall);
 		file.save("test_save_file.txt");
 
-		File testFile = new File("test_save_file.txt");
-		assertEquals(testFile.length(), 0);
+		BufferedReader br = new BufferedReader(new FileReader("test_save_file.txt"));
+		int count = 0;
+		String line = null;
+		
+		while ((line = br.readLine()) != null)
+			count++;
+
+		assertEquals(count, 2); // Gravity and friction
+
+		br.close();
 	}
 }
