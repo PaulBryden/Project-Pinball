@@ -1,16 +1,22 @@
 package controller;
 
+import com.sun.jmx.snmp.InetAddressAcl;
+import view.ClientDialog;
 import view.HostDialog;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 
-public class ValidationListener implements DocumentListener{
-    private HostDialog hostDialog;
+public class ClientValidationListener implements DocumentListener{
+    private ClientDialog clientDialog;
     private boolean valid;
 
-    public ValidationListener(HostDialog hostDialog){
-        this.hostDialog = hostDialog;
+    public ClientValidationListener(ClientDialog clientDialog){
+        this.clientDialog = clientDialog;
         valid = false;
     }
 
@@ -20,10 +26,11 @@ public class ValidationListener implements DocumentListener{
 
     private void validate(){
         try {
-            hostDialog.hideWarningLabel();
+            Integer.parseInt(clientDialog.getPortText());
+            clientDialog.hideWarningLabel();
             valid = true;
         } catch (NumberFormatException e){
-            hostDialog.showWarningLabel();
+            clientDialog.showWarningLabel("That is not a number");
             valid = false;
         }
     }

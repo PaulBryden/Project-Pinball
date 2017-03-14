@@ -18,13 +18,15 @@ public class SubmitClientListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-       // if(clientDialog.getTextFieldValidator().isValidPort()){
-        clientDialog.getDialog().dispose();
-        Client client = new Client(mainWindow.getBoard().getModel(), clientDialog.getIpText(), Integer.parseInt(clientDialog.getPortText()));
+        if(clientDialog.getTextFieldValidator().isValidPort() && !clientDialog.getPortText().equals("") && !clientDialog.getIpText().equals("")){
+            clientDialog.getDialog().dispose();
+            Client client = new Client(mainWindow.getBoard().getModel(), clientDialog.getIpText(), Integer.parseInt(clientDialog.getPortText()));
 
-    	Thread newThread = new Thread(client);
-    	newThread.start();
-    	mainWindow.enableClientView();
-       // }
+            Thread newThread = new Thread(client);
+            newThread.start();
+            mainWindow.enableClientView();
+        } else {
+            clientDialog.showWarningLabel("Please enter values");
+        }
     }
 }

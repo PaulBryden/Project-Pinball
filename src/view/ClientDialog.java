@@ -1,7 +1,7 @@
 package view;
 
+import controller.ClientValidationListener;
 import controller.SubmitClientListener;
-import controller.ValidationListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -20,7 +20,7 @@ public class ClientDialog {
     private JTextField portTextField;
     private JTextField ipTextField;
     private JButton button;
-    private ValidationListener validator;
+    private ClientValidationListener validator;
     private JLabel warning;
     private JLabel portLabel;
     private JLabel ipLabel;
@@ -31,7 +31,7 @@ public class ClientDialog {
         portTextField = new JTextField();
         ipTextField = new JTextField();
         button = new JButton("Continue");
-       // validator = new ValidationListener(this);
+        validator = new ClientValidationListener(this);
         warning = new JLabel("That is not a number");
         portLabel = new JLabel("Please enter port for host connection");
         ipLabel = new JLabel("Please enter ip for host connection");
@@ -52,7 +52,8 @@ public class ClientDialog {
         button.addActionListener(new SubmitClientListener(mainWindow, this));
         portTextField.setColumns(4);
         ipTextField.setColumns(4);
-       // textField.getDocument().addDocumentListener(validator);
+        portTextField.getDocument().addDocumentListener(validator);
+        ipTextField.getDocument().addDocumentListener(validator);
 
         dialog.add(portLabel, constraints);
 
@@ -79,14 +80,14 @@ public class ClientDialog {
     }
 
     public String getPortText(){
-        return (portTextField.getText());
+        return (portTextField.getText().trim());
     }
 
     public String getIpText(){
-        return (ipTextField.getText());
+        return (ipTextField.getText().trim());
     }
 
-    public ValidationListener getTextFieldValidator(){
+    public ClientValidationListener getTextFieldValidator(){
         return (validator);
     }
 
@@ -94,7 +95,8 @@ public class ClientDialog {
         return (dialog);
     }
 
-    public void showWarningLabel(){
+    public void showWarningLabel(String message){
+        warning.setText(message);
         warning.setVisible(true);
         dialog.revalidate();
         dialog.repaint();

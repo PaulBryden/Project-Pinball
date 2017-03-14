@@ -1,7 +1,7 @@
 package view;
 
 import controller.SubmitHostListener;
-import controller.ValidationListener;
+import controller.HostValidationListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -19,7 +19,7 @@ public class HostDialog {
     private JDialog dialog;
     private JTextField textField;
     private JButton button;
-    private ValidationListener validator;
+    private HostValidationListener validator;
     private JLabel warning;
     private JLabel label;
 
@@ -28,7 +28,7 @@ public class HostDialog {
         dialog = new JDialog();
         textField = new JTextField();
         button = new JButton("Continue");
-        validator = new ValidationListener(this);
+        validator = new HostValidationListener(this);
         warning = new JLabel("That is not a number");
         label = new JLabel("Please enter port for host connection");
         warning.setVisible(false);
@@ -67,10 +67,10 @@ public class HostDialog {
     }
 
     public String getPortText(){
-        return (textField.getText());
+        return (textField.getText().trim());
     }
 
-    public ValidationListener getTextFieldValidator(){
+    public HostValidationListener getTextFieldValidator(){
         return (validator);
     }
 
@@ -78,7 +78,8 @@ public class HostDialog {
         return (dialog);
     }
 
-    public void showWarningLabel(){
+    public void showWarningLabel(String message){
+        warning.setText(message);
         warning.setVisible(true);
         dialog.revalidate();
         dialog.repaint();

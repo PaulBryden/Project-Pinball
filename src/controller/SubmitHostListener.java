@@ -17,9 +17,11 @@ public class SubmitHostListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(hostDialog.getTextFieldValidator().isValidPort()){
+        if(hostDialog.getTextFieldValidator().isValidPort() && !hostDialog.getPortText().equals("")){
             hostDialog.getDialog().dispose();
             mainWindow.getBoard().getModel().startHosting(Integer.parseInt(hostDialog.getPortText()));
+        } else {
+            hostDialog.showWarningLabel("Please enter a Port");
         }
     }
 }
