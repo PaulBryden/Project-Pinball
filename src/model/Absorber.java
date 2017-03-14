@@ -79,6 +79,8 @@ public class Absorber extends AbstractGizmo {
 	}
 	
 	public IBall getNextBall() {
+		if (this.storedBalls.isEmpty())
+			return null;
 		return this.storedBalls.get(0);
 	}
 
