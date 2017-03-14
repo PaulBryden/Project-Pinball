@@ -28,6 +28,7 @@ import java.util.Observable;
 import java.util.Queue;
 import java.util.Scanner;
 
+import network.Host;
 import physics.Vect;
 
 public class GameModel extends Observable implements IModel{
@@ -41,21 +42,16 @@ public class GameModel extends Observable implements IModel{
 	private CollisionEvaluator collisionEvaluator;
 	private PhysicsEvaluator physicsEvaluator;
 
-    DatagramSocket serverSocket;
-    byte[] receiveData = new byte[4096];
-    byte[] sendData = new byte[4096];
     boolean isHost;
     boolean isClient;
-    InetAddress returnAddr;
-    HashMap<InetAddress,Integer> listOfClients;
     public Deque<String> keysToSend;
+    private Host host =null;
 	private double gravity;
 	private double mu;
 	private double mu2;
 
 	public GameModel() {
 
-		listOfClients=new HashMap<>();
 		keysToSend=new ArrayDeque<String>();
 		reset();
 		setDefaultPhysics();
@@ -86,50 +82,9 @@ public class GameModel extends Observable implements IModel{
 		setChanged();
 		notifyObservers();
 		if(isHost){
-			
-            try {
+			host.sendBoard();
+			host.recieveKeys();
 
-		          BoardFileHandler newHandler = new BoardFileHandler(this);
-				sendData = newHandler.saveToString().getBytes();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            Iterator it = listOfClients.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                System.out.println(pair.getKey() + " = " + pair.getValue());
-                DatagramPacket sendPacket =
-                        new DatagramPacket(sendData, sendData.length, (InetAddress)pair.getKey(), (Integer)pair.getValue());
-                        try {
-							serverSocket.send(sendPacket);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							System.out.println("Failed to send Packet");
-						} 
-            }
-		      DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-		      try {
-		    
-				serverSocket.receive(receivePacket);
-				String type;
-		           String loadedData = new String(receivePacket.getData());
-
-				      Scanner scan = new Scanner(loadedData);
-				      String nextString=scan.next();
-				      System.out.println(nextString);
-				      if(nextString.contains("Pressed")){
-				    	  this.processKeyPressedTrigger(scan.nextInt());
-				      }else if((nextString.contains("Released"))){
-				    	  this.processKeyReleasedTrigger(scan.nextInt());
-				      }
-		          System.out.println(loadedData);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		      
-            
 		}
 	}
 
@@ -279,32 +234,11 @@ public class GameModel extends Observable implements IModel{
 		return keyReleasedTriggers;
 	}
 
-	public void startHosting(){
-		try {
-			serverSocket= new DatagramSocket(1003);
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Failed to bind Port");
-		}
-		isHost=true;
-		boolean Response=false;
-		while(!Response){
-		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-        try {
-			serverSocket.receive(receivePacket);
-			Response=true;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        System.out.println("RECEIVED:");
-        System.out.println(receivePacket.getAddress());
-        System.out.println(receivePacket.getPort());
-
-	
-        listOfClients.put(receivePacket.getAddress(), receivePacket.getPort());
-		}
-		
+	public void startHosting(int Port){
+		this.host = new Host(new BoardFileHandler(this),this,Port);
+		if(host.startHost()>0){
+			isHost=true;
+		};
 		}
 	
 
@@ -372,5 +306,7 @@ public class GameModel extends Observable implements IModel{
 		this.mu2 = Constants.DEFAULT_MU2;
 
 	}
+
+
 
 }

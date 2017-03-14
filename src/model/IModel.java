@@ -52,7 +52,7 @@ public interface IModel {
 	public Map<Integer, ITrigger> getKeyPressedTriggers();
 
 	public Map<Integer, ITrigger> getKeyReleasedTriggers();
-	public void startHosting();
+	public void startHosting(int Port);
 	public void setBalls(List<IBall> balls);
 	public void setGizmos(List<IGizmo> gizmos);
 

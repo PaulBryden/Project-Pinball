@@ -14,7 +14,7 @@ public class HostBoardListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-    	mainWindow.getBoard().getModel().startHosting();
+    	mainWindow.getBoard().getModel().startHosting(1003);
     	
     }
 }
