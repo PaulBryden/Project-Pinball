@@ -167,12 +167,16 @@ public class BoardFileHandler {
 							model.addGizmo(newGizmo);
 					}
 						else {
+							try{
 						IGizmo gizmo = createGizmo(type, scan, gizmos);
 						if (gizmo instanceof IBall) {
 							model.addBall((IBall) gizmo);
 						} else {
 							model.addGizmo(gizmo);
 						}
+							}catch(Exception e){
+								
+							}
 					}
 				
 				}

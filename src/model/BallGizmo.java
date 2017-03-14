@@ -62,9 +62,9 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Ball " + getID() + " " + physicsCircle.getCenter().x() + " "
-				+ physicsCircle.getCenter().y()  + " " + this.getVelo().x() + " "
-						+ this.getVelo().y() +  "\n";
+		String serializedGizmo = "Ball " + getID() + " " + String.format("%.4f",physicsCircle.getCenter().x()) + " "
+				+ String.format("%.4f",physicsCircle.getCenter().y())  + " " + String.format("%.4f",this.getVelo().x()) + " "
+						+ String.format("%.4f",this.getVelo().y()) +  "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
 		}

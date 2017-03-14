@@ -42,8 +42,8 @@ public class GameModel extends Observable implements IModel, Runnable {
 	private PhysicsEvaluator physicsEvaluator;
 
     DatagramSocket serverSocket;
-    byte[] receiveData = new byte[2048];
-    byte[] sendData = new byte[2048];
+    byte[] receiveData = new byte[4096];
+    byte[] sendData = new byte[4096];
     boolean isHost;
     boolean isClient;
     InetAddress returnAddr;
@@ -326,8 +326,8 @@ public class GameModel extends Observable implements IModel, Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		      byte[] sendData = new byte[2048];
-		      byte[] receiveData = new byte[2048];
+		      byte[] sendData = new byte[4096];
+		      byte[] receiveData = new byte[4096];
 		     sendData[0]='C';
 		      DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 1003);
 		      try {
