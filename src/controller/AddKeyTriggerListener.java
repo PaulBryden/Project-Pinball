@@ -6,7 +6,7 @@ import javax.swing.JToolBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static view.Board.STATE.KEY_CONNECT;
+import static view.STATE.KEY_CONNECT;
 
 public class AddKeyTriggerListener implements ActionListener{
 	private MainWindow mainWindow;

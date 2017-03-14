@@ -6,7 +6,7 @@ import view.RotateGizmoToolBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static view.Board.STATE.ROTATE;
+import static view.STATE.ROTATE;
 
 public class RotateGizmoListener implements ActionListener{
     private MainWindow mainWindow;

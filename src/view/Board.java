@@ -28,27 +28,19 @@ import model.SquareGizmo;
 import model.TriangleGizmo;
 import physics.Vect;
 
-import static view.Board.CUR_GIZMO.NONE;
-import static view.Board.STATE.BUILD;
-import static view.Board.STATE.RUN;
+import static view.CUR_GIZMO.NONE;
+import static view.STATE.BUILD;
+import static view.STATE.RUN;
 
 public class Board extends JPanel implements Observer {
 	private MainWindow mainWindow;
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
-	private BoardMouseListener mouseListener;
 	private static final int GRID_WIDTH = 20;
-	public enum STATE {
-		BUILD, RUN, ADD, REMOVE, MOVE, ROTATE, GIZMO_CONNECT, KEY_CONNECT
-	}
-	public enum CUR_GIZMO {
-		BALL, SQUARE, TRIANGLE, LFLIPPER, RFLIPPER, CIRCLE, ABSORBER, NONE
-	}
 	private STATE state;
-	private CUR_GIZMO currentGizmo;
-	private Vect gizmoCoords;
-	private Vect initalAbsorberCoords;
+	private CUR_GIZMO selectedGizmo;
+	private Vect selectedGizmoCoords;
 
 	public Board(MainWindow mainWindow, IModel model) {
 		super();
@@ -57,11 +49,10 @@ public class Board extends JPanel implements Observer {
 		model.addObserver(this);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
-		mouseListener = new BoardMouseListener(mainWindow, model);
 		state = BUILD;
-		currentGizmo = NONE;
+		selectedGizmo = NONE;
 
-		addMouseListener(mouseListener);
+		addMouseListener(new BoardMouseListener(mainWindow, model));
 		setBackground(model.getBackgroundColour());
 		setSize(new Dimension(400, 400));
 		setPreferredSize(getSize());
@@ -71,10 +62,6 @@ public class Board extends JPanel implements Observer {
 
 	public IModel getModel(){
 		return (model);
-	}
-
-	public BoardMouseListener getMouseListener(){
-		return (mouseListener);
 	}
 
 	public String getGizmoName(IGizmo gizmo){
@@ -157,27 +144,18 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
-	private void resetStoredCoords() {
-		gizmoCoords = null;
-		initalAbsorberCoords = null;
-	}
-
 	public void setState(STATE state) {
-		resetStoredCoords();
+		selectedGizmoCoords = null;
 		this.state = state;
 	}
 
 	public void setSelectedGizmo(CUR_GIZMO gizmo) {
-		resetStoredCoords();
-		this.currentGizmo = gizmo;
+		selectedGizmoCoords = null;
+		this.selectedGizmo = gizmo;
 	}
 
-	public void setInitalAbsorberCoords(Vect initalAbsorberCoords){
-		this.initalAbsorberCoords = initalAbsorberCoords;
-	}
-
-	public void setGizmoCoords(Vect gizmoCoords){
-		this.gizmoCoords = gizmoCoords;
+	public void setSelectedGizmoCoords(Vect gizmoCoords){
+		this.selectedGizmoCoords = gizmoCoords;
 	}
 
 	public STATE getState(){
@@ -185,15 +163,11 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public CUR_GIZMO getSelectedGizmo(){
-		return (currentGizmo);
+		return (selectedGizmo);
 	}
 
-	public Vect getInitalAbsorberCoords(){
-		return (initalAbsorberCoords);
-	}
-
-	public Vect getGizmoCoords(){
-		return (gizmoCoords);
+	public Vect getSelectedGizmoCoords(){
+		return (selectedGizmoCoords);
 	}
 
     @Override

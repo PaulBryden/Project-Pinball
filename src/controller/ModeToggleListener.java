@@ -6,9 +6,10 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static view.Board.CUR_GIZMO.NONE;
-import static view.Board.STATE.BUILD;
-import static view.Board.STATE.RUN;
+import static view.CUR_GIZMO.NONE;
+import static view.STATE.BUILD;
+import static view.STATE.RUN;
+
 
 public class ModeToggleListener implements ActionListener {
     private MainWindow mainWindow;

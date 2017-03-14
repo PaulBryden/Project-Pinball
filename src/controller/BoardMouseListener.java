@@ -36,9 +36,9 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			String id = coords.x() + "" + coords.y();
 			switch (board.getSelectedGizmo()) {
 			case ABSORBER:
-				Vect initalAbsorberCoords = board.getInitalAbsorberCoords();
+				Vect initalAbsorberCoords = board.getSelectedGizmoCoords();
 				if (initalAbsorberCoords == null) {
-					board.setInitalAbsorberCoords(coords);
+					board.setSelectedGizmoCoords(coords);
 					mainWindow.setStatusLabel("Selected top-left cell of absorber at " + coords);
 				} else {
 					if (coords.x() < initalAbsorberCoords.x() || coords.y() < initalAbsorberCoords.y()) {
@@ -48,7 +48,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 						board.addGizmo(new AbsorberView(new Absorber(model, "A" + id, initalAbsorberCoords,
 								new Vect(coords.x() + 1, coords.y() + 1))));
 					}
-					board.setInitalAbsorberCoords(null);
+					board.setSelectedGizmoCoords(null);
 				}
 				break;
 			case BALL:
@@ -87,10 +87,10 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 	}
 
 	private void handleMove(Vect coords, Board board) {
-		Vect gizmoCoords = board.getGizmoCoords();
+		Vect gizmoCoords = board.getSelectedGizmoCoords();
 		if (!model.isCellEmpty(coords)) {
-			board.setGizmoCoords(coords);
-			gizmoCoords = board.getGizmoCoords();
+			board.setSelectedGizmoCoords(coords);
+			gizmoCoords = board.getSelectedGizmoCoords();
 			try {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 						+ gizmoCoords + ". Please click a grid cell to move it to");
@@ -103,7 +103,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			} catch (NoSuchElementException e) {
 				board.moveBall(gizmoCoords, coords);
 			}
-			board.setGizmoCoords(null);
+			board.setSelectedGizmoCoords(null);
 		} else {
 			mainWindow.setWarningLabel("Cannot move from here, this cell is empty. Select an occupied cell.");
 		}
@@ -124,11 +124,11 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 	}
 
 	private void handleGizmoConnect(Vect coords, Board board) {
-		Vect gizmoCoords = board.getGizmoCoords();
+		Vect gizmoCoords = board.getSelectedGizmoCoords();
 		if (!model.isCellEmpty(coords)) {
 			if (gizmoCoords == null) {
-				board.setGizmoCoords(coords);
-				gizmoCoords = board.getGizmoCoords();
+				board.setSelectedGizmoCoords(coords);
+				gizmoCoords = board.getSelectedGizmoCoords();
 				try {
 					mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 							+ gizmoCoords + ". Please type a key to connect this gizmo to");
@@ -140,7 +140,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				model.getGizmo(gizmoCoords).addGizmoToTrigger(model.getGizmo(coords));
 				mainWindow.setStatusLabel("Connected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " to "
 						+ board.getGizmoName(model.getGizmo(coords)));
-				board.setGizmoCoords(null);
+				board.setSelectedGizmoCoords(null);
 			}
 		} else {
 			mainWindow.setWarningLabel("Cannot add gizmo connection, this cell is empty. Select an occupied cell.");
@@ -149,8 +149,8 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 
 	private void handleKeyConnect(Vect coords, Board board) {
 		if (!model.isCellEmpty(coords)) {
-			board.setGizmoCoords(coords);
-			Vect gizmoCoords = board.getGizmoCoords();
+			board.setSelectedGizmoCoords(coords);
+			Vect gizmoCoords = board.getSelectedGizmoCoords();
 			try {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 						+ gizmoCoords + ". Please type a key to connect this gizmo to");

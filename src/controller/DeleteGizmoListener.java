@@ -6,7 +6,7 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static view.Board.STATE.REMOVE;
+import static view.STATE.REMOVE;
 
 public class DeleteGizmoListener implements ActionListener{
     private MainWindow mainWindow;

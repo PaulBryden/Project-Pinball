@@ -8,7 +8,6 @@ import javax.swing.WindowConstants;
 
 import controller.RunKeyListener;
 import model.IModel;
-import network.Client;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,7 +19,7 @@ import static java.awt.Color.BLUE;
 import static java.awt.Color.RED;
 import static java.awt.GridBagConstraints.CENTER;
 import static java.awt.GridBagConstraints.VERTICAL;
-import static view.Board.STATE.RUN;
+import static view.STATE.RUN;
 
 public class MainWindow extends JFrame {
 

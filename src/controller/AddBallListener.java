@@ -5,7 +5,7 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static view.Board.CUR_GIZMO.BALL;
+import static view.CUR_GIZMO.BALL;
 
 public class AddBallListener implements ActionListener{
     private MainWindow mainWindow;

@@ -5,7 +5,7 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static view.Board.CUR_GIZMO.RFLIPPER;
+import static view.CUR_GIZMO.RFLIPPER;
 
 public class AddRFlipperListener implements ActionListener {
     private MainWindow mainWindow;

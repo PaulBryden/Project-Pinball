@@ -5,7 +5,7 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static view.Board.CUR_GIZMO.SQUARE;
+import static view.CUR_GIZMO.SQUARE;
 
 public class AddSquareListener implements ActionListener{
     private MainWindow mainWindow;

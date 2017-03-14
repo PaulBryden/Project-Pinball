@@ -6,7 +6,7 @@ import javax.swing.JToolBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static view.Board.STATE.GIZMO_CONNECT;
+import static view.STATE.GIZMO_CONNECT;
 
 public class LinkGizmosListener implements ActionListener{
 	private MainWindow mainWindow;

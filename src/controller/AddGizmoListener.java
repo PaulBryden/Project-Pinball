@@ -6,7 +6,7 @@ import view.AddGizmoToolBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static view.Board.STATE.ADD;
+import static view.STATE.ADD;
 
 public class AddGizmoListener implements ActionListener{
     private MainWindow mainWindow;
