@@ -17,6 +17,7 @@ public class ClientBoardListener implements ActionListener{
     	Thread newThread = new Thread(
     	    	(Runnable) mainWindow.getBoard().getModel());
     	newThread.start();
+    	mainWindow.enableRunView();
     	
     }
 }

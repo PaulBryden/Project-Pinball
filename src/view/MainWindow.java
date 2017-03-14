@@ -106,6 +106,15 @@ public class MainWindow extends JFrame {
 		revalidate();
 		repaint();
 	}
+	
+	public void enableRunView() {
+		constraints.fill = VERTICAL;
+
+		remove(toolbar);
+
+		revalidate();
+		repaint();
+	}
 
 	public Board getBoard() {
 		return (board);
