@@ -77,6 +77,12 @@ public class Absorber extends AbstractGizmo {
 		this.bottomRightCoords = new Vect(bottomRightCoords.x() + xdiff, bottomRightCoords.y() + ydiff);
 		generateLinesAndCircles();
 	}
+	
+	public IBall getNextBall() {
+		if (this.storedBalls.isEmpty())
+			return null;
+		return this.storedBalls.get(0);
+	}
 
 	public void fireBall() {
 		if (storedBalls.size() > ballsToFire) {
