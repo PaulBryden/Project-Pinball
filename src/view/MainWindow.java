@@ -136,6 +136,11 @@ public class MainWindow extends JFrame {
 		statusLabel.setText(warning);
 	}
 
+	public void showHostDialog(){
+		HostDialog hostDialog = new HostDialog(this);
+		hostDialog.build();
+	}
+
 	private void setUpKeyListener() {
 		// Use an event dispatcher so that key strokes are captured regardless
 		// of which element of the frame has focus.

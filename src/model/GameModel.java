@@ -239,7 +239,7 @@ public class GameModel extends Observable implements IModel{
 		if(host.startHost()>0){
 			isHost=true;
 		};
-		}
+	}
 	
 
 	
