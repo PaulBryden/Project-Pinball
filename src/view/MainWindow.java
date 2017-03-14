@@ -20,7 +20,7 @@ import static java.awt.Color.BLUE;
 import static java.awt.Color.RED;
 import static java.awt.GridBagConstraints.CENTER;
 import static java.awt.GridBagConstraints.VERTICAL;
-import static controller.BoardMouseListener.STATE.RUN;
+import static view.Board.STATE.RUN;
 
 public class MainWindow extends JFrame {
 
@@ -114,7 +114,7 @@ public class MainWindow extends JFrame {
 		constraints.fill = VERTICAL;
 		remove(sideToolBar);
 		remove(toolbar);
-		board.getMouseListener().setState(RUN);
+		board.setState(RUN);
 		remove(sideToolBar);
 		remove(toolbar);
 		setJMenuBar(new JMenuBar());

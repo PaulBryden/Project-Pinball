@@ -29,7 +29,7 @@ public class HostDialog {
         textField = new JTextField();
         button = new JButton("Continue");
         validator = new HostValidationListener(this);
-        warning = new JLabel("That is not a number");
+        warning = new JLabel("");
         label = new JLabel("Please enter port for host connection");
         warning.setVisible(false);
     }
@@ -40,11 +40,10 @@ public class HostDialog {
 
         dialog.setTitle("Host");
         dialog.setLayout(new GridBagLayout());
-        dialog.setResizable(true);
+        dialog.setResizable(false);
         dialog.setModal(true);
 
         warning.setForeground(RED);
-
         button.addActionListener(new SubmitHostListener(mainWindow, this));
         textField.setColumns(4);
         textField.getDocument().addDocumentListener(validator);

@@ -5,7 +5,7 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static controller.BoardMouseListener.CUR_GIZMO.LFLIPPER;
+import static view.Board.CUR_GIZMO.LFLIPPER;
 
 public class AddLFlipperListener implements ActionListener {
 	private MainWindow mainWindow;
@@ -16,7 +16,7 @@ public class AddLFlipperListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		mainWindow.getBoard().getMouseListener().setGizmo(LFLIPPER);
+		mainWindow.getBoard().setSelectedGizmo(LFLIPPER);
 		mainWindow.setStatusLabel("Placing Left-Flipper. Please click a grid cell to place it.");
 	}
 }

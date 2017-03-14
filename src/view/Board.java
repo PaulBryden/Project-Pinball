@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
@@ -29,7 +28,9 @@ import model.SquareGizmo;
 import model.TriangleGizmo;
 import physics.Vect;
 
-import static controller.BoardMouseListener.STATE.RUN;
+import static view.Board.CUR_GIZMO.NONE;
+import static view.Board.STATE.BUILD;
+import static view.Board.STATE.RUN;
 
 public class Board extends JPanel implements Observer {
 	private MainWindow mainWindow;
@@ -38,6 +39,16 @@ public class Board extends JPanel implements Observer {
 	private List<IViewGizmo> viewBalls;
 	private BoardMouseListener mouseListener;
 	private static final int GRID_WIDTH = 20;
+	public enum STATE {
+		BUILD, RUN, ADD, REMOVE, MOVE, ROTATE, GIZMO_CONNECT, KEY_CONNECT
+	}
+	public enum CUR_GIZMO {
+		BALL, SQUARE, TRIANGLE, LFLIPPER, RFLIPPER, CIRCLE, ABSORBER, NONE
+	}
+	private STATE state;
+	private CUR_GIZMO currentGizmo;
+	private Vect gizmoCoords;
+	private Vect initalAbsorberCoords;
 
 	public Board(MainWindow mainWindow, IModel model) {
 		super();
@@ -47,6 +58,8 @@ public class Board extends JPanel implements Observer {
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
 		mouseListener = new BoardMouseListener(mainWindow, model);
+		state = BUILD;
+		currentGizmo = NONE;
 
 		addMouseListener(mouseListener);
 		setBackground(model.getBackgroundColour());
@@ -144,6 +157,45 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
+	private void resetStoredCoords() {
+		gizmoCoords = null;
+		initalAbsorberCoords = null;
+	}
+
+	public void setState(STATE state) {
+		resetStoredCoords();
+		this.state = state;
+	}
+
+	public void setSelectedGizmo(CUR_GIZMO gizmo) {
+		resetStoredCoords();
+		this.currentGizmo = gizmo;
+	}
+
+	public void setInitalAbsorberCoords(Vect initalAbsorberCoords){
+		this.initalAbsorberCoords = initalAbsorberCoords;
+	}
+
+	public void setGizmoCoords(Vect gizmoCoords){
+		this.gizmoCoords = gizmoCoords;
+	}
+
+	public STATE getState(){
+		return (state);
+	}
+
+	public CUR_GIZMO getSelectedGizmo(){
+		return (currentGizmo);
+	}
+
+	public Vect getInitalAbsorberCoords(){
+		return (initalAbsorberCoords);
+	}
+
+	public Vect getGizmoCoords(){
+		return (gizmoCoords);
+	}
+
     @Override
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -168,7 +220,7 @@ public class Board extends JPanel implements Observer {
 
 		viewBalls.addAll(balls.stream().map(BallView::new).collect(Collectors.toList()));
 
-		if(!mouseListener.getState().equals(RUN))
+		if(!state.equals(RUN))
 			drawGrid(g);
 
 		for(IViewGizmo viewGizmo : viewGizmos) {

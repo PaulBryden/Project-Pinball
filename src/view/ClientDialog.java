@@ -32,7 +32,7 @@ public class ClientDialog {
         ipTextField = new JTextField();
         button = new JButton("Continue");
         validator = new ClientValidationListener(this);
-        warning = new JLabel("That is not a number");
+        warning = new JLabel("");
         portLabel = new JLabel("Please enter port for host connection");
         ipLabel = new JLabel("Please enter ip for host connection");
         warning.setVisible(false);
@@ -48,7 +48,6 @@ public class ClientDialog {
         dialog.setModal(true);
 
         warning.setForeground(RED);
-
         button.addActionListener(new SubmitClientListener(mainWindow, this));
         portTextField.setColumns(4);
         ipTextField.setColumns(4);

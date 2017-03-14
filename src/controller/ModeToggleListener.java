@@ -1,13 +1,14 @@
 package controller;
 
+import view.Board;
 import view.MainWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static controller.BoardMouseListener.CUR_GIZMO.NONE;
-import static controller.BoardMouseListener.STATE.BUILD;
-import static controller.BoardMouseListener.STATE.RUN;
+import static view.Board.CUR_GIZMO.NONE;
+import static view.Board.STATE.BUILD;
+import static view.Board.STATE.RUN;
 
 public class ModeToggleListener implements ActionListener {
     private MainWindow mainWindow;
@@ -18,10 +19,10 @@ public class ModeToggleListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        BoardMouseListener mouseListener = mainWindow.getBoard().getMouseListener();
+        Board board = mainWindow.getBoard();
 
-        mouseListener.setState(mouseListener.getState().equals(RUN) ? BUILD : RUN);
-        mouseListener.setGizmo(NONE);
+        board.setState(board.getState().equals(RUN) ? BUILD : RUN);
+        board.setSelectedGizmo(NONE);
         mainWindow.toggleView();
     }
 }
