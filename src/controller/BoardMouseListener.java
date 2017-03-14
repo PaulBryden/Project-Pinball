@@ -54,7 +54,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		initalAbsorberCoords = null;
 	}
 
-	void setState(STATE state) {
+	public void setState(STATE state) {
 		resetStoredCoords();
 		this.state = state;
 	}

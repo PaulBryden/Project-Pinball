@@ -30,7 +30,7 @@ import java.util.Scanner;
 
 import physics.Vect;
 
-public class GameModel extends Observable implements IModel, Runnable {
+public class GameModel extends Observable implements IModel{
 
 	BoardFileHandler fileHandler;
 	private List<IGizmo> gizmos;
@@ -48,8 +48,7 @@ public class GameModel extends Observable implements IModel, Runnable {
     boolean isClient;
     InetAddress returnAddr;
     HashMap<InetAddress,Integer> listOfClients;
-    Deque<String> keysToSend;
-
+    public Deque<String> keysToSend;
 	private double gravity;
 	private double mu;
 	private double mu2;
@@ -308,112 +307,13 @@ public class GameModel extends Observable implements IModel, Runnable {
 		
 		}
 	
-	public void startClient(){
-		
-		BufferedReader inFromUser =
-		         new BufferedReader(new InputStreamReader(System.in));
-		      DatagramSocket clientSocket = null;
-			try {
-				clientSocket = new DatagramSocket();
-			} catch (SocketException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		      InetAddress IPAddress=null;
-			try {
-				IPAddress = InetAddress.getByName("localhost");
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		      byte[] sendData = new byte[4096];
-		      byte[] receiveData = new byte[4096];
-		     sendData[0]='C';
-		      DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 1003);
-		      try {
-				clientSocket.send(sendPacket);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		      DatagramPacket receivePacket;
-		      String loadedData;
-		      BoardFileHandler newHandler;
-		      isClient=true;
-		      while(true){
-		      receivePacket = new DatagramPacket(receiveData, receiveData.length);
-		      try {
-				clientSocket.receive(receivePacket);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		           loadedData = new String(receivePacket.getData());
-		          System.out.println(loadedData);
-		           newHandler = new BoardFileHandler(this);
-		          try {
-		        	
-					newHandler.loadFromString(loadedData);
-					System.out.println(gizmos.size());
 
-					setChanged();
-					notifyObservers();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		          if(keysToSend.size()>0){
-		          while(keysToSend.size()>0){
-		        	  byte[] keyCode= keysToSend.remove().getBytes();
-		          DatagramPacket senderPacket =
-	                        new DatagramPacket(keyCode, keyCode.length,receivePacket.getAddress(),receivePacket.getPort() );
-	                        try {
-	                        	System.out.println(keyCode);
-	                        	clientSocket.send(senderPacket);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								System.out.println("Failed to send Packet");
-							} 
-		          }
-		          
-		          }else{
-		        	  byte[] test={1,1,1,1};
-		        	  DatagramPacket senderPacket =
-		                        new DatagramPacket(test,test.length,receivePacket.getAddress(),receivePacket.getPort() );
-		                        try {
-		                        	clientSocket.send(senderPacket);
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									System.out.println("Failed to send Packet");
-								} 
-		          }
-
-			}
-	}
-	public  void deserializeList(byte[] data) throws IOException, ClassNotFoundException {
-	    System.out.println(data.toString());
-		ByteArrayInputStream in = new ByteArrayInputStream(data);
-	    ObjectInputStream is = new ObjectInputStream(in);
-	    SquareGizmo gizmoModel = (SquareGizmo) is.readObject();
-	    System.out.println(gizmoModel.getGridCoords().x());
-	    gizmos.add(gizmoModel);
-
-	}
 	
 	public void addKeyToSend(String keyData){
 		keysToSend.add(keyData);
 	}
 
-	@Override
-	public void run() {
-		this.startClient();
-	}
 
-	@Override
-	public boolean isClient() {
-		// TODO Auto-generated method stub
-		return isClient;
-	}
 
 	@Override
 	public double getGravity() {
@@ -444,6 +344,26 @@ public class GameModel extends Observable implements IModel, Runnable {
 	public void setFrictionMu2(double mu2) {
 		this.mu2 = mu2;
 	}
+	@Override
+	public void update(){
+		setChanged();
+		notifyObservers();
+	}
+	
+	@Override
+	public boolean isClient(){
+		return isClient;
+	}
+	
+	@Override
+	public void setClient(){
+		isClient=true;
+	}
+	
+	@Override
+	public Deque<String> getKeysToSend(){
+		return keysToSend;
+	}
 
 	@Override
 	public void setDefaultPhysics() {
@@ -452,4 +372,5 @@ public class GameModel extends Observable implements IModel, Runnable {
 		this.mu2 = Constants.DEFAULT_MU2;
 
 	}
+
 }

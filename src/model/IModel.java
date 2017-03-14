@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Color;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.Observer;
@@ -52,7 +53,6 @@ public interface IModel {
 
 	public Map<Integer, ITrigger> getKeyReleasedTriggers();
 	public void startHosting();
-	public void startClient();
 	public void setBalls(List<IBall> balls);
 	public void setGizmos(List<IGizmo> gizmos);
 
@@ -69,5 +69,11 @@ public interface IModel {
 	public void setFrictionMu2(double mu2);
 	
 	public void setDefaultPhysics();
+
+	void update();
+
+	Deque<String> getKeysToSend();
+
+	void setClient();
 
 }

@@ -5,6 +5,8 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import network.Client;
+
 public class ClientBoardListener implements ActionListener{
     private MainWindow mainWindow;
 
@@ -14,10 +16,12 @@ public class ClientBoardListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+    	Client client= new Client(mainWindow.getBoard().getModel(),"localhost",1003);
+ 
     	Thread newThread = new Thread(
-    	    	(Runnable) mainWindow.getBoard().getModel());
+    	    	(Runnable)client);
     	newThread.start();
-    	mainWindow.enableRunView();
+    	mainWindow.enableClientView();
     	
     }
 }

@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
@@ -18,6 +19,7 @@ import static java.awt.Color.BLUE;
 import static java.awt.Color.RED;
 import static java.awt.GridBagConstraints.CENTER;
 import static java.awt.GridBagConstraints.VERTICAL;
+import static controller.BoardMouseListener.STATE.RUN;
 
 public class MainWindow extends JFrame {
 
@@ -107,11 +109,15 @@ public class MainWindow extends JFrame {
 		repaint();
 	}
 	
-	public void enableRunView() {
+	public void enableClientView() {
 		constraints.fill = VERTICAL;
-
+		remove(sideToolBar);
 		remove(toolbar);
-
+		board.getMouseListener().setState(RUN);
+		remove(sideToolBar);
+		remove(toolbar);
+		setJMenuBar(new JMenuBar());
+		setStatusLabel("Connected");
 		revalidate();
 		repaint();
 	}
