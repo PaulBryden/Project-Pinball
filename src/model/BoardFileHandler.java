@@ -31,6 +31,11 @@ public class BoardFileHandler {
 			for (IGizmo current : list) {
 				if (!(current instanceof Wall)) {
 					save.write(current.serializeGizmo()); // Also contains connection info
+					
+					// Write rotation info
+					for (int i = 0; i < current.getRotation(); i++) {
+						save.write("Rotate " + current.getID() + "\n");
+					}
 				}
 			}
 			
@@ -82,6 +87,9 @@ public class BoardFileHandler {
 					+" "+((AbstractFlipper)current).getAngle().radians()+"\n";
 				}else if (!(current instanceof Wall)) {
 					saveString+=current.serializeGizmo(); // Also contains connection info
+					for (int i = 0; i < current.getRotation(); i++) {
+						saveString+="Rotate " + current.getID() + "\n";
+					}
 				}
 			}
 			
