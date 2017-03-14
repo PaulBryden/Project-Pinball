@@ -45,7 +45,7 @@ public class BoardFileHandler {
 				save.write(current.serializeGizmo());
 			}
 
-			// Finally, write key connections to file
+			// Write key connections to file
 			Map<Integer, ITrigger> keyPressedTriggers = model.getKeyPressedTriggers();
 			Map<Integer, ITrigger> keyReleasedTriggers = model.getKeyReleasedTriggers();
 
@@ -63,6 +63,7 @@ public class BoardFileHandler {
 				}
 			}
 			
+			// Finally, write gravity and friction information
 			save.write("Gravity " + model.getGravity() + "\n");
 			save.write("Friction " + model.getFrictionMu() + " " + model.getFrictionMu2() + "\n");
 
@@ -209,6 +210,14 @@ public class BoardFileHandler {
 						connections.add(line); // Store connection info for later
 					} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
 						executeOperation(type, scan, gizmos); // Build mode operation
+					} else if (type.equals("Gravity")) {
+						double value = scan.nextDouble();
+						model.setGravity(value);
+					} else if (type.equals("Friction")) {
+						double value1 = scan.nextDouble();
+						double value2 = scan.nextDouble();
+						model.setFrictionMu(value1);
+						model.setFrictionMu2(value2);
 					} else {
 						IGizmo gizmo = createGizmo(type, scan, gizmos);
 						if (gizmo instanceof IBall) {
