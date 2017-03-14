@@ -241,7 +241,7 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("Ball B 10.0 14.0 0.0 0.0"));
+		assertTrue(line.equals("Ball B 10.0000 14.0000 0.0000 0.0000"));
 	}
 	
 	@Test
