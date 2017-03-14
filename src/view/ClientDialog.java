@@ -1,6 +1,6 @@
 package view;
 
-import controller.SubmitHostListener;
+import controller.SubmitClientListener;
 import controller.ValidationListener;
 
 import javax.swing.JButton;
@@ -14,23 +14,27 @@ import java.awt.GridBagLayout;
 import static java.awt.Color.RED;
 import static java.awt.GridBagConstraints.HORIZONTAL;
 
-public class HostDialog {
+public class ClientDialog {
     private MainWindow mainWindow;
     private JDialog dialog;
-    private JTextField textField;
+    private JTextField portTextField;
+    private JTextField ipTextField;
     private JButton button;
     private ValidationListener validator;
     private JLabel warning;
-    private JLabel label;
+    private JLabel portLabel;
+    private JLabel ipLabel;
 
-    HostDialog(MainWindow mainWindow){
+    ClientDialog(MainWindow mainWindow){
         this.mainWindow = mainWindow;
         dialog = new JDialog();
-        textField = new JTextField();
+        portTextField = new JTextField();
+        ipTextField = new JTextField();
         button = new JButton("Continue");
-        validator = new ValidationListener(this);
+       // validator = new ValidationListener(this);
         warning = new JLabel("That is not a number");
-        label = new JLabel("Please enter port for host connection");
+        portLabel = new JLabel("Please enter port for host connection");
+        ipLabel = new JLabel("Please enter ip for host connection");
         warning.setVisible(false);
     }
 
@@ -38,27 +42,35 @@ public class HostDialog {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = HORIZONTAL;
 
-        dialog.setTitle("Host");
+        dialog.setTitle("Client");
         dialog.setLayout(new GridBagLayout());
         dialog.setResizable(true);
         dialog.setModal(true);
 
         warning.setForeground(RED);
 
-        button.addActionListener(new SubmitHostListener(mainWindow, this));
-        textField.setColumns(4);
-        textField.getDocument().addDocumentListener(validator);
+        button.addActionListener(new SubmitClientListener(mainWindow, this));
+        portTextField.setColumns(4);
+        ipTextField.setColumns(4);
+       // textField.getDocument().addDocumentListener(validator);
 
-        dialog.add(label, constraints);
+        dialog.add(portLabel, constraints);
 
         constraints.gridx = 1;
-        dialog.add(textField, constraints);
+        dialog.add(portTextField, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 3;
+        constraints.gridy = 1;
+        dialog.add(ipLabel, constraints);
+
+        constraints.gridx = 1;
+        dialog.add(ipTextField, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 4;
         dialog.add(button, constraints);
 
-        constraints.gridy = 2;
+        constraints.gridy = 3;
         dialog.add(warning, constraints);
 
         dialog.setPreferredSize(new Dimension(350, 150));
@@ -67,7 +79,11 @@ public class HostDialog {
     }
 
     public String getPortText(){
-        return (textField.getText());
+        return (portTextField.getText());
+    }
+
+    public String getIpText(){
+        return (ipTextField.getText());
     }
 
     public ValidationListener getTextFieldValidator(){

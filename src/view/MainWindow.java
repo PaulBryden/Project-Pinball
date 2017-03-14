@@ -8,6 +8,7 @@ import javax.swing.WindowConstants;
 
 import controller.RunKeyListener;
 import model.IModel;
+import network.Client;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -139,6 +140,11 @@ public class MainWindow extends JFrame {
 	public void showHostDialog(){
 		HostDialog hostDialog = new HostDialog(this);
 		hostDialog.build();
+	}
+
+	public void showClientDialog(){
+		ClientDialog clientDialog = new ClientDialog(this);
+		clientDialog.build();
 	}
 
 	private void setUpKeyListener() {

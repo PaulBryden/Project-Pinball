@@ -20,7 +20,6 @@ public class ValidationListener implements DocumentListener{
 
     private void validate(){
         try {
-            System.out.println(Integer.parseInt(hostDialog.getPortText()));
             hostDialog.hideWarningLabel();
             valid = true;
         } catch (NumberFormatException e){
