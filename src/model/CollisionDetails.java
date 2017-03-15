@@ -3,6 +3,11 @@ package model;
 import physics.Geometry.VectPair;
 import physics.Vect;
 
+/**
+ * 
+ * @author Matt, David
+ *
+ */
 public class CollisionDetails {
 
 	private double tuc;

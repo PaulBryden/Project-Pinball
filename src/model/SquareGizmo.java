@@ -1,6 +1,5 @@
 package model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +7,12 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
+/**
+ * 
+ * @author Paul, David
+ *
+ */
 class SquareGizmo extends AbstractGizmo implements ISquareGizmo {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 94783270148181126L;
 
 	public SquareGizmo(String id, Vect coords) {
 		super(id, coords, 1, 1, Constants.SQUARE_DEFAULT_COLOUR, true);

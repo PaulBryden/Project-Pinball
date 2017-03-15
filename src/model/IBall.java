@@ -2,19 +2,24 @@ package model;
 
 import physics.Vect;
 
+/**
+ * 
+ * @author Paul, David
+ *
+ */
 public interface IBall extends IGizmo {
 	
-	public Vect getVelo();
+	Vect getVelo();
 
-	public void setVelo(Vect v);
+	void setVelo(Vect v);
 
-	public void moveForTime(double tickTime);
+	void moveForTime(double tickTime);
 
-	public void setCentre(Vect v);
+	void setCentre(Vect v);
 
-	public Vect getCentre();
+	Vect getCentre();
 
-	public double getRadius();
+	double getRadius();
 
 	void setRadius(double radius);
 

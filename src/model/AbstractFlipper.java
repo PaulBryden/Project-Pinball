@@ -9,6 +9,11 @@ import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
 
+/**
+ * 
+ * @author David
+ *
+ */
 abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
 
 	protected static final double RADIUS = 0.25;
@@ -25,6 +30,13 @@ abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
 	protected Vect endCentre;
 	private boolean vertical;
 
+	/**
+	 * 
+	 * @param id
+	 *            The unique ID
+	 * @param coords
+	 *            Top left corner
+	 */
 	public AbstractFlipper(String id, Vect coords) {
 		super(id, coords, 2, 2, Constants.FLIPPER_DEFAULT_COLOUR, true);
 		this.angularVelocity = 0;
@@ -35,6 +47,7 @@ abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
 		this.vertical = true;
 	}
 
+	@Override
 	protected void generateLinesAndCircles() {
 		circles.clear();
 		circles.add(new Circle(pivot, RADIUS));
@@ -57,6 +70,9 @@ abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
 		circles.add(new Circle(endCentre, RADIUS));
 	}
 
+	/**
+	 * Add zero-diameter circles to the ends of the line segments.
+	 */
 	private void addEndPoints() {
 		for (LineSegment line : lines) {
 			circles.add(new Circle(line.p1(), 0));
@@ -88,24 +104,28 @@ abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
 		generateLinesAndCircles();
 	}
 
+	@Override
 	public Angle getAngle() {
 		return angle;
 	}
-	
+
+	@Override
 	public void setAngle(Angle angle) {
-		this.angle=angle;
+		this.angle = angle;
 		generateLinesAndCircles();
-		
 	}
 
+	@Override
 	public double getAngularVelocity() {
 		return angularVelocity;
 	}
 
+	@Override
 	public void toggleOpen() {
 		this.open = !open;
 	}
 
+	@Override
 	public Vect getPivot() {
 		return pivot;
 	}
@@ -118,14 +138,17 @@ abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
 		return flipperVector;
 	}
 
+	@Override
 	public Vect getEndCentre() {
 		return endCentre;
 	}
 
+	@Override
 	public double getWidth() {
 		return 2 * RADIUS;
 	}
 
+	@Override
 	public double timeUntilStatic() {
 		if (isStatic)
 			return 0;
@@ -133,6 +156,7 @@ abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
 		return Math.abs(remaining.radians() / angularVelocity);
 	}
 
+	@Override
 	public void moveForTime(double time) {
 		if (open && angle.equals(openAngle) || !open && angle.equals(Angle.ZERO)) {
 			return;
@@ -167,5 +191,5 @@ abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
 		}
 		generateLinesAndCircles();
 	}
-	
+
 }

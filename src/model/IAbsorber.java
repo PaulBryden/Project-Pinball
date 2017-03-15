@@ -2,6 +2,11 @@ package model;
 
 import physics.Vect;
 
+/**
+ * 
+ * @author David, Paul
+ *
+ */
 public interface IAbsorber extends IGizmo {
 
 	IBall getNextBall();
@@ -9,5 +14,9 @@ public interface IAbsorber extends IGizmo {
 	void absorbBall(IBall ball);
 
 	Vect getBottomRightCoords();
+
+	void fireBall();
+
+	void updateFiring();
 	
 }

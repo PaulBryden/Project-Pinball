@@ -2,6 +2,11 @@ package model;
 
 import physics.Vect;
 
+/**
+ * 
+ * @author Matt, David
+ *
+ */
 public class PhysicsEvaluator {
 
 	IModel model;

@@ -8,16 +8,36 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
+/**
+ * 
+ * @author Paul, David
+ *
+ */
 class Absorber extends AbstractGizmo implements IAbsorber {
 
 	private AbsorbAction absorb;
-	List<IBall> storedBalls;
-	Vect bottomRightCoords;
+	private List<IBall> storedBalls;
+	private Vect bottomRightCoords;
 	private int ballsToFire;
 	private IModel model;
 
+	/**
+	 * Create a new absorber with a queue of stored balls.
+	 * 
+	 * @param model
+	 *            The model this absorber interacts with
+	 * @param id
+	 *            The unique ID
+	 * @param topLeftCoords
+	 *            Top left corner
+	 * @param bottomRightCoords
+	 *            Bottom right corner
+	 * @param storedBalls
+	 *            Queue containing balls currently stored in the absorber
+	 */
 	public Absorber(IModel model, String id, Vect topLeftCoords, Vect bottomRightCoords, List<IBall> storedBalls) {
-		super(id, topLeftCoords, (int) (bottomRightCoords.x() - topLeftCoords.x()), (int) (bottomRightCoords.y() - topLeftCoords.y()), Constants.ABSORBER_DEFAULT_COLOUR, true);
+		super(id, topLeftCoords, (int) (bottomRightCoords.x() - topLeftCoords.x()),
+				(int) (bottomRightCoords.y() - topLeftCoords.y()), Constants.ABSORBER_DEFAULT_COLOUR, true);
 		this.model = model;
 		this.bottomRightCoords = bottomRightCoords;
 		this.absorb = new AbsorbAction(this);
@@ -28,14 +48,18 @@ class Absorber extends AbstractGizmo implements IAbsorber {
 		this.ballsToFire = 0;
 	}
 
-	public Absorber(IModel model, String id, int x1, int y1, int x2, int y2, List<IBall> balls) {
-		this(model, id, new Vect(x1, y1), new Vect(x2, y2), balls);
-	}
-
-	public Absorber(IModel model, String id, int x1, int y1, int x2, int y2) {
-		this(model, id, x1, y1, x2, y2, new LinkedList<>());
-	}
-
+	/**
+	 * Create a new absorber.
+	 * 
+	 * @param model
+	 *            The model this absorber interacts with
+	 * @param id
+	 *            The unique ID
+	 * @param topLeftCoords
+	 *            Top left corner
+	 * @param bottomRightCoords
+	 *            Bottom right corner
+	 */
 	public Absorber(IModel model, String id, Vect topLeftCoords, Vect bottomRightCoords) {
 		this(model, id, topLeftCoords, bottomRightCoords, new LinkedList<>());
 	}
@@ -77,37 +101,46 @@ class Absorber extends AbstractGizmo implements IAbsorber {
 		this.bottomRightCoords = new Vect(bottomRightCoords.x() + xdiff, bottomRightCoords.y() + ydiff);
 		generateLinesAndCircles();
 	}
-	
+
+	@Override
 	public IBall getNextBall() {
 		if (this.storedBalls.isEmpty())
 			return null;
 		return this.storedBalls.get(0);
 	}
 
+	/**
+	 * Initiate firing the next ball in the queue
+	 */
 	public void fireBall() {
 		if (storedBalls.size() > ballsToFire) {
 			ballsToFire++;
 			updateFiring();
 		}
 	}
-	
+
+	/**
+	 * Fire any balls waiting to be fired if there is space
+	 */
 	public void updateFiring() {
 		if (ballsToFire > 0 && hasSpaceToFire()) {
 			IBall ball = storedBalls.remove(0);
 			ball.setVelo(new Vect(0, -50));
-			ball.setGridCoords(new Vect(bottomRightCoords.x() - ball.getRadius(),
-					bottomRightCoords.y() - 1 - ball.getRadius()));
+			ball.setGridCoords(
+					new Vect(bottomRightCoords.x() - ball.getRadius(), bottomRightCoords.y() - 1 - ball.getRadius()));
 			model.addBall(ball);
 			ball.setCentre(new Vect(bottomRightCoords.x() - ball.getRadius(), coords.y() - ball.getRadius()));
 			ballsToFire--;
 		}
 	}
 
+	@Override
 	public void absorbBall(IBall ball) {
 		storedBalls.add(ball);
 		model.removeBall(ball);
 	}
 
+	@Override
 	public Vect getBottomRightCoords() {
 		return bottomRightCoords;
 	}

@@ -3,6 +3,11 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 
+ * @author David, Matt
+ *
+ */
 public class KeyTrigger {
 	
 	private Set<IGizmo> gizmos;

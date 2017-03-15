@@ -3,24 +3,29 @@ package model;
 import physics.Angle;
 import physics.Vect;
 
+/**
+ * 
+ * @author David, Matt
+ *
+ */
 public interface IFlipper extends IGizmo {
 
-	public Angle getAngle();
+	Angle getAngle();
 	
-	public void setAngle(Angle angle);
+	void setAngle(Angle angle);
 
-	public double getAngularVelocity();
+	double getAngularVelocity();
 
-	public void toggleOpen();
+	void toggleOpen();
 	
-	public Vect getPivot();
+	Vect getPivot();
 	
-	public Vect getEndCentre();
+	Vect getEndCentre();
 	
-	public double getWidth();
+	double getWidth();
 
-	public void moveForTime(double tickTime);
+	void moveForTime(double tickTime);
 	
-	public double timeUntilStatic();
+	double timeUntilStatic();
 
 }

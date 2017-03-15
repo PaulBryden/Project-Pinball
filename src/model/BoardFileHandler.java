@@ -11,9 +11,15 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import model.GizmoFactory.TYPE;
 import physics.Angle;
 import physics.Vect;
 
+/**
+ * 
+ * @author Michael
+ *
+ */
 public class BoardFileHandler {
 	
 	private IModel model;
@@ -257,32 +263,33 @@ public class BoardFileHandler {
 			y1 = scan.nextInt();
 		}
 
+		GizmoFactory gf = new GizmoFactory(model);
 		try {
 			switch (type) {
 			case "Square":
-				newGizmo = new SquareGizmo(id, x1, y1);
+				newGizmo = gf.getGizmo(TYPE.Square, id, new Vect(x1, y1));
 				break;
 			case "Triangle":
-				newGizmo = new TriangleGizmo(id, x1, y1);
+				newGizmo = gf.getGizmo(TYPE.Triangle, id, new Vect(x1, y1));
 				break;
 			case "Circle":
-				newGizmo = new CircleGizmo(id, x1, y1);
+				newGizmo = gf.getGizmo(TYPE.Circle, id, new Vect(x1, y1));
 				break;
 			case "LeftFlipper":
-				newGizmo = new LeftFlipper(id, x1, y1);
+				newGizmo = gf.getGizmo(TYPE.LeftFlipper, id, new Vect(x1, y1));
 				break;
 			case "RightFlipper":
-				newGizmo = new RightFlipper(id, x1, y1);
+				newGizmo = gf.getGizmo(TYPE.RightFlipper, id, new Vect(x1, y1));
 				break;
 			case "Absorber":
 				int x2 = scan.nextInt();
 				int y2 = scan.nextInt();
-				newGizmo = new Absorber(model, id, x1, y1, x2, y2);
+				newGizmo = gf.getAbsorber(id, new Vect(x1, y1), new Vect(x2, y2));
 				break;
 			case "Ball":
 				double xv = scan.nextDouble();
 				double yv = scan.nextDouble();
-				newGizmo = new BallGizmo(id, ballx1, bally1, xv, yv);
+				newGizmo = gf.getBall(id, new Vect(ballx1, bally1), new Vect(xv, yv));
 				break;
 			default:
 				System.out.println("No gizmo created");

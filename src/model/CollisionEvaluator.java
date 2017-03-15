@@ -6,6 +6,11 @@ import physics.LineSegment;
 import physics.Vect;
 import physics.Geometry.VectPair;
 
+/**
+ * 
+ * @author Matt, David
+ *
+ */
 public class CollisionEvaluator {
 
 	private IModel model;

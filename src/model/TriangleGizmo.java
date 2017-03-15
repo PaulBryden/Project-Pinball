@@ -9,6 +9,11 @@ import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
 
+/**
+ * 
+ * @author Paul, David
+ *
+ */
 class TriangleGizmo extends AbstractGizmo implements ITriangleGizmo {
 
 	public TriangleGizmo(String id, Vect coords) {
