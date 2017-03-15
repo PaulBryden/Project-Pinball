@@ -1,8 +1,10 @@
 package controller;
 
-import model.Absorber;
 import model.BallGizmo;
 import model.CircleGizmo;
+import model.GizmoFactory;
+import model.GizmoFactory.TYPE;
+import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
 import model.LeftFlipper;
@@ -33,7 +35,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 
 	private void handleAdd(Vect coords, Board board) {
 		if (model.isCellEmpty(coords)) {
-			String id = coords.x() + "" + coords.y();
+			GizmoFactory gf = new GizmoFactory(model);
 			switch (board.getSelectedGizmo()) {
 			case ABSORBER:
 				Vect initalAbsorberCoords = board.getSelectedGizmoCoords();
@@ -45,29 +47,29 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 						mainWindow.setWarningLabel(
 								"Invalid cell, you might want to make that the " + "top-left cell, try again");
 					} else {
-						board.addGizmo(new AbsorberView(new Absorber(model, "A" + id, initalAbsorberCoords,
+						board.addGizmo(new AbsorberView(gf.getAbsorber(initalAbsorberCoords,
 								new Vect(coords.x() + 1, coords.y() + 1))));
 					}
 					board.setSelectedGizmoCoords(null);
 				}
 				break;
 			case BALL:
-				board.addBall(new BallGizmo("B" + id, coords.plus(new Vect(0.5, 0.5)), new Vect(13, 17)));
+				board.addBall(gf.getBall(coords.plus(new Vect(0.5, 0.5)), new Vect(13, 17)));
 				break;
 			case CIRCLE:
-				board.addGizmo(new CircleView(new CircleGizmo("C" + id, coords)));
+				board.addGizmo(new CircleView((CircleGizmo) gf.getGizmo(TYPE.Circle, coords)));
 				break;
 			case LFLIPPER:
-				board.addGizmo(new FlipperView(new LeftFlipper("LF" + id, coords)));
+				board.addGizmo(new FlipperView((IFlipper) gf.getGizmo(TYPE.LeftFlipper, coords)));
 				break;
 			case RFLIPPER:
-				board.addGizmo(new FlipperView(new RightFlipper("RF" + id, coords)));
+				board.addGizmo(new FlipperView((IFlipper) gf.getGizmo(TYPE.RightFlipper, coords)));
 				break;
 			case SQUARE:
-				board.addGizmo(new SquareView(new SquareGizmo("S" + id, coords)));
+				board.addGizmo(new SquareView(gf.getGizmo(TYPE.Square, coords)));
 				break;
 			case TRIANGLE:
-				board.addGizmo(new TriangleView(new TriangleGizmo("T" + id, coords)));
+				board.addGizmo(new TriangleView(gf.getGizmo(TYPE.Triangle, coords)));
 				break;
 			}
 		} else {

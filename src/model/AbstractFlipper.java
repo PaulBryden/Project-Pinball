@@ -9,7 +9,7 @@ import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
 
-public abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
+abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
 
 	protected static final double RADIUS = 0.25;
 	protected static final double ABS_ANGULAR_VELOCITY = 18.85; // in rad/sec,

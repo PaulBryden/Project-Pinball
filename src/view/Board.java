@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 import javax.swing.JPanel;
 
 import controller.BoardMouseListener;
-import model.Absorber;
 import model.CircleGizmo;
+import model.IAbsorber;
 import model.IBall;
 import model.IFlipper;
 import model.IGizmo;
@@ -190,7 +190,7 @@ public class Board extends JPanel implements Observer {
 				viewGizmos.add(new FlipperView((IFlipper) gizmo));
 			else if(gizmo instanceof CircleGizmo)
 				viewGizmos.add(new CircleView((CircleGizmo) gizmo));
-			else if(gizmo instanceof Absorber)
+			else if(gizmo instanceof IAbsorber)
 				viewGizmos.add(new AbsorberView(gizmo));
 		}
 

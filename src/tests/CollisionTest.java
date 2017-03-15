@@ -2,11 +2,12 @@ package tests;
 
 import org.junit.Test;
 
-import model.Absorber;
 import model.BallGizmo;
 import model.CircleGizmo;
 import model.CollisionDetails;
 import model.CollisionEvaluator;
+import model.GizmoFactory;
+import model.IAbsorber;
 import model.IBall;
 import model.IModel;
 import model.LeftFlipper;
@@ -122,7 +123,8 @@ public class CollisionTest {
 		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
 		BallGizmo ballSlow = new BallGizmo("B2",topLeft, new Vect(1000,0));
         IModel model = ModelFactory.getModel();
-		Absorber gizmo = new Absorber(model,"LF1",new Vect(3,1),new Vect(4,2));
+        GizmoFactory gf = new GizmoFactory(model);
+		IAbsorber gizmo = gf.getAbsorber(new Vect(3,1),new Vect(4,2));
 		model.addBall(ballFast);
 		model.addBall(ballSlow);
 		model.addGizmo(gizmo);
@@ -154,9 +156,10 @@ public class CollisionTest {
 	public void AbsorberBallAbsorbTest() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
-		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
+		IBall ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
         IModel model = ModelFactory.getModel();
-		Absorber gizmo = new Absorber(model,"LF1",new Vect(3,1),new Vect(4,2));
+        GizmoFactory gf = new GizmoFactory(model);
+		IAbsorber gizmo = gf.getAbsorber(new Vect(3,1),new Vect(4,2));
 		model.addBall(ballFast);
 		model.addGizmo(gizmo);
 		gizmo.absorbBall(ballFast);
@@ -170,7 +173,8 @@ public class CollisionTest {
 		Vect wallTop = new Vect (3,1);
 		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
         IModel model = ModelFactory.getModel();
-		Absorber gizmo = new Absorber(model,"LF1",new Vect(3,1),new Vect(4,2));
+        GizmoFactory gf = new GizmoFactory(model);
+		IAbsorber gizmo = gf.getAbsorber(new Vect(3,1),new Vect(4,2));
 		model.addBall(ballFast);
 		model.addGizmo(gizmo);
 		gizmo.absorbBall(ballFast);

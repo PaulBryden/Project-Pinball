@@ -2,9 +2,10 @@ package tests;
 
 import org.junit.Test;
 
-import model.Absorber;
 import model.BallGizmo;
 import model.CircleGizmo;
+import model.GizmoFactory;
+import model.IAbsorber;
 import model.LeftFlipper;
 import model.ModelFactory;
 import model.RightFlipper;
@@ -27,10 +28,10 @@ public class GizmoTest {
 	@Test
 	public void AbsorberCreationTest() {
 		Vect topLeft = new Vect(1,1);
-		Vect bottomRight = new Vect(2,2); 
-		Absorber newAbsorber = new Absorber(ModelFactory.getModel(),"A1",topLeft,bottomRight);
-		
-		assertEquals(newAbsorber.getBottomRightCoords(),bottomRight);
+		Vect bottomRight = new Vect(2,2);
+        GizmoFactory gf = new GizmoFactory(ModelFactory.getModel());
+		IAbsorber gizmo = gf.getAbsorber(topLeft,bottomRight);
+		assertEquals(gizmo.getBottomRightCoords(),bottomRight);
 	}
 	
 	@Test

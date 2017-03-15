@@ -8,7 +8,7 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class Absorber extends AbstractGizmo {
+class Absorber extends AbstractGizmo implements IAbsorber {
 
 	private AbsorbAction absorb;
 	List<IBall> storedBalls;

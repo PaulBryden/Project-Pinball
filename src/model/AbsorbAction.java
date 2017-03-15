@@ -1,6 +1,6 @@
 package model;
 
-public class AbsorbAction implements IAction {
+class AbsorbAction implements IAction {
 
 	private Absorber a;
 	

@@ -12,10 +12,11 @@ import java.util.InputMismatchException;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Absorber;
 import model.BallGizmo;
 import model.BoardFileHandler;
 import model.CircleGizmo;
+import model.GizmoFactory;
+import model.IAbsorber;
 import model.IBall;
 import model.IGizmo;
 import model.IModel;
@@ -25,6 +26,7 @@ import model.RightFlipper;
 import model.SquareGizmo;
 import model.TriangleGizmo;
 import model.Wall;
+import physics.Vect;
 
 public class FileHandlerTest {
 	
@@ -91,7 +93,7 @@ public class FileHandlerTest {
 		IGizmo absorber = null;
 		
 		for (IGizmo current : gizmos) {
-			if (current instanceof Absorber)
+			if (current instanceof IAbsorber)
 				absorber = current;
 		}
 		
@@ -253,7 +255,8 @@ public class FileHandlerTest {
 	
 	@Test
 	public void testSaveAbsorber() throws IOException {
-		IGizmo gizmo = new Absorber(model, "A", 5, 5, 15, 15);
+        GizmoFactory gf = new GizmoFactory(model);
+		IAbsorber gizmo = gf.getAbsorber(new Vect(5, 5), new Vect(15, 15));
 		model.addGizmo(gizmo);
 		file.save("test_save_file.txt");
 

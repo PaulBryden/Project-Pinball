@@ -1,6 +1,6 @@
 package model;
 
-public class AbsorberFireAction implements IAction {
+class AbsorberFireAction implements IAction {
 	
 	private Absorber a;
 	

@@ -10,7 +10,7 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public abstract class AbstractGizmo implements IGizmo {
+abstract class AbstractGizmo implements IGizmo {
 
 	protected String id;
 	protected Vect coords;
