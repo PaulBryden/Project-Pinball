@@ -2,34 +2,24 @@ package view;
 
 import controller.*;
 
-import javax.swing.JButton;
-import javax.swing.JToolBar;
-
-class BuildToolBar extends JToolBar{
+class BuildToolBar extends AbstractToolBar {
+	
     BuildToolBar(MainWindow mainWindow){
         super("Build Mode");
-        JButton placeBtn = new JButton("Place Gizmo");
-        JButton deleteBtn = new JButton("Delete Gizmo");
-        JButton rotateBtn = new JButton("Rotate Gizmo");
-        JButton moveBtn = new JButton("Move");
-        JButton connectGizmoBtn = new JButton("Connect Gizmo");
-        JButton keyConnectBtn = new JButton("Key Connect");
-
-        placeBtn.addActionListener(new AddGizmoListener(mainWindow));
-        deleteBtn.addActionListener(new DeleteGizmoListener(mainWindow));
-        rotateBtn.addActionListener(new RotateGizmoListener(mainWindow));
-        moveBtn.addActionListener(new MoveGizmoListener(mainWindow));
-        connectGizmoBtn.addActionListener(new LinkGizmosListener(mainWindow));
-        keyConnectBtn.addActionListener(new AddKeyTriggerListener(mainWindow));
-
-        setFloatable(false);
-        setRollover(true);
-
-        add(placeBtn);
-        add(deleteBtn);
-        add(rotateBtn);
-        add(moveBtn);
-        add(connectGizmoBtn);
-        add(keyConnectBtn);
     }
+
+	protected void populateButtons() {
+		makeButton("save", "Save board layout");
+		makeButton("load", "Load board layout");
+		addSeparator();
+		makeButton("add", "Add gizmo");
+		makeButton("delete", "Remove gizmo");
+		makeButton("rotate", "Rotate gizmo");
+		makeButton("move", "Move a gizmo");
+		addSeparator();
+		makeButton("connect", "Connect gizmos");
+		makeButton("key", "Add key connection");
+		addSeparator();
+		makeButton("run_mode", "Enter run mode");
+	}
 }

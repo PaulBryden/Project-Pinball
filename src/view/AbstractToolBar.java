@@ -19,7 +19,7 @@ public abstract class AbstractToolBar extends JToolBar {
 
 	private Map<String, JButton> buttons;
 	
-	public AbstractToolBar(String mode, MainWindow mainWindow, IModel model) {
+	public AbstractToolBar(String mode) {
 		super(mode);
 		this.listener = new ToolBarListener(this);
 		this.buttons = new HashMap<>();

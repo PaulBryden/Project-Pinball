@@ -12,7 +12,7 @@ class RunToolBar extends AbstractToolBar {
 	private Map<String, JButton> buttons;
 
 	RunToolBar(MainWindow mainWindow, IModel model) {
-		super("Run Mode", mainWindow, model);
+		super("Run Mode");
 	}
 	
 	protected void populateButtons() {
