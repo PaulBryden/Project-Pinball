@@ -1,16 +1,11 @@
 package controller;
 
-import model.BallGizmo;
-import model.CircleGizmo;
 import model.GizmoFactory;
 import model.GizmoFactory.TYPE;
+import model.ICircleGizmo;
 import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
-import model.LeftFlipper;
-import model.RightFlipper;
-import model.SquareGizmo;
-import model.TriangleGizmo;
 import physics.Vect;
 import view.AbsorberView;
 import view.Board;
@@ -57,7 +52,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				board.addBall(gf.getBall(coords.plus(new Vect(0.5, 0.5)), new Vect(13, 17)));
 				break;
 			case CIRCLE:
-				board.addGizmo(new CircleView((CircleGizmo) gf.getGizmo(TYPE.Circle, coords)));
+				board.addGizmo(new CircleView((ICircleGizmo) gf.getGizmo(TYPE.Circle, coords)));
 				break;
 			case LFLIPPER:
 				board.addGizmo(new FlipperView((IFlipper) gf.getGizmo(TYPE.LeftFlipper, coords)));

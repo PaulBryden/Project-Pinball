@@ -9,7 +9,7 @@ import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
 
-public class TriangleGizmo extends AbstractGizmo {
+class TriangleGizmo extends AbstractGizmo implements ITriangleGizmo {
 
 	public TriangleGizmo(String id, Vect coords) {
 		super(id, coords, 1, 1, Constants.TRIANGLE_DEFAULT_COLOUR, true);

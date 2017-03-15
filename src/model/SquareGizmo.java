@@ -8,7 +8,7 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class SquareGizmo extends AbstractGizmo implements Serializable{
+class SquareGizmo extends AbstractGizmo implements ISquareGizmo {
 
 	/**
 	 * 
@@ -42,7 +42,6 @@ public class SquareGizmo extends AbstractGizmo implements Serializable{
 
 	@Override
 	public List<Vect> getExactCoords() {
-		// TODO Auto-generated method stub
 		List<Vect> coordVector = new ArrayList<Vect>();
 		coordVector.add(this.getAllLineSegments().get(0).p1());
 		coordVector.add(this.getAllLineSegments().get(0).p2());

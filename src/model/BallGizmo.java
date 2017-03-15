@@ -5,7 +5,7 @@ import java.util.List;
 import physics.Circle;
 import physics.Vect;
 
-public class BallGizmo extends AbstractGizmo implements IBall {
+class BallGizmo extends AbstractGizmo implements IBall {
 
 	private double radius;
 	private Circle physicsCircle;

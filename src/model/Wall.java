@@ -10,7 +10,7 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class Wall implements IGizmo {
+class Wall implements IGizmo {
 	
 	private Set<IGizmo> triggers;
 	private LineSegment line;

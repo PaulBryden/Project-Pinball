@@ -1,6 +1,6 @@
 package model;
 
-public class FlipperAction implements IAction {
+class FlipperAction implements IAction {
 	
 	private IFlipper flipper;
 	

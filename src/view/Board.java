@@ -14,17 +14,15 @@ import java.util.stream.Collectors;
 import javax.swing.JPanel;
 
 import controller.BoardMouseListener;
-import model.CircleGizmo;
 import model.IAbsorber;
 import model.IBall;
+import model.ICircleGizmo;
 import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
+import model.ISquareGizmo;
+import model.ITriangleGizmo;
 import model.KeyTrigger;
-import model.LeftFlipper;
-import model.RightFlipper;
-import model.SquareGizmo;
-import model.TriangleGizmo;
 import physics.Vect;
 
 import static view.CUR_GIZMO.NONE;
@@ -182,14 +180,14 @@ public class Board extends JPanel implements Observer {
 		viewBalls.clear();
 
 		for(IGizmo gizmo : gizmos){
-			if(gizmo instanceof TriangleGizmo)
+			if(gizmo instanceof ITriangleGizmo)
 				viewGizmos.add(new TriangleView(gizmo));
-			else if(gizmo instanceof SquareGizmo)
+			else if(gizmo instanceof ISquareGizmo)
 				viewGizmos.add(new SquareView(gizmo));
-			else if(gizmo instanceof LeftFlipper || gizmo instanceof RightFlipper)
+			else if(gizmo instanceof IFlipper)
 				viewGizmos.add(new FlipperView((IFlipper) gizmo));
-			else if(gizmo instanceof CircleGizmo)
-				viewGizmos.add(new CircleView((CircleGizmo) gizmo));
+			else if(gizmo instanceof ICircleGizmo)
+				viewGizmos.add(new CircleView((ICircleGizmo) gizmo));
 			else if(gizmo instanceof IAbsorber)
 				viewGizmos.add(new AbsorberView(gizmo));
 		}

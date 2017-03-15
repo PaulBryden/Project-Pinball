@@ -2,14 +2,14 @@ package view;
 
 import java.awt.*;
 
-import model.CircleGizmo;
+import model.ICircleGizmo;
 import model.IGizmo;
 
 public class CircleView implements IViewGizmo {
 	
-	protected CircleGizmo gizmo;
+	protected ICircleGizmo gizmo;
 
-	public CircleView(CircleGizmo gizmo) {
+	public CircleView(ICircleGizmo gizmo) {
 		this.gizmo = gizmo;
 	}
 
