@@ -12,7 +12,12 @@ import java.util.Observable;
 import network.Host;
 import physics.Vect;
 
-public class GameModel extends Observable implements IModel {
+/**
+ * 
+ * @author Matt, David, Paul
+ *
+ */
+class GameModel extends Observable implements IModel {
 
 	BoardFileHandler fileHandler;
 	private List<IGizmo> gizmos;
@@ -31,17 +36,21 @@ public class GameModel extends Observable implements IModel {
 	private double mu;
 	private double mu2;
 
+	/**
+	 * Create a new model with default physics and walls.
+	 */
 	public GameModel() {
-
 		keysToSend = new ArrayDeque<String>();
 		reset();
 		setDefaultPhysics();
 	}
 
+	@Override
 	public void tick() {
 		// Evaluate collisions for all items in Gizmolist
 		collisionEvaluator.evaluate();
 		double tick = collisionEvaluator.getTickTime();
+		
 		// Move all items based on that tick time
 		for (IBall ball : balls) {
 			ball.moveForTime(tick);
@@ -49,11 +58,11 @@ public class GameModel extends Observable implements IModel {
 		for (IFlipper flipper : getFlippers()) {
 			flipper.moveForTime(tick);
 		}
-		for (Absorber absorber : getAbsorbers()) {
+		for (IAbsorber absorber : getAbsorbers()) {
 			absorber.updateFiring();
 		}
+		
 		// Resolve collision
-
 		collisionEvaluator.resolveCollision();
 		// Apply friction and gravity
 		physicsEvaluator.applyGravity(tick);
@@ -64,11 +73,11 @@ public class GameModel extends Observable implements IModel {
 		notifyObservers();
 		if (isHost) {
 			host.sendBoard();
-			host.recieveKeys();
-
+			host.receiveKeys();
 		}
 	}
 
+	@Override
 	public synchronized List<IFlipper> getFlippers() {
 		List<IFlipper> flippers = new LinkedList<>();
 		for (IGizmo gizmo : gizmos) {
@@ -79,17 +88,18 @@ public class GameModel extends Observable implements IModel {
 		return flippers;
 	}
 
-	public List<Absorber> getAbsorbers() {
-		List<Absorber> absorbers = new LinkedList<>();
+	@Override
+	public List<IAbsorber> getAbsorbers() {
+		List<IAbsorber> absorbers = new LinkedList<>();
 		for (IGizmo gizmo : gizmos) {
-			if (gizmo instanceof Absorber) {
-				absorbers.add((Absorber) gizmo);
+			if (gizmo instanceof IAbsorber) {
+				absorbers.add((IAbsorber) gizmo);
 			}
 		}
 		return absorbers;
-
 	}
 
+	@Override
 	public IBall getBall(Vect coords) {
 		for (IBall ball : balls) {
 			Vect pos = ball.getCentre();
@@ -101,6 +111,7 @@ public class GameModel extends Observable implements IModel {
 		return null;
 	}
 
+	@Override
 	public IGizmo getGizmo(Vect coords) {
 		for (IGizmo gizmo : gizmos) {
 			Vect gizmoCoords = gizmo.getGridCoords();
@@ -114,38 +125,47 @@ public class GameModel extends Observable implements IModel {
 		return null;
 	}
 
+	@Override
 	public boolean isCellEmpty(Vect coords) {
 		return getGizmo(coords) == null && getBall(coords) == null;
 	}
 
+	@Override
 	public List<IGizmo> getGizmos() {
 		return gizmos;
 	}
 
+	@Override
 	public void addGizmo(IGizmo gizmo) {
 		gizmos.add(gizmo);
 	}
 
+	@Override
 	public void addBall(IBall ball) {
 		balls.add(ball);
 	}
 
+	@Override
 	public void removeBall(IBall ball) {
 		balls.remove(ball);
 	}
 
+	@Override
 	public void removeGizmo(IGizmo gizmo) {
 		gizmos.remove(gizmo);
 	}
 
+	@Override
 	public void setGizmos(List<IGizmo> gizmos) {
 		this.gizmos = gizmos;
 	}
 
+	@Override
 	public void setBalls(List<IBall> balls) {
 		this.balls = balls;
 	}
 
+	@Override
 	public void reset() {
 		gizmos = new LinkedList<>();
 		gizmos.add(new Wall(0, 0, 0, 20));
@@ -163,6 +183,7 @@ public class GameModel extends Observable implements IModel {
 		physicsEvaluator = new PhysicsEvaluator(this);
 	}
 
+	@Override
 	public List<IBall> getBalls() {
 		return balls;
 	}
@@ -209,14 +230,17 @@ public class GameModel extends Observable implements IModel {
 		this.backgroundColour = colour;
 	}
 
+	@Override
 	public Map<Integer, KeyTrigger> getKeyPressedTriggers() {
 		return keyPressedTriggers;
 	}
 
+	@Override
 	public Map<Integer, KeyTrigger> getKeyReleasedTriggers() {
 		return keyReleasedTriggers;
 	}
 
+	@Override
 	public void startHosting(int Port) {
 		this.host = new Host(new BoardFileHandler(this), this, Port);
 		if (host.startHost() > 0) {
@@ -224,6 +248,7 @@ public class GameModel extends Observable implements IModel {
 		}
 	}
 
+	@Override
 	public void addKeyToSend(String keyData) {
 		keysToSend.add(keyData);
 	}
@@ -284,7 +309,6 @@ public class GameModel extends Observable implements IModel {
 		this.gravity = Constants.DEFAULT_GRAVITY;
 		this.mu = Constants.DEFAULT_MU;
 		this.mu2 = Constants.DEFAULT_MU2;
-
 	}
 
 }

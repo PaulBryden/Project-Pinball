@@ -5,19 +5,27 @@ import java.util.List;
 import physics.Circle;
 import physics.Vect;
 
-public class CircleGizmo extends AbstractGizmo {
+/**
+ * 
+ * @author Paul
+ *
+ */
+class CircleGizmo extends AbstractGizmo implements ICircleGizmo {
 
 	private double radius;
 	private Circle physicsCircle;
 
+	/**
+	 * 
+	 * @param id
+	 *            A unique ID
+	 * @param coords
+	 *            Top left corner of inscribing square
+	 */
 	public CircleGizmo(String id, Vect coords) {
 		super(id, coords, 1, 1, Constants.CIRCLE_DEFAULT_COLOUR, true);
 		this.radius = 0.5;
 		generateLinesAndCircles();
-	}
-
-	public CircleGizmo(String id, int x, int y) {
-		this(id, new Vect(x, y));
 	}
 
 	@Override
@@ -37,15 +45,18 @@ public class CircleGizmo extends AbstractGizmo {
 		return serializedGizmo;
 	}
 
+	@Override
 	public double getRadius() {
 		return radius;
 	}
 
+	@Override
 	public void setRadius(double radius) {
 		this.radius = radius;
 		generateLinesAndCircles();
 	}
 
+	@Override
 	public Vect getCentre() {
 		return physicsCircle.getCenter();
 	}

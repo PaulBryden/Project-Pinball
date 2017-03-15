@@ -10,7 +10,12 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class Wall implements IGizmo {
+/**
+ * 
+ * @author David, Matt
+ *
+ */
+class Wall implements IGizmo {
 	
 	private Set<IGizmo> triggers;
 	private LineSegment line;

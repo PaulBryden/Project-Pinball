@@ -8,71 +8,115 @@ import java.util.Observer;
 
 import physics.Vect;
 
+/** 
+ * 
+ * @author David, Matt, Paul
+ *
+ */
 public interface IModel {
 
-	public void tick();
+	/**
+	 * Execute the main physics loop once. This method will evaluate collisions,
+	 * move all items in the model for the the tick time or the time until the
+	 * next collision (whichever is shorter), update the velocities of all balls
+	 * based on physical parameters and the evaluated collision, and finally
+	 * update the view.
+	 */
+	void tick();
 
-	public List<IGizmo> getGizmos();
+	List<IGizmo> getGizmos();
+	
+	/**
+	 * 
+	 * @return A list containing all of the absorbers in the model.
+	 */
+	List<IAbsorber> getAbsorbers();
 
-	public List<IBall> getBalls();
+	/**
+	 * 
+	 * @return A list containing all of the flippers in the model.
+	 */
+	List<IFlipper> getFlippers();
 
-	public void addGizmo(IGizmo gizmo);
+	List<IBall> getBalls();
 
-	public void addBall(IBall ball);
+	void addGizmo(IGizmo gizmo);
 
-	public void removeBall(IBall ball);
+	void addBall(IBall ball);
 
-	public void removeGizmo(IGizmo gizmo);
+	void removeBall(IBall ball);
 
-	public IGizmo getGizmo(Vect coords);
+	void removeGizmo(IGizmo gizmo);
 
-	public IBall getBall(Vect coords);
+	/**
+	 * Get the Gizmo at the given grid coordinates.
+	 * 
+	 * @param coords
+	 *            A vector representing the grid coordinates.
+	 * @return The gizmo at those coordinates, or null if there is none.
+	 */
+	IGizmo getGizmo(Vect coords);
 
-	public boolean isCellEmpty(Vect coords);
+	/**
+	 * Get the ball at the given grid coordinates.
+	 * 
+	 * @param coords
+	 *            A vector representing the grid coordinates.
+	 * @return The ball at those coordinates, or null if there is none.
+	 */
+	IBall getBall(Vect coords);
 
-	public void addObserver(Observer o);
+	/**
+	 * 
+	 * @param coords
+	 *            A vector representing the grid coordinates.
+	 * @return True iff there is no ball or gizmo within the given coordinates.
+	 */
+	boolean isCellEmpty(Vect coords);
 
-	public void processKeyPressedTrigger(int keyChar);
+	void addObserver(Observer o);
 
-	public void processKeyReleasedTrigger(int keyChar);
+	void processKeyPressedTrigger(int keyChar);
 
-	public void addKeyPressedTrigger(int keyCode, IGizmo gizmo);
+	void processKeyReleasedTrigger(int keyChar);
 
-	public void addKeyReleasedTrigger(int keyCode, IGizmo gizmo);
+	void addKeyPressedTrigger(int keyCode, IGizmo gizmo);
 
-	public boolean isClient();
+	void addKeyReleasedTrigger(int keyCode, IGizmo gizmo);
 
-	public void addKeyToSend(String string);
+	boolean isClient();
 
-	public void reset();
+	void addKeyToSend(String string);
 
-	public Color getBackgroundColour();
+	void reset();
 
-	public void setBackgroundColour(Color colour);
+	Color getBackgroundColour();
 
-	public Map<Integer, KeyTrigger> getKeyPressedTriggers();
+	void setBackgroundColour(Color colour);
 
-	public Map<Integer, KeyTrigger> getKeyReleasedTriggers();
+	Map<Integer, KeyTrigger> getKeyPressedTriggers();
 
-	public void startHosting(int Port);
+	Map<Integer, KeyTrigger> getKeyReleasedTriggers();
 
-	public void setBalls(List<IBall> balls);
+	void startHosting(int Port);
 
-	public void setGizmos(List<IGizmo> gizmos);
+	void setBalls(List<IBall> balls);
 
-	public double getGravity();
+	void setGizmos(List<IGizmo> gizmos);
 
-	public double getFrictionMu();
+	double getGravity();
 
-	public double getFrictionMu2();
+	double getFrictionMu();
 
-	public void setGravity(double gravity);
+	double getFrictionMu2();
 
-	public void setFrictionMu(double mu);
+	void setGravity(double gravity);
 
-	public void setFrictionMu2(double mu2);
+	void setFrictionMu(double mu);
 
-	public void setDefaultPhysics();
+	void setFrictionMu2(double mu2);
+
+	void setDefaultPhysics();
 
 	void update();
 

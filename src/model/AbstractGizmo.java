@@ -10,7 +10,12 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public abstract class AbstractGizmo implements IGizmo {
+/**
+ * 
+ * @author Matt, David
+ *
+ */
+abstract class AbstractGizmo implements IGizmo {
 
 	protected String id;
 	protected Vect coords;
@@ -25,6 +30,20 @@ public abstract class AbstractGizmo implements IGizmo {
 	protected List<IAction> actions;
 	protected Set<IGizmo> triggers;
 
+	/**
+	 * 
+	 * @param id
+	 *            A unique ID
+	 * @param coords
+	 *            Top left corner
+	 * @param gridWidth
+	 *            Width in L
+	 * @param gridHeight
+	 *            Height in L
+	 * @param colour
+	 * @param isStatic
+	 *            True if gizmo is not moving
+	 */
 	public AbstractGizmo(String id, Vect coords, int gridWidth, int gridHeight, Color colour, boolean isStatic) {
 		this.id = id;
 		this.coords = coords;
@@ -40,6 +59,11 @@ public abstract class AbstractGizmo implements IGizmo {
 		lines = new ArrayList<>();
 	}
 
+	/**
+	 * Populate the lists containing the circles and line segments that make up
+	 * the gizmo. This needs to be called from the constructor, and may be
+	 * called subsequently to update the gizmos locationt.
+	 */
 	protected abstract void generateLinesAndCircles();
 
 	@Override
@@ -57,17 +81,17 @@ public abstract class AbstractGizmo implements IGizmo {
 	public Vect getGridCoords() {
 		return coords;
 	}
-	
+
 	@Override
 	public int getGridWidth() {
 		return gridWidth;
 	}
-	
+
 	@Override
 	public int getGridHeight() {
 		return gridHeight;
 	}
-	
+
 	@Override
 	public void rotate(int steps) {
 		rotation += steps;
@@ -136,23 +160,21 @@ public abstract class AbstractGizmo implements IGizmo {
 
 	@Override
 	public void onCollision(IBall ball) {
-		// TODO Auto-generated method stub
-
+		// By default gizmos do nothing on collision.
 	}
-	
+
+	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
-				+ "\n";
+		String serializedGizmo = getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " " + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
 		}
 		return serializedGizmo;
 	}
 
+	@Override
 	public double getCoefficientOfReflection() {
 		return coefficientOfReflection;
 	}
-
-
 
 }

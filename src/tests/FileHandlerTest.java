@@ -4,37 +4,38 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.LineNumberReader;
 import java.util.List;
 import java.util.InputMismatchException;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Absorber;
-import model.BallGizmo;
 import model.BoardFileHandler;
-import model.CircleGizmo;
-import model.GameModel;
+import model.GizmoFactory;
+import model.IAbsorber;
 import model.IBall;
+import model.ICircleGizmo;
+import model.IFlipper;
 import model.IGizmo;
-import model.LeftFlipper;
-import model.RightFlipper;
-import model.SquareGizmo;
-import model.TriangleGizmo;
-import model.Wall;
+import model.IModel;
+import model.ISquareGizmo;
+import model.ITriangleGizmo;
+import model.ModelFactory;
+import model.GizmoFactory.TYPE;
+import physics.Vect;
 
 public class FileHandlerTest {
 	
-	private GameModel model;
+	private IModel model;
+	private GizmoFactory gf;
 	private BoardFileHandler file;
 	
 	@Before
 	public void setup() {
-		model = new GameModel();
+        model = ModelFactory.getModel();
+        gf = new GizmoFactory(model);
 		file = new BoardFileHandler(model);
 	}
 	
@@ -78,7 +79,7 @@ public class FileHandlerTest {
 		IGizmo square = null;
 		
 		for (IGizmo current : gizmos) {
-			if (current instanceof SquareGizmo)
+			if (current instanceof ISquareGizmo)
 				square = current;
 		}
 		
@@ -92,7 +93,7 @@ public class FileHandlerTest {
 		IGizmo absorber = null;
 		
 		for (IGizmo current : gizmos) {
-			if (current instanceof Absorber)
+			if (current instanceof IAbsorber)
 				absorber = current;
 		}
 		
@@ -106,7 +107,7 @@ public class FileHandlerTest {
 		IBall ball = null;
 		
 		for (IBall current : balls) {
-			if (current instanceof BallGizmo)
+			if (current instanceof IBall)
 				ball = current;
 		}
 		
@@ -120,7 +121,7 @@ public class FileHandlerTest {
 		IGizmo circle = null;
 		
 		for (IGizmo current : gizmos) {
-			if (current instanceof CircleGizmo)
+			if (current instanceof ICircleGizmo)
 				circle = current;
 		}
 		
@@ -134,7 +135,7 @@ public class FileHandlerTest {
 		IGizmo triangle = null;
 		
 		for (IGizmo current : gizmos) {
-			if (current instanceof TriangleGizmo)
+			if (current instanceof ITriangleGizmo)
 				triangle = current;
 		}
 		
@@ -148,7 +149,7 @@ public class FileHandlerTest {
 		IGizmo flipper = null;
 		
 		for (IGizmo current : gizmos) {
-			if (current instanceof LeftFlipper)
+			if (current instanceof IFlipper)
 				flipper = current;
 		}
 		
@@ -162,7 +163,7 @@ public class FileHandlerTest {
 		IGizmo flipper = null;
 		
 		for (IGizmo current : gizmos) {
-			if (current instanceof RightFlipper)
+			if (current instanceof IFlipper)
 				flipper = current;
 		}
 		
@@ -202,7 +203,7 @@ public class FileHandlerTest {
 	
 	@Test
 	public void testSaveSquare() throws IOException {
-		IGizmo gizmo = new SquareGizmo("S08", 0, 8);
+		IGizmo gizmo = gf.getGizmo(TYPE.Square, new Vect(0, 8));
 		model.addGizmo(gizmo);
 		file.save("test_save_file.txt");
 		
@@ -210,12 +211,12 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("Square S08 0 8"));
+		assertTrue(line.equals("Square S0008 0 8"));
 	}
 	
 	@Test
 	public void testSaveCircle() throws IOException {
-		IGizmo gizmo = new CircleGizmo("C45", 4, 5);
+		IGizmo gizmo = gf.getGizmo(TYPE.Circle, new Vect(4, 5));
 		model.addGizmo(gizmo);
 		file.save("test_save_file.txt");
 		
@@ -223,12 +224,12 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("Circle C45 4 5"));
+		assertTrue(line.equals("Circle C0405 4 5"));
 	}
 
 	@Test
 	public void testSaveTriangle() throws IOException {
-		IGizmo gizmo = new TriangleGizmo("T105", 10, 5);
+		IGizmo gizmo = gf.getGizmo(TYPE.Triangle, new Vect(10, 5));
 		model.addGizmo(gizmo);
 		file.save("test_save_file.txt");
 		
@@ -236,12 +237,13 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("Triangle T105 10 5"));
+		assertTrue(line.equals("Triangle T1005 10 5"));
 	}
 	
 	@Test
 	public void testSaveBall() throws IOException {
-		IBall ball = new BallGizmo("B", 10, 14, 0, 0);
+		GizmoFactory gf = new GizmoFactory(model);
+		IBall ball = gf.getBall(new Vect(10, 14), new Vect(0, 0));
 		model.addBall(ball);
 		file.save("test_save_file.txt");
 		
@@ -254,7 +256,8 @@ public class FileHandlerTest {
 	
 	@Test
 	public void testSaveAbsorber() throws IOException {
-		IGizmo gizmo = new Absorber(model, "A", 5, 5, 15, 15);
+        GizmoFactory gf = new GizmoFactory(model);
+		IAbsorber gizmo = gf.getAbsorber(new Vect(5, 5), new Vect(15, 15));
 		model.addGizmo(gizmo);
 		file.save("test_save_file.txt");
 
@@ -267,7 +270,7 @@ public class FileHandlerTest {
 	
 	@Test
 	public void testSaveLeftFlipper() throws IOException {
-		IGizmo gizmo = new LeftFlipper("LF79", 7, 9);
+		IGizmo gizmo = gf.getGizmo(TYPE.LeftFlipper, new Vect(7, 9));
 		model.addGizmo(gizmo);
 		file.save("test_save_file.txt");
 
@@ -275,12 +278,12 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("LeftFlipper LF79 7 9"));
+		assertTrue(line.equals("LeftFlipper LF0709 7 9"));
 	}
 
 	@Test
 	public void testSaveRightFlipper() throws IOException {
-		IGizmo gizmo = new RightFlipper("RF141", 14, 1);
+		IGizmo gizmo = gf.getGizmo(TYPE.RightFlipper, new Vect(14, 1));
 		model.addGizmo(gizmo);
 		file.save("test_save_file.txt");
 
@@ -288,25 +291,7 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("RightFlipper RF141 14 1"));
+		assertTrue(line.equals("RightFlipper RF1401 14 1"));
 	}
 
-	@Test
-	public void testSaveWall() throws IOException {
-		// Walls shouldn't be written
-		Wall wall = new Wall(0, 0, 0, 0);
-		model.addGizmo(wall);
-		file.save("test_save_file.txt");
-
-		BufferedReader br = new BufferedReader(new FileReader("test_save_file.txt"));
-		int count = 0;
-		String line = null;
-		
-		while ((line = br.readLine()) != null)
-			count++;
-
-		assertEquals(count, 2); // Gravity and friction
-
-		br.close();
-	}
 }

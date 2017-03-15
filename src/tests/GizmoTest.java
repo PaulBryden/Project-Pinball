@@ -2,46 +2,41 @@ package tests;
 
 import org.junit.Test;
 
-import model.Absorber;
-import model.BallGizmo;
-import model.CircleGizmo;
-import model.CollisionDetails;
-import model.GameModel;
+import model.GizmoFactory;
+import model.IAbsorber;
 import model.IBall;
-import model.LeftFlipper;
-import model.RightFlipper;
-import model.SquareGizmo;
-import model.TriangleGizmo;
-import model.Wall;
+import model.IFlipper;
+import model.IGizmo;
+import model.ModelFactory;
+import model.GizmoFactory.TYPE;
 import physics.Vect;
 
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
 
 public class GizmoTest {
 	
+	private GizmoFactory gf;
+	
 	@Before
 	public void setup(){
-		
+		gf = new GizmoFactory(ModelFactory.getModel());
 	}
 	
 	@Test
 	public void AbsorberCreationTest() {
 		Vect topLeft = new Vect(1,1);
-		Vect bottomRight = new Vect(2,2); 
-		Absorber newAbsorber = new Absorber(new GameModel(),"A1",topLeft,bottomRight);
-		
-		assertEquals(newAbsorber.getBottomRightCoords(),bottomRight);
+		Vect bottomRight = new Vect(2,2);
+		IAbsorber gizmo = gf.getAbsorber(topLeft,bottomRight);
+		assertEquals(gizmo.getBottomRightCoords(),bottomRight);
 	}
 	
 	@Test
 	public void TriangleCreationTest() {
 		Vect topLeft = new Vect(1,1);
-		TriangleGizmo triangle = new TriangleGizmo("T1",topLeft);
+		IGizmo triangle = gf.getGizmo(TYPE.Triangle, topLeft);
 		
 		assertEquals(triangle.getGridCoords(),topLeft);
 	}
@@ -49,7 +44,7 @@ public class GizmoTest {
 	@Test
 	public void SquareCreationTest() {
 		Vect topLeft = new Vect(1,1);
-		SquareGizmo square = new SquareGizmo("S1",topLeft);
+		IGizmo square = gf.getGizmo(TYPE.Square, topLeft);
 		
 		assertEquals(square.getGridCoords(),topLeft);
 	}
@@ -57,14 +52,14 @@ public class GizmoTest {
 	@Test
 	public void CircleCreationTest() {
 		Vect topLeft = new Vect(1,1);
-		CircleGizmo circle = new CircleGizmo("C1",topLeft);
+		IGizmo circle = gf.getGizmo(TYPE.Circle, topLeft);
 		assertEquals(circle.getGridCoords(),topLeft);
 	}
 	
 	@Test
 	public void BallCreationTest() {
 		Vect topLeft = new Vect(1,1);
-		BallGizmo circle = new BallGizmo("B1",topLeft,topLeft);
+		IBall circle = gf.getBall(topLeft,topLeft);
 		assertEquals(circle.getGridCoords(),topLeft);
 	}
 	
@@ -72,21 +67,21 @@ public class GizmoTest {
 	@Test
 	public void LeftFlipperCreationTest() {
 		Vect topLeft = new Vect(1,1);
-		LeftFlipper leftFlipper = new LeftFlipper("LF1",topLeft);
+		IFlipper leftFlipper = (IFlipper) gf.getGizmo(TYPE.LeftFlipper, topLeft);
 		assertEquals(leftFlipper.getGridCoords(),topLeft);
 	}
 	
 	@Test
 	public void RightFlipperCreationTest() {
 		Vect topLeft = new Vect(1,1);
-		RightFlipper rightFlipper = new RightFlipper("RF1",topLeft);
+		IFlipper rightFlipper = (IFlipper) gf.getGizmo(TYPE.RightFlipper, topLeft);
 		assertEquals(rightFlipper.getGridCoords(),topLeft);
 	}
 	
 	@Test
 	public void TriangleMoveTest() {
 		Vect topLeft = new Vect(1,1);
-		TriangleGizmo triangle = new TriangleGizmo("T1",topLeft);
+		IGizmo triangle = gf.getGizmo(TYPE.Triangle, topLeft);
 		Vect moveLocation = new Vect(4,4);
 		triangle.setGridCoords(moveLocation);
 		assertEquals(triangle.getGridCoords(),moveLocation);
@@ -95,7 +90,7 @@ public class GizmoTest {
 	@Test
 	public void SquareMoveTest() {
 		Vect topLeft = new Vect(1,1);
-		SquareGizmo square = new SquareGizmo("S1",topLeft);
+		IGizmo square = gf.getGizmo(TYPE.Square, topLeft);
 		Vect moveLocation = new Vect(4,4);
 		square.setGridCoords(moveLocation);
 		assertEquals(square.getGridCoords(),moveLocation);
@@ -104,7 +99,7 @@ public class GizmoTest {
 	@Test
 	public void CircleMoveTest() {
 		Vect topLeft = new Vect(1,1);
-		CircleGizmo circle = new CircleGizmo("C1",topLeft);
+		IGizmo circle = gf.getGizmo(TYPE.Circle, topLeft);
 		Vect moveLocation = new Vect(4,4);
 		circle.setGridCoords(moveLocation);
 		assertEquals(circle.getGridCoords(),moveLocation);
@@ -113,7 +108,8 @@ public class GizmoTest {
 	@Test
 	public void BallMoveTest() {
 		Vect topLeft = new Vect(1,1);
-		BallGizmo circle = new BallGizmo("B1",topLeft,topLeft);
+		GizmoFactory gf = new GizmoFactory(ModelFactory.getModel());
+		IBall circle = gf.getBall(topLeft,topLeft);
 		Vect moveLocation = new Vect(4,4);
 		circle.setGridCoords(moveLocation);
 		assertEquals(circle.getGridCoords(),moveLocation);
@@ -123,7 +119,7 @@ public class GizmoTest {
 	@Test
 	public void LeftFlipperMoveTest() {
 		Vect topLeft = new Vect(1,1);
-		LeftFlipper leftFlipper = new LeftFlipper("LF1",topLeft);
+		IFlipper leftFlipper = (IFlipper) gf.getGizmo(TYPE.LeftFlipper, topLeft);
 		Vect moveLocation = new Vect(4,4);
 		leftFlipper.setGridCoords(moveLocation);
 		assertEquals(leftFlipper.getGridCoords(),moveLocation);
@@ -132,7 +128,7 @@ public class GizmoTest {
 	@Test
 	public void RightFlipperMoveTest() {
 		Vect topLeft = new Vect(1,1);
-		RightFlipper rightFlipper = new RightFlipper("RF1",topLeft);
+		IFlipper rightFlipper = (IFlipper) gf.getGizmo(TYPE.RightFlipper, topLeft);
 		Vect moveLocation = new Vect(4,4);
 		rightFlipper.setGridCoords(moveLocation);
 		assertEquals(rightFlipper.getGridCoords(),moveLocation);

@@ -1,10 +1,22 @@
 package model;
 
-public class AbsorberFireAction implements IAction {
-	
-	private Absorber a;
-	
-	public AbsorberFireAction(Absorber a) {
+/**
+ * 
+ * Action for triggering the fire functionality of an absorber.
+ * 
+ * @author David
+ *
+ */
+class AbsorberFireAction implements IAction {
+
+	private IAbsorber a;
+
+	/**
+	 * 
+	 * @param a
+	 *            The absorber acted upon
+	 */
+	public AbsorberFireAction(IAbsorber a) {
 		this.a = a;
 	}
 
@@ -15,8 +27,7 @@ public class AbsorberFireAction implements IAction {
 
 	@Override
 	public void performAction(IBall ball) {
-		// TODO Auto-generated method stub
-
+		performAction();
 	}
 
 }

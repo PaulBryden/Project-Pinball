@@ -5,21 +5,31 @@ import java.util.List;
 import physics.Circle;
 import physics.Vect;
 
-public class BallGizmo extends AbstractGizmo implements IBall {
+/**
+ * 
+ * @author Paul, David
+ *
+ */
+class BallGizmo extends AbstractGizmo implements IBall {
 
 	private double radius;
 	private Circle physicsCircle;
 	private Vect velocity;
 
+	/**
+	 * 
+	 * @param id
+	 *            A unique ID
+	 * @param coords
+	 *            Centre of the ball
+	 * @param velo
+	 *            Velocity of the ball
+	 */
 	public BallGizmo(String id, Vect coords, Vect velo) {
 		super(id, coords, -1, -1, Constants.BALL_DEFAULT_COLOUR, false);
 		this.radius = 0.3;
 		velocity = velo;
 		generateLinesAndCircles();
-	}
-
-	public BallGizmo(String id, double x, double y, double vx, double vy) {
-		this(id, new Vect(x, y), new Vect(vx, vy));
 	}
 
 	@Override

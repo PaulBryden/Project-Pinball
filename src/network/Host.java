@@ -87,7 +87,7 @@ public class Host {
         
 	}
 	
-	public void recieveKeys(){
+	public void receiveKeys(){
 		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 	      try {
 	    

@@ -2,23 +2,19 @@ package tests;
 
 import org.junit.Test;
 
-import model.Absorber;
-import model.BallGizmo;
-import model.CircleGizmo;
 import model.CollisionDetails;
 import model.CollisionEvaluator;
-import model.GameModel;
+import model.GizmoFactory;
+import model.IAbsorber;
 import model.IBall;
-import model.LeftFlipper;
-import model.RightFlipper;
-import model.SquareGizmo;
-import model.TriangleGizmo;
-import model.Wall;
+import model.IFlipper;
+import model.IGizmo;
+import model.IModel;
+import model.ModelFactory;
+import model.GizmoFactory.TYPE;
 import physics.Vect;
 
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
@@ -35,12 +31,11 @@ public class CollisionTest {
 	public void PhysicsEvaluationSingleWall() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
-		BallGizmo ball = new BallGizmo("B1",topLeft, new Vect(40,0));
-		Wall wall = new Wall(new Vect(1.6,1), new Vect(1.6,9));
-		GameModel gameModel = new GameModel();
-		gameModel.addBall(ball);
-		gameModel.addGizmo(wall);
-		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+        IModel model = ModelFactory.getModel();
+        GizmoFactory gf = new GizmoFactory(model);
+		IBall ball = gf.getBall(topLeft, new Vect(40,0));
+		model.addBall(ball);
+		CollisionEvaluator ce = new CollisionEvaluator(model);
 		ce.evaluate();
 		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ball);
@@ -51,12 +46,13 @@ public class CollisionTest {
 	public void PhysicsEvaluationSingleSquare() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
-		BallGizmo ball = new BallGizmo("B1",topLeft, new Vect(100,0));
-		SquareGizmo gizmo = new SquareGizmo("S1",new Vect(2,1));
-		GameModel gameModel = new GameModel();
-		gameModel.addBall(ball);
-		gameModel.addGizmo(gizmo);
-		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+        IModel model = ModelFactory.getModel();
+        GizmoFactory gf = new GizmoFactory(model);
+		IGizmo gizmo = gf.getGizmo(TYPE.Square, new Vect(2,1));
+		IBall ball = gf.getBall(topLeft, new Vect(100,0));
+		model.addBall(ball);
+		model.addGizmo(gizmo);
+		CollisionEvaluator ce = new CollisionEvaluator(model);
 		ce.evaluate();
 		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ball);
@@ -67,12 +63,13 @@ public class CollisionTest {
 	public void PhysicsEvaluationSingleCircle() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
-		BallGizmo ball = new BallGizmo("B1",topLeft, new Vect(4000,0));
-		CircleGizmo gizmo = new CircleGizmo("C1",new Vect(3,1));
-		GameModel gameModel = new GameModel();
-		gameModel.addBall(ball);
-		gameModel.addGizmo(gizmo);
-		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+        IModel model = ModelFactory.getModel();
+        GizmoFactory gf = new GizmoFactory(model);
+		IGizmo gizmo = gf.getGizmo(TYPE.Circle, new Vect(3,1));
+		IBall ball = gf.getBall(topLeft, new Vect(4000,0));
+		model.addBall(ball);
+		model.addGizmo(gizmo);
+		CollisionEvaluator ce = new CollisionEvaluator(model);
 		ce.evaluate();
 		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ball);
@@ -83,12 +80,13 @@ public class CollisionTest {
 	public void PhysicsEvaluationSingleFlipper() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
-		BallGizmo ball = new BallGizmo("B1",topLeft, new Vect(4000,0));
-		LeftFlipper gizmo = new LeftFlipper("LF1",new Vect(3,1));
-		GameModel gameModel = new GameModel();
-		gameModel.addBall(ball);
-		gameModel.addGizmo(gizmo);
-		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+        IModel model = ModelFactory.getModel();
+        GizmoFactory gf = new GizmoFactory(model);
+		IFlipper gizmo = (IFlipper) gf.getGizmo(TYPE.LeftFlipper, new Vect(3,1));
+        IBall ball = gf.getBall(topLeft, new Vect(4000, 0));
+		model.addBall(ball);
+		model.addGizmo(gizmo);
+		CollisionEvaluator ce = new CollisionEvaluator(model);
 		ce.evaluate();
 		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ball);
@@ -100,14 +98,15 @@ public class CollisionTest {
 	public void PhysicsEvaluation2BallCollisionFlipper() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
-		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
-		BallGizmo ballSlow = new BallGizmo("B2",topLeft, new Vect(1000,0));
-		LeftFlipper gizmo = new LeftFlipper("LF1",new Vect(3,1));
-		GameModel gameModel = new GameModel();
-		gameModel.addBall(ballFast);
-		gameModel.addBall(ballSlow);
-		gameModel.addGizmo(gizmo);
-		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+        IModel model = ModelFactory.getModel();
+        GizmoFactory gf = new GizmoFactory(model);
+		IFlipper gizmo = (IFlipper) gf.getGizmo(TYPE.LeftFlipper, new Vect(3,1));
+		IBall ballFast = gf.getBall(topLeft, new Vect(4000,0));
+		IBall ballSlow = gf.getBall(topLeft, new Vect(1000,0));
+		model.addBall(ballFast);
+		model.addBall(ballSlow);
+		model.addGizmo(gizmo);
+		CollisionEvaluator ce = new CollisionEvaluator(model);
 		ce.evaluate();
 		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ballFast);
@@ -118,15 +117,15 @@ public class CollisionTest {
 	public void PhysicsEvaluation2BallCollisionAbsorber() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
-		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
-		BallGizmo ballSlow = new BallGizmo("B2",topLeft, new Vect(1000,0));
-		GameModel gameModel = new GameModel();
-
-		Absorber gizmo = new Absorber(gameModel,"LF1",new Vect(3,1),new Vect(4,2));
-		gameModel.addBall(ballFast);
-		gameModel.addBall(ballSlow);
-		gameModel.addGizmo(gizmo);
-		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+        IModel model = ModelFactory.getModel();
+        GizmoFactory gf = new GizmoFactory(model);
+		IBall ballFast = gf.getBall(topLeft, new Vect(4000,0));
+		IBall ballSlow = gf.getBall(topLeft, new Vect(1000,0));
+		IAbsorber gizmo = gf.getAbsorber(new Vect(3,1),new Vect(4,2));
+		model.addBall(ballFast);
+		model.addBall(ballSlow);
+		model.addGizmo(gizmo);
+		CollisionEvaluator ce = new CollisionEvaluator(model);
 		ce.evaluate();
 		CollisionDetails newCollisions=ce.getCollision();
 		assertEquals(newCollisions.getBall(),ballFast);
@@ -138,13 +137,13 @@ public class CollisionTest {
 	public void BallOnBallCollision() {
 		Vect topLeft = new Vect(1,1);
 		Vect topLeft2 = new Vect(3,1);
-		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
-		BallGizmo ballSlow = new BallGizmo("B2",topLeft2, new Vect(-1000,0));
-		GameModel gameModel = new GameModel();
-	
-		gameModel.addBall(ballFast);
-		gameModel.addBall(ballSlow);
-		CollisionEvaluator ce = new CollisionEvaluator(gameModel);
+        IModel model = ModelFactory.getModel();
+        GizmoFactory gf = new GizmoFactory(model);
+		IBall ballFast = gf.getBall(topLeft, new Vect(4000,0));
+		IBall ballSlow = gf.getBall(topLeft2, new Vect(-1000,0));
+		model.addBall(ballFast);
+		model.addBall(ballSlow);
+		CollisionEvaluator ce = new CollisionEvaluator(model);
 		ce.evaluate();
 		CollisionDetails newCollisions=ce.getCollision();
 		assertTrue(((newCollisions.getBall().equals(ballFast))&&newCollisions.getOtherBallVelo().x()>ballSlow.getVelo().x())||((newCollisions.getBall().equals(ballSlow))&&newCollisions.getOtherBallVelo().x()<ballFast.getVelo().x()));
@@ -155,13 +154,14 @@ public class CollisionTest {
 	public void AbsorberBallAbsorbTest() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
-		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
-		GameModel gameModel = new GameModel();
-		Absorber gizmo = new Absorber(gameModel,"LF1",new Vect(3,1),new Vect(4,2));
-		gameModel.addBall(ballFast);
-		gameModel.addGizmo(gizmo);
+        IModel model = ModelFactory.getModel();
+        GizmoFactory gf = new GizmoFactory(model);
+		IBall ballFast = gf.getBall(topLeft, new Vect(4000,0));
+		IAbsorber gizmo = gf.getAbsorber(new Vect(3,1),new Vect(4,2));
+		model.addBall(ballFast);
+		model.addGizmo(gizmo);
 		gizmo.absorbBall(ballFast);
-		assertTrue(gameModel.getBalls().size()==0);
+		assertTrue(model.getBalls().size()==0);
 	}
 	
 	@Test
@@ -169,14 +169,15 @@ public class CollisionTest {
 	public void AbsorberBallAbsorbTriggerTest() {
 		Vect topLeft = new Vect(1,1);
 		Vect wallTop = new Vect (3,1);
-		BallGizmo ballFast = new BallGizmo("B1",topLeft, new Vect(4000,0));
-		GameModel gameModel = new GameModel();
-		Absorber gizmo = new Absorber(gameModel,"LF1",new Vect(3,1),new Vect(4,2));
-		gameModel.addBall(ballFast);
-		gameModel.addGizmo(gizmo);
+        IModel model = ModelFactory.getModel();
+        GizmoFactory gf = new GizmoFactory(model);
+		IBall ballFast = gf.getBall(topLeft, new Vect(4000,0));
+		IAbsorber gizmo = gf.getAbsorber(new Vect(3,1),new Vect(4,2));
+		model.addBall(ballFast);
+		model.addGizmo(gizmo);
 		gizmo.absorbBall(ballFast);
 		gizmo.performActions();
-		assertTrue(gameModel.getBalls().size()==1);
+		assertTrue(model.getBalls().size()==1);
 	}
 	
 	@After

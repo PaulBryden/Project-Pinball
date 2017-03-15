@@ -8,47 +8,52 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
+/**
+ * 
+ * @author Paul, David, Matt
+ *
+ */
 public interface IGizmo {
 
-	public boolean isStatic();
+	boolean isStatic();
 
-	public Color getColour();
+	Color getColour();
 
-	public void setColour(Color colour);
+	void setColour(Color colour);
 
-	public void addTriggerAction(IAction action);
+	void addTriggerAction(IAction action);
 
-	public void addGizmoToTrigger(IGizmo gizmo);
+	void addGizmoToTrigger(IGizmo gizmo);
 
-	public void performActions();
+	void performActions();
 
-	public void onCollision(IBall ball);
+	void onCollision(IBall ball);
 
-	public Vect getGridCoords();
+	Vect getGridCoords();
 	
-	public int getGridWidth();
+	int getGridWidth();
 	
-	public int getGridHeight();
+	int getGridHeight();
 
-	public void setGridCoords(Vect coords);
+	void setGridCoords(Vect coords);
 	
-	public List<Vect> getExactCoords();
+	List<Vect> getExactCoords();
 
-	public List<Circle> getAllCircles();
+	List<Circle> getAllCircles();
 
-	public List<LineSegment> getAllLineSegments();
+	List<LineSegment> getAllLineSegments();
 
-	public String serializeGizmo();
+	String serializeGizmo();
 
-	public String getID();
+	String getID();
 
-	public void rotate(int steps);
+	void rotate(int steps);
 
-	public int getRotation();
+	int getRotation();
 	
-	public double getCoefficientOfReflection();
+	double getCoefficientOfReflection();
 
-	public void triggerConnectedGizmos();
+	void triggerConnectedGizmos();
 
 	Set<IGizmo> getGizmosToTrigger();
 
