@@ -32,12 +32,17 @@ public class ClientValidationListener implements DocumentListener{
         String ipText = clientDialog.getIpText();
 
         if(!ipText.equals("localhost")){
-            String[] parts = clientDialog.getIpText().split("\\.");
+            String[] parts =ipText.split("\\.");
 
             if (parts.length == 4 && ipText.charAt(ipText.length() - 1) != '.') {
                 for (String part : parts) {
-                    int partlength = part.trim().length();
-                    if (partlength <= 0 || partlength > 3) {
+                    try {
+                        int number = Integer.parseInt(part);
+                        if (number < 0 || number > 255) {
+                            validIP = false;
+                            break;
+                        }
+                    } catch (NumberFormatException e){
                         validIP = false;
                         break;
                     }
