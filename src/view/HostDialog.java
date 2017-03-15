@@ -25,7 +25,7 @@ public class HostDialog {
 
     HostDialog(MainWindow mainWindow){
         this.mainWindow = mainWindow;
-        dialog = new JDialog();
+        dialog = new JDialog(mainWindow);
         textField = new JTextField();
         button = new JButton("Continue");
         validator = new HostValidationListener(this);

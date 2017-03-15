@@ -6,6 +6,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
+import controller.BuildKeyListener;
 import controller.RunKeyListener;
 import model.IModel;
 
@@ -13,7 +14,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import static java.awt.Color.BLUE;
 import static java.awt.Color.RED;
@@ -30,7 +30,8 @@ public class MainWindow extends JFrame {
 	private JToolBar sideToolBar;
 	private Board board;
 	private GridBagConstraints constraints;
-	private KeyListener keyListener;
+	private RunKeyListener runKeyListener;
+	private BuildKeyListener buildKeyListener;
 	private JLabel statusLabel;
 
 	public MainWindow(IModel model) {
@@ -42,7 +43,7 @@ public class MainWindow extends JFrame {
 		toolbar = new BuildToolBar(this);
 		constraints = new GridBagConstraints();
 		statusLabel = new JLabel("");
-		setUpKeyListener();
+		setUpKeyListeners();
 	}
 
 	public void build() {
@@ -84,6 +85,12 @@ public class MainWindow extends JFrame {
 	public JToolBar getSideToolBar() {
 		return (sideToolBar);
 	}
+	
+	public void stopRunning() {
+		if (toolbar instanceof RunToolBar) {
+			((RunToolBar) toolbar).stop();
+		}
+	}
 
 	public void toggleView() {
 		constraints.fill = VERTICAL;
@@ -91,7 +98,7 @@ public class MainWindow extends JFrame {
 		remove(toolbar);
 
 		if (toolbar instanceof RunToolBar) {
-			((RunToolBar) toolbar).stop();
+			stopRunning();
 			toolbar = new BuildToolBar(this);
 			setStatusLabel("");
 		} else {
@@ -108,7 +115,7 @@ public class MainWindow extends JFrame {
 		revalidate();
 		repaint();
 	}
-	
+
 	public void enableClientView() {
 		constraints.fill = VERTICAL;
 		remove(sideToolBar);
@@ -126,41 +133,67 @@ public class MainWindow extends JFrame {
 		return (board);
 	}
 
-	public void setStatusLabel(String status){
+	public void setStatusLabel(String status) {
 		statusLabel.setForeground(BLUE);
 		statusLabel.setText(status);
 	}
 
-	public void setWarningLabel(String warning){
+	public void setWarningLabel(String warning) {
 		statusLabel.setForeground(RED);
 		statusLabel.setText(warning);
 	}
 
-	public void showHostDialog(){
+	public void showHostDialog() {
+		stopRunning();
 		HostDialog hostDialog = new HostDialog(this);
 		hostDialog.build();
 	}
 
-	public void showClientDialog(){
+	public void showClientDialog() {
+		stopRunning();
 		ClientDialog clientDialog = new ClientDialog(this);
 		clientDialog.build();
 	}
 
-	private void setUpKeyListener() {
+	private void setUpKeyListeners() {
 		// Use an event dispatcher so that key strokes are captured regardless
 		// of which element of the frame has focus.
-		this.keyListener = RunKeyListener.createListener(model, this);
+		this.runKeyListener = new RunKeyListener(model, this);
+		this.buildKeyListener = new BuildKeyListener(model, this);
 		KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		kfm.addKeyEventDispatcher(e -> {
-            if (e.getID() == KeyEvent.KEY_PRESSED) {
-                keyListener.keyPressed(e);
-                return true;
-            }
-            if (e.getID() == KeyEvent.KEY_RELEASED) {
-                keyListener.keyReleased(e);
-                return true;
-            }
-            return false;
-        });
+			if (runKeyListener.isListening()) {
+				if (e.getID() == KeyEvent.KEY_PRESSED) {
+					runKeyListener.keyPressed(e);
+				}
+				if (e.getID() == KeyEvent.KEY_RELEASED) {
+					runKeyListener.keyReleased(e);
+				}
+				if (e.getID() == KeyEvent.KEY_TYPED) {
+					runKeyListener.keyTyped(e);
+				}
+				return true;
+			} else if (buildKeyListener.isListening()) {
+				if (e.getID() == KeyEvent.KEY_PRESSED) {
+					buildKeyListener.keyPressed(e);
+				}
+				if (e.getID() == KeyEvent.KEY_RELEASED) {
+					buildKeyListener.keyReleased(e);
+				}
+				if (e.getID() == KeyEvent.KEY_TYPED) {
+					buildKeyListener.keyTyped(e);
+				}
+				return true;
+			}
+			return false;
+		});
+	}
+
+	public RunKeyListener getRunKeyListener() {
+		return this.runKeyListener;
+	}
+	
+	public BuildKeyListener getBuildKeyListener() {
+		return this.buildKeyListener;
 	}
 }

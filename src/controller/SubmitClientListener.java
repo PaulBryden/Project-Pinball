@@ -25,6 +25,7 @@ public class SubmitClientListener implements ActionListener{
             Thread newThread = new Thread(client);
             newThread.start();
             mainWindow.enableClientView();
+            mainWindow.getRunKeyListener().setListening(true);
         } else {
             clientDialog.showWarningLabel("Please enter values");
         }

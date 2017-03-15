@@ -27,7 +27,7 @@ public class ClientDialog {
 
     ClientDialog(MainWindow mainWindow){
         this.mainWindow = mainWindow;
-        dialog = new JDialog();
+        dialog = new JDialog(mainWindow);
         portTextField = new JTextField();
         ipTextField = new JTextField();
         button = new JButton("Continue");
