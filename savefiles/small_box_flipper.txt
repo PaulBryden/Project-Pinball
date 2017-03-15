@@ -1,0 +1,18 @@
+Square S7.07.0 7 7
+Square S7.08.0 7 8
+Square S7.09.0 7 9
+Square S7.010.0 7 10
+Square S8.010.0 8 10
+Square S9.010.0 9 10
+Square S10.010.0 10 10
+Square S10.09.0 10 9
+Square S10.08.0 10 8
+Square S10.07.0 10 7
+Square S9.07.0 9 7
+RightFlipper RF8.08.0 8 8
+Square S8.07.0 8 7
+Ball B8.07.0 8.6776 8.8416 12.4415 18.1390
+KeyConnect key 32 down RF8.08.0
+KeyConnect key 32 up RF8.08.0
+Gravity 25.0
+Friction 0.025 0.025
