@@ -72,17 +72,31 @@ Square S10.010.0 10 10
 Square S11.010.0 11 10
 Circle C0.016.0 0 16
 Circle C12.016.0 12 16
-Circle C15.013.0 15 13
-Circle C3.013.0 3 13
-Ball B3.018.0 3.5000 18.5000 13.0000 17.0000
-Ball B15.018.0 15.5000 18.5000 13.0000 17.0000
+Circle C3.016.0 3 16
+Circle C15.016.0 15 16
+Triangle T9.09.0 9 9
+Rotate T9.09.0
+Rotate T9.09.0
+Triangle T10.09.0 10 9
+Rotate T10.09.0
+Rotate T10.09.0
+Rotate T10.09.0
+Triangle T9.05.0 9 5
+Rotate T9.05.0
+Triangle T10.05.0 10 5
+Ball B2.013.0 2.5000 13.5000 13.0000 17.0000
+Ball B4.013.0 4.5000 13.5000 13.0000 17.0000
+Ball B14.013.0 14.5000 13.5000 13.0000 17.0000
+Ball B16.013.0 16.5000 13.5000 13.0000 17.0000
 KeyConnect key 81 down LF1.017.0
 KeyConnect key 37 down LF13.017.0
 KeyConnect key 87 down RF4.017.0
 KeyConnect key 39 down RF16.017.0
+KeyConnect key 32 up A7.019.0
 KeyConnect key 81 up LF1.017.0
 KeyConnect key 37 up LF13.017.0
 KeyConnect key 87 up RF4.017.0
 KeyConnect key 39 up RF16.017.0
+KeyConnect key 10 up A19.019.0
 Gravity 25.0
 Friction 0.025 0.025

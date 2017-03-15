@@ -95,10 +95,8 @@ public class Absorber extends AbstractGizmo {
 		if (ballsToFire > 0 && hasSpaceToFire()) {
 			IBall ball = storedBalls.remove(0);
 			ball.setVelo(new Vect(0, -50));
-			ball.setGridCoords(new Vect(bottomRightCoords.x() - ball.getRadius(),
-					bottomRightCoords.y() - 1 - ball.getRadius()));
 			model.addBall(ball);
-			ball.setCentre(new Vect(bottomRightCoords.x() - ball.getRadius(), coords.y() - ball.getRadius()));
+			ball.setCentre(new Vect(bottomRightCoords.x() - ball.getRadius()-0.05, coords.y() - ball.getRadius()));
 			ballsToFire--;
 		}
 	}

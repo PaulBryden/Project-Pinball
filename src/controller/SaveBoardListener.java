@@ -24,7 +24,7 @@ public class SaveBoardListener implements ActionListener{
     	IModel model = mainWindow.getBoard().getModel();
         BoardFileHandler fh = new BoardFileHandler(model);
 
-        JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser(".");
         int returnVal = fc.showSaveDialog(fc);
         
         if (returnVal == JFileChooser.APPROVE_OPTION) {
