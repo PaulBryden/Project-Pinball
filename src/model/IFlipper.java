@@ -1,9 +1,6 @@
 package model;
 
-import java.util.List;
-
 import physics.Angle;
-import physics.LineSegment;
 import physics.Vect;
 
 public interface IFlipper extends IGizmo {

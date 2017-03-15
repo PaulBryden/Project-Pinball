@@ -10,7 +10,7 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class Wall implements IWall {
+public class Wall implements IGizmo {
 	
 	private Set<IGizmo> triggers;
 	private LineSegment line;
@@ -26,17 +26,14 @@ public class Wall implements IWall {
 		this(new Vect(x1, y1), new Vect(x2, y2));
 	}
 
-	@Override
 	public LineSegment getLine() {
 		return line;
 	}
 	
-	@Override
 	public Vect p1() {
 		return line.p1();
 	}
 	
-	@Override
 	public Vect p2() {
 		return line.p2();
 	}
@@ -85,13 +82,10 @@ public class Wall implements IWall {
 
 	@Override
 	public void onCollision(IBall ball) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public Vect getGridCoords() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -102,7 +96,6 @@ public class Wall implements IWall {
 
 	@Override
 	public List<Vect> getExactCoords() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -120,13 +113,11 @@ public class Wall implements IWall {
 
 	@Override
 	public String serializeGizmo() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getID() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

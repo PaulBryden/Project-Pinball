@@ -5,7 +5,7 @@ import java.util.List;
 import physics.Circle;
 import physics.Vect;
 
-public class CircleGizmo extends AbstractGizmo implements ICircle {
+public class CircleGizmo extends AbstractGizmo {
 
 	private double radius;
 	private Circle physicsCircle;
@@ -37,25 +37,17 @@ public class CircleGizmo extends AbstractGizmo implements ICircle {
 		return serializedGizmo;
 	}
 
-	@Override
 	public double getRadius() {
 		return radius;
 	}
 
-	@Override
 	public void setRadius(double radius) {
 		this.radius = radius;
 		generateLinesAndCircles();
 	}
 
-	@Override
 	public Vect getCentre() {
 		return physicsCircle.getCenter();
-	}
-
-	@Override
-	public boolean isBall() {
-		return false;
 	}
 
 	@Override
