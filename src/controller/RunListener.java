@@ -28,10 +28,12 @@ public class RunListener  implements ActionListener{
 			switch (e.getActionCommand()) {
 				case "Run":
 					timer.start();
+					mainWindow.getRunKeyListener().setListening(true);
 					mainWindow.setStatusLabel("Running");
 					break;
 				case "Stop":
 					timer.stop();
+					mainWindow.getRunKeyListener().setListening(false);
 					mainWindow.setStatusLabel("Stopped");
 					break;
 				case "Tick":

@@ -25,7 +25,7 @@ public class LoadBoardListener implements ActionListener{
     	IModel model = mainWindow.getBoard().getModel();
         BoardFileHandler fh = new BoardFileHandler(model);
         model.reset();
-        JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser(".");
         int returnVal = fc.showOpenDialog(fc);
         
         if (returnVal == JFileChooser.APPROVE_OPTION) {

@@ -14,7 +14,7 @@ public class HostValidationListener implements DocumentListener{
         valid = false;
     }
 
-    boolean isValidPort(){
+    boolean isValid(){
         return (valid);
     }
 

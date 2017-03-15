@@ -151,6 +151,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			try {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 						+ gizmoCoords + ". Please type a key to connect this gizmo to");
+				mainWindow.getBuildKeyListener().setListening(true);
 			} catch (NoSuchElementException e) {
 				mainWindow.setStatusLabel(
 						"Selected ball at " + gizmoCoords + ". Please type a key to connect this ball to");
