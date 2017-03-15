@@ -54,7 +54,7 @@ public class Client implements Runnable{
 		      byte[] sendData = new byte[4096];
 		      byte[] receiveData = new byte[4096];
 		     sendData[0]='C';
-		      DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 1003);
+		      DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, Port);
 		      try {
 				clientSocket.send(sendPacket);
 			} catch (IOException e) {
