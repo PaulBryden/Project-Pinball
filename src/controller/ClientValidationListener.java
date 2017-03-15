@@ -14,18 +14,50 @@ public class ClientValidationListener implements DocumentListener{
         valid = false;
     }
 
-    boolean isValidPort(){
+    boolean isValid(){
         return (valid);
     }
 
     private void validate(){
+        boolean validPort = true;
+        boolean validIP = true;
+
         try {
             Integer.parseInt(clientDialog.getPortText());
             clientDialog.hideWarningLabel();
-            valid = true;
         } catch (NumberFormatException e){
-            clientDialog.showWarningLabel("That is not a number");
+            validPort = false;
+        }
+
+        String ipText = clientDialog.getIpText();
+
+        if(!ipText.equals("localhost")){
+            String[] parts = clientDialog.getIpText().split("\\.");
+
+            if (parts.length == 4 && ipText.charAt(ipText.length() - 1) != '.') {
+                for (String part : parts) {
+                    int partlength = part.trim().length();
+                    if (partlength <= 0 || partlength > 3) {
+                        validIP = false;
+                        break;
+                    }
+                }
+            } else {
+                validIP = false;
+            }
+        }
+
+        if(validPort && validIP){
+            valid = true;
+        } else {
             valid = false;
+            if(!validPort && !validIP){
+                clientDialog.showWarningLabel("Port is not a number and IP are invalid");
+            } else if(!validPort){
+                clientDialog.showWarningLabel("Port is not a number");
+            } else {
+                clientDialog.showWarningLabel("IP is invalid");
+            }
         }
     }
 
