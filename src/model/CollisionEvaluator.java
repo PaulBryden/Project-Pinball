@@ -123,7 +123,7 @@ public class CollisionEvaluator {
 		if (tuc == Double.POSITIVE_INFINITY)
 			return null;
 		Vect newVelo = Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ball.getVelo());
-		return new CollisionDetails(tuc, newVelo, ball, gizmo);
+		return new CollisionDetails(tuc, ball, newVelo, gizmo);
 	}
 
 	private CollisionDetails evaluateCollisionWithBall(IBall ball, IBall otherBall) {
@@ -146,7 +146,7 @@ public class CollisionEvaluator {
 			return null;
 		Vect newVelo = Geometry.reflectRotatingCircle(circle, flipper.getPivot(), flipper.getAngularVelocity(),
 				ballCircle, ball.getVelo());
-		return new CollisionDetails(tuc, newVelo, ball, flipper);
+		return new CollisionDetails(tuc, ball, newVelo, flipper);
 	}
 
 	private CollisionDetails evaluateCollisionWithStaticLine(IBall ball, LineSegment line, IGizmo gizmo) {
@@ -155,7 +155,7 @@ public class CollisionEvaluator {
 		if (tuc == Double.POSITIVE_INFINITY)
 			return null;
 		Vect newVelo = Geometry.reflectWall(line, ball.getVelo());
-		return new CollisionDetails(tuc, newVelo, ball, gizmo);
+		return new CollisionDetails(tuc, ball, newVelo, gizmo);
 	}
 
 	private CollisionDetails evaluateCollisionWithRotatingLine(IBall ball, LineSegment line, IFlipper flipper) {
@@ -166,6 +166,6 @@ public class CollisionEvaluator {
 			return null;
 		Vect newVelo = Geometry.reflectRotatingWall(line, flipper.getPivot(), flipper.getAngularVelocity(), ballCircle,
 				ball.getVelo());
-		return new CollisionDetails(tuc, newVelo, ball, flipper);
+		return new CollisionDetails(tuc, ball, newVelo, flipper);
 	}
 }

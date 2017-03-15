@@ -5,27 +5,32 @@ import physics.Vect;
 
 /**
  * 
+ * Collision details contain the details of a single collision between a ball
+ * and one other object (which may also be a ball). It contains methods for
+ * accessing the time until collision, the velocity of the ball(s) resulting
+ * from the collision, and the ball and gizmo involved in the collision.
+ * 
  * @author Matt, David
  *
  */
 public class CollisionDetails {
 
 	private double tuc;
-	private Vect velo;
+	private Vect v;
 	private IBall ball;
 	private IGizmo gizmo;
-	private Vect otherBallVelo;
+	private Vect otherBallV;
 
-	public CollisionDetails(double t, Vect v, IBall ball, IGizmo gizmo) {
+	public CollisionDetails(double t, IBall ball, Vect v, IGizmo gizmo) {
 		tuc = t;
-		velo = v;
+		this.v = v;
 		this.ball = ball;
 		this.gizmo = gizmo;
 	}
-	
-	public CollisionDetails(double t, IBall ball, IBall other, VectPair velos) {
-		this(t, velos.v1, ball, other);
-		this.otherBallVelo = velos.v2;
+
+	public CollisionDetails(double t, IBall ball, IBall other, VectPair vs) {
+		this(t, ball, vs.v1, other);
+		this.otherBallV = vs.v2;
 	}
 
 	public double getTuc() {
@@ -33,13 +38,13 @@ public class CollisionDetails {
 	}
 
 	public Vect getVelo() {
-		return velo;
+		return v;
 	}
-	
+
 	public Vect getOtherBallVelo() {
-		return otherBallVelo;
+		return otherBallV;
 	}
-	
+
 	public IBall getBall() {
 		return ball;
 	}
