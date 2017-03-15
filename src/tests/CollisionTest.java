@@ -30,10 +30,9 @@ public class CollisionTest {
 	//SIngle Ball Single Wall Collision Evaluation
 	public void PhysicsEvaluationSingleWall() {
 		Vect topLeft = new Vect(1,1);
-		Vect wallTop = new Vect (3,1);
         IModel model = ModelFactory.getModel();
         GizmoFactory gf = new GizmoFactory(model);
-		IBall ball = gf.getBall(topLeft, new Vect(40,0));
+		IBall ball = gf.getBall(topLeft, new Vect(-400,0));
 		model.addBall(ball);
 		CollisionEvaluator ce = new CollisionEvaluator(model);
 		ce.evaluate();

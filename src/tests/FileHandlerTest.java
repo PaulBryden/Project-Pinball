@@ -250,8 +250,7 @@ public class FileHandlerTest {
 		BufferedReader br = new BufferedReader(new FileReader("test_save_file.txt"));
 		String line = br.readLine();
 		br.close();
-		
-		assertTrue(line.equals("Ball B 10.0000 14.0000 0.0000 0.0000"));
+		assertTrue(line.equals("Ball B00 10.0000 14.0000 0.0000 0.0000"));
 	}
 	
 	@Test
@@ -265,7 +264,7 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("Absorber A 5 5 15 15"));
+		assertTrue(line.equals("Absorber A0505 5 5 15 15"));
 	}
 	
 	@Test
