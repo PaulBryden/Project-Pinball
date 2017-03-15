@@ -5,7 +5,7 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static controller.BoardMouseListener.CUR_GIZMO.ABSORBER;
+import static view.CUR_GIZMO.ABSORBER;
 
 public class AddAbsorberListener implements ActionListener{
     private MainWindow mainWindow;
@@ -16,7 +16,7 @@ public class AddAbsorberListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        mainWindow.getBoard().getMouseListener().setGizmo(ABSORBER);
+        mainWindow.getBoard().setSelectedGizmo(ABSORBER);
         mainWindow.setStatusLabel("Placing Absorber. Please click a grid cell to place it.");
     }
 }

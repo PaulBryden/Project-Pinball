@@ -27,7 +27,9 @@ import model.SquareGizmo;
 import model.TriangleGizmo;
 import physics.Vect;
 
-import static controller.BoardMouseListener.STATE.RUN;
+import static view.CUR_GIZMO.NONE;
+import static view.STATE.BUILD;
+import static view.STATE.RUN;
 
 public class Board extends JPanel implements Observer {
 
@@ -38,6 +40,9 @@ public class Board extends JPanel implements Observer {
 	private List<IViewGizmo> viewBalls;
 	private BoardMouseListener mouseListener;
 	static final int GRID_WIDTH = 20;
+	private STATE state;
+	private CUR_GIZMO selectedGizmo;
+	private Vect selectedGizmoCoords;
 
 	public Board(MainWindow mainWindow, IModel model) {
 		super();
@@ -46,9 +51,10 @@ public class Board extends JPanel implements Observer {
 		model.addObserver(this);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
-		mouseListener = new BoardMouseListener(mainWindow, model);
+		state = BUILD;
+		selectedGizmo = NONE;
 
-		addMouseListener(mouseListener);
+		addMouseListener(new BoardMouseListener(mainWindow, model));
 		setBackground(model.getBackgroundColour());
 		setSize(new Dimension(400, 400));
 		setPreferredSize(getSize());
@@ -58,10 +64,6 @@ public class Board extends JPanel implements Observer {
 
 	public IModel getModel(){
 		return (model);
-	}
-
-	public BoardMouseListener getMouseListener(){
-		return (mouseListener);
 	}
 
 	public String getGizmoName(IGizmo gizmo){
@@ -144,6 +146,32 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
+	public void setState(STATE state) {
+		selectedGizmoCoords = null;
+		this.state = state;
+	}
+
+	public void setSelectedGizmo(CUR_GIZMO gizmo) {
+		selectedGizmoCoords = null;
+		this.selectedGizmo = gizmo;
+	}
+
+	public void setSelectedGizmoCoords(Vect gizmoCoords){
+		this.selectedGizmoCoords = gizmoCoords;
+	}
+
+	public STATE getState(){
+		return (state);
+	}
+
+	public CUR_GIZMO getSelectedGizmo(){
+		return (selectedGizmo);
+	}
+
+	public Vect getSelectedGizmoCoords(){
+		return (selectedGizmoCoords);
+	}
+
     @Override
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -168,7 +196,7 @@ public class Board extends JPanel implements Observer {
 
 		viewBalls.addAll(balls.stream().map(BallView::new).collect(Collectors.toList()));
 
-		if(!mouseListener.getState().equals(RUN))
+		if(!state.equals(RUN))
 			drawGrid(g);
 
 		for(IViewGizmo viewGizmo : viewGizmos) {

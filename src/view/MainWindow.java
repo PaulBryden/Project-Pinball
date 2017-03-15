@@ -19,7 +19,7 @@ import static java.awt.Color.BLUE;
 import static java.awt.Color.RED;
 import static java.awt.GridBagConstraints.CENTER;
 import static java.awt.GridBagConstraints.VERTICAL;
-import static controller.BoardMouseListener.STATE.RUN;
+import static view.STATE.RUN;
 
 public class MainWindow extends JFrame {
 
@@ -113,7 +113,7 @@ public class MainWindow extends JFrame {
 		constraints.fill = VERTICAL;
 		remove(sideToolBar);
 		remove(toolbar);
-		board.getMouseListener().setState(RUN);
+		board.setState(RUN);
 		remove(sideToolBar);
 		remove(toolbar);
 		setJMenuBar(new JMenuBar());
@@ -134,6 +134,16 @@ public class MainWindow extends JFrame {
 	public void setWarningLabel(String warning){
 		statusLabel.setForeground(RED);
 		statusLabel.setText(warning);
+	}
+
+	public void showHostDialog(){
+		HostDialog hostDialog = new HostDialog(this);
+		hostDialog.build();
+	}
+
+	public void showClientDialog(){
+		ClientDialog clientDialog = new ClientDialog(this);
+		clientDialog.build();
 	}
 
 	private void setUpKeyListener() {

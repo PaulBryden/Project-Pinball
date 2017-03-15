@@ -1,12 +1,11 @@
 package controller;
 
-import view.Board;
 import view.MainWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static controller.BoardMouseListener.CUR_GIZMO.CIRCLE;
+import static view.CUR_GIZMO.CIRCLE;
 
 public class AddCircleListener implements ActionListener{
     private MainWindow mainWindow;
@@ -17,7 +16,7 @@ public class AddCircleListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        mainWindow.getBoard().getMouseListener().setGizmo(CIRCLE);
+        mainWindow.getBoard().setSelectedGizmo(CIRCLE);
         mainWindow.setStatusLabel("Placing Circle. Please click a grid cell to place it.");
     }
 }

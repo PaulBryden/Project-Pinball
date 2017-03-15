@@ -16,12 +16,11 @@ public class ClientBoardListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-    	Client client= new Client(mainWindow.getBoard().getModel(),"localhost",1003);
- 
-    	Thread newThread = new Thread(
-    	    	(Runnable)client);
-    	newThread.start();
-    	mainWindow.enableClientView();
-    	
+        mainWindow.showClientDialog();
+//    	Client client = new Client(mainWindow.getBoard().getModel(),"localhost",1003);
+//
+//    	Thread newThread = new Thread(client);
+//    	newThread.start();
+//    	mainWindow.enableClientView();
     }
 }

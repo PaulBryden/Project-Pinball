@@ -5,7 +5,7 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static controller.BoardMouseListener.CUR_GIZMO.RFLIPPER;
+import static view.CUR_GIZMO.RFLIPPER;
 
 public class AddRFlipperListener implements ActionListener {
     private MainWindow mainWindow;
@@ -16,7 +16,7 @@ public class AddRFlipperListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        mainWindow.getBoard().getMouseListener().setGizmo(RFLIPPER);
+        mainWindow.getBoard().setSelectedGizmo(RFLIPPER);
         mainWindow.setStatusLabel("Placing Right-Flipper. Please click a grid cell to place it.");
     }
 }

@@ -5,7 +5,7 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static controller.BoardMouseListener.CUR_GIZMO.TRIANGLE;
+import static view.CUR_GIZMO.TRIANGLE;
 
 public class AddTriangleListener implements ActionListener{
     private MainWindow mainWindow;
@@ -16,7 +16,7 @@ public class AddTriangleListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        mainWindow.getBoard().getMouseListener().setGizmo(TRIANGLE);
+        mainWindow.getBoard().setSelectedGizmo(TRIANGLE);
         mainWindow.setStatusLabel("Placing Triangle. Please click a grid cell to place it.");
     }
 }

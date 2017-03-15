@@ -11,7 +11,7 @@ import physics.Vect;
 import view.Board;
 import view.MainWindow;
 
-import static controller.BoardMouseListener.STATE.KEY_CONNECT;
+import static view.STATE.KEY_CONNECT;
 
 public class RunKeyListener implements KeyListener {
 
@@ -39,12 +39,12 @@ public class RunKeyListener implements KeyListener {
 			System.out.println("Firing Key Released Event");
 		}else{
 		Board board = mainWindow.getBoard();
-		Vect gizmoCoords = board.getMouseListener().getGizmoCoords();
+		Vect gizmoCoords = board.getSelectedGizmoCoords();
 		int keyCode = e.getKeyCode();
 		char keyChar = e.getKeyChar();
 		IGizmo gizmo;
 
-		if (board.getMouseListener().getState().equals(KEY_CONNECT) && gizmoCoords != null) {
+		if (board.getState().equals(KEY_CONNECT) && gizmoCoords != null) {
 			try {
 				gizmo = board.getModel().getGizmo(gizmoCoords);
 			} catch (NoSuchElementException E) {
