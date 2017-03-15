@@ -36,7 +36,6 @@ public class Board extends JPanel implements Observer {
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
-	private BoardMouseListener mouseListener;
 	static final int GRID_WIDTH = 20;
 	private STATE state;
 	private CUR_GIZMO selectedGizmo;
@@ -65,14 +64,19 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public String getGizmoName(IGizmo gizmo){
-		switch (gizmo.getID().charAt(0)){
-			case ('A'): return ("Absorber");
-			case ('C'): return ("Circle");
-			case ('L'): return ("Left-Flipper");
-			case ('R'): return ("Right-Flipper");
-			case ('S'): return ("Square");
-			case ('T'): return ("Triangle");
-			default: return ("Ball");
+		switch (gizmo.getID().charAt(0)) {
+			case ('A'):
+				return ("Absorber");
+			case ('C'):
+				return ("Circle");
+			case ('L'):
+				return ("Left-Flipper");
+			case ('R'):
+				return ("Right-Flipper");
+			case ('S'):
+				return ("Square");
+			default:
+				return ("Triangle");
 		}
 	}
 
