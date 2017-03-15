@@ -8,10 +8,10 @@ import physics.Geometry.VectPair;
 
 public class CollisionEvaluator {
 
-	private GameModel model;
+	private IModel model;
 	private CollisionDetails collision;
 
-	public CollisionEvaluator(GameModel gameModel) {
+	public CollisionEvaluator(IModel gameModel) {
 		model = gameModel;
 	}
 

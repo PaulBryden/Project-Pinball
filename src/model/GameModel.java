@@ -12,7 +12,7 @@ import java.util.Observable;
 import network.Host;
 import physics.Vect;
 
-public class GameModel extends Observable implements IModel {
+class GameModel extends Observable implements IModel {
 
 	BoardFileHandler fileHandler;
 	private List<IGizmo> gizmos;

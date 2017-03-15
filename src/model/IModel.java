@@ -80,4 +80,6 @@ public interface IModel {
 
 	void setClient();
 
+	public List<IFlipper> getFlippers();
+
 }

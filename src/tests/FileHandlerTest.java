@@ -4,10 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.LineNumberReader;
 import java.util.List;
 import java.util.InputMismatchException;
 
@@ -18,10 +16,11 @@ import model.Absorber;
 import model.BallGizmo;
 import model.BoardFileHandler;
 import model.CircleGizmo;
-import model.GameModel;
 import model.IBall;
 import model.IGizmo;
+import model.IModel;
 import model.LeftFlipper;
+import model.ModelFactory;
 import model.RightFlipper;
 import model.SquareGizmo;
 import model.TriangleGizmo;
@@ -29,12 +28,12 @@ import model.Wall;
 
 public class FileHandlerTest {
 	
-	private GameModel model;
+	private IModel model;
 	private BoardFileHandler file;
 	
 	@Before
 	public void setup() {
-		model = new GameModel();
+        model = ModelFactory.getModel();
 		file = new BoardFileHandler(model);
 	}
 	

@@ -5,19 +5,14 @@ import org.junit.Test;
 import model.Absorber;
 import model.BallGizmo;
 import model.CircleGizmo;
-import model.CollisionDetails;
-import model.GameModel;
-import model.IBall;
 import model.LeftFlipper;
+import model.ModelFactory;
 import model.RightFlipper;
 import model.SquareGizmo;
 import model.TriangleGizmo;
-import model.Wall;
 import physics.Vect;
 
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +28,7 @@ public class GizmoTest {
 	public void AbsorberCreationTest() {
 		Vect topLeft = new Vect(1,1);
 		Vect bottomRight = new Vect(2,2); 
-		Absorber newAbsorber = new Absorber(new GameModel(),"A1",topLeft,bottomRight);
+		Absorber newAbsorber = new Absorber(ModelFactory.getModel(),"A1",topLeft,bottomRight);
 		
 		assertEquals(newAbsorber.getBottomRightCoords(),bottomRight);
 	}
