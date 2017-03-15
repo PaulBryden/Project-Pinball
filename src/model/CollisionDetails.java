@@ -33,22 +33,43 @@ public class CollisionDetails {
 		this.otherBallV = vs.v2;
 	}
 
+	/**
+	 * 
+	 * @return The time until collision
+	 */
 	public double getTuc() {
 		return tuc;
 	}
 
+	/**
+	 * 
+	 * @return The reflected velocity of the ball
+	 */
 	public Vect getVelo() {
 		return v;
 	}
 
+	/**
+	 * 
+	 * @return The reflected velocity of the other ball, or null if the
+	 *         collision is with a gizmo
+	 */
 	public Vect getOtherBallVelo() {
 		return otherBallV;
 	}
 
+	/**
+	 * 
+	 * @return The ball
+	 */
 	public IBall getBall() {
 		return ball;
 	}
 
+	/**
+	 * 
+	 * @return The gizmo or ball being collided with
+	 */
 	public IGizmo getGizmo() {
 		return gizmo;
 	}

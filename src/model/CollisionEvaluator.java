@@ -8,6 +8,8 @@ import physics.Geometry.VectPair;
 
 /**
  * 
+ * Class for evaluating and resolving collisions.
+ * 
  * @author Matt, David
  *
  */
@@ -16,10 +18,17 @@ public class CollisionEvaluator {
 	private IModel model;
 	private CollisionDetails collision;
 
-	public CollisionEvaluator(IModel gameModel) {
-		model = gameModel;
+	public CollisionEvaluator(IModel model) {
+		this.model = model;
 	}
 
+	/**
+	 * Return the time until the next collision, the time until a flipper stops
+	 * moving, or the regular tick time, whichever is shortest. This method
+	 * expects evaluate() to have been called first.
+	 * 
+	 * @return The evaluated tick time
+	 */
 	public double getTickTime() {
 		// Use smallest tick time until next collision.
 		double tick = (collision == null) ? Constants.TICK_TIME : collision.getTuc();
@@ -33,11 +42,21 @@ public class CollisionEvaluator {
 		}
 		return tick;
 	}
-	
+
+	/**
+	 * Get the collision previously found by evaluate().
+	 * 
+	 * @return The collision details for the next collision, or null if there is
+	 *         no collision within the next tick time
+	 */
 	public CollisionDetails getCollision() {
 		return this.collision;
 	}
 
+	/**
+	 * Update the velocities of balls based on the collision found by
+	 * evaluate(), and trigger any gizmo that has been collided with.
+	 */
 	public void resolveCollision() {
 		if (collision != null) {
 			if (collision.getGizmo() instanceof IBall) {
@@ -67,6 +86,13 @@ public class CollisionEvaluator {
 		ball.setVelo(velo);
 	}
 
+	/**
+	 * Evaluate all possible collisions, and find the first collision to occur
+	 * within the next tick time. CollisionDetails corresponding to the
+	 * collision can then be accessed using getCollision(). Collision will be
+	 * null if no collisions occur within the next tick time, as defined in
+	 * Constants.
+	 */
 	public void evaluate() {
 		collision = null;
 		CollisionDetails cd;
@@ -102,9 +128,19 @@ public class CollisionEvaluator {
 				}
 			}
 		}
-		return;
 	}
 
+	/**
+	 * Return the sooner of two collisions, or null if neither collision occurs
+	 * within the next tick time.
+	 * 
+	 * @param cd1
+	 *            Collision 1
+	 * @param cd2
+	 *            Collision 2
+	 * @return The sooner of the two collisions, provided at least one of them
+	 *         occurs within the next tick time.
+	 */
 	private CollisionDetails soonerCollision(CollisionDetails cd1, CollisionDetails cd2) {
 		if (cd1 != null && cd1.getTuc() > Constants.TICK_TIME)
 			cd1 = null;
