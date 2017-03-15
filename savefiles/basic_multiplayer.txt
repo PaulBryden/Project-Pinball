@@ -1,0 +1,88 @@
+Absorber A7.019.0 0 19 8 20
+Connect A7.019.0 A7.019.0
+Absorber A19.019.0 12 19 20 20
+Connect A19.019.0 A19.019.0
+Square S8.019.0 8 19
+Square S9.019.0 9 19
+Square S10.019.0 10 19
+Square S11.019.0 11 19
+Square S11.018.0 11 18
+Square S10.018.0 10 18
+Square S9.018.0 9 18
+Square S8.018.0 8 18
+Square S8.017.0 8 17
+Square S8.015.0 8 15
+Square S8.016.0 8 16
+Square S8.014.0 8 14
+Square S8.012.0 8 12
+Square S8.011.0 8 11
+Square S8.013.0 8 13
+Square S9.011.0 9 11
+Square S10.011.0 10 11
+Square S11.011.0 11 11
+Square S11.012.0 11 12
+Square S11.013.0 11 13
+Square S11.014.0 11 14
+Square S11.015.0 11 15
+Square S11.016.0 11 16
+Square S11.017.0 11 17
+Square S10.017.0 10 17
+Square S9.017.0 9 17
+Square S9.016.0 9 16
+Square S10.016.0 10 16
+Square S10.015.0 10 15
+Square S9.015.0 9 15
+Square S9.014.0 9 14
+Square S10.014.0 10 14
+Square S10.013.0 10 13
+Square S9.013.0 9 13
+Square S9.012.0 9 12
+Square S10.012.0 10 12
+Square S12.017.0 12 17
+Square S12.018.0 12 18
+Square S18.018.0 18 18
+Square S18.016.0 18 16
+Square S18.017.0 18 17
+Square S0.018.0 0 18
+Square S0.017.0 0 17
+Square S6.018.0 6 18
+Square S6.016.0 6 16
+Square S6.017.0 6 17
+Triangle T19.00.0 19 0
+Rotate T19.00.0
+Triangle T7.00.0 7 0
+Rotate T7.00.0
+LeftFlipper LF1.017.0 1 17
+LeftFlipper LF13.017.0 13 17
+RightFlipper RF4.017.0 4 17
+RightFlipper RF16.017.0 16 17
+Square S9.00.0 9 0
+Square S9.01.0 9 1
+Square S9.03.0 9 3
+Square S9.02.0 9 2
+Square S10.03.0 10 3
+Square S10.02.0 10 2
+Square S10.00.0 10 0
+Square S10.01.0 10 1
+Square S9.04.0 9 4
+Square S10.04.0 10 4
+Square S8.010.0 8 10
+Square S9.010.0 9 10
+Square S10.010.0 10 10
+Square S11.010.0 11 10
+Circle C0.016.0 0 16
+Circle C12.016.0 12 16
+Circle C15.013.0 15 13
+Circle C3.013.0 3 13
+Ball B3.018.0 3.5000 18.5000 13.0000 17.0000
+Ball B15.018.0 15.5000 18.5000 13.0000 17.0000
+KeyConnect key 81 down LF1.017.0
+KeyConnect key 37 down LF13.017.0
+KeyConnect key 87 down RF4.017.0
+KeyConnect key 39 down RF16.017.0
+KeyConnect key 81 up LF1.017.0
+KeyConnect key 37 up LF13.017.0
+KeyConnect key 87 up RF4.017.0
+KeyConnect key 39 up RF16.017.0
+Gravity 25.0
+Friction 0.025 0.025
