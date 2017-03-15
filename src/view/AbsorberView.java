@@ -1,13 +1,10 @@
 package view;
 
 import java.awt.Graphics;
-import java.util.Observable;
 
 import model.IGizmo;
-import observer.IObservable;
-import observer.IObserver;
 
-public class AbsorberView implements IViewGizmo, IObserver{
+public class AbsorberView implements IViewGizmo {
     private IGizmo gizmo;
     private static final int GRID_WIDTH = 20;
 
@@ -28,12 +25,4 @@ public class AbsorberView implements IViewGizmo, IObserver{
         return (gizmo);
     }
 
-    @Override
-    public void update(IObservable obsv, Object o) {
-    }
-
-    @Override
-    public void update(Observable observable, Object o) {
-
-    }
 }

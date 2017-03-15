@@ -21,7 +21,6 @@ import model.CircleGizmo;
 import model.GameModel;
 import model.IBall;
 import model.IGizmo;
-import model.IWall;
 import model.LeftFlipper;
 import model.RightFlipper;
 import model.SquareGizmo;
@@ -295,7 +294,7 @@ public class FileHandlerTest {
 	@Test
 	public void testSaveWall() throws IOException {
 		// Walls shouldn't be written
-		IWall wall = new Wall(0, 0, 0, 0);
+		Wall wall = new Wall(0, 0, 0, 0);
 		model.addGizmo(wall);
 		file.save("test_save_file.txt");
 

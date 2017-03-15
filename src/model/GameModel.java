@@ -1,58 +1,39 @@
 package model;
 
 import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-import java.util.Queue;
-import java.util.Scanner;
 
 import network.Host;
 import physics.Vect;
 
-public class GameModel extends Observable implements IModel{
+public class GameModel extends Observable implements IModel {
 
 	BoardFileHandler fileHandler;
 	private List<IGizmo> gizmos;
 	private List<IBall> balls;
-	private Map<Integer, ITrigger> keyPressedTriggers;
-	private Map<Integer, ITrigger> keyReleasedTriggers;
+	private Map<Integer, KeyTrigger> keyPressedTriggers;
+	private Map<Integer, KeyTrigger> keyReleasedTriggers;
 	private Color backgroundColour;
 	private CollisionEvaluator collisionEvaluator;
 	private PhysicsEvaluator physicsEvaluator;
 
-    boolean isHost;
-    boolean isClient;
-    public Deque<String> keysToSend;
-    private Host host =null;
+	boolean isHost;
+	boolean isClient;
+	public Deque<String> keysToSend;
+	private Host host = null;
 	private double gravity;
 	private double mu;
 	private double mu2;
 
 	public GameModel() {
 
-		keysToSend=new ArrayDeque<String>();
+		keysToSend = new ArrayDeque<String>();
 		reset();
 		setDefaultPhysics();
 	}
@@ -81,14 +62,14 @@ public class GameModel extends Observable implements IModel{
 		// Update view
 		setChanged();
 		notifyObservers();
-		if(isHost){
+		if (isHost) {
 			host.sendBoard();
 			host.recieveKeys();
 
 		}
 	}
 
-	public synchronized List<IFlipper>  getFlippers() {
+	public synchronized List<IFlipper> getFlippers() {
 		List<IFlipper> flippers = new LinkedList<>();
 		for (IGizmo gizmo : gizmos) {
 			if (gizmo instanceof IFlipper) {
@@ -97,7 +78,7 @@ public class GameModel extends Observable implements IModel{
 		}
 		return flippers;
 	}
-	
+
 	public List<Absorber> getAbsorbers() {
 		List<Absorber> absorbers = new LinkedList<>();
 		for (IGizmo gizmo : gizmos) {
@@ -106,15 +87,15 @@ public class GameModel extends Observable implements IModel{
 			}
 		}
 		return absorbers;
-	
+
 	}
-	
+
 	public IBall getBall(Vect coords) {
 		for (IBall ball : balls) {
 			Vect pos = ball.getCentre();
 			double r = ball.getRadius();
-			if (pos.x() + r > coords.x() && pos.x() - r < coords.x() + 1
-					&& pos.y() + r > coords.y() && pos.y() - r < coords.y() + 1)
+			if (pos.x() + r > coords.x() && pos.x() - r < coords.x() + 1 && pos.y() + r > coords.y()
+					&& pos.y() - r < coords.y() + 1)
 				return ball;
 		}
 		return null;
@@ -148,7 +129,7 @@ public class GameModel extends Observable implements IModel{
 	public void addBall(IBall ball) {
 		balls.add(ball);
 	}
-	
+
 	public void removeBall(IBall ball) {
 		balls.remove(ball);
 	}
@@ -156,11 +137,13 @@ public class GameModel extends Observable implements IModel{
 	public void removeGizmo(IGizmo gizmo) {
 		gizmos.remove(gizmo);
 	}
-	public void setGizmos(List<IGizmo> gizmos){
-		this.gizmos=gizmos;
+
+	public void setGizmos(List<IGizmo> gizmos) {
+		this.gizmos = gizmos;
 	}
-	public void setBalls(List<IBall> balls){
-		this.balls=balls;
+
+	public void setBalls(List<IBall> balls) {
+		this.balls = balls;
 	}
 
 	public void reset() {
@@ -226,28 +209,24 @@ public class GameModel extends Observable implements IModel{
 		this.backgroundColour = colour;
 	}
 
-	public Map<Integer, ITrigger> getKeyPressedTriggers() {
+	public Map<Integer, KeyTrigger> getKeyPressedTriggers() {
 		return keyPressedTriggers;
 	}
 
-	public Map<Integer, ITrigger> getKeyReleasedTriggers() {
+	public Map<Integer, KeyTrigger> getKeyReleasedTriggers() {
 		return keyReleasedTriggers;
 	}
 
-	public void startHosting(int Port){
-		this.host = new Host(new BoardFileHandler(this),this,Port);
-		if(host.startHost()>0){
-			isHost=true;
-		};
+	public void startHosting(int Port) {
+		this.host = new Host(new BoardFileHandler(this), this, Port);
+		if (host.startHost() > 0) {
+			isHost = true;
+		}
 	}
-	
 
-	
-	public void addKeyToSend(String keyData){
+	public void addKeyToSend(String keyData) {
 		keysToSend.add(keyData);
 	}
-
-
 
 	@Override
 	public double getGravity() {
@@ -278,24 +257,25 @@ public class GameModel extends Observable implements IModel{
 	public void setFrictionMu2(double mu2) {
 		this.mu2 = mu2;
 	}
+
 	@Override
-	public void update(){
+	public void update() {
 		setChanged();
 		notifyObservers();
 	}
-	
+
 	@Override
-	public boolean isClient(){
+	public boolean isClient() {
 		return isClient;
 	}
-	
+
 	@Override
-	public void setClient(){
-		isClient=true;
+	public void setClient() {
+		isClient = true;
 	}
-	
+
 	@Override
-	public Deque<String> getKeysToSend(){
+	public Deque<String> getKeysToSend() {
 		return keysToSend;
 	}
 
@@ -306,7 +286,5 @@ public class GameModel extends Observable implements IModel{
 		this.mu2 = Constants.DEFAULT_MU2;
 
 	}
-
-
 
 }

@@ -56,15 +56,10 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 	}
 
 	@Override
-	public boolean isBall() {
-		return true;
-	}
-
-	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Ball " + getID() + " " + String.format("%.4f",physicsCircle.getCenter().x()) + " "
-				+ String.format("%.4f",physicsCircle.getCenter().y())  + " " + String.format("%.4f",this.getVelo().x()) + " "
-						+ String.format("%.4f",this.getVelo().y()) +  "\n";
+		String serializedGizmo = "Ball " + getID() + " " + String.format("%.4f", physicsCircle.getCenter().x()) + " "
+				+ String.format("%.4f", physicsCircle.getCenter().y()) + " " + String.format("%.4f", this.getVelo().x())
+				+ " " + String.format("%.4f", this.getVelo().y()) + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
 		}
@@ -85,15 +80,12 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 
 	@Override
 	public List<Vect> getExactCoords() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setCentre(Vect v) {
-		// TODO Auto-generated method stub
-		physicsCircle=new Circle(v,physicsCircle.getRadius());
+		physicsCircle = new Circle(v, physicsCircle.getRadius());
 	}
-	
-	
+
 }

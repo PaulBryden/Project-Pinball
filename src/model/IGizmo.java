@@ -2,12 +2,13 @@ package model;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Set;
 
 import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public interface IGizmo extends ITrigger {
+public interface IGizmo {
 
 	public boolean isStatic();
 
@@ -46,5 +47,9 @@ public interface IGizmo extends ITrigger {
 	public int getRotation();
 	
 	public double getCoefficientOfReflection();
+
+	public void triggerConnectedGizmos();
+
+	Set<IGizmo> getGizmosToTrigger();
 
 }

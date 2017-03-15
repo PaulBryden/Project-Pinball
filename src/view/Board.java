@@ -17,11 +17,10 @@ import controller.BoardMouseListener;
 import model.Absorber;
 import model.CircleGizmo;
 import model.IBall;
-import model.ICircle;
 import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
-import model.ITrigger;
+import model.KeyTrigger;
 import model.LeftFlipper;
 import model.RightFlipper;
 import model.SquareGizmo;
@@ -33,11 +32,14 @@ import static view.STATE.BUILD;
 import static view.STATE.RUN;
 
 public class Board extends JPanel implements Observer {
+
+	private static final long serialVersionUID = -4998929957953130907L;
 	private MainWindow mainWindow;
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
-	private static final int GRID_WIDTH = 20;
+	private BoardMouseListener mouseListener;
+	static final int GRID_WIDTH = 20;
 	private STATE state;
 	private CUR_GIZMO selectedGizmo;
 	private Vect selectedGizmoCoords;
@@ -90,9 +92,9 @@ public class Board extends JPanel implements Observer {
 		reRender();
 	}
 
-	private  void removeKeyConnections(Map<Integer, ITrigger> map, IGizmo gizmo){
-		for(Object o : map.entrySet()){
-			Set<IGizmo> gizmos = ((ITrigger) ((Map.Entry) o).getValue()).getGizmosToTrigger();
+	private  void removeKeyConnections(Map<Integer, KeyTrigger> map, IGizmo gizmo){
+		for(KeyTrigger t : map.values()){
+			Set<IGizmo> gizmos = t.getGizmosToTrigger();
 			gizmos.stream().filter(gizmo1 -> gizmo1.equals(gizmo)).forEach(gizmos::remove);
 		}
 	}
@@ -187,7 +189,7 @@ public class Board extends JPanel implements Observer {
 			else if(gizmo instanceof LeftFlipper || gizmo instanceof RightFlipper)
 				viewGizmos.add(new FlipperView((IFlipper) gizmo));
 			else if(gizmo instanceof CircleGizmo)
-				viewGizmos.add(new CircleView((ICircle) gizmo));
+				viewGizmos.add(new CircleView((CircleGizmo) gizmo));
 			else if(gizmo instanceof Absorber)
 				viewGizmos.add(new AbsorberView(gizmo));
 		}

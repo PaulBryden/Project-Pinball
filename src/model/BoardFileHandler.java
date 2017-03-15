@@ -2,12 +2,10 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -46,17 +44,17 @@ public class BoardFileHandler {
 			}
 
 			// Write key connections to file
-			Map<Integer, ITrigger> keyPressedTriggers = model.getKeyPressedTriggers();
-			Map<Integer, ITrigger> keyReleasedTriggers = model.getKeyReleasedTriggers();
+			Map<Integer, KeyTrigger> keyPressedTriggers = model.getKeyPressedTriggers();
+			Map<Integer, KeyTrigger> keyReleasedTriggers = model.getKeyReleasedTriggers();
 
-			for (Map.Entry<Integer, ITrigger> current : keyPressedTriggers.entrySet()) {
+			for (Map.Entry<Integer, KeyTrigger> current : keyPressedTriggers.entrySet()) {
 				Set<IGizmo> gizmosToTrigger = current.getValue().getGizmosToTrigger();
 				for (IGizmo gizmo : gizmosToTrigger) {
 					save.write("KeyConnect key " + current.getKey() + " down " + gizmo.getID() + "\n");
 				}
 			}
 
-			for (Map.Entry<Integer, ITrigger> current : keyReleasedTriggers.entrySet()) {
+			for (Map.Entry<Integer, KeyTrigger> current : keyReleasedTriggers.entrySet()) {
 				Set<IGizmo> gizmosToTrigger = current.getValue().getGizmosToTrigger();
 				for (IGizmo gizmo : gizmosToTrigger) {
 					save.write("KeyConnect key " + current.getKey() + " up " + gizmo.getID() + "\n");
@@ -110,17 +108,15 @@ public class BoardFileHandler {
 	}
 	
 
-	public void loadFromString(String recieved) throws IOException {
+	public void loadFromString(String received) throws IOException {
 			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading
-			List<String> connections = new ArrayList<>(); // Keeps track of connections from file
 			model.setBalls(new ArrayList<IBall>());
 			model.setGizmos(new ArrayList<IGizmo>());
 
-			String line = recieved;
 			Scanner scan = null;
 
 			String type;
-			scan = new Scanner(recieved);
+			scan = new Scanner(received);
 			while(scan.hasNextLine()) {
 					type = scan.next();
 					System.out.println(type);
@@ -318,7 +314,7 @@ public class BoardFileHandler {
 				}
 
 			} else if (type.equals("KeyConnect")) {
-				String keyString = scan.next(); // Won't be used
+				scan.next(); // Won't be used
 				int keyID = scan.nextInt();
 				String keyStatus = scan.next();
 				String gizmoID = scan.next();
