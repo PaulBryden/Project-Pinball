@@ -1,8 +1,8 @@
 package controller;
 
 import view.MainWindow;
-import view.RotateGizmoToolBar;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,10 +17,8 @@ public class RotateGizmoListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(!(mainWindow.getSideToolBar() instanceof RotateGizmoToolBar)) {
-            mainWindow.addSideToolBar(new RotateGizmoToolBar());
-            mainWindow.getBoard().setState(ROTATE);
-            mainWindow.setStatusLabel("Rotating Gizmo(s). Please click a gizmo on the board to rotate it.");
-        }
+        mainWindow.addSideToolBar(new JToolBar());
+        mainWindow.getBoard().setState(ROTATE);
+        mainWindow.setStatusLabel("Rotating Gizmo(s). Please click a gizmo on the board to rotate it.");
     }
 }

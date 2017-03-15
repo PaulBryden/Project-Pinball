@@ -86,11 +86,12 @@ public class MainWindow extends JFrame {
 		return (sideToolBar);
 	}
 	
-	public void stopRunning() {
+	private void stopRunning() {
 		if (toolbar instanceof RunToolBar) {
 			((RunToolBar) toolbar).stop();
 		}
 	}
+
 
 	public void toggleView() {
 		constraints.fill = VERTICAL;
