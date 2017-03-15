@@ -65,18 +65,12 @@ public class Board extends JPanel implements Observer {
 
 	public String getGizmoName(IGizmo gizmo){
 		switch (gizmo.getID().charAt(0)) {
-			case ('A'):
-				return ("Absorber");
-			case ('C'):
-				return ("Circle");
-			case ('L'):
-				return ("Left-Flipper");
-			case ('R'):
-				return ("Right-Flipper");
-			case ('S'):
-				return ("Square");
-			default:
-				return ("Triangle");
+			case ('A'): return ("Absorber");
+			case ('C'): return ("Circle");
+			case ('L'): return ("Left-Flipper");
+			case ('R'): return ("Right-Flipper");
+			case ('S'): return ("Square");
+			default: return ("Triangle");
 		}
 	}
 
