@@ -5,52 +5,36 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import java.awt.event.KeyEvent;
 
-import controller.ClientBoardListener;
-import controller.HostBoardListener;
-import controller.LoadBoardListener;
-import controller.QuitListener;
-import controller.ModeToggleListener;
-import controller.SaveBoardListener;
+import controller.PrimaryActionListener;
 
-class MenuBar extends JMenuBar {
+public class MenuBar extends JMenuBar {
 
-    MenuBar(MainWindow mainWindow){
+	private static final long serialVersionUID = 2834492556483662470L;
+	private PrimaryActionListener listener;
+	
+    public MenuBar(MainWindow mainWindow, PrimaryActionListener listener) {
         super();
-        JMenu menu = new JMenu();
-        JMenuItem menuItem = new JMenuItem("Save", KeyEvent.VK_S);
-        menuItem.addActionListener(new SaveBoardListener(mainWindow));
-        menu.add(menuItem);
-
-        menuItem = new JMenuItem("Load", KeyEvent.VK_L);
-        menuItem.addActionListener(new LoadBoardListener(mainWindow));
-        menu.add(menuItem);
-
+        this.listener = listener;
+        listener.addMenuBar(this);
+        JMenu menu = new JMenu("File");
+        menu.add(getMenuItem("Save", "save", KeyEvent.VK_S));
+        menu.add(getMenuItem("Load", "load", KeyEvent.VK_L));
         menu.addSeparator();
-
-        menuItem = new JMenuItem("Toggle Mode", KeyEvent.VK_T);
-        menuItem.addActionListener(new ModeToggleListener(mainWindow));
-        menu.add(menuItem);
-
+        menu.add(getMenuItem("Toggle Mode", "toggle", KeyEvent.VK_T));
         menu.addSeparator();
-        
-        menuItem = new JMenuItem("Quit", KeyEvent.VK_Q);
-        menuItem.addActionListener(new QuitListener());
-        menu.add(menuItem);
-
+        menu.add(getMenuItem("Quit", "quit", KeyEvent.VK_Q));
         menu.addSeparator();
-        
-        menuItem = new JMenuItem("Host", KeyEvent.VK_Q);
-        menuItem.addActionListener(new HostBoardListener(mainWindow));
-        menu.add(menuItem);
-
+        menu.add(getMenuItem("Host", "host", KeyEvent.VK_H));
         menu.addSeparator();
-        
-        menuItem = new JMenuItem("Connect", KeyEvent.VK_Q);
-        menuItem.addActionListener(new ClientBoardListener(mainWindow));
-        menu.add(menuItem);
-        
-        menu.setText("Menu");
+        menu.add(getMenuItem("Connect", "client", KeyEvent.VK_C));
         menu.setMnemonic(KeyEvent.VK_M);
         add(menu);
+    }
+    
+    private JMenuItem getMenuItem(String name, String action, int mnemonic) {
+    	JMenuItem item = new JMenuItem(name, mnemonic);
+    	item.setActionCommand(action);
+    	item.addActionListener(listener);
+    	return item;
     }
 }

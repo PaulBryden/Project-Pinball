@@ -3,20 +3,16 @@ package controller;
 import view.MainWindow;
 import view.RotateGizmoToolBar;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import static view.STATE.ROTATE;
 
-public class RotateGizmoListener implements ActionListener{
+public class RotateGizmoController {
     private MainWindow mainWindow;
 
-    public RotateGizmoListener(MainWindow mainWindow){
+    public RotateGizmoController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    public void start() {
         if(!(mainWindow.getSideToolBar() instanceof RotateGizmoToolBar)) {
             mainWindow.addSideToolBar(new RotateGizmoToolBar());
             mainWindow.getBoard().setState(ROTATE);

@@ -8,15 +8,14 @@ import java.awt.event.ActionListener;
 
 import static view.STATE.ADD;
 
-public class AddGizmoListener implements ActionListener{
+public class AddGizmoController {
     private MainWindow mainWindow;
 
-    public AddGizmoListener(MainWindow mainWindow){
+    public AddGizmoController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    public void start() {
         if(!(mainWindow.getSideToolBar() instanceof AddGizmoToolBar)) {
             mainWindow.addSideToolBar(new AddGizmoToolBar(mainWindow));
             mainWindow.getBoard().setState(ADD);

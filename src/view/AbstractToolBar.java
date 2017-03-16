@@ -8,20 +8,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
-import controller.ToolBarListener;
+import controller.PrimaryActionListener;
 import model.IModel;
 
 public abstract class AbstractToolBar extends JToolBar {
 
-	private static final long serialVersionUID = 9159488944045570471L;
+	private static final long serialVersionUID = -3009990934865534605L;
 
-	private ToolBarListener listener;
+	private PrimaryActionListener listener;
 
 	private Map<String, JButton> buttons;
 	
-	public AbstractToolBar(String mode) {
+	public AbstractToolBar(String mode, MainWindow mainWindow, PrimaryActionListener listener) {
 		super(mode);
-		this.listener = new ToolBarListener(this);
+		this.listener = listener;
+		listener.addToolBar(this);
 		this.buttons = new HashMap<>();
 		populateButtons();
 	}
@@ -30,7 +31,7 @@ public abstract class AbstractToolBar extends JToolBar {
 
 	public void disableButton(String name) {
 		JButton button = buttons.get(name);
-		if (button.isEnabled()) {
+		if (button != null && button.isEnabled()) {
 			button.setEnabled(false);
 			setButtonIcon(button, name + "_disabled");
 		}
@@ -38,7 +39,7 @@ public abstract class AbstractToolBar extends JToolBar {
 	
 	public void enableButton(String name) {
 		JButton button = buttons.get(name);
-		if (!button.isEnabled()) {
+		if (button != null && !button.isEnabled()) {
 			button.setEnabled(true);
 			setButtonIcon(button, name);
 		}

@@ -7,6 +7,7 @@ import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
 import controller.BuildKeyListener;
+import controller.PrimaryActionListener;
 import controller.RunKeyListener;
 import model.IModel;
 
@@ -24,6 +25,7 @@ import static view.STATE.RUN;
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = -2379162245120133571L;
+	private PrimaryActionListener actionListener;
 	private IModel model;
 	private MenuBar menuBar;
 	private JToolBar toolbar;
@@ -38,9 +40,10 @@ public class MainWindow extends JFrame {
 		super();
 		this.model = model;
 		board = new Board(this, this.model);
-		menuBar = new MenuBar(this);
+		actionListener = new PrimaryActionListener(this, model);
+		menuBar = new MenuBar(this, actionListener);
 		sideToolBar = new JToolBar();
-		toolbar = new BuildToolBar(this);
+		toolbar = new BuildToolBar(this, actionListener);
 		constraints = new GridBagConstraints();
 		statusLabel = new JLabel("");
 		setUpKeyListeners();
@@ -99,10 +102,10 @@ public class MainWindow extends JFrame {
 
 		if (toolbar instanceof RunToolBar) {
 			stopRunning();
-			toolbar = new BuildToolBar(this);
+			toolbar = new BuildToolBar(this, actionListener);
 			setStatusLabel("");
 		} else {
-			toolbar = new RunToolBar(this, model);
+			toolbar = new RunToolBar(this, actionListener);
 			remove(sideToolBar);
 			sideToolBar = new JToolBar();
 			setStatusLabel("Stopped");

@@ -1,8 +1,9 @@
 package view;
 
-import model.IModel;
-
 import javax.swing.JButton;
+
+import controller.PrimaryActionListener;
+
 import java.util.Map;
 
 class RunToolBar extends AbstractToolBar {
@@ -11,8 +12,8 @@ class RunToolBar extends AbstractToolBar {
 
 	private Map<String, JButton> buttons;
 
-	RunToolBar(MainWindow mainWindow, IModel model) {
-		super("Run Mode");
+	RunToolBar(MainWindow mainWindow, PrimaryActionListener listener) {
+		super("Run Mode", mainWindow, listener);
 	}
 	
 	protected void populateButtons() {
@@ -23,9 +24,10 @@ class RunToolBar extends AbstractToolBar {
 		makeButton("tick", "Tick for one frame");
 		addSeparator();
 		makeButton("build_mode", "Enter build mode");
+		disableButton("pause");
 	}
 	
 	void stop() {
-		buttons.get("pause").doClick();
+		//buttons.get("pause").doClick();
 	}
 }

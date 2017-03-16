@@ -1,22 +1,18 @@
 package controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import view.MainWindow;
 import view.MoveGizmoToolBar;
 
 import static view.STATE.MOVE;
 
-public class MoveGizmoListener  implements ActionListener{
+public class MoveGizmoController {
 	private MainWindow mainWindow;
 
-	public MoveGizmoListener(MainWindow mainWindow){
+	public MoveGizmoController(MainWindow mainWindow){
 		this.mainWindow = mainWindow;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void start() {
 		if(!(mainWindow.getSideToolBar() instanceof MoveGizmoToolBar)) {
 			mainWindow.addSideToolBar(new MoveGizmoToolBar());
 			mainWindow.getBoard().setState(MOVE);

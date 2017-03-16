@@ -1,11 +1,13 @@
 package view;
 
-import controller.*;
+import controller.PrimaryActionListener;
 
 class BuildToolBar extends AbstractToolBar {
 	
-    BuildToolBar(MainWindow mainWindow){
-        super("Build Mode");
+	private static final long serialVersionUID = -3061173893792427738L;
+
+	BuildToolBar(MainWindow mainWindow, PrimaryActionListener listener){
+        super("Build Mode", mainWindow, listener);
     }
 
 	protected void populateButtons() {
@@ -15,7 +17,7 @@ class BuildToolBar extends AbstractToolBar {
 		makeButton("add", "Add gizmo");
 		makeButton("delete", "Remove gizmo");
 		makeButton("rotate", "Rotate gizmo");
-		makeButton("move", "Move a gizmo");
+		makeButton("move", "Move gizmo");
 		addSeparator();
 		makeButton("connect", "Connect gizmos");
 		makeButton("key", "Add key connection");

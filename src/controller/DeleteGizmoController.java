@@ -3,20 +3,16 @@ package controller;
 import view.DeleteGizmoToolBar;
 import view.MainWindow;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import static view.STATE.REMOVE;
 
-public class DeleteGizmoListener implements ActionListener{
+public class DeleteGizmoController {
     private MainWindow mainWindow;
 
-    public DeleteGizmoListener(MainWindow mainWindow){
+    public DeleteGizmoController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    public void start() {
         if(!(mainWindow.getSideToolBar() instanceof DeleteGizmoToolBar)) {
             mainWindow.addSideToolBar(new DeleteGizmoToolBar());
             mainWindow.getBoard().setState(REMOVE);
