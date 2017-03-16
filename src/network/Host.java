@@ -5,7 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -87,7 +86,6 @@ public class Host implements Runnable{
 
         window.setStatusLabel("Host: Connected to client");
         gameModel.setHost(this);
-        window.enableHostView();
 		return 1;
 	}
 	

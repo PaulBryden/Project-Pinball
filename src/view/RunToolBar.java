@@ -1,38 +1,27 @@
 package view;
 
-import controller.RunListener;
-import model.IModel;
+import javax.swing.Box;
 
-import javax.swing.JButton;
-import javax.swing.JToolBar;
-import java.awt.event.ActionListener;
+import controller.PrimaryActionListener;
 
-class RunToolBar extends JToolBar{
-    private JButton stopBtn;
+class RunToolBar extends AbstractToolBar {
 
-    RunToolBar(MainWindow mainWindow, IModel model){
-        super("Run Mode");
-        JButton runBtn = new JButton("Run");
-        stopBtn = new JButton("Stop");
-        JButton tickBtn = new JButton("Tick");
-        ActionListener runListener = new RunListener(mainWindow, model);
+	private static final long serialVersionUID = 9159488944045570471L;
 
-        setFloatable(false);
-        setRollover(true);
-
-        runBtn.addActionListener(runListener);
-        add(runBtn);
-
-        stopBtn.addActionListener(runListener);
-        add(stopBtn);
-
-        addSeparator();
-
-        tickBtn.addActionListener(runListener);
-        add(tickBtn);
-    }
-
-    void stop(){
-        stopBtn.doClick();
-    }
+	RunToolBar(MainWindow mainWindow, PrimaryActionListener listener) {
+		super("Run Mode", mainWindow, listener);
+	}
+	
+	@Override
+	protected void populateButtons() {
+		addButton("load", "Load a board layout");
+		addSeparator();
+		addButton("run", "Run game");
+		addButton("pause", "Pause game");
+		addButton("tick", "Tick for one frame");
+		add(Box.createHorizontalGlue());
+		addButton("build_mode", "Enter build mode");
+		disableButton("pause");
+	}
+	
 }
