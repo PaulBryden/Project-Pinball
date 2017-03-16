@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Color;
+import java.net.SocketTimeoutException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ class GameModel extends Observable implements IModel {
 	boolean isHost;
 	boolean isClient;
 	public Deque<String> keysToSend;
-	private Host host = null;
+	private Host host;
 	private double gravity;
 	private double mu;
 	private double mu2;
@@ -73,7 +74,14 @@ class GameModel extends Observable implements IModel {
 		notifyObservers();
 		if (isHost) {
 			host.sendBoard();
-			host.receiveKeys();
+		
+				if(!host.receiveKeys()){
+					//Timeout error, abort and reset
+					isHost=false;
+					host=null;
+				}
+			
+			
 		}
 	}
 

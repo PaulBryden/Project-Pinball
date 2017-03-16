@@ -17,10 +17,10 @@ public class Client implements Runnable {
 	boolean isClient = false;
 	String ipAddr;
 	int port;
-
+	DatagramSocket clientSocket = null;
 	@Override
 	public void run() {
-		this.startClient(ipAddr, port);
+		this.startClientLoop();
 	}
 
 	public Client(IModel model, String ip, int port) {
@@ -34,10 +34,10 @@ public class Client implements Runnable {
 		return isClient;
 	}
 
-	public void startClient(String IP, int Port) {
+	public boolean startClient() {
 		model.setClient();
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-		DatagramSocket clientSocket = null;
+		
 		try {
 			clientSocket = new DatagramSocket();
 		} catch (SocketException e) {
@@ -46,7 +46,7 @@ public class Client implements Runnable {
 		}
 		InetAddress IPAddress = null;
 		try {
-			IPAddress = InetAddress.getByName(IP);
+			IPAddress = InetAddress.getByName(ipAddr);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,17 +54,35 @@ public class Client implements Runnable {
 		byte[] sendData = new byte[4096];
 		byte[] receiveData = new byte[4096];
 		sendData[0] = 'C';
-		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, Port);
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
 		try {
 			clientSocket.send(sendPacket);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		DatagramPacket receivePacket;
+		receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		try {
+			clientSocket.receive(receivePacket);
+			isClient = true;
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+		return false;
+
+	}
+	public void startClientLoop(){
 		String loadedData;
 		BoardFileHandler newHandler;
-		isClient = true;
+		DatagramPacket receivePacket;
+		byte[] sendData = new byte[4096];
+		byte[] receiveData = new byte[4096];
+		receivePacket = new DatagramPacket(receiveData, receiveData.length);
 		while (true) {
 			receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			try {

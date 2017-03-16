@@ -18,8 +18,8 @@ public class SubmitHostListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(hostDialog.getTextFieldValidator().isValid() && !hostDialog.getPortText().equals("")){
-            hostDialog.getDialog().dispose();
             mainWindow.setStatusLabel("Host: Awaiting client connection");
+            hostDialog.getDialog().dispose();
             mainWindow.getBoard().getModel().startHosting(Integer.parseInt(hostDialog.getPortText()));
             mainWindow.setStatusLabel("Host: Connected to client");
         } else {
