@@ -6,7 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import model.IModel;
+import view.AboutDialog;
 import view.AbstractToolBar;
+import view.ClientDialog;
+import view.HostDialog;
 import view.MainWindow;
 import view.MenuBar;
 
@@ -52,10 +55,12 @@ public class PrimaryActionListener implements ActionListener {
 			runListener.actionPerformed(e);
 			break;
 		case "host":
-	        mainWindow.showHostDialog();
+			pauseGame();
+			new HostDialog(mainWindow);
 			break;
 		case "client":
-	        mainWindow.showClientDialog();
+			pauseGame();
+			new ClientDialog(mainWindow);
 			break;
 		case "quit":
 			exitApplication();
@@ -80,6 +85,10 @@ public class PrimaryActionListener implements ActionListener {
 			break;
 		case "settings":
 			new BoardSettingsController(mainWindow).start();
+			break;
+		case "about":
+			pauseGame();
+			new AboutDialog(mainWindow);
 			break;
 		default:
 			System.out.println(e.getActionCommand());

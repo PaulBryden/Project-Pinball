@@ -112,18 +112,6 @@ public class MainWindow extends JFrame {
 		statusBar.setStatus(warning);
 	}
 
-	public void showHostDialog() {
-		actionListener.pauseGame();
-		HostDialog hostDialog = new HostDialog(this);
-		hostDialog.build();
-	}
-
-	public void showClientDialog() {
-		actionListener.pauseGame();
-		ClientDialog clientDialog = new ClientDialog(this);
-		clientDialog.build();
-	}
-
 	private void setUpKeyListeners() {
 		// Use an event dispatcher so that key strokes are captured regardless
 		// of which element of the frame has focus.
