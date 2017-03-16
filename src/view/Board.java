@@ -89,9 +89,8 @@ public class Board extends JPanel implements Observer {
 	}
 
 	private void removeGizmoConnections(IGizmo gizmo){
-        for(IGizmo gizmo2 : model.getGizmos()){
-            Set<IGizmo> gizmosToTrigger = gizmo2.getGizmosToTrigger();
-            gizmosToTrigger.removeIf(gizmo1 -> gizmo1.equals(gizmo));
+        for(IGizmo gizmo1 : model.getGizmos()){
+            gizmo1.getGizmosToTrigger().removeIf(gizmo2 -> gizmo2.equals(gizmo));
         }
 	}
 
