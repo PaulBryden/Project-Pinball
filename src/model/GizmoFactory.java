@@ -16,7 +16,7 @@ import physics.Vect;
 public class GizmoFactory {
 
 	public enum TYPE {
-		Square, Circle, Triangle, LeftFlipper, RightFlipper, Absorber, Ball
+		Square, Circle, Triangle, LeftFlipper, RightFlipper, Absorber, Ball, Spinner
 	}
 
 	private IModel model;
@@ -51,6 +51,8 @@ public class GizmoFactory {
 			return new LeftFlipper("LF" + generateCoordString(v), v);
 		case RightFlipper:
 			return new RightFlipper("RF" + generateCoordString(v), v);
+		case Spinner:
+			return new Spinner("SP" + generateCoordString(v), v);
 		default:
 			return null;
 		}
@@ -78,6 +80,8 @@ public class GizmoFactory {
 			return new LeftFlipper(id, v);
 		case RightFlipper:
 			return new RightFlipper(id, v);
+		case Spinner:
+			return new Spinner(id, v);
 		default:
 			return null;
 		}

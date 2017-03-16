@@ -63,6 +63,9 @@ class GameModel extends Observable implements IModel {
 		for (IAbsorber absorber : getAbsorbers()) {
 			absorber.updateFiring();
 		}
+		for(ISpinner spinner: getSpinners()){
+			spinner.moveForTime(tick);
+		}
 		
 		// Resolve collision
 		collisionEvaluator.resolveCollision();
@@ -75,6 +78,8 @@ class GameModel extends Observable implements IModel {
 		notifyObservers();
 		sendTick();
 	}
+
+
 
 	private void sendTick() {
 		// TODO Auto-generated method stub
@@ -100,7 +105,17 @@ class GameModel extends Observable implements IModel {
 		}
 		return flippers;
 	}
-
+	
+	@Override
+	public List<ISpinner> getSpinners() {
+		List<ISpinner> spinners = new LinkedList<>();
+		for (IGizmo gizmo : gizmos) {
+			if (gizmo instanceof ISpinner) {
+				spinners.add((ISpinner) gizmo);
+			}
+		}
+		return spinners;
+	}
 	@Override
 	public List<IAbsorber> getAbsorbers() {
 		List<IAbsorber> absorbers = new LinkedList<>();

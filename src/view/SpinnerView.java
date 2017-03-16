@@ -8,16 +8,17 @@ import java.util.List;
 
 import model.IFlipper;
 import model.IGizmo;
+import model.ISpinner;
 import model.Spinner;
 import physics.LineSegment;
 import physics.Vect;
 
 public class SpinnerView implements IViewGizmo {
-	private Spinner gizmo;
+	private ISpinner gizmo;
 	private static final int GRID_WIDTH = 20;
 
-	public SpinnerView(Spinner gizmo){
-		this.gizmo = gizmo;
+	public SpinnerView(ISpinner iSpinner){
+		this.gizmo = iSpinner;
 	}
 
 	public void paint(Graphics g) {

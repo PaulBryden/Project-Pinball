@@ -14,11 +14,11 @@ import model.ICircleGizmo;
 import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
+import model.ISpinner;
 import model.ISquareGizmo;
 import model.ITriangleGizmo;
 import model.KeyTrigger;
 import physics.Vect;
-
 import static java.awt.Color.RED;
 import static view.CUR_GIZMO.NONE;
 import static view.STATE.*;
@@ -205,6 +205,8 @@ public class Board extends JPanel implements Observer {
 				viewGizmos.add(new FlipperView((IFlipper) gizmo));
 			else if(gizmo instanceof ICircleGizmo)
 				viewGizmos.add(new CircleView((ICircleGizmo) gizmo));
+			else if(gizmo instanceof ISpinner)
+				viewGizmos.add(new SpinnerView((ISpinner) gizmo));
 			else if(gizmo instanceof IAbsorber)
 				viewGizmos.add(new AbsorberView(gizmo));
 		}

@@ -31,18 +31,21 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		this.pivot = new Vect(coords.x() + 1.5, coords.y() + 1.5);
 		this.endCentre = new Vect(coords.x() + 1.5, coords.y() + 3 - RADIUS);
 		this.restingEndCentre = endCentre;
+		this.angle = new Angle(0.0, -1.0);
 		this.direction = direction;
-		// this.openAngle = Angle.DEG_90;
 		generateLinesAndCircles();
 	}
 
 	public Spinner(String id, int x, int y) {
 		this(id, new Vect(x, y), Direction.CW);
 	}
+	public Spinner(String id, Vect coords) {
+		this(id, coords, Direction.CW);
+	}
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "RightFlipper " + getID() + " " + (int) this.getGridCoords().x() + " "
+		String serializedGizmo = "Spinner " + getID() + " " + (int) this.getGridCoords().x() + " "
 				+ (int) this.getGridCoords().y() + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
@@ -55,17 +58,17 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		circles.add(new Circle(pivot, RADIUS));
 		lines.clear();
 		LineSegment l;
-		if (vertical) {
+//		if (vertical) {
 			l = new LineSegment(pivot.x() - RADIUS, pivot.y(), restingEndCentre.x() - RADIUS, restingEndCentre.y());
-		} else {
-			l = new LineSegment(pivot.x(), pivot.y() - RADIUS, restingEndCentre.x(), restingEndCentre.y() - RADIUS);
-		}
+	//	} else {
+	//		l = new LineSegment(pivot.x(), pivot.y() - RADIUS, restingEndCentre.x(), restingEndCentre.y() - RADIUS);
+	//	}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
-		if (vertical) {
+	//	if (vertical) {
 			l = new LineSegment(pivot.x() + RADIUS, pivot.y(), restingEndCentre.x() + RADIUS, restingEndCentre.y());
-		} else {
-			l = new LineSegment(pivot.x(), pivot.y() + RADIUS, restingEndCentre.x(), restingEndCentre.y() + RADIUS);
-		}
+	//	} else {
+	//		l = new LineSegment(pivot.x(), pivot.y() + RADIUS, restingEndCentre.x(), restingEndCentre.y() + RADIUS);
+//		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
 		addEndPoints();
 		endCentre = (Geometry.rotateAround(restingEndCentre, pivot, angle));

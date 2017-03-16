@@ -41,6 +41,8 @@ public interface IModel {
 	List<IFlipper> getFlippers();
 
 	List<IBall> getBalls();
+	
+	List<ISpinner> getSpinners();
 
 	void addGizmo(IGizmo gizmo);
 
