@@ -19,11 +19,12 @@ public class Client implements Runnable {
 	int port;
 	DatagramSocket clientSocket = null;
 	private MainWindow window;
+	private boolean isClient;
 	@Override
 	public void run() {
-		if(startClient()){
+		if(isClient=startClient()){
 	        window.enableClientView();
-	        window.getRunKeyListener().setListening(true);
+			window.getRunKeyListener().setListening(true);
 	        this.startClientLoop();
 		}
 	}
@@ -38,7 +39,6 @@ public class Client implements Runnable {
 
 	public boolean startClient() {
 
-		model.setClient();
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		
 		try {
@@ -76,6 +76,8 @@ public class Client implements Runnable {
 		try {
 			clientSocket.receive(receivePacket);
 			window.setStatusLabel("Connected to Host: "+ipAddr);
+			model.setClient(this);
+			
 			return true;
 		} catch (Exception e) {
 			if(e instanceof java.net.SocketTimeoutException){
@@ -96,7 +98,8 @@ public class Client implements Runnable {
 		byte[] sendData = new byte[4096];
 		byte[] receiveData = new byte[4096];
 		receivePacket = new DatagramPacket(receiveData, receiveData.length);
-		while (true) {
+	
+		while (isClient) {
 			receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			try {
 				clientSocket.receive(receivePacket);
@@ -144,5 +147,10 @@ public class Client implements Runnable {
 			}
 
 		}
+	}
+	public void stopClient(){
+		isClient=false;
+		window.getRunKeyListener().setListening(false);
+		model.setClient(null);
 	}
 }

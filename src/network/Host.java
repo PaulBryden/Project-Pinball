@@ -39,7 +39,7 @@ public class Host implements Runnable{
 			serverSocket= new DatagramSocket(hostPort);
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Failed to bind Port");
+			window.setStatusLabel("Error: Failed to bind to port");
 			return -1;
 		}
 		try {
@@ -87,6 +87,7 @@ public class Host implements Runnable{
 
         window.setStatusLabel("Host: Connected to client");
         gameModel.setHost(this);
+        window.enableHostView();
 		return 1;
 	}
 	
@@ -146,6 +147,10 @@ public class Host implements Runnable{
 	}
 	public void disconnect(){
 		serverSocket.disconnect();
+		serverSocket.close();
+        gameModel.setHost(null);
+        window.build();
+
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
+import network.Client;
 import network.Host;
 import physics.Vect;
 
@@ -32,6 +33,7 @@ class GameModel extends Observable implements IModel {
 	boolean isClient;
 	public Deque<String> keysToSend;
 	private Host host=null;
+	private Client client=null;
 	private double gravity;
 	private double mu;
 	private double mu2;
@@ -200,14 +202,14 @@ class GameModel extends Observable implements IModel {
 	}
 
 	@Override
-	public synchronized void processKeyPressedTrigger(int keyCode) {
+	public  void processKeyPressedTrigger(int keyCode) {
 		if (keyPressedTriggers.containsKey(keyCode)) {
 			keyPressedTriggers.get(keyCode).triggerConnectedGizmos();
 		}
 	}
 
 	@Override
-	public synchronized void processKeyReleasedTrigger(int keyCode) {
+	public  void processKeyReleasedTrigger(int keyCode) {
 		if (keyReleasedTriggers.containsKey(keyCode)) {
 			keyReleasedTriggers.get(keyCode).triggerConnectedGizmos();
 		}
@@ -294,18 +296,26 @@ class GameModel extends Observable implements IModel {
 
 	@Override
 	public boolean isClient() {
-		return isClient;
+		return !(client==null);
 	}
 
 	@Override
-	public void setClient() {
-		isClient = true;
+	public void setClient(Client client) {
+		this.client=client;
+	}
+	@Override
+	public Client getClient() {
+		return client;
 	}
 	
 
 	@Override
 	public void setHost(Host host) {
 		this.host=host; 
+	}
+	@Override
+	public Host getHost() {
+		return this.host;
 	}
 
 	@Override

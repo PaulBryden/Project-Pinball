@@ -124,8 +124,14 @@ public class MainWindow extends JFrame {
 		board.setState(RUN);
 		remove(sideToolBar);
 		remove(toolbar);
-		setJMenuBar(new JMenuBar());
+		setJMenuBar(new ClientMenuBar(this));
 		setStatusLabel("Connected");
+		revalidate();
+		repaint();
+	}
+	public void enableHostView() {
+		constraints.fill = VERTICAL;
+		setJMenuBar(new HostMenuBar(this));
 		revalidate();
 		repaint();
 	}

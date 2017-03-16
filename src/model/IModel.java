@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observer;
 
+import network.Client;
 import network.Host;
 import physics.Vect;
 
@@ -121,9 +122,13 @@ public interface IModel {
 
 	Deque<String> getKeysToSend();
 
-	void setClient();
-
 
 	void setHost(Host host);
+
+	void setClient(Client client);
+
+	Client getClient();
+
+	Host getHost();
 
 }
