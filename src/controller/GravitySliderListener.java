@@ -5,7 +5,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import model.IModel;
-import view.MainWindow;
 
 public class GravitySliderListener implements ChangeListener {
 	
