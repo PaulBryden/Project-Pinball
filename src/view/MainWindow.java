@@ -51,7 +51,7 @@ public class MainWindow extends JFrame {
 		setJMenuBar(menuBar);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
-		setSize(800, 550);
+		setSize(900, 550);
 
 		constraints.fill = VERTICAL;
 		constraints.gridx = 1;

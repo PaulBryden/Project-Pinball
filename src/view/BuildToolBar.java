@@ -1,6 +1,13 @@
 package view;
 
-import controller.*;
+import controller.AddGizmoListener;
+import controller.AddKeyTriggerListener;
+import controller.ChangeGravFrictionListener;
+import controller.DeleteGizmoListener;
+import controller.LinkGizmosListener;
+import controller.MoveGizmoListener;
+import controller.RemoveConnectionListener;
+import controller.RotateGizmoListener;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
@@ -14,6 +21,7 @@ class BuildToolBar extends JToolBar{
         JButton moveBtn = new JButton("Move");
         JButton connectGizmoBtn = new JButton("Connect Gizmo");
         JButton keyConnectBtn = new JButton("Key Connect");
+        JButton removeConnectionBtn = new JButton("Remove Connection");
         JButton gravBtn = new JButton("Adjust Gravity/Friction");
 
         placeBtn.addActionListener(new AddGizmoListener(mainWindow));
@@ -22,6 +30,7 @@ class BuildToolBar extends JToolBar{
         moveBtn.addActionListener(new MoveGizmoListener(mainWindow));
         connectGizmoBtn.addActionListener(new LinkGizmosListener(mainWindow));
         keyConnectBtn.addActionListener(new AddKeyTriggerListener(mainWindow));
+        removeConnectionBtn.addActionListener(new RemoveConnectionListener(mainWindow));
         gravBtn.addActionListener(new ChangeGravFrictionListener(mainWindow));
 
         setFloatable(false);
@@ -33,6 +42,7 @@ class BuildToolBar extends JToolBar{
         add(moveBtn);
         add(connectGizmoBtn);
         add(keyConnectBtn);
+        add(removeConnectionBtn);
         add(gravBtn);
     }
 }

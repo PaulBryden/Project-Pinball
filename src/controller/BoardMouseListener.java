@@ -160,30 +160,59 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		}
 	}
 
+	private void handleRemoveConnect(Vect coords, Board board){
+        Vect gizmoCoords = board.getSelectedGizmoCoords();
+	    if(!model.isCellEmpty(coords)){
+	        if(gizmoCoords == null) {
+                board.setSelectedGizmoCoords(coords);
+                gizmoCoords = board.getSelectedGizmoCoords();
+                try {
+                    mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
+                            + gizmoCoords + ". Please select a connected gizmo to remove that connection.");
+                } catch (NullPointerException e) {
+                    mainWindow.setWarningLabel("Balls do not have connections. Try a gizmo.");
+                    board.setSelectedGizmoCoords(null);
+                }
+            } else {
+	            try {
+	                board.removeGizmoConnection(board.getModel().getGizmo(gizmoCoords), board.getModel().getGizmo(coords));
+                    board.setSelectedGizmoCoords(null);
+                } catch (NullPointerException e){
+	                mainWindow.setWarningLabel("Cannot remove this connection. Click a gizmo.");
+                }
+            }
+        } else {
+            mainWindow.setWarningLabel("Cannot remove gizmo connection, this cell is empty. Select an occupied cell.");
+        }
+    }
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Vect coords = new Vect(e.getX() / GRID_WIDTH, e.getY() / GRID_WIDTH);
 		Board board = mainWindow.getBoard();
 
 		switch (board.getState()) {
-		case ADD:
-			handleAdd(coords, board);
-			break;
-		case REMOVE:
-			handleRemove(coords, board);
-			break;
-		case MOVE:
-			handleMove(coords, board);
-			break;
-		case ROTATE:
-			handleRotate(coords, board);
-			break;
-		case GIZMO_CONNECT:
-			handleGizmoConnect(coords, board);
-			break;
-		case KEY_CONNECT:
-			handleKeyConnect(coords, board);
-			break;
+		    case ADD:
+                handleAdd(coords, board);
+                break;
+            case REMOVE:
+                handleRemove(coords, board);
+                break;
+            case MOVE:
+                handleMove(coords, board);
+                break;
+            case ROTATE:
+                handleRotate(coords, board);
+                break;
+            case GIZMO_CONNECT:
+                handleGizmoConnect(coords, board);
+                break;
+            case KEY_CONNECT:
+                handleKeyConnect(coords, board);
+                break;
+            case REMOVE_CONNECT:
+                handleRemoveConnect(coords, board);
+                break;
 		}
 
 		board.reRender();
