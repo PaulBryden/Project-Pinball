@@ -82,18 +82,17 @@ public class Board extends JPanel implements Observer {
 		reRender();
 	}
 
-	private  void removeKeyConnections(Map<Integer, KeyTrigger> map, IGizmo gizmo){
-		for(KeyTrigger t : map.values()){
-			Set<IGizmo> gizmos = t.getGizmosToTrigger();
-			gizmos.stream().filter(gizmo1 -> gizmo1.equals(gizmo)).forEach(gizmos::remove);
-		}
+	public void removeKeyConnections(Map<Integer, KeyTrigger> map, IGizmo gizmo){
+        for(KeyTrigger t : map.values()){
+            t.getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
+        }
 	}
 
 	private void removeGizmoConnections(IGizmo gizmo){
-		for(IGizmo gizmo1 : model.getGizmos()){
-			Set<IGizmo> gizmosToTrigger = gizmo1.getGizmosToTrigger();
-			gizmosToTrigger.stream().filter(gizmo2 -> gizmo2.equals(gizmo)).forEach(gizmosToTrigger::remove);
-		}
+        for(IGizmo gizmo2 : model.getGizmos()){
+            Set<IGizmo> gizmosToTrigger = gizmo2.getGizmosToTrigger();
+            gizmosToTrigger.removeIf(gizmo1 -> gizmo1.equals(gizmo));
+        }
 	}
 
 	public void removeGizmo(Vect coords){
@@ -222,7 +221,7 @@ public class Board extends JPanel implements Observer {
 			viewBall.paint(g);
 		}
 
-        if(state.equals(GIZMO_CONNECT) || state.equals(REMOVE_CONNECT))
+        if(state.equals(GIZMO_CONNECT) || state.equals(RM_GIZMO_CONNECT))
             drawConnections(g);
     }
 

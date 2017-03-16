@@ -44,7 +44,6 @@ public class FrictionGravityToolbar extends JToolBar{
 	        GridBagConstraints constraints = new GridBagConstraints();
 	        constraints.fill = GridBagConstraints.VERTICAL;
 
-	        
 	        constraints.gridy = 0;
 	        add(gravityLabel, constraints);
 	        

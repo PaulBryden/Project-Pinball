@@ -1,8 +1,8 @@
 package controller;
 
-import view.DeleteGizmoToolBar;
 import view.MainWindow;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,10 +17,8 @@ public class DeleteGizmoListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(!(mainWindow.getSideToolBar() instanceof DeleteGizmoToolBar)) {
-            mainWindow.addSideToolBar(new DeleteGizmoToolBar());
-            mainWindow.getBoard().setState(REMOVE);
-            mainWindow.setStatusLabel("Deleting Gizmo(s). Please click a gizmo on the board to delete it.");
-        }
+        mainWindow.addSideToolBar(new JToolBar());
+        mainWindow.getBoard().setState(REMOVE);
+        mainWindow.setStatusLabel("Deleting Gizmo(s). Please click a gizmo on the board to delete it.");
     }
 }

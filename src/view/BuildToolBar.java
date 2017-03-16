@@ -1,13 +1,6 @@
 package view;
 
-import controller.AddGizmoListener;
-import controller.AddKeyTriggerListener;
-import controller.ChangeGravFrictionListener;
-import controller.DeleteGizmoListener;
-import controller.LinkGizmosListener;
-import controller.MoveGizmoListener;
-import controller.RemoveConnectionListener;
-import controller.RotateGizmoListener;
+import controller.*;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;

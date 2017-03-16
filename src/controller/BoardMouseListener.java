@@ -160,7 +160,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		}
 	}
 
-	private void handleRemoveConnect(Vect coords, Board board){
+	private void handleRemoveGizmoConnect(Vect coords, Board board){
         Vect gizmoCoords = board.getSelectedGizmoCoords();
 	    if(!model.isCellEmpty(coords)){
 	        if(gizmoCoords == null) {
@@ -183,6 +183,23 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
             }
         } else {
             mainWindow.setWarningLabel("Cannot remove gizmo connection, this cell is empty. Select an occupied cell.");
+        }
+    }
+
+    private void handleRemoveKeyConnect(Vect coords, Board board){
+        if (!model.isCellEmpty(coords)) {
+            board.setSelectedGizmoCoords(coords);
+            Vect gizmoCoords = board.getSelectedGizmoCoords();
+            try {
+                mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
+                        + gizmoCoords + ". Please type the key you wish to remove.");
+                mainWindow.getBuildKeyListener().setListening(true);
+            } catch (NullPointerException e) {
+                mainWindow.setWarningLabel("Balls do not have connections. Try a gizmo.");
+                board.setSelectedGizmoCoords(null);
+            }
+        } else {
+            mainWindow.setWarningLabel("Cannot remove key connection, this cell is empty. Select an occupied cell.");
         }
     }
 
@@ -210,8 +227,11 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
             case KEY_CONNECT:
                 handleKeyConnect(coords, board);
                 break;
-            case REMOVE_CONNECT:
-                handleRemoveConnect(coords, board);
+            case RM_GIZMO_CONNECT:
+                handleRemoveGizmoConnect(coords, board);
+                break;
+            case RM_KEY_CONNECT:
+                handleRemoveKeyConnect(coords, board);
                 break;
 		}
 
