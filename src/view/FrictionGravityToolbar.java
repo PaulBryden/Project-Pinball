@@ -19,8 +19,8 @@ public class FrictionGravityToolbar extends JToolBar{
 	public FrictionGravityToolbar(MainWindow mainWindow){
 	        super("Build Mode");
 	        IModel model = mainWindow.getBoard().getModel();
-	        JSlider gravitySlider = new JSlider(JSlider.HORIZONTAL,0,50, (int)Math.round(model.getGravity()));
-	        JSlider frictionSlider = new JSlider(JSlider.HORIZONTAL,0,100, (int)Math.round(model.getFrictionMu())*1000);
+	        JSlider gravitySlider = new JSlider(JSlider.HORIZONTAL,-50,50, (int)Math.round(model.getGravity()));
+	        JSlider frictionSlider = new JSlider(JSlider.HORIZONTAL,0,100, (int)Math.round(model.getFrictionMu()*1000));
 	        
 	        setLayout(new GridBagLayout());
 	        
@@ -38,14 +38,13 @@ public class FrictionGravityToolbar extends JToolBar{
 	        gravitySlider.setPaintTicks(true);
 	        frictionSlider.setPaintTicks(true);
 	        
-	        gravitySlider.setMajorTickSpacing(10);
+	        gravitySlider.setMajorTickSpacing(25);
 	        gravitySlider.setMinorTickSpacing(5);
 	        frictionSlider.setMajorTickSpacing(25);
 	        frictionSlider.setMinorTickSpacing(5);
 
-	        gravitySlider.setSize(50,5000);
-	        //gravitySlider.setPreferredSize(new Dimension(700, 50));
-	        //frictionSlider.setPreferredSize(new Dimension(200, 50));
+	        gravitySlider.setMinimumSize(new Dimension(100,50));
+	        frictionSlider.setMinimumSize(new Dimension(100,50));
 	        
 	        GridBagConstraints constraints = new GridBagConstraints();
 	        constraints.fill = GridBagConstraints.VERTICAL;
