@@ -1,9 +1,7 @@
 package view;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuBar;
-import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
@@ -16,15 +14,12 @@ import java.awt.BorderLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 
-import static java.awt.Color.BLUE;
-import static java.awt.Color.RED;
 import static view.STATE.RUN;
 
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = -2379162245120133571L;
 	private PrimaryActionListener actionListener;
-	private JPanel mainPanel;
 	private IModel model;
 	private MenuBar menuBar;
 	private JToolBar toolbar;
@@ -32,7 +27,7 @@ public class MainWindow extends JFrame {
 	private Board board;
 	private RunKeyListener runKeyListener;
 	private BuildKeyListener buildKeyListener;
-	private JLabel statusLabel;
+	private StatusBar statusBar;
 
 	public MainWindow(IModel model) {
 		super();
@@ -42,7 +37,7 @@ public class MainWindow extends JFrame {
 		menuBar = new MenuBar(this, actionListener);
 		sideToolBar = new JToolBar();
 		toolbar = new BuildToolBar(this, actionListener);
-		statusLabel = new JLabel("");
+		statusBar = new StatusBar();
 		setUpKeyListeners();
 	}
 
@@ -52,17 +47,15 @@ public class MainWindow extends JFrame {
 		setJMenuBar(menuBar);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		add(toolbar, BorderLayout.NORTH);
-		mainPanel = new JPanel();
-		mainPanel.setLayout(new BorderLayout());
-		mainPanel.add(board, BorderLayout.CENTER);
-		mainPanel.add(statusLabel, BorderLayout.SOUTH);
-		add(mainPanel, BorderLayout.CENTER);
+		add(board, BorderLayout.CENTER);
+		add(statusBar, BorderLayout.SOUTH);
 		setVisible(true);
+		setResizable(false);
 		pack();
 	}
 
 	public void addSideToolBar(JToolBar sideToolBar) {
-		mainPanel.add(this.sideToolBar, BorderLayout.EAST);
+		add(this.sideToolBar, BorderLayout.EAST);
 		pack();
 	}
 
@@ -109,13 +102,11 @@ public class MainWindow extends JFrame {
 	}
 
 	public void setStatusLabel(String status) {
-		statusLabel.setForeground(BLUE);
-		statusLabel.setText(status);
+		statusBar.setStatus(status);
 	}
 
 	public void setWarningLabel(String warning) {
-		statusLabel.setForeground(RED);
-		statusLabel.setText(warning);
+		statusBar.setStatus(warning);
 	}
 
 	public void showHostDialog() {
