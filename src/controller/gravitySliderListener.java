@@ -1,8 +1,10 @@
 package controller;
 
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import model.IModel;
 import view.MainWindow;
 
 public class gravitySliderListener implements ChangeListener {
@@ -16,8 +18,9 @@ public class gravitySliderListener implements ChangeListener {
 	
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		
-
+		IModel model = mainWindow.getBoard().getModel();
+		JSlider source = (JSlider)e.getSource();
+		model.setGravity(source.getValue());
 	}
 
 }

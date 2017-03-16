@@ -12,13 +12,15 @@ import javax.swing.JToolBar;
 import controller.AddBallListener;
 import controller.frictionSliderListener;
 import controller.gravitySliderListener;
+import model.IModel;
 
 public class FrictionGravityToolbar extends JToolBar{
 
 	public FrictionGravityToolbar(MainWindow mainWindow){
 	        super("Build Mode");
-	        JSlider gravitySlider = new JSlider(JSlider.HORIZONTAL,0,50, 20);
-	        JSlider frictionSlider = new JSlider(JSlider.HORIZONTAL,0,100, 25);
+	        IModel model = mainWindow.getBoard().getModel();
+	        JSlider gravitySlider = new JSlider(JSlider.HORIZONTAL,0,50, (int)Math.round(model.getGravity()));
+	        JSlider frictionSlider = new JSlider(JSlider.HORIZONTAL,0,100, (int)Math.round(model.getFrictionMu())*1000);
 	        
 	        setLayout(new GridBagLayout());
 	        

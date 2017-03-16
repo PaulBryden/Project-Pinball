@@ -21,7 +21,7 @@ public class ChangeGravFrictionListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JToolBar tb = new FrictionGravityToolbar(mainWindow);
-		tb.setPreferredSize(new Dimension(5,2000));
+		//tb.setPreferredSize(new Dimension(5,2000));
 		mainWindow.addSideToolBar(tb);
 		mainWindow.getBoard().setState(BUILD);
 		mainWindow.setStatusLabel("Adjust Sliders to change gravity and friction.");
