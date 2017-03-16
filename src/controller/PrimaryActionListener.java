@@ -83,7 +83,7 @@ public class PrimaryActionListener implements ActionListener {
 		}
 	}
 	
-	private void pauseGame() {
+	public void pauseGame() {
 		runListener.pause();
 		enable("run");
 		enable("tick");
@@ -119,4 +119,5 @@ public class PrimaryActionListener implements ActionListener {
 			toolBar.disableButton(name);
 		}
 	}
+
 }

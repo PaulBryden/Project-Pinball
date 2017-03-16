@@ -1,20 +1,20 @@
 package view;
 
 import javax.swing.JButton;
-import javax.swing.JToolBar;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-public class RotateGizmoToolBar extends JToolBar {
-    public RotateGizmoToolBar(){
-        super("Rotate Gizmo Toolbar");
+public class RotateGizmoSidePanel extends SidePanel {
+	
+	private static final long serialVersionUID = 6039203273405132745L;
+
+	public RotateGizmoSidePanel(){
+        super();
         JButton leftBtn = new JButton("Left");
         JButton rightBtn = new JButton("Right");
         JButton oneEightyBtn = new JButton("180");
 
         setLayout(new GridBagLayout());
-        setFloatable(false);
-        setRollover(true);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.VERTICAL;

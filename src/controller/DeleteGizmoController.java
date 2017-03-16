@@ -1,6 +1,6 @@
 package controller;
 
-import view.DeleteGizmoToolBar;
+import view.DeleteGizmoSidePanel;
 import view.MainWindow;
 
 import static view.STATE.REMOVE;
@@ -13,8 +13,8 @@ public class DeleteGizmoController {
     }
 
     public void start() {
-        if(!(mainWindow.getSideToolBar() instanceof DeleteGizmoToolBar)) {
-            mainWindow.addSideToolBar(new DeleteGizmoToolBar());
+        if(!(mainWindow.getSidePanel() instanceof DeleteGizmoSidePanel)) {
+            mainWindow.setSidePanel(new DeleteGizmoSidePanel());
             mainWindow.getBoard().setState(REMOVE);
             mainWindow.setStatusLabel("Deleting Gizmo(s). Please click a gizmo on the board to delete it.");
         }

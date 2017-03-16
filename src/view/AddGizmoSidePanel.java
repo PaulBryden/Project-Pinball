@@ -3,13 +3,15 @@ package view;
 import controller.*;
 
 import javax.swing.JButton;
-import javax.swing.JToolBar;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-public class AddGizmoToolBar extends JToolBar{
-    public AddGizmoToolBar(MainWindow mainWindow) {
-        super("Place Gizmo Toolbar");
+public class AddGizmoSidePanel extends SidePanel {
+	
+	private static final long serialVersionUID = 5655448783959185202L;
+
+	public AddGizmoSidePanel(MainWindow mainWindow) {
+        super();
         JButton ballBtn = new JButton("Ball");
         JButton absorberBtn = new JButton("Absorber");
         JButton circleBtn = new JButton("Circle");
@@ -19,8 +21,6 @@ public class AddGizmoToolBar extends JToolBar{
         JButton rFlipperBtn = new JButton("R.Flipper");
 
         setLayout(new GridBagLayout());
-        setFloatable(false);
-        setRollover(true);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.VERTICAL;

@@ -1,7 +1,7 @@
 package controller;
 
 import view.MainWindow;
-import view.MoveGizmoToolBar;
+import view.MoveGizmoSidePanel;
 
 import static view.STATE.MOVE;
 
@@ -13,8 +13,8 @@ public class MoveGizmoController {
 	}
 
 	public void start() {
-		if(!(mainWindow.getSideToolBar() instanceof MoveGizmoToolBar)) {
-			mainWindow.addSideToolBar(new MoveGizmoToolBar());
+		if(!(mainWindow.getSidePanel() instanceof MoveGizmoSidePanel)) {
+			mainWindow.setSidePanel(new MoveGizmoSidePanel());
 			mainWindow.getBoard().setState(MOVE);
 			mainWindow.setStatusLabel("Moving Gizmo(s). Please click a gizmo on the board");
 		}

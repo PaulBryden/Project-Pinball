@@ -23,7 +23,7 @@ public class MainWindow extends JFrame {
 	private IModel model;
 	private MenuBar menuBar;
 	private JToolBar toolbar;
-	private JToolBar sideToolBar;
+	private SidePanel sidePanel;
 	private Board board;
 	private RunKeyListener runKeyListener;
 	private BuildKeyListener buildKeyListener;
@@ -35,7 +35,7 @@ public class MainWindow extends JFrame {
 		board = new Board(this, this.model);
 		actionListener = new PrimaryActionListener(this, model);
 		menuBar = new MenuBar(this, actionListener);
-		sideToolBar = new JToolBar();
+		sidePanel = new SidePanel();
 		toolbar = new BuildToolBar(this, actionListener);
 		statusBar = new StatusBar();
 		setUpKeyListeners();
@@ -54,31 +54,29 @@ public class MainWindow extends JFrame {
 		pack();
 	}
 
-	public void addSideToolBar(JToolBar sideToolBar) {
-		add(this.sideToolBar, BorderLayout.EAST);
+	public void setSidePanel(SidePanel sidePanel) {
+		if (this.sidePanel != null)
+			this.remove(this.sidePanel);
+		this.sidePanel = sidePanel;
+		if (sidePanel != null)
+			add(this.sidePanel, BorderLayout.EAST);
 		pack();
 	}
 
-	public JToolBar getSideToolBar() {
-		return (sideToolBar);
-	}
-	
-	public void stopRunning() {
-		if (toolbar instanceof RunToolBar) {
-			((RunToolBar) toolbar).stop();
-		}
+	public SidePanel getSidePanel() {
+		return (sidePanel);
 	}
 
 	public void toggleView() {
 		remove(toolbar);
 		if (toolbar instanceof RunToolBar) {
-			stopRunning();
+			actionListener.pauseGame();
 			toolbar = new BuildToolBar(this, actionListener);
+			setSidePanel(new SidePanel());
 			setStatusLabel("");
 		} else {
 			toolbar = new RunToolBar(this, actionListener);
-			remove(sideToolBar);
-			sideToolBar = new JToolBar();
+			setSidePanel(null);
 			setStatusLabel("Stopped");
 		}
 		add(toolbar, BorderLayout.NORTH);
@@ -86,10 +84,9 @@ public class MainWindow extends JFrame {
 	}
 
 	public void enableClientView() {
-		remove(sideToolBar);
+		setSidePanel(null);
 		remove(toolbar);
 		board.setState(RUN);
-		remove(sideToolBar);
 		remove(toolbar);
 		setJMenuBar(new JMenuBar());
 		setStatusLabel("Connected");
@@ -110,13 +107,13 @@ public class MainWindow extends JFrame {
 	}
 
 	public void showHostDialog() {
-		stopRunning();
+		actionListener.pauseGame();
 		HostDialog hostDialog = new HostDialog(this);
 		hostDialog.build();
 	}
 
 	public void showClientDialog() {
-		stopRunning();
+		actionListener.pauseGame();
 		ClientDialog clientDialog = new ClientDialog(this);
 		clientDialog.build();
 	}

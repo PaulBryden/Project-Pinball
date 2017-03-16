@@ -1,10 +1,7 @@
 package controller;
 
 import view.MainWindow;
-import view.AddGizmoToolBar;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import view.AddGizmoSidePanel;
 
 import static view.STATE.ADD;
 
@@ -16,8 +13,8 @@ public class AddGizmoController {
     }
 
     public void start() {
-        if(!(mainWindow.getSideToolBar() instanceof AddGizmoToolBar)) {
-            mainWindow.addSideToolBar(new AddGizmoToolBar(mainWindow));
+        if(!(mainWindow.getSidePanel() instanceof AddGizmoSidePanel)) {
+            mainWindow.setSidePanel(new AddGizmoSidePanel(mainWindow));
             mainWindow.getBoard().setState(ADD);
             mainWindow.setStatusLabel("Placing Gizmo(s). Please select a gizmo from the left.");
         }

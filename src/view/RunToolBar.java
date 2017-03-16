@@ -11,8 +11,6 @@ class RunToolBar extends AbstractToolBar {
 
 	private static final long serialVersionUID = 9159488944045570471L;
 
-	private Map<String, JButton> buttons;
-
 	RunToolBar(MainWindow mainWindow, PrimaryActionListener listener) {
 		super("Run Mode", mainWindow, listener);
 	}
@@ -28,7 +26,4 @@ class RunToolBar extends AbstractToolBar {
 		disableButton("pause");
 	}
 	
-	void stop() {
-		//buttons.get("pause").doClick();
-	}
 }
