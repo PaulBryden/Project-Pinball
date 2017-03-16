@@ -144,15 +144,19 @@ public class Board extends JPanel implements Observer {
 
 	private void drawConnections(Graphics g){
         Graphics2D g2D = (Graphics2D) g;
+        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2D.setColor(RED);
+
 		for(IGizmo gizmo : model.getGizmos()){
 		    for(IGizmo gizmoToTrigger : gizmo.getGizmosToTrigger()){
-                g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2D.setColor(RED);
                 g2D.drawLine(
-                        (int)gizmo.getGridCoords().x() * GRID_WIDTH + (GRID_WIDTH / 2),
-                        (int)gizmo.getGridCoords().y() * GRID_WIDTH + (GRID_WIDTH / 2),
-                        (int)gizmoToTrigger.getGridCoords().x() * GRID_WIDTH + (GRID_WIDTH / 2),
-                        (int)gizmoToTrigger.getGridCoords().y() * GRID_WIDTH + (GRID_WIDTH / 2)
+                        (int) gizmo.getGridCoords().x() * GRID_WIDTH + (GRID_WIDTH / 2),
+                        (int) gizmo.getGridCoords().y() * GRID_WIDTH + (GRID_WIDTH / 2),
+                        (int) (getGizmoName(gizmoToTrigger).equals("Right-Flipper")
+                                ? (gizmoToTrigger.getGridCoords().x() + 1)
+                                : gizmoToTrigger.getGridCoords().x())
+                                * GRID_WIDTH + (GRID_WIDTH / 2),
+                        (int) gizmoToTrigger.getGridCoords().y() * GRID_WIDTH + (GRID_WIDTH / 2)
                 );
             }
         }
