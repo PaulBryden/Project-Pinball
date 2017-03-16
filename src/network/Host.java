@@ -12,20 +12,21 @@ import java.util.Scanner;
 
 import model.BoardFileHandler;
 import model.IModel;
+import view.MainWindow;
 
-public class Host {
+public class Host implements Runnable{
 	int hostPort;
 	BoardFileHandler fileHandler;
 	private DatagramSocket serverSocket;
     byte[] receiveData = new byte[4096];
     byte[] sendData = new byte[4096];
     IModel gameModel;
-
+    MainWindow window;
     InetAddress returnAddr;
     HashMap<InetAddress,Integer> listOfClients;
     
-	public Host(BoardFileHandler boardFileHandler, IModel gameModel, int port){
-
+	public Host(MainWindow window,BoardFileHandler boardFileHandler, IModel gameModel, int port) {
+		this.window =window;
 		listOfClients=new HashMap<>();
 		this.fileHandler=boardFileHandler;
 		hostPort=port;
@@ -37,8 +38,14 @@ public class Host {
 			serverSocket= new DatagramSocket(hostPort);
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Failed to bind Port");
+			window.setStatusLabel("Error: Failed to bind to port");
 			return -1;
+		}
+		try {
+			serverSocket.setSoTimeout(60000);
+		} catch (SocketException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		boolean Response=false;
 		while(!Response){
@@ -46,7 +53,11 @@ public class Host {
         try {
 			serverSocket.receive(receivePacket);
 			Response=true;
-		} catch (IOException e) {
+		} catch (Exception e) {
+			if(e instanceof java.net.SocketTimeoutException){
+				window.setStatusLabel("Error: Host has timed out waiting on a connection.");
+				disconnect();
+			}
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return -1;
@@ -57,7 +68,24 @@ public class Host {
 
 	
         listOfClients.put(receivePacket.getAddress(), receivePacket.getPort());
+        DatagramPacket sendPacket =
+                new DatagramPacket(sendData, sendData.length, receivePacket.getAddress(), receivePacket.getPort());
+                try {
+					serverSocket.send(sendPacket);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					System.out.println("Failed to send Packet");
+				} 
 		}
+		try {
+			serverSocket.setSoTimeout(5000);
+		} catch (SocketException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+        window.setStatusLabel("Host: Connected to client");
+        gameModel.setHost(this);
 		return 1;
 	}
 	
@@ -87,7 +115,7 @@ public class Host {
         
 	}
 	
-	public void receiveKeys(){
+	public boolean receiveKeys(){
 		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 	      try {
 	    
@@ -104,10 +132,28 @@ public class Host {
 			    	  gameModel.processKeyReleasedTrigger(scan.nextInt());
 			      }
 	          System.out.println(loadedData);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			if(e instanceof java.net.SocketTimeoutException){
+				window.setStatusLabel("Error: Client has timed out.");
+				disconnect();
+				return false;
+			}
 			e.printStackTrace();
 		}
+	      return true;
+	}
+	public void disconnect(){
+		serverSocket.disconnect();
+		serverSocket.close();
+        gameModel.setHost(null);
+        window.build();
+
+	}
+
+	@Override
+	public void run() {
+		startHost();
 	}
 
 }

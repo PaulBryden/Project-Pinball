@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Color;
+import java.net.SocketTimeoutException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
+import network.Client;
 import network.Host;
 import physics.Vect;
 
@@ -28,10 +30,10 @@ class GameModel extends Observable implements IModel {
 	private CollisionEvaluator collisionEvaluator;
 	private PhysicsEvaluator physicsEvaluator;
 
-	boolean isHost;
 	boolean isClient;
 	public Deque<String> keysToSend;
-	private Host host = null;
+	private Host host=null;
+	private Client client=null;
 	private double gravity;
 	private double mu;
 	private double mu2;
@@ -71,9 +73,20 @@ class GameModel extends Observable implements IModel {
 		// Update view
 		setChanged();
 		notifyObservers();
-		if (isHost) {
+		sendTick();
+	}
+
+	private void sendTick() {
+		// TODO Auto-generated method stub
+		if (host!=null) {
 			host.sendBoard();
-			host.receiveKeys();
+		
+				if(!host.receiveKeys()){
+					//Timeout error, abort and reset
+					host=null;
+				}
+			
+			
 		}
 	}
 
@@ -189,14 +202,14 @@ class GameModel extends Observable implements IModel {
 	}
 
 	@Override
-	public void processKeyPressedTrigger(int keyCode) {
+	public  void processKeyPressedTrigger(int keyCode) {
 		if (keyPressedTriggers.containsKey(keyCode)) {
 			keyPressedTriggers.get(keyCode).triggerConnectedGizmos();
 		}
 	}
 
 	@Override
-	public void processKeyReleasedTrigger(int keyCode) {
+	public  void processKeyReleasedTrigger(int keyCode) {
 		if (keyReleasedTriggers.containsKey(keyCode)) {
 			keyReleasedTriggers.get(keyCode).triggerConnectedGizmos();
 		}
@@ -238,14 +251,6 @@ class GameModel extends Observable implements IModel {
 	@Override
 	public Map<Integer, KeyTrigger> getKeyReleasedTriggers() {
 		return keyReleasedTriggers;
-	}
-
-	@Override
-	public void startHosting(int Port) {
-		this.host = new Host(new BoardFileHandler(this), this, Port);
-		if (host.startHost() > 0) {
-			isHost = true;
-		}
 	}
 
 	@Override
@@ -291,12 +296,26 @@ class GameModel extends Observable implements IModel {
 
 	@Override
 	public boolean isClient() {
-		return isClient;
+		return !(client==null);
 	}
 
 	@Override
-	public void setClient() {
-		isClient = true;
+	public void setClient(Client client) {
+		this.client=client;
+	}
+	@Override
+	public Client getClient() {
+		return client;
+	}
+	
+
+	@Override
+	public void setHost(Host host) {
+		this.host=host; 
+	}
+	@Override
+	public Host getHost() {
+		return this.host;
 	}
 
 	@Override

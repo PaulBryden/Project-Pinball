@@ -10,7 +10,7 @@ import model.IModel;
 import view.MainWindow;
 
 public class RunListener implements ActionListener {
-	
+
 	private MainWindow mainWindow;
 	private IModel model;
 	private Timer timer;
@@ -39,7 +39,7 @@ public class RunListener implements ActionListener {
 				mainWindow.setStatusLabel("Ticking");
 				break;
 			default:
-				// do nothing	
+				// do nothing
 			}
 		}
 	}

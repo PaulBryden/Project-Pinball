@@ -100,6 +100,10 @@ public class MainWindow extends JFrame {
 		return (board);
 	}
 
+	public IModel getModel() {
+		return model;
+	}
+	
 	public void setStatusLabel(String status) {
 		statusBar.setStatus(status);
 	}

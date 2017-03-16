@@ -16,7 +16,6 @@ import view.SquareView;
 import view.TriangleView;
 
 import java.awt.event.MouseEvent;
-import java.util.NoSuchElementException;
 
 public class BoardMouseListener implements java.awt.event.MouseListener {
 	private static final int GRID_WIDTH = 20;
@@ -91,13 +90,13 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			try {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 						+ gizmoCoords + ". Please click a grid cell to move it to");
-			} catch (NoSuchElementException e) {
+			} catch (NullPointerException e) {
 				mainWindow.setStatusLabel("Selected Ball at " + gizmoCoords);
 			}
 		} else if (model.isCellEmpty(coords) && gizmoCoords != null) {
 			try {
 				board.moveGizmo(gizmoCoords, coords);
-			} catch (NoSuchElementException e) {
+			} catch (NullPointerException e) {
 				board.moveBall(gizmoCoords, coords);
 			}
 			board.setSelectedGizmoCoords(null);
@@ -112,7 +111,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				IGizmo gizmo = model.getGizmo(coords);
 				gizmo.rotate(1);
 				mainWindow.setStatusLabel("" + board.getGizmoName(gizmo) + " Rotated");
-			} catch (NoSuchElementException e) {
+			} catch (NullPointerException e) {
 				mainWindow.setWarningLabel("Cannot rotate a ball. Select a gizmo.");
 			}
 		} else {
@@ -129,9 +128,9 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				try {
 					mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 							+ gizmoCoords + ". Please type a key to connect this gizmo to");
-				} catch (NoSuchElementException e) {
-					mainWindow.setStatusLabel(
-							"Selected ball at " + gizmoCoords + ". Please type a key to connect this ball to");
+				} catch (NullPointerException e) {
+					mainWindow.setWarningLabel("Cannot add gizmo connection to ball");
+					board.setSelectedGizmoCoords(null);
 				}
 			} else {
 				model.getGizmo(gizmoCoords).addGizmoToTrigger(model.getGizmo(coords));
@@ -152,9 +151,9 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 						+ gizmoCoords + ". Please type a key to connect this gizmo to");
 				mainWindow.getBuildKeyListener().setListening(true);
-			} catch (NoSuchElementException e) {
-				mainWindow.setStatusLabel(
-						"Selected ball at " + gizmoCoords + ". Please type a key to connect this ball to");
+			} catch (NullPointerException e) {
+				mainWindow.setWarningLabel("Cannot add key connection to ball");
+				board.setSelectedGizmoCoords(null);
 			}
 		} else {
 			mainWindow.setWarningLabel("Cannot add key connection, this cell is empty. Select an occupied cell.");
@@ -191,18 +190,14 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-	}
+	public void mousePressed(MouseEvent e) {}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-	}
+	public void mouseExited(MouseEvent e) {}
 }

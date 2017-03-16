@@ -1,3 +1,4 @@
+
 package view;
 
 import javax.swing.Box;
@@ -23,6 +24,8 @@ class BuildToolBar extends AbstractToolBar {
 		addSeparator();
 		makeButton("connect", "Connect gizmos");
 		makeButton("key", "Add key connection");
+		addSeparator();
+		makeButton("settings", "Board settings");
 		add(Box.createHorizontalGlue());
 		makeButton("run_mode", "Enter run mode");
 	}

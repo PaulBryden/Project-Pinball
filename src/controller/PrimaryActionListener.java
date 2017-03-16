@@ -78,6 +78,9 @@ public class PrimaryActionListener implements ActionListener {
 		case "key":
 			new AddKeyTriggerController(mainWindow).start();
 			break;
+		case "settings":
+			new BoardSettingsController(mainWindow).start();
+			break;
 		default:
 			System.out.println(e.getActionCommand());
 		}

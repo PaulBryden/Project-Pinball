@@ -11,42 +11,51 @@ import java.net.UnknownHostException;
 
 import model.BoardFileHandler;
 import model.IModel;
+import view.MainWindow;
 
 public class Client implements Runnable {
 	IModel model;
-	boolean isClient = false;
 	String ipAddr;
 	int port;
-
+	DatagramSocket clientSocket = null;
+	private MainWindow window;
+	private boolean isClient;
 	@Override
 	public void run() {
-		this.startClient(ipAddr, port);
+		if(isClient=startClient()){
+	        window.enableClientView();
+			window.getRunKeyListener().setListening(true);
+	        this.startClientLoop();
+		}
 	}
 
-	public Client(IModel model, String ip, int port) {
+	public Client(MainWindow window,IModel model, String ip, int port) {
+		this.window=window;
 		this.model = model;
 		this.ipAddr = ip;
 		this.port = port;
 	}
 
-	public boolean isClient() {
-		// TODO Auto-generated method stub
-		return isClient;
-	}
 
-	public void startClient(String IP, int Port) {
-		model.setClient();
+	public boolean startClient() {
+
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-		DatagramSocket clientSocket = null;
+		
 		try {
 			clientSocket = new DatagramSocket();
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			clientSocket.setSoTimeout(60000);
+		} catch (SocketException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		InetAddress IPAddress = null;
 		try {
-			IPAddress = InetAddress.getByName(IP);
+			IPAddress = InetAddress.getByName(ipAddr);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,18 +63,43 @@ public class Client implements Runnable {
 		byte[] sendData = new byte[4096];
 		byte[] receiveData = new byte[4096];
 		sendData[0] = 'C';
-		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, Port);
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
 		try {
 			clientSocket.send(sendPacket);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		DatagramPacket receivePacket;
+		receivePacket = new DatagramPacket(receiveData, receiveData.length);
+		try {
+			clientSocket.receive(receivePacket);
+			window.setStatusLabel("Connected to Host: "+ipAddr);
+			model.setClient(this);
+			
+			return true;
+		} catch (Exception e) {
+			if(e instanceof java.net.SocketTimeoutException){
+				window.setStatusLabel("Error: Client has timed out trying to connect to host");
+			}
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+		
+		return false;
+
+	}
+	public void startClientLoop(){
 		String loadedData;
 		BoardFileHandler newHandler;
-		isClient = true;
-		while (true) {
+		DatagramPacket receivePacket;
+		byte[] sendData = new byte[4096];
+		byte[] receiveData = new byte[4096];
+		receivePacket = new DatagramPacket(receiveData, receiveData.length);
+	
+		while (isClient) {
 			receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			try {
 				clientSocket.receive(receivePacket);
@@ -113,5 +147,10 @@ public class Client implements Runnable {
 			}
 
 		}
+	}
+	public void stopClient(){
+		isClient=false;
+		window.getRunKeyListener().setListening(false);
+		model.setClient(null);
 	}
 }
