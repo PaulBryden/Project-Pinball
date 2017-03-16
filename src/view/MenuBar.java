@@ -16,6 +16,7 @@ public class MenuBar extends JMenuBar {
         super();
         this.listener = listener;
         listener.addMenuBar(this);
+        /************** FILE ****************/
         JMenu menu = new JMenu("File");
         menu.add(getMenuItem("Save", "save", KeyEvent.VK_S));
         menu.add(getMenuItem("Load", "load", KeyEvent.VK_L));
@@ -24,10 +25,17 @@ public class MenuBar extends JMenuBar {
         menu.addSeparator();
         menu.add(getMenuItem("Quit", "quit", KeyEvent.VK_Q));
         menu.addSeparator();
-        menu.add(getMenuItem("Host", "host", KeyEvent.VK_H));
-        menu.addSeparator();
-        menu.add(getMenuItem("Connect", "client", KeyEvent.VK_C));
         menu.setMnemonic(KeyEvent.VK_M);
+        add(menu);
+        /************** NETWORK ****************/
+        menu = new JMenu("Network");
+        menu.add(getMenuItem("Host", "host", KeyEvent.VK_H));
+        menu.add(getMenuItem("Connect", "client", KeyEvent.VK_C));
+        menu.add(getMenuItem("Disconnect", "disconnect", KeyEvent.VK_D));
+        add(menu);
+        /************** HELP ****************/
+        menu = new JMenu("?");
+        menu.add(getMenuItem("About", "about", KeyEvent.VK_A));
         add(menu);
     }
     

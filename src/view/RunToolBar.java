@@ -1,5 +1,6 @@
 package view;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 
 import controller.PrimaryActionListener;
@@ -22,7 +23,7 @@ class RunToolBar extends AbstractToolBar {
 		makeButton("run", "Run game");
 		makeButton("pause", "Pause game");
 		makeButton("tick", "Tick for one frame");
-		addSeparator();
+		add(Box.createHorizontalGlue());
 		makeButton("build_mode", "Enter build mode");
 		disableButton("pause");
 	}

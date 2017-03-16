@@ -24,6 +24,7 @@ public abstract class AbstractToolBar extends JToolBar {
 		this.listener = listener;
 		listener.addToolBar(this);
 		this.buttons = new HashMap<>();
+		setFloatable(false);
 		populateButtons();
 	}
 	

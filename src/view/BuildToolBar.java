@@ -1,5 +1,7 @@
 package view;
 
+import javax.swing.Box;
+
 import controller.PrimaryActionListener;
 
 class BuildToolBar extends AbstractToolBar {
@@ -21,7 +23,7 @@ class BuildToolBar extends AbstractToolBar {
 		addSeparator();
 		makeButton("connect", "Connect gizmos");
 		makeButton("key", "Add key connection");
-		addSeparator();
+		add(Box.createHorizontalGlue());
 		makeButton("run_mode", "Enter run mode");
 	}
 }
