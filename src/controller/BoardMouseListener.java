@@ -6,12 +6,14 @@ import model.ICircleGizmo;
 import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
+import model.ISpinner;
 import physics.Vect;
 import view.AbsorberView;
 import view.Board;
 import view.CircleView;
 import view.FlipperView;
 import view.MainWindow;
+import view.SpinnerView;
 import view.SquareView;
 import view.TriangleView;
 
@@ -64,6 +66,8 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				break;
 			case TRIANGLE:
 				board.addGizmo(new TriangleView(gf.getGizmo(TYPE.Triangle, coords)));
+			case SPINNER:
+				board.addGizmo(new SpinnerView( (ISpinner) gf.getGizmo(TYPE.Spinner, coords)));
 				break;
 			}
 		} else {

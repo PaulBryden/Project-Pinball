@@ -29,9 +29,10 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 	public Spinner(String id, Vect coords, Direction direction) {
 		super(id, coords, 3,3, Color.PINK, false);
 		this.pivot = new Vect(coords.x() + 1.5, coords.y() + 1.5);
+		this.vertical = true;
 		this.endCentre = new Vect(coords.x() + 1.5, coords.y() + 3 - RADIUS);
 		this.restingEndCentre = endCentre;
-		this.angle = new Angle(0.0, -1.0);
+		this.angle = new Angle(1.0,0.0 );
 		this.direction = direction;
 		generateLinesAndCircles();
 	}
@@ -58,17 +59,17 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		circles.add(new Circle(pivot, RADIUS));
 		lines.clear();
 		LineSegment l;
-//		if (vertical) {
+		if (vertical) {
 			l = new LineSegment(pivot.x() - RADIUS, pivot.y(), restingEndCentre.x() - RADIUS, restingEndCentre.y());
-	//	} else {
-	//		l = new LineSegment(pivot.x(), pivot.y() - RADIUS, restingEndCentre.x(), restingEndCentre.y() - RADIUS);
-	//	}
+		} else {
+			l = new LineSegment(pivot.x(), pivot.y() - RADIUS, restingEndCentre.x(), restingEndCentre.y() - RADIUS);
+		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
-	//	if (vertical) {
+		if (vertical) {
 			l = new LineSegment(pivot.x() + RADIUS, pivot.y(), restingEndCentre.x() + RADIUS, restingEndCentre.y());
-	//	} else {
-	//		l = new LineSegment(pivot.x(), pivot.y() + RADIUS, restingEndCentre.x(), restingEndCentre.y() + RADIUS);
-//		}
+		} else {
+			l = new LineSegment(pivot.x(), pivot.y() + RADIUS, restingEndCentre.x(), restingEndCentre.y() + RADIUS);
+		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
 		addEndPoints();
 		endCentre = (Geometry.rotateAround(restingEndCentre, pivot, angle));
@@ -88,7 +89,7 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 	@Override
 	public void rotate(int steps) {
 		Angle a = Angle.ZERO;
-		Vect cor = new Vect(coords.x() + 1, coords.y() + 1);
+		Vect cor = new Vect(coords.x() + 1.5, coords.y() + 1.5);
 		for (int i = 0; i < steps; i++) {
 			vertical = !vertical;
 			a = a.plus(Angle.DEG_90);
