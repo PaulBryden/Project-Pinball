@@ -2,7 +2,6 @@ package view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
@@ -52,7 +51,7 @@ public class MainWindow extends JFrame {
 		setJMenuBar(menuBar);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
-		setSize(800, 550);
+		setSize(900, 550);
 
 		constraints.fill = VERTICAL;
 		constraints.gridx = 1;
@@ -124,8 +123,14 @@ public class MainWindow extends JFrame {
 		board.setState(RUN);
 		remove(sideToolBar);
 		remove(toolbar);
-		setJMenuBar(new JMenuBar());
+		setJMenuBar(new ClientMenuBar(this));
 		setStatusLabel("Connected");
+		revalidate();
+		repaint();
+	}
+	public void enableHostView() {
+		constraints.fill = VERTICAL;
+		setJMenuBar(new HostMenuBar(this));
 		revalidate();
 		repaint();
 	}

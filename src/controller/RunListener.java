@@ -24,6 +24,7 @@ public class RunListener  implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == timer) {
 			model.tick();
+			
 		} else
 			switch (e.getActionCommand()) {
 				case "Run":

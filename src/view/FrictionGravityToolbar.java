@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -9,7 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JToolBar;
 
-import controller.AddBallListener;
 import controller.frictionSliderListener;
 import controller.gravitySliderListener;
 import model.IModel;
@@ -29,9 +27,6 @@ public class FrictionGravityToolbar extends JToolBar{
 	        
 	        JLabel gravityLabel = new JLabel("Gravity", JLabel.CENTER);
 	        JLabel frictionLabel = new JLabel("Friction", JLabel.CENTER);
-	        
-	        
-	        
 	        
 	        gravitySlider.setPaintLabels(true);
 	        frictionSlider.setPaintLabels(true);

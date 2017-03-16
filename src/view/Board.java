@@ -1,14 +1,8 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.util.LinkedList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
@@ -25,9 +19,9 @@ import model.ITriangleGizmo;
 import model.KeyTrigger;
 import physics.Vect;
 
+import static java.awt.Color.RED;
 import static view.CUR_GIZMO.NONE;
-import static view.STATE.BUILD;
-import static view.STATE.RUN;
+import static view.STATE.*;
 
 public class Board extends JPanel implements Observer {
 
@@ -36,7 +30,7 @@ public class Board extends JPanel implements Observer {
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
-	static final int GRID_WIDTH = 20;
+    static final int GRID_WIDTH = 20;
 	private STATE state;
 	private CUR_GIZMO selectedGizmo;
 	private Vect selectedGizmoCoords;
@@ -142,6 +136,31 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
+	private void drawConnections(Graphics g){
+        Graphics2D g2D = (Graphics2D) g;
+        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2D.setColor(RED);
+
+		for(IGizmo gizmo : model.getGizmos()){
+		    for(IGizmo gizmoToTrigger : gizmo.getGizmosToTrigger()){
+                g2D.drawLine(
+                        (int) gizmo.getGridCoords().x() * GRID_WIDTH + (GRID_WIDTH / 2),
+                        (int) gizmo.getGridCoords().y() * GRID_WIDTH + (GRID_WIDTH / 2),
+                        (int) (getGizmoName(gizmoToTrigger).equals("Right-Flipper")
+                                ? (gizmoToTrigger.getGridCoords().x() + 1)
+                                : gizmoToTrigger.getGridCoords().x())
+                                * GRID_WIDTH + (GRID_WIDTH / 2),
+                        (int) gizmoToTrigger.getGridCoords().y() * GRID_WIDTH + (GRID_WIDTH / 2)
+                );
+            }
+        }
+	}
+
+	public void removeGizmoConnection(IGizmo gizmo1, IGizmo gizmo2){
+        gizmo1.getGizmosToTrigger().remove(gizmo2);
+        gizmo2.getGizmosToTrigger().remove(gizmo1);
+    }
+
 	public void setState(STATE state) {
 		selectedGizmoCoords = null;
 		this.state = state;
@@ -192,8 +211,8 @@ public class Board extends JPanel implements Observer {
 
 		viewBalls.addAll(balls.stream().map(BallView::new).collect(Collectors.toList()));
 
-		if(!state.equals(RUN))
-			drawGrid(g);
+        if(!state.equals(RUN))
+            drawGrid(g);
 
 		for(IViewGizmo viewGizmo : viewGizmos) {
 			viewGizmo.paint(g);
@@ -202,6 +221,9 @@ public class Board extends JPanel implements Observer {
 		for(IViewGizmo viewBall : viewBalls) {
 			viewBall.paint(g);
 		}
+
+        if(state.equals(GIZMO_CONNECT) || state.equals(REMOVE_CONNECT))
+            drawConnections(g);
     }
 
     public void reRender(){
