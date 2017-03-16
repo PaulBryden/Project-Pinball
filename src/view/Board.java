@@ -9,9 +9,7 @@ import java.util.Observer;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
 
 import controller.BoardMouseListener;
 import model.IAbsorber;
@@ -59,7 +57,6 @@ public class Board extends JPanel implements Observer {
 		setPreferredSize(getSize());
 		setMinimumSize(getSize());
 		setMaximumSize(getSize());
-		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 	}
 
 	public IModel getModel(){
