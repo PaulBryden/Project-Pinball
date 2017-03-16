@@ -1,7 +1,6 @@
 package view;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
@@ -35,13 +34,13 @@ public class MainWindow extends JFrame {
 		board = new Board(this, this.model);
 		actionListener = new PrimaryActionListener(this, model);
 		menuBar = new MenuBar(this, actionListener);
-		sidePanel = new SidePanel();
 		toolbar = new BuildToolBar(this, actionListener);
 		statusBar = new StatusBar();
 		setUpKeyListeners();
 	}
 
 	public void build() {
+		setResizable(false);
 		setLayout(new BorderLayout());
 		setTitle("Gizmo Ball");
 		setJMenuBar(menuBar);
@@ -49,9 +48,10 @@ public class MainWindow extends JFrame {
 		add(toolbar, BorderLayout.NORTH);
 		add(board, BorderLayout.CENTER);
 		add(statusBar, BorderLayout.SOUTH);
-		setVisible(true);
-		setResizable(false);
+		sidePanel = new SidePanel();
+		this.add(sidePanel, BorderLayout.EAST);
 		pack();
+		setVisible(true);
 	}
 
 	public void setSidePanel(SidePanel sidePanel) {
@@ -60,7 +60,6 @@ public class MainWindow extends JFrame {
 		this.sidePanel = sidePanel;
 		if (sidePanel != null)
 			add(this.sidePanel, BorderLayout.EAST);
-		pack();
 	}
 
 	public SidePanel getSidePanel() {
@@ -80,18 +79,21 @@ public class MainWindow extends JFrame {
 			setStatusLabel("Stopped");
 		}
 		add(toolbar, BorderLayout.NORTH);
+		revalidate();
+		repaint();
 		pack();
 	}
 
 	public void enableClientView() {
 		setSidePanel(null);
 		remove(toolbar);
+		toolbar = new ClientToolBar(this, actionListener);
+		add(toolbar, BorderLayout.NORTH);
 		board.setState(RUN);
-		remove(toolbar);
-		setJMenuBar(new JMenuBar());
 		setStatusLabel("Connected");
 		revalidate();
 		repaint();
+		pack();
 	}
 
 	public Board getBoard() {
@@ -155,7 +157,7 @@ public class MainWindow extends JFrame {
 	public RunKeyListener getRunKeyListener() {
 		return this.runKeyListener;
 	}
-	
+
 	public BuildKeyListener getBuildKeyListener() {
 		return this.buildKeyListener;
 	}

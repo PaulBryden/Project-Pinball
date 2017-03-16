@@ -38,7 +38,6 @@ public class Board extends JPanel implements Observer {
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
-	private BoardMouseListener mouseListener;
 	static final int GRID_WIDTH = 20;
 	private STATE state;
 	private CUR_GIZMO selectedGizmo;

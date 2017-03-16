@@ -24,7 +24,6 @@ public class MenuBar extends JMenuBar {
         menu.add(getMenuItem("Toggle Mode", "toggle", KeyEvent.VK_T));
         menu.addSeparator();
         menu.add(getMenuItem("Quit", "quit", KeyEvent.VK_Q));
-        menu.addSeparator();
         menu.setMnemonic(KeyEvent.VK_M);
         add(menu);
         /************** NETWORK ****************/

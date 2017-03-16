@@ -1,11 +1,8 @@
 package view;
 
 import javax.swing.Box;
-import javax.swing.JButton;
 
 import controller.PrimaryActionListener;
-
-import java.util.Map;
 
 class RunToolBar extends AbstractToolBar {
 
@@ -15,6 +12,7 @@ class RunToolBar extends AbstractToolBar {
 		super("Run Mode", mainWindow, listener);
 	}
 	
+	@Override
 	protected void populateButtons() {
 		makeButton("load", "Load a board layout");
 		addSeparator();

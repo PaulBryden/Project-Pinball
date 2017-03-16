@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JToolBar;
 
 import controller.PrimaryActionListener;
-import model.IModel;
 
 public abstract class AbstractToolBar extends JToolBar {
 
