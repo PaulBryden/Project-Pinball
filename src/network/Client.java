@@ -11,30 +11,33 @@ import java.net.UnknownHostException;
 
 import model.BoardFileHandler;
 import model.IModel;
+import view.MainWindow;
 
 public class Client implements Runnable {
 	IModel model;
-	boolean isClient = false;
 	String ipAddr;
 	int port;
 	DatagramSocket clientSocket = null;
+	private MainWindow window;
 	@Override
 	public void run() {
-		this.startClientLoop();
+		if(startClient()){
+	        window.enableClientView();
+	        window.getRunKeyListener().setListening(true);
+	        this.startClientLoop();
+		}
 	}
 
-	public Client(IModel model, String ip, int port) {
+	public Client(MainWindow window,IModel model, String ip, int port) {
+		this.window=window;
 		this.model = model;
 		this.ipAddr = ip;
 		this.port = port;
 	}
 
-	public boolean isClient() {
-		// TODO Auto-generated method stub
-		return isClient;
-	}
 
 	public boolean startClient() {
+
 		model.setClient();
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		
@@ -43,6 +46,12 @@ public class Client implements Runnable {
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		try {
+			clientSocket.setSoTimeout(60000);
+		} catch (SocketException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		InetAddress IPAddress = null;
 		try {
@@ -66,13 +75,17 @@ public class Client implements Runnable {
 		receivePacket = new DatagramPacket(receiveData, receiveData.length);
 		try {
 			clientSocket.receive(receivePacket);
-			isClient = true;
+			window.setStatusLabel("Connected to Host: "+ipAddr);
 			return true;
-		} catch (IOException e) {
+		} catch (Exception e) {
+			if(e instanceof java.net.SocketTimeoutException){
+				window.setStatusLabel("Error: Client has timed out trying to connect to host");
+			}
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
 		}
+		
 		return false;
 
 	}

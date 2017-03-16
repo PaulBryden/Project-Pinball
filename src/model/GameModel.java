@@ -29,10 +29,9 @@ class GameModel extends Observable implements IModel {
 	private CollisionEvaluator collisionEvaluator;
 	private PhysicsEvaluator physicsEvaluator;
 
-	boolean isHost;
 	boolean isClient;
 	public Deque<String> keysToSend;
-	private Host host;
+	private Host host=null;
 	private double gravity;
 	private double mu;
 	private double mu2;
@@ -72,12 +71,16 @@ class GameModel extends Observable implements IModel {
 		// Update view
 		setChanged();
 		notifyObservers();
-		if (isHost) {
+		sendTick();
+	}
+
+	private void sendTick() {
+		// TODO Auto-generated method stub
+		if (host!=null) {
 			host.sendBoard();
 		
 				if(!host.receiveKeys()){
 					//Timeout error, abort and reset
-					isHost=false;
 					host=null;
 				}
 			
@@ -197,14 +200,14 @@ class GameModel extends Observable implements IModel {
 	}
 
 	@Override
-	public void processKeyPressedTrigger(int keyCode) {
+	public synchronized void processKeyPressedTrigger(int keyCode) {
 		if (keyPressedTriggers.containsKey(keyCode)) {
 			keyPressedTriggers.get(keyCode).triggerConnectedGizmos();
 		}
 	}
 
 	@Override
-	public void processKeyReleasedTrigger(int keyCode) {
+	public synchronized void processKeyReleasedTrigger(int keyCode) {
 		if (keyReleasedTriggers.containsKey(keyCode)) {
 			keyReleasedTriggers.get(keyCode).triggerConnectedGizmos();
 		}
@@ -246,14 +249,6 @@ class GameModel extends Observable implements IModel {
 	@Override
 	public Map<Integer, KeyTrigger> getKeyReleasedTriggers() {
 		return keyReleasedTriggers;
-	}
-
-	@Override
-	public void startHosting(int Port) {
-		this.host = new Host(new BoardFileHandler(this), this, Port);
-		if (host.startHost() > 0) {
-			isHost = true;
-		}
 	}
 
 	@Override
@@ -305,6 +300,12 @@ class GameModel extends Observable implements IModel {
 	@Override
 	public void setClient() {
 		isClient = true;
+	}
+	
+
+	@Override
+	public void setHost(Host host) {
+		this.host=host; 
 	}
 
 	@Override

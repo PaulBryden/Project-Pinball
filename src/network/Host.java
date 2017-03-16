@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 import model.BoardFileHandler;
 import model.IModel;
+import view.MainWindow;
 
 public class Host implements Runnable{
 	int hostPort;
@@ -21,12 +22,12 @@ public class Host implements Runnable{
     byte[] receiveData = new byte[4096];
     byte[] sendData = new byte[4096];
     IModel gameModel;
-
+    MainWindow window;
     InetAddress returnAddr;
     HashMap<InetAddress,Integer> listOfClients;
     
-	public Host(BoardFileHandler boardFileHandler, IModel gameModel, int port) {
-
+	public Host(MainWindow window,BoardFileHandler boardFileHandler, IModel gameModel, int port) {
+		this.window =window;
 		listOfClients=new HashMap<>();
 		this.fileHandler=boardFileHandler;
 		hostPort=port;
@@ -53,7 +54,11 @@ public class Host implements Runnable{
         try {
 			serverSocket.receive(receivePacket);
 			Response=true;
-		} catch (IOException e) {
+		} catch (Exception e) {
+			if(e instanceof java.net.SocketTimeoutException){
+				window.setStatusLabel("Error: Host has timed out waiting on a connection.");
+				disconnect();
+			}
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return -1;
@@ -79,6 +84,9 @@ public class Host implements Runnable{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+
+        window.setStatusLabel("Host: Connected to client");
+        gameModel.setHost(this);
 		return 1;
 	}
 	
@@ -128,11 +136,16 @@ public class Host implements Runnable{
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			if(e instanceof java.net.SocketTimeoutException){
+				window.setStatusLabel("Error: Client has timed out.");
+				disconnect();
 				return false;
 			}
 			e.printStackTrace();
 		}
 	      return true;
+	}
+	public void disconnect(){
+		serverSocket.disconnect();
 	}
 
 	@Override

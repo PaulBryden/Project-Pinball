@@ -6,6 +6,9 @@ import view.MainWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import model.BoardFileHandler;
+import network.Host;
+
 public class SubmitHostListener implements ActionListener{
     private MainWindow mainWindow;
     private HostDialog hostDialog;
@@ -20,8 +23,10 @@ public class SubmitHostListener implements ActionListener{
         if(hostDialog.getTextFieldValidator().isValid() && !hostDialog.getPortText().equals("")){
             mainWindow.setStatusLabel("Host: Awaiting client connection");
             hostDialog.getDialog().dispose();
-            mainWindow.getBoard().getModel().startHosting(Integer.parseInt(hostDialog.getPortText()));
-            mainWindow.setStatusLabel("Host: Connected to client");
+            Host host = new Host(mainWindow,new BoardFileHandler(mainWindow.getBoard().getModel()),mainWindow.getBoard().getModel(),Integer.parseInt(hostDialog.getPortText()));
+           //mainWindow.getBoard().getModel().startHosting(Integer.parseInt(hostDialog.getPortText()));
+            Thread newThread = new Thread(host);
+            newThread.start();
         } else {
             hostDialog.showWarningLabel("Please enter a Port");
         }
