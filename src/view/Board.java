@@ -26,6 +26,7 @@ import physics.Vect;
 import static java.awt.Color.RED;
 import static view.CUR_GIZMO.NONE;
 import static view.STATE.BUILD;
+import static view.STATE.GIZMO_CONNECT;
 import static view.STATE.RUN;
 
 public class Board extends JPanel implements Observer {
@@ -145,15 +146,13 @@ public class Board extends JPanel implements Observer {
         Graphics2D g2D = (Graphics2D) g;
 		for(IGizmo gizmo : model.getGizmos()){
 		    for(IGizmo gizmoToTrigger : gizmo.getGizmosToTrigger()){
-		        System.out.println(getGizmoName(gizmo) + " connected to " + getGizmoName(gizmoToTrigger));
-
                 g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2D.setColor(RED);
                 g2D.drawLine(
-                        (int)gizmo.getGridCoords().x() * GRID_WIDTH,
-                        (int)gizmo.getGridCoords().y() * GRID_WIDTH,
-                        (int)gizmoToTrigger.getGridCoords().x() * GRID_WIDTH,
-                        (int)gizmoToTrigger.getGridCoords().y() * GRID_WIDTH
+                        (int)gizmo.getGridCoords().x() * GRID_WIDTH + (GRID_WIDTH / 2),
+                        (int)gizmo.getGridCoords().y() * GRID_WIDTH + (GRID_WIDTH / 2),
+                        (int)gizmoToTrigger.getGridCoords().x() * GRID_WIDTH + (GRID_WIDTH / 2),
+                        (int)gizmoToTrigger.getGridCoords().y() * GRID_WIDTH + (GRID_WIDTH / 2)
                 );
             }
         }
@@ -209,6 +208,9 @@ public class Board extends JPanel implements Observer {
 
 		viewBalls.addAll(balls.stream().map(BallView::new).collect(Collectors.toList()));
 
+        if(!state.equals(RUN))
+            drawGrid(g);
+
 		for(IViewGizmo viewGizmo : viewGizmos) {
 			viewGizmo.paint(g);
 		}
@@ -217,10 +219,8 @@ public class Board extends JPanel implements Observer {
 			viewBall.paint(g);
 		}
 
-        if(!state.equals(RUN)) {
-            drawGrid(g);
+        if(state.equals(GIZMO_CONNECT))
             drawConnections(g);
-        }
     }
 
     public void reRender(){
