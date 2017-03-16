@@ -14,13 +14,13 @@ class RunToolBar extends AbstractToolBar {
 	
 	@Override
 	protected void populateButtons() {
-		makeButton("load", "Load a board layout");
+		addButton("load", "Load a board layout");
 		addSeparator();
-		makeButton("run", "Run game");
-		makeButton("pause", "Pause game");
-		makeButton("tick", "Tick for one frame");
+		addButton("run", "Run game");
+		addButton("pause", "Pause game");
+		addButton("tick", "Tick for one frame");
 		add(Box.createHorizontalGlue());
-		makeButton("build_mode", "Enter build mode");
+		addButton("build_mode", "Enter build mode");
 		disableButton("pause");
 	}
 	

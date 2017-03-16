@@ -12,9 +12,9 @@ public class ClientToolBar extends AbstractToolBar {
 	
 	@Override
 	protected void populateButtons() {
-		makeButton("run", "Run game");
-		makeButton("pause", "Pause game");
-		makeButton("disconnect", "Disconnect");
+		addButton("run", "Run game");
+		addButton("pause", "Pause game");
+		addButton("disconnect", "Disconnect");
 		disableButton("pause");
 	}
 

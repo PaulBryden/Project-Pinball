@@ -60,6 +60,8 @@ public class MainWindow extends JFrame {
 		this.sidePanel = sidePanel;
 		if (sidePanel != null)
 			add(this.sidePanel, BorderLayout.EAST);
+		revalidate();
+		repaint();
 	}
 
 	public SidePanel getSidePanel() {

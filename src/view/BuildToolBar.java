@@ -14,19 +14,19 @@ class BuildToolBar extends AbstractToolBar {
     }
 
 	protected void populateButtons() {
-		makeButton("save", "Save board layout");
-		makeButton("load", "Load board layout");
+		addButton("save", "Save board layout");
+		addButton("load", "Load board layout");
 		addSeparator();
-		makeButton("add", "Add gizmo");
-		makeButton("delete", "Remove gizmo");
-		makeButton("rotate", "Rotate gizmo");
-		makeButton("move", "Move gizmo");
+		addButton("add", "Add gizmo");
+		addButton("delete", "Remove gizmo");
+		addButton("rotate", "Rotate gizmo");
+		addButton("move", "Move gizmo");
 		addSeparator();
-		makeButton("connect", "Connect gizmos");
-		makeButton("key", "Add key connection");
+		addButton("connect", "Connect gizmos");
+		addButton("key", "Add key connection");
 		addSeparator();
-		makeButton("settings", "Board settings");
+		addButton("settings", "Board settings");
 		add(Box.createHorizontalGlue());
-		makeButton("run_mode", "Enter run mode");
+		addButton("run_mode", "Enter run mode");
 	}
 }

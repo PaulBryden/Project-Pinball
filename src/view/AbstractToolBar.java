@@ -45,7 +45,7 @@ public abstract class AbstractToolBar extends JToolBar {
 		}
 	}
 
-	protected void makeButton(String name, String toolTip) {
+	protected void addButton(String name, String toolTip) {
 		JButton button = new JButton();
 		button.setActionCommand(name);
 		button.setToolTipText(toolTip);

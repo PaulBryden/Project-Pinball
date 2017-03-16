@@ -78,10 +78,16 @@ public class PrimaryActionListener implements ActionListener {
 			new MoveGizmoController(mainWindow).start();
 			break;
 		case "connect":
-			new LinkGizmosController(mainWindow).start();
+			new ConnectionPanelController(mainWindow, this).start();
 			break;
 		case "key":
 			new AddKeyTriggerController(mainWindow).start();
+			break;
+		case "add_connection":
+			new LinkGizmosController(mainWindow).start();
+			break;
+		case "remove_connection":
+			new RemoveConnectionController(mainWindow).start();
 			break;
 		case "settings":
 			new BoardSettingsController(mainWindow).start();

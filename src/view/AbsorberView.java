@@ -8,7 +8,6 @@ import model.IGizmo;
 import model.IAbsorber;
 public class AbsorberView implements IViewGizmo {
     private IAbsorber gizmo;
-    private static final int GRID_WIDTH = 20;
 
     public AbsorberView(IGizmo gizmo){
         this.gizmo = (IAbsorber)gizmo;
@@ -16,12 +15,12 @@ public class AbsorberView implements IViewGizmo {
 
     public void paint(Graphics g) {
         g.setColor(gizmo.getColour());
-        g.fillRect((int) gizmo.getExactCoords().get(0).x() * GRID_WIDTH,
-                (int) gizmo.getExactCoords().get(0).y() * GRID_WIDTH,
-                (int)(gizmo.getExactCoords().get(2).x() - gizmo.getExactCoords().get(0).x()) * GRID_WIDTH,
-                (int) (gizmo.getExactCoords().get(2).y() - gizmo.getExactCoords().get(0).y()) * GRID_WIDTH);
+        g.fillRect((int) gizmo.getExactCoords().get(0).x() * Board.GRID_WIDTH,
+                (int) gizmo.getExactCoords().get(0).y() * Board.GRID_WIDTH,
+                (int)(gizmo.getExactCoords().get(2).x() - gizmo.getExactCoords().get(0).x()) * Board.GRID_WIDTH,
+                (int) (gizmo.getExactCoords().get(2).y() - gizmo.getExactCoords().get(0).y()) * Board.GRID_WIDTH);
 
-    	if(gizmo.getNextBall()!=null){
+    	if(gizmo.getNextBall() != null){
     		Graphics2D g2D = (Graphics2D) g;
     		double radius = gizmo.getNextBall().getRadius();
     		int width = (int) (2 * radius * Board.GRID_WIDTH);
