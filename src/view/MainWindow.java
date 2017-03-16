@@ -2,7 +2,6 @@ package view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 

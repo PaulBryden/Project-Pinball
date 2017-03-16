@@ -1,8 +1,6 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +23,7 @@ import model.ITriangleGizmo;
 import model.KeyTrigger;
 import physics.Vect;
 
+import static java.awt.Color.RED;
 import static view.CUR_GIZMO.NONE;
 import static view.STATE.BUILD;
 import static view.STATE.RUN;
@@ -142,6 +141,24 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
+	private void drawConnections(Graphics g){
+        Graphics2D g2D = (Graphics2D) g;
+		for(IGizmo gizmo : model.getGizmos()){
+		    for(IGizmo gizmoToTrigger : gizmo.getGizmosToTrigger()){
+		        System.out.println(getGizmoName(gizmo) + " connected to " + getGizmoName(gizmoToTrigger));
+
+                g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2D.setColor(RED);
+                g2D.drawLine(
+                        (int)gizmo.getGridCoords().x() * GRID_WIDTH,
+                        (int)gizmo.getGridCoords().y() * GRID_WIDTH,
+                        (int)gizmoToTrigger.getGridCoords().x() * GRID_WIDTH,
+                        (int)gizmoToTrigger.getGridCoords().y() * GRID_WIDTH
+                );
+            }
+        }
+	}
+
 	public void setState(STATE state) {
 		selectedGizmoCoords = null;
 		this.state = state;
@@ -192,9 +209,6 @@ public class Board extends JPanel implements Observer {
 
 		viewBalls.addAll(balls.stream().map(BallView::new).collect(Collectors.toList()));
 
-		if(!state.equals(RUN))
-			drawGrid(g);
-
 		for(IViewGizmo viewGizmo : viewGizmos) {
 			viewGizmo.paint(g);
 		}
@@ -202,6 +216,11 @@ public class Board extends JPanel implements Observer {
 		for(IViewGizmo viewBall : viewBalls) {
 			viewBall.paint(g);
 		}
+
+        if(!state.equals(RUN)) {
+            drawGrid(g);
+            drawConnections(g);
+        }
     }
 
     public void reRender(){
