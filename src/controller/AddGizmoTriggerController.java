@@ -4,10 +4,10 @@ import view.MainWindow;
 
 import static view.STATE.GIZMO_CONNECT;
 
-public class LinkGizmosController {
+public class AddGizmoTriggerController {
 	private MainWindow mainWindow;
 
-	LinkGizmosController(MainWindow mainWindow){
+	AddGizmoTriggerController(MainWindow mainWindow){
 		this.mainWindow = mainWindow;
 	}
 

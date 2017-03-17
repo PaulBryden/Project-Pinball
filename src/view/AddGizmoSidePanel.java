@@ -2,15 +2,12 @@ package view;
 
 import controller.*;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Insets;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 public class AddGizmoSidePanel extends SidePanel {
 
@@ -34,27 +31,17 @@ public class AddGizmoSidePanel extends SidePanel {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 1;
+		c.insets = new Insets(5, 3, 0, 3);
 		c.fill = GridBagConstraints.HORIZONTAL;
-		add(createPanel("Balls", ballBtn), c);
+		add(createTitledButtonPanel("Balls", ballBtn), c);
 		c.gridy = 1;
-		add(createPanel("Static gizmos", circleBtn, squareBtn, triangleBtn), c);
+		add(createTitledButtonPanel("Static gizmos", circleBtn, squareBtn, triangleBtn), c);
 		c.gridy = 2;
-		add(createPanel("Dynamic gizmos", lFlipperBtn, rFlipperBtn, absorberBtn), c);
+		add(createTitledButtonPanel("Dynamic gizmos", lFlipperBtn, rFlipperBtn, absorberBtn), c);
 		c.gridy = 3;
 		c.fill = GridBagConstraints.BOTH;
 		c.weighty = 1;
 		add(Box.createVerticalGlue(), c);
 	}
 
-	private JPanel createPanel(String title, JButton... buttons) {
-		JPanel panel = new JPanel();
-		int rows = (buttons.length + 1) / 2;
-		panel.setLayout(new GridLayout(rows, 2, 5, 5));
-		for (JButton button : buttons) {
-			panel.add(button);
-		}
-		panel.add(Box.createHorizontalGlue());
-		panel.setBorder(BorderFactory.createTitledBorder(title));
-		return panel;
-	}
 }
