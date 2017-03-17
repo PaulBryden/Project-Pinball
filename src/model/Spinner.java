@@ -21,8 +21,10 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 	protected Angle angle;
 
 	protected Vect pivot;
-	protected Vect restingEndCentre;
-	protected Vect endCentre;
+	protected Vect restingEndCentre1;
+	protected Vect restingEndCentre2;
+	protected Vect endCentre1;
+	protected Vect endCentre2;
 	private boolean vertical;
 	private Direction direction;
 
@@ -30,8 +32,10 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		super(id, coords, 3,3, Color.PINK, false);
 		this.pivot = new Vect(coords.x() + 1.5, coords.y() + 1.5);
 		this.vertical = true;
-		this.endCentre = new Vect(coords.x() + 1.5, coords.y() + 3 - RADIUS);
-		this.restingEndCentre = endCentre;
+		this.endCentre1 = new Vect(coords.x() + 1.5, coords.y() + 3 - RADIUS);
+		this.endCentre2 = new Vect(coords.x() + 1.5, coords.y() + RADIUS);
+		this.restingEndCentre1 = endCentre1;
+		this.restingEndCentre2 = endCentre2;
 		this.angle = new Angle(1.0,0.0 );
 		this.direction = direction;
 		generateLinesAndCircles();
@@ -56,24 +60,29 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 
 	protected void generateLinesAndCircles() {
 		circles.clear();
-		circles.add(new Circle(pivot, RADIUS));
 		lines.clear();
 		LineSegment l;
+		
 		if (vertical) {
-			l = new LineSegment(pivot.x() - RADIUS, pivot.y(), restingEndCentre.x() - RADIUS, restingEndCentre.y());
+			l = new LineSegment(restingEndCentre2.x() - RADIUS, restingEndCentre2.y(), restingEndCentre1.x() - RADIUS, restingEndCentre1.y());
 		} else {
-			l = new LineSegment(pivot.x(), pivot.y() - RADIUS, restingEndCentre.x(), restingEndCentre.y() - RADIUS);
+			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() - RADIUS, restingEndCentre1.x(), restingEndCentre1.y() - RADIUS);
 		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
+		
 		if (vertical) {
-			l = new LineSegment(pivot.x() + RADIUS, pivot.y(), restingEndCentre.x() + RADIUS, restingEndCentre.y());
+			l = new LineSegment(restingEndCentre2.x() + RADIUS, restingEndCentre2.y(), restingEndCentre1.x() + RADIUS, restingEndCentre1.y());
 		} else {
-			l = new LineSegment(pivot.x(), pivot.y() + RADIUS, restingEndCentre.x(), restingEndCentre.y() + RADIUS);
+			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() + RADIUS, restingEndCentre1.x(), restingEndCentre1.y() + RADIUS);
 		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
+		
 		addEndPoints();
-		endCentre = (Geometry.rotateAround(restingEndCentre, pivot, angle));
-		circles.add(new Circle(endCentre, RADIUS));
+		
+		endCentre1 = (Geometry.rotateAround(restingEndCentre1, pivot, angle));
+		endCentre2 = (Geometry.rotateAround(restingEndCentre2, pivot, angle));
+		circles.add(new Circle(restingEndCentre2, RADIUS));
+		circles.add(new Circle(endCentre1, RADIUS));
 	}
 
 	/**
@@ -94,8 +103,8 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 			vertical = !vertical;
 			a = a.plus(Angle.DEG_90);
 		}
-		restingEndCentre = Geometry.rotateAround(restingEndCentre, cor, a);
-		endCentre = Geometry.rotateAround(endCentre, cor, a);
+		restingEndCentre1 = Geometry.rotateAround(restingEndCentre1, cor, a);
+		endCentre1 = Geometry.rotateAround(endCentre1, cor, a);
 		pivot = Geometry.rotateAround(pivot, cor, a);
 		super.rotate(steps);
 	}
@@ -105,8 +114,8 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		Vect shift = coords.minus(this.coords);
 		this.coords = coords;
 		this.pivot = pivot.plus(shift);
-		this.endCentre = endCentre.plus(shift);
-		this.restingEndCentre = restingEndCentre.plus(shift);
+		this.endCentre1 = endCentre1.plus(shift);
+		this.restingEndCentre1 = restingEndCentre1.plus(shift);
 		generateLinesAndCircles();
 	}
 
@@ -135,15 +144,19 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 	public List<Vect> getExactCoords() {
 		List<Vect> flipperVector = new ArrayList<Vect>();
 		flipperVector.add(pivot);
-		flipperVector.add(endCentre);
+		flipperVector.add(endCentre1);
 		return flipperVector;
 	}
 
 	@Override
-	public Vect getEndCentre() {
-		return endCentre;
+	public Vect getEndCentre1() {
+		return endCentre1;
 	}
 
+	@Override
+	public Vect getEndCentre2() {
+		return endCentre2;
+	}
 	@Override
 	public double getWidth() {
 		return 2 * RADIUS;

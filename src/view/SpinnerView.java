@@ -26,8 +26,8 @@ public class SpinnerView implements IViewGizmo {
 		List<Vect> exactCoords = new LinkedList<>();
 		List<LineSegment> lines = gizmo.getAllLineSegments();
 		int diameter = (int) (GRID_WIDTH * gizmo.getWidth());
-		int x = (int) (GRID_WIDTH * gizmo.getPivot().x() - diameter / 2);
-		int y = (int) (GRID_WIDTH * gizmo.getPivot().y() - diameter / 2);
+		int x = (int) (GRID_WIDTH * gizmo.getEndCentre1().x() - diameter / 2);
+		int y = (int) (GRID_WIDTH * gizmo.getEndCentre1().y() - diameter / 2);
 		int[] a;
 		int[] b;
 
@@ -36,8 +36,8 @@ public class SpinnerView implements IViewGizmo {
 		g2D.setColor(gizmo.getColour());
 		g2D.fillOval(x, y, diameter, diameter);
 
-		x = (int) (GRID_WIDTH * gizmo.getEndCentre().x() - diameter / 2);
-		y = (int) (GRID_WIDTH * gizmo.getEndCentre().y() - diameter / 2);
+		x = (int) (GRID_WIDTH * gizmo.getEndCentre2().x() - diameter / 2);
+		y = (int) (GRID_WIDTH * gizmo.getEndCentre2().y() - diameter / 2);
 
 		g2D.fillOval(x, y, diameter, diameter);
 

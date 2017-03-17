@@ -56,12 +56,12 @@ public class AddGizmoSidePanel extends SidePanel {
         add(rFlipperBtn, constraints);
         
         constraints.gridy = 7;
-   //     CWSpinnerBtn.addActionListener(new AddCWSpinnerListener(mainWindow));
+        CWSpinnerBtn.addActionListener(new AddCWSpinnerListener(mainWindow));
         add(CWSpinnerBtn, constraints);
         
         constraints.gridy = 8;
-    //    CCWSpinnerBtn.addActionListener(new AddCCWSpinnerListener(mainWindow));
-        add(CWSpinnerBtn, constraints);
+       // CCWSpinnerBtn.addActionListener(new AddCCWSpinnerListener(mainWindow));
+        add(CCWSpinnerBtn, constraints);
         
     }
 }

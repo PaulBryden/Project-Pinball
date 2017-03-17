@@ -9,8 +9,6 @@ public interface ISpinner extends IGizmo {
 
 	double getWidth();
 
-	Vect getEndCentre();
-
 	Vect getPivot();
 
 	double getAngularVelocity();
@@ -18,6 +16,10 @@ public interface ISpinner extends IGizmo {
 	void setAngle(Angle angle);
 
 	Angle getAngle();
+
+	Vect getEndCentre1();
+
+	Vect getEndCentre2();
 
 
 }
