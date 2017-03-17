@@ -17,7 +17,9 @@ public class AddGizmoToolBar extends JToolBar{
         JButton triangleBtn = new JButton("Triangle");
         JButton lFlipperBtn = new JButton("L.Flipper");
         JButton rFlipperBtn = new JButton("R.Flipper");
-
+        JButton CWSpinnerBtn = new JButton("CW.Spinner");
+        JButton CCWSpinnerBtn = new JButton("CCW.Spinner");
+        
         setLayout(new GridBagLayout());
         setFloatable(false);
         setRollover(true);
@@ -52,5 +54,14 @@ public class AddGizmoToolBar extends JToolBar{
         constraints.gridy = 6;
         rFlipperBtn.addActionListener(new AddRFlipperListener(mainWindow));
         add(rFlipperBtn, constraints);
+        
+        constraints.gridy = 7;
+   //     CWSpinnerBtn.addActionListener(new AddCWSpinnerListener(mainWindow));
+        add(CWSpinnerBtn, constraints);
+        
+        constraints.gridy = 8;
+    //    CCWSpinnerBtn.addActionListener(new AddCCWSpinnerListener(mainWindow));
+        add(CWSpinnerBtn, constraints);
+        
     }
 }
