@@ -28,16 +28,12 @@ public class SaveBoardController {
         	public void approveSelection() {
         		File file = getSelectedFile();
         		if (file.exists() && getDialogType() == SAVE_DIALOG) {
-        			int result = JOptionPane.showConfirmDialog(this, "File already exists. Overwrite?", "Existing file", JOptionPane.YES_NO_CANCEL_OPTION);
+        			int result = JOptionPane.showConfirmDialog(this, "File already exists. Overwrite?", "Existing file", JOptionPane.YES_NO_OPTION);
         			switch (result) {
         			case JOptionPane.YES_OPTION:
         				super.approveSelection();
-        				return;
         			case JOptionPane.NO_OPTION:
         			case JOptionPane.CLOSED_OPTION:
-        				return;
-        			case JOptionPane.CANCEL_OPTION:
-        				cancelSelection();
         				return;
         			}
         		}
