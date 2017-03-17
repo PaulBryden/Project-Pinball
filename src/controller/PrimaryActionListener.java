@@ -62,6 +62,10 @@ public class PrimaryActionListener implements ActionListener {
 			pauseGame();
 			new ClientDialog(mainWindow);
 			break;
+		case "disconnect":
+			pauseGame();
+			new DisconnectController(mainWindow).start();
+			break;
 		case "quit":
 			exitApplication();
 			break;
