@@ -24,9 +24,9 @@ public class ConnectionSidePanel extends SidePanel {
 		c.weightx = 1;
 		c.insets = new Insets(5, 3, 0, 3);
 		c.fill = GridBagConstraints.HORIZONTAL;
-		add(createTitledButtonPanel("Gizmo connections", connectGizmoBtn, disconnectGizmoBtn), c);
+		add(createTitledPanel("Gizmo connections", 2, connectGizmoBtn, disconnectGizmoBtn), c);
 		c.gridy = 1;
-		add(createTitledButtonPanel("Key connections", connectKeyBtn, disconnectKeyBtn), c);
+		add(createTitledPanel("Key connections", 2, connectKeyBtn, disconnectKeyBtn), c);
 		c.gridy = 2;
 		c.fill = GridBagConstraints.BOTH;
 		c.weighty = 1;

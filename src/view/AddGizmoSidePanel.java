@@ -33,11 +33,11 @@ public class AddGizmoSidePanel extends SidePanel {
 		c.weightx = 1;
 		c.insets = new Insets(5, 3, 0, 3);
 		c.fill = GridBagConstraints.HORIZONTAL;
-		add(createTitledButtonPanel("Balls", ballBtn), c);
+		add(createTitledPanel("Balls", 2, ballBtn), c);
 		c.gridy = 1;
-		add(createTitledButtonPanel("Static gizmos", circleBtn, squareBtn, triangleBtn), c);
+		add(createTitledPanel("Static gizmos", 2, circleBtn, squareBtn, triangleBtn), c);
 		c.gridy = 2;
-		add(createTitledButtonPanel("Dynamic gizmos", lFlipperBtn, rFlipperBtn, absorberBtn), c);
+		add(createTitledPanel("Dynamic gizmos", 2, lFlipperBtn, rFlipperBtn, absorberBtn), c);
 		c.gridy = 3;
 		c.fill = GridBagConstraints.BOTH;
 		c.weighty = 1;
