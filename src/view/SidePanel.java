@@ -15,7 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.BevelBorder;
 
 public class SidePanel extends JPanel {
-	
+
 	public static final String BUILD_INSTRUCTIONS = "In build mode you can build your own boards by placing and editing balls and gizmos, and adding your own connections.";
 
 	private static final long serialVersionUID = 8844919255973893688L;
@@ -24,8 +24,8 @@ public class SidePanel extends JPanel {
 	private GridBagConstraints constraints;
 
 	/**
-	 * ] This constructor creates an empty side panel without building it.
-	 * Should only be used by sub-classes.
+	 * This constructor creates an empty side panel without building it. Should
+	 * only be used by sub-classes.
 	 */
 	protected SidePanel() {
 		this.setPreferredSize(new Dimension(200, 200));

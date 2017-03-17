@@ -9,6 +9,7 @@ import model.IModel;
 import physics.Vect;
 import view.AbsorberView;
 import view.Board;
+import view.CUR_GIZMO;
 import view.CircleView;
 import view.FlipperView;
 import view.MainWindow;
@@ -28,6 +29,9 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 	}
 
 	private void handleAdd(Vect coords, Board board) {
+		if (board.getSelectedGizmo() == CUR_GIZMO.RFLIPPER) {
+			coords = new Vect(coords.x() - 1, coords.y());
+		}
 		if (model.isCellEmpty(coords)) {
 			GizmoFactory gf = new GizmoFactory(model);
 			switch (board.getSelectedGizmo()) {
