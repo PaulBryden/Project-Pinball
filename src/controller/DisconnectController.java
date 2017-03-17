@@ -1,5 +1,6 @@
 package controller;
 
+import model.IModel;
 import view.MainWindow;
 
 class DisconnectController {
@@ -10,13 +11,16 @@ class DisconnectController {
     }
 
     public void start(){
-        if(mainWindow.getModel().isClient()){
-            mainWindow.getBoard().getModel().getClient().stopClient();
-        } else if(mainWindow.getModel().getHost() != null) {
-            mainWindow.getBoard().getModel().getHost().disconnect();
-        }
+        IModel model = mainWindow.getModel();
 
-        mainWindow.revalidate();
-        mainWindow.repaint();
+        if(model.isClient()){
+            model.getClient().stopClient();
+            mainWindow.setStatusLabel("Disconnected from host.");
+        } else if(model.getHost() != null) {
+            model.getHost().disconnect();
+            mainWindow.setStatusLabel("Disconnected from clients, no longer hosting.");
+        } else {
+            mainWindow.setStatusLabel("You are already disconnected.");
+        }
     }
 }
