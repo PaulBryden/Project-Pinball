@@ -127,16 +127,20 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				gizmoCoords = board.getSelectedGizmoCoords();
 				try {
 					mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
-							+ gizmoCoords + ". Please type a key to connect this gizmo to");
+							+ gizmoCoords + ". Please select a second gizmo to connect this gizmo to");
 				} catch (NullPointerException e) {
 					mainWindow.setWarningLabel("Cannot add gizmo connection to ball");
 					board.setSelectedGizmoCoords(null);
 				}
 			} else {
-				model.getGizmo(gizmoCoords).addGizmoToTrigger(model.getGizmo(coords));
-				mainWindow.setStatusLabel("Connected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " to "
-						+ board.getGizmoName(model.getGizmo(coords)));
-				board.setSelectedGizmoCoords(null);
+				if (model.getGizmo(gizmoCoords).getGizmosToTrigger().contains(model.getGizmo(coords))) {
+					mainWindow.setWarningLabel("Connection already exists between selected gizmos.");
+				} else {
+					model.getGizmo(gizmoCoords).addGizmoToTrigger(model.getGizmo(coords));
+					mainWindow.setStatusLabel("Connected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " to "
+							+ board.getGizmoName(model.getGizmo(coords)));
+					board.setSelectedGizmoCoords(null);
+				}
 			}
 		} else {
 			mainWindow.setWarningLabel("Cannot add gizmo connection, this cell is empty. Select an occupied cell.");
