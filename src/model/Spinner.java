@@ -15,10 +15,12 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 
 	protected static final double RADIUS = 0.25;
 	protected static final double ABS_ANGULAR_VELOCITY = 2; // in rad/sec,
+	protected static final double MARGIN = 0.000001;
 	// approx. 1080
 	// deg/sec
 	protected double angularVelocity;
 	protected Angle angle;
+	
 
 	protected Vect pivot;
 	protected Vect restingEndCentre1;
@@ -64,16 +66,16 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		LineSegment l;
 		
 		if (vertical) {
-			l = new LineSegment(restingEndCentre2.x() - RADIUS, restingEndCentre2.y(), restingEndCentre1.x() - RADIUS, restingEndCentre1.y());
+			l = new LineSegment(restingEndCentre2.x() - (RADIUS-MARGIN), restingEndCentre2.y(), restingEndCentre1.x() - (RADIUS-MARGIN), restingEndCentre1.y());
 		} else {
-			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() - RADIUS, restingEndCentre1.x(), restingEndCentre1.y() - RADIUS);
+			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() - (RADIUS-MARGIN), restingEndCentre1.x(), restingEndCentre1.y() - (RADIUS-MARGIN));
 		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
 		
 		if (vertical) {
-			l = new LineSegment(restingEndCentre2.x() + RADIUS, restingEndCentre2.y(), restingEndCentre1.x() + RADIUS, restingEndCentre1.y());
+			l = new LineSegment(restingEndCentre2.x() + (RADIUS-MARGIN), restingEndCentre2.y(), restingEndCentre1.x() + (RADIUS-MARGIN), restingEndCentre1.y());
 		} else {
-			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() + RADIUS, restingEndCentre1.x(), restingEndCentre1.y() + RADIUS);
+			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() + (RADIUS-MARGIN), restingEndCentre1.x(), restingEndCentre1.y() + (RADIUS-MARGIN));
 		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
 		
@@ -178,8 +180,27 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 
 		generateLinesAndCircles();
 	}
-
+	
+	@Override
+	public void setDirection(Direction direction){
+		this.direction = direction;
+	}
+	
+	@Override
+	public Direction getDirection() {
+		return direction;
+	}
+	
+		@Override
+	public void toggleDirection() {
+		direction = (direction == direction.CW)? direction.CCW:direction.CW;
+		
+	}
 	public enum Direction {
 		CW, CCW;
 	}
+
+
+
+
 }

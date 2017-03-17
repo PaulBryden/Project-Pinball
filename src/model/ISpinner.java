@@ -1,5 +1,6 @@
 package model;
 
+import model.Spinner.Direction;
 import physics.Angle;
 import physics.Vect;
 
@@ -20,6 +21,12 @@ public interface ISpinner extends IGizmo {
 	Vect getEndCentre1();
 
 	Vect getEndCentre2();
+
+	void setDirection(Direction direction);
+	
+	Direction getDirection();
+
+	void toggleDirection();
 
 
 }
