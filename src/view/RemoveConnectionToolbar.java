@@ -7,15 +7,14 @@ import javax.swing.JButton;
 import javax.swing.JToolBar;
 import java.awt.*;
 
-public class RemoveConnectionToolbar extends JToolBar{
+import static java.awt.GridBagConstraints.VERTICAL;
+
+public class RemoveConnectionToolbar extends SidePanel{
     public RemoveConnectionToolbar(MainWindow mainWindow){
-        super("Remove Connection Toolbar");
         JButton removeGizmoBtn = new JButton("Gizmo");
         JButton removeKeyBtn = new JButton("Key");
 
         setLayout(new GridBagLayout());
-        setFloatable(false);
-        setRollover(true);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = VERTICAL;

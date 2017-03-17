@@ -8,8 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JToolBar;
 
-import controller.frictionSliderListener;
-import controller.gravitySliderListener;
+import controller.FrictionSliderListener;
+import controller.GravitySliderListener;
 import model.IModel;
 
 public class FrictionGravityToolbar extends JToolBar{
@@ -48,14 +48,14 @@ public class FrictionGravityToolbar extends JToolBar{
 	        add(gravityLabel, constraints);
 	        
 	        constraints.gridy = 1;
-	        gravitySlider.addChangeListener(new gravitySliderListener(mainWindow));
+	        gravitySlider.addChangeListener(new GravitySliderListener(mainWindow.getBoard().getModel()));
 	        add(gravitySlider, constraints);
 	        
 	        constraints.gridy = 2;
 	        add(frictionLabel, constraints);
 	        
 	        constraints.gridy = 3;
-	        frictionSlider.addChangeListener(new frictionSliderListener(mainWindow));
+	        frictionSlider.addChangeListener(new FrictionSliderListener(mainWindow.getBoard().getModel()));
 	        add(frictionSlider, constraints);
 	}
 }

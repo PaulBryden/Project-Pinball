@@ -8,17 +8,16 @@ import java.awt.event.ActionListener;
 
 import static view.STATE.BUILD;
 
-public class RemoveConnectionListener implements ActionListener{
+public class RemoveConnectionController {
     private MainWindow mainWindow;
 
-    public RemoveConnectionListener(MainWindow mainWindow){
+    public RemoveConnectionController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(!(mainWindow.getSideToolBar() instanceof RemoveConnectionToolbar)){
-            mainWindow.addSideToolBar(new RemoveConnectionToolbar(mainWindow));
+    public void start(){
+        if(!(mainWindow.getSidePanel() instanceof RemoveConnectionToolbar)){
+            mainWindow.setSidePanel(new RemoveConnectionToolbar(mainWindow));
             mainWindow.getBoard().setState(BUILD);
             mainWindow.setStatusLabel("Removing Connection(s). Select which type of connection you would like to remove.");
         }

@@ -1,13 +1,14 @@
 package controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import network.Client;
 import view.ClientDialog;
 import view.MainWindow;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-public class SubmitClientListener implements ActionListener{
+public class SubmitClientListener implements ActionListener {
+	
     private MainWindow mainWindow;
     private ClientDialog clientDialog;
 
@@ -15,9 +16,9 @@ public class SubmitClientListener implements ActionListener{
         this.mainWindow = mainWindow;
         this.clientDialog = clientDialog;
     }
-
+    
     @Override
-    public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
         if(clientDialog.getTextFieldValidator().isValid() && !clientDialog.getPortText().equals("") && !clientDialog.getIpText().equals("")){
         	clientDialog.getDialog().dispose();
             Client client = new Client(mainWindow,mainWindow.getBoard().getModel(), clientDialog.getIpText(), Integer.parseInt(clientDialog.getPortText()));
@@ -29,4 +30,5 @@ public class SubmitClientListener implements ActionListener{
             clientDialog.showWarningLabel("Please enter values");
         }
     }
+
 }

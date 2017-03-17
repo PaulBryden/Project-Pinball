@@ -1,15 +1,16 @@
 package controller;
 
-import view.HostDialog;
-import view.MainWindow;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import view.HostDialog;
+import view.MainWindow;
 
 import model.BoardFileHandler;
 import network.Host;
 
 public class SubmitHostListener implements ActionListener{
+	
     private MainWindow mainWindow;
     private HostDialog hostDialog;
 
@@ -17,9 +18,9 @@ public class SubmitHostListener implements ActionListener{
         this.mainWindow = mainWindow;
         this.hostDialog = hostDialog;
     }
-
+    
     @Override
-    public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
         if(hostDialog.getTextFieldValidator().isValid() && !hostDialog.getPortText().equals("")){
             mainWindow.setStatusLabel("Host: Awaiting client connection");
             hostDialog.getDialog().dispose();
