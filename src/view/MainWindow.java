@@ -111,7 +111,7 @@ public class MainWindow extends JFrame {
 	}
 
 	public void setWarningLabel(String warning) {
-		statusBar.setStatus(warning);
+		statusBar.setWarning(warning);
 	}
 
 	private void setUpKeyListeners() {
