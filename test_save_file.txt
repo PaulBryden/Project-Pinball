@@ -1,3 +1,0 @@
-Square S0008 0 8
-Gravity 25.0
-Friction 0.025 0.025
