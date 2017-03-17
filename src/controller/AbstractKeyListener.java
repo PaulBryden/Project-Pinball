@@ -13,7 +13,7 @@ public abstract class AbstractKeyListener implements KeyListener {
 	private boolean listening;
 	private KeyListener mkl;
 
-	public AbstractKeyListener(IModel model, MainWindow mainWindow) {
+	AbstractKeyListener(IModel model, MainWindow mainWindow) {
 		this.model = model;
 		this.mainWindow = mainWindow;
 		this.listening = false;

@@ -1,164 +1,117 @@
 package view;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
 import controller.BuildKeyListener;
+import controller.PrimaryActionListener;
 import controller.RunKeyListener;
 import model.IModel;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 
-import static java.awt.Color.BLUE;
-import static java.awt.Color.RED;
-import static java.awt.GridBagConstraints.CENTER;
-import static java.awt.GridBagConstraints.VERTICAL;
 import static view.STATE.RUN;
 
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = -2379162245120133571L;
+	private PrimaryActionListener actionListener;
 	private IModel model;
 	private MenuBar menuBar;
 	private JToolBar toolbar;
-	private JToolBar sideToolBar;
+	private SidePanel sidePanel;
 	private Board board;
-	private GridBagConstraints constraints;
 	private RunKeyListener runKeyListener;
 	private BuildKeyListener buildKeyListener;
-	private JLabel statusLabel;
+	private StatusBar statusBar;
 
 	public MainWindow(IModel model) {
 		super();
 		this.model = model;
 		board = new Board(this, this.model);
-		menuBar = new MenuBar(this);
-		sideToolBar = new JToolBar();
-		toolbar = new BuildToolBar(this);
-		constraints = new GridBagConstraints();
-		statusLabel = new JLabel("");
+		actionListener = new PrimaryActionListener(this, model);
+		menuBar = new MenuBar(this, actionListener);
+		toolbar = new BuildToolBar(actionListener);
+		statusBar = new StatusBar();
 		setUpKeyListeners();
 	}
 
 	public void build() {
-		setLayout(new GridBagLayout());
+		setResizable(false);
+		setLayout(new BorderLayout());
 		setTitle("Gizmo Ball");
 		setJMenuBar(menuBar);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setResizable(false);
-		setSize(900, 550);
-
-		constraints.fill = VERTICAL;
-		constraints.gridx = 1;
-		constraints.gridy = 0;
-		add(toolbar, constraints);
-
-		constraints.fill = CENTER;
-		constraints.gridy = 1;
-		add(board, constraints);
-
-		constraints.gridy = 2;
-		add(statusLabel, constraints);
-
+		add(toolbar, BorderLayout.NORTH);
+		add(board, BorderLayout.CENTER);
+		add(statusBar, BorderLayout.SOUTH);
+		sidePanel = new SidePanel();
+		this.add(sidePanel, BorderLayout.EAST);
+		pack();
 		setVisible(true);
 	}
 
-	public void addSideToolBar(JToolBar sideToolBar) {
-		constraints.fill = VERTICAL;
-		constraints.gridx = 0;
-		constraints.gridy = 1;
-
-		remove(this.sideToolBar);
-		this.sideToolBar = sideToolBar;
-		add(this.sideToolBar, constraints);
-
+	public void setSidePanel(SidePanel sidePanel) {
+		if (this.sidePanel != null)
+			this.remove(this.sidePanel);
+		this.sidePanel = sidePanel;
+		if (sidePanel != null)
+			add(this.sidePanel, BorderLayout.EAST);
 		revalidate();
 		repaint();
 	}
 
-	public JToolBar getSideToolBar() {
-		return (sideToolBar);
+	public SidePanel getSidePanel() {
+		return (sidePanel);
 	}
-	
-	private void stopRunning() {
-		if (toolbar instanceof RunToolBar) {
-			((RunToolBar) toolbar).stop();
-		}
-	}
-
 
 	public void toggleView() {
-		constraints.fill = VERTICAL;
-
 		remove(toolbar);
-
 		if (toolbar instanceof RunToolBar) {
-			stopRunning();
-			toolbar = new BuildToolBar(this);
+			actionListener.pauseGame();
+			toolbar = new BuildToolBar(actionListener);
+			setSidePanel(new SidePanel());
 			setStatusLabel("");
 		} else {
-			toolbar = new RunToolBar(this, model);
-			remove(sideToolBar);
-			sideToolBar = new JToolBar();
+			toolbar = new RunToolBar(actionListener);
+			setSidePanel(null);
 			setStatusLabel("Stopped");
 		}
-
-		constraints.gridx = 1;
-		constraints.gridy = 0;
-		add(toolbar, constraints);
-
+		add(toolbar, BorderLayout.NORTH);
 		revalidate();
 		repaint();
+		pack();
 	}
 
 	public void enableClientView() {
-		constraints.fill = VERTICAL;
-		remove(sideToolBar);
+		setSidePanel(null);
 		remove(toolbar);
+		toolbar = new ClientToolBar(actionListener);
+		add(toolbar, BorderLayout.NORTH);
 		board.setState(RUN);
-		remove(sideToolBar);
-		remove(toolbar);
-		setJMenuBar(new ClientMenuBar(this));
 		setStatusLabel("Connected");
 		revalidate();
 		repaint();
-	}
-	public void enableHostView() {
-		constraints.fill = VERTICAL;
-		setJMenuBar(new HostMenuBar(this));
-		revalidate();
-		repaint();
+		pack();
 	}
 
 	public Board getBoard() {
 		return (board);
 	}
 
+	public IModel getModel() {
+		return model;
+	}
+	
 	public void setStatusLabel(String status) {
-		statusLabel.setForeground(BLUE);
-		statusLabel.setText(status);
+		statusBar.setStatus(status);
 	}
 
 	public void setWarningLabel(String warning) {
-		statusLabel.setForeground(RED);
-		statusLabel.setText(warning);
-	}
-
-	public void showHostDialog() {
-		stopRunning();
-		HostDialog hostDialog = new HostDialog(this);
-		hostDialog.build();
-	}
-
-	public void showClientDialog() {
-		stopRunning();
-		ClientDialog clientDialog = new ClientDialog(this);
-		clientDialog.build();
+		statusBar.setWarning(warning);
 	}
 
 	private void setUpKeyListeners() {
@@ -198,7 +151,7 @@ public class MainWindow extends JFrame {
 	public RunKeyListener getRunKeyListener() {
 		return this.runKeyListener;
 	}
-	
+
 	public BuildKeyListener getBuildKeyListener() {
 		return this.buildKeyListener;
 	}

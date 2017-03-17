@@ -65,7 +65,7 @@ public class FileHandlerTest {
 	
 	@Test
 	public void testLoadSpecFile() throws IOException {
-		file.load("spec_save_file.txt");
+		file.load("savefiles/spec_save_file.txt");
 	}
 	
 	

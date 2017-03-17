@@ -1,7 +1,6 @@
 package controller;
 
 import java.awt.event.KeyEvent;
-import java.util.NoSuchElementException;
 
 import model.IFlipper;
 import model.IGizmo;
@@ -9,6 +8,8 @@ import model.IModel;
 import physics.Vect;
 import view.Board;
 import view.MainWindow;
+
+import static view.STATE.RM_KEY_CONNECT;
 
 public class BuildKeyListener extends AbstractKeyListener {
 
@@ -28,19 +29,22 @@ public class BuildKeyListener extends AbstractKeyListener {
 		int keyCode = e.getKeyCode();
 		char keyChar = e.getKeyChar();
 		IGizmo gizmo;
+
 		if (gizmoCoords != null) {
-			try {
-				gizmo = board.getModel().getGizmo(gizmoCoords);
-			} catch (NoSuchElementException E) {
-				gizmo = model.getBall(gizmoCoords);
+			gizmo = board.getModel().getGizmo(gizmoCoords);
+			if(board.getState().equals(RM_KEY_CONNECT)){
+				board.removeKeyConnections(model.getKeyPressedTriggers(), gizmo);
+				board.removeKeyConnections(model.getKeyReleasedTriggers(), gizmo);
+				mainWindow.setStatusLabel("The " + keyChar + " key has been removed from " + board.getGizmoName(gizmo));
+			} else {
+				// flippers are triggered on key pressed as well as key released
+				// events:
+				if (gizmo instanceof IFlipper) {
+					model.addKeyPressedTrigger(keyCode, gizmo);
+				}
+				model.addKeyReleasedTrigger(keyCode, gizmo);
+				mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " connected to the " + keyChar + " key.");
 			}
-			// flippers are triggered on key pressed as well as key released
-			// events:
-			if (gizmo instanceof IFlipper) {
-				model.addKeyPressedTrigger(keyCode, gizmo);
-			}
-			model.addKeyReleasedTrigger(keyCode, gizmo);
-			mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " connected to the " + keyChar + " key.");
 		}
 		this.setListening(false);
 	}
