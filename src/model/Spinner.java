@@ -81,7 +81,7 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		
 		endCentre1 = (Geometry.rotateAround(restingEndCentre1, pivot, angle));
 		endCentre2 = (Geometry.rotateAround(restingEndCentre2, pivot, angle));
-		circles.add(new Circle(restingEndCentre2, RADIUS));
+		circles.add(new Circle(endCentre2, RADIUS));
 		circles.add(new Circle(endCentre1, RADIUS));
 	}
 
@@ -105,6 +105,8 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		}
 		restingEndCentre1 = Geometry.rotateAround(restingEndCentre1, cor, a);
 		endCentre1 = Geometry.rotateAround(endCentre1, cor, a);
+		restingEndCentre2 = Geometry.rotateAround(restingEndCentre2, cor, a);
+		endCentre2 = Geometry.rotateAround(endCentre2, cor, a);
 		pivot = Geometry.rotateAround(pivot, cor, a);
 		super.rotate(steps);
 	}
