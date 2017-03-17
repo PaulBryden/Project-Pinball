@@ -16,7 +16,7 @@ public class StatusBar extends JPanel {
 	private static final Color WARNING_COLOUR = Color.RED;
 	private JLabel text;
 	
-	public StatusBar() {
+	StatusBar() {
 		this.text = new JLabel("");
 		this.setPreferredSize(new Dimension(23, 23));
 		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
@@ -25,7 +25,7 @@ public class StatusBar extends JPanel {
 		text.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 	}
 	
-	public void setStatus(String status) {
+	void setStatus(String status) {
 		text.setForeground(STATUS_COLOUR);
 		text.setText(status);
 	}

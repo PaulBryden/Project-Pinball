@@ -44,7 +44,7 @@ public class RunListener implements ActionListener {
 		}
 	}
 
-	public void pause() {
+	void pause() {
 		timer.stop();
 		mainWindow.getRunKeyListener().setListening(false);
 		mainWindow.setStatusLabel("Stopped");

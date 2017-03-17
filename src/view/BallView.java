@@ -7,7 +7,7 @@ import java.awt.RenderingHints;
 import model.IBall;
 import model.IGizmo;
 
-public class BallView  implements IViewGizmo {
+public class BallView implements IViewGizmo {
 	
 	private IBall ball;
 	

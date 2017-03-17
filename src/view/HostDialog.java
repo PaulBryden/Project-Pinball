@@ -20,28 +20,21 @@ public class HostDialog {
 	private MainWindow mainWindow;
 	private JDialog dialog;
 	private JTextField textField;
-	private JButton button;
 	private HostValidationListener validator;
 	private JLabel warning;
-	private JLabel label;
 
 	public HostDialog(MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				build();
-			}
-		});
+		SwingUtilities.invokeLater(this::build);
 	}
 
-	void build() {
+	private void build() {
 		dialog = new JDialog(mainWindow);
 		textField = new JTextField();
-		button = new JButton("Continue");
+		JButton button = new JButton("Continue");
 		validator = new HostValidationListener(this);
 		warning = new JLabel("");
-		label = new JLabel("Please enter port for host connection");
+		JLabel label = new JLabel("Please enter port for host connection");
 		warning.setVisible(false);
 		
 		GridBagConstraints constraints = new GridBagConstraints();

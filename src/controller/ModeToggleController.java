@@ -10,7 +10,7 @@ import static view.STATE.RUN;
 public class ModeToggleController {
     private MainWindow mainWindow;
 
-    public ModeToggleController(MainWindow mainWindow){
+    ModeToggleController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 

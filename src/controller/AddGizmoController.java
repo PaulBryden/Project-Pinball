@@ -8,7 +8,7 @@ import static view.STATE.ADD;
 public class AddGizmoController {
     private MainWindow mainWindow;
 
-    public AddGizmoController(MainWindow mainWindow){
+    AddGizmoController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 

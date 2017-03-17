@@ -8,8 +8,8 @@ class BuildToolBar extends AbstractToolBar {
 	
 	private static final long serialVersionUID = -3061173893792427738L;
 
-	BuildToolBar(MainWindow mainWindow, PrimaryActionListener listener){
-        super("Build Mode", mainWindow, listener);
+	BuildToolBar(PrimaryActionListener listener){
+        super("Build Mode", listener);
     }
 
 	protected void populateButtons() {

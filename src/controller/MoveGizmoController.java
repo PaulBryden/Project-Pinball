@@ -8,7 +8,7 @@ import static view.STATE.MOVE;
 public class MoveGizmoController {
 	private MainWindow mainWindow;
 
-	public MoveGizmoController(MainWindow mainWindow){
+	MoveGizmoController(MainWindow mainWindow){
 		this.mainWindow = mainWindow;
 	}
 

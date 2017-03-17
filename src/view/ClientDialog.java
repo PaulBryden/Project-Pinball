@@ -21,32 +21,24 @@ public class ClientDialog {
 	private JDialog dialog;
 	private JTextField portTextField;
 	private JTextField ipTextField;
-	private JButton button;
 	private ClientValidationListener validator;
 	private JLabel warning;
-	private JLabel portLabel;
-	private JLabel ipLabel;
 
 	public ClientDialog(MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				build();
-			}
-		});
+		SwingUtilities.invokeLater(this::build);
 	}
 
-	void build() {
+	private void build() {
 		
 		dialog = new JDialog(mainWindow);
 		portTextField = new JTextField();
 		ipTextField = new JTextField();
-		button = new JButton("Continue");
+		JButton button = new JButton("Continue");
 		validator = new ClientValidationListener(this);
 		warning = new JLabel("");
-		portLabel = new JLabel("Please enter port for host connection");
-		ipLabel = new JLabel("Please enter ip for host connection");
+		JLabel portLabel = new JLabel("Please enter port for host connection");
+		JLabel ipLabel = new JLabel("Please enter ip for host connection");
 		warning.setVisible(false);
 		
 		GridBagConstraints constraints = new GridBagConstraints();

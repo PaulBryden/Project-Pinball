@@ -19,7 +19,7 @@ public class ConnectionSidePanel extends SidePanel {
 		addButton("remove_connection", "Remove a connection between gizmos");
 	}
 
-	protected void addButton(String name, String toolTip) {
+	private void addButton(String name, String toolTip) {
 		JButton button = new JButton();
 		button.setActionCommand(name);
 		button.setToolTipText(toolTip);
@@ -27,8 +27,8 @@ public class ConnectionSidePanel extends SidePanel {
 		setButtonIcon(button, name);
 		this.add(button);
 	}
-	
-	protected void setButtonIcon(JButton button, String name) {
+
+	private void setButtonIcon(JButton button, String name) {
 		String iconPath = "/icons/" + name + ".png";
 		URL iconURL = RunToolBar.class.getResource(iconPath);
 		if (iconURL != null) {

@@ -7,7 +7,7 @@ import static view.STATE.GIZMO_CONNECT;
 public class LinkGizmosController {
 	private MainWindow mainWindow;
 
-	public LinkGizmosController(MainWindow mainWindow){
+	LinkGizmosController(MainWindow mainWindow){
 		this.mainWindow = mainWindow;
 	}
 

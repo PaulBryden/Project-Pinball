@@ -4,8 +4,8 @@ import controller.RemoveGizmoConnectionListener;
 import controller.RemoveKeyConnectionListener;
 
 import javax.swing.JButton;
-import javax.swing.JToolBar;
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import static java.awt.GridBagConstraints.VERTICAL;
 

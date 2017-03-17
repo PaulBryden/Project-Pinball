@@ -8,7 +8,7 @@ import static view.STATE.*;
 public class BoardSettingsController {
 	private MainWindow mainWindow;
 
-	public BoardSettingsController(MainWindow mainWindow){
+	BoardSettingsController(MainWindow mainWindow){
 		this.mainWindow = mainWindow;
 	}
 

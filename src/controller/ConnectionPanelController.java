@@ -8,7 +8,7 @@ public class ConnectionPanelController {
 	private MainWindow mainWindow;
 	private PrimaryActionListener listener;
 
-	public ConnectionPanelController(MainWindow mainWindow, PrimaryActionListener listener){
+	ConnectionPanelController(MainWindow mainWindow, PrimaryActionListener listener){
 		this.mainWindow = mainWindow;
 		this.listener = listener;
 	}

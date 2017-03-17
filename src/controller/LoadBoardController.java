@@ -13,7 +13,7 @@ import model.IModel;
 public class LoadBoardController {
     private MainWindow mainWindow;
 
-    public LoadBoardController(MainWindow mainWindow){
+    LoadBoardController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 

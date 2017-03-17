@@ -8,8 +8,8 @@ class RunToolBar extends AbstractToolBar {
 
 	private static final long serialVersionUID = 9159488944045570471L;
 
-	RunToolBar(MainWindow mainWindow, PrimaryActionListener listener) {
-		super("Run Mode", mainWindow, listener);
+	RunToolBar(PrimaryActionListener listener) {
+		super("Run Mode", listener);
 	}
 	
 	@Override

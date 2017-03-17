@@ -34,7 +34,7 @@ public class MainWindow extends JFrame {
 		board = new Board(this, this.model);
 		actionListener = new PrimaryActionListener(this, model);
 		menuBar = new MenuBar(this, actionListener);
-		toolbar = new BuildToolBar(this, actionListener);
+		toolbar = new BuildToolBar(actionListener);
 		statusBar = new StatusBar();
 		setUpKeyListeners();
 	}
@@ -72,11 +72,11 @@ public class MainWindow extends JFrame {
 		remove(toolbar);
 		if (toolbar instanceof RunToolBar) {
 			actionListener.pauseGame();
-			toolbar = new BuildToolBar(this, actionListener);
+			toolbar = new BuildToolBar(actionListener);
 			setSidePanel(new SidePanel());
 			setStatusLabel("");
 		} else {
-			toolbar = new RunToolBar(this, actionListener);
+			toolbar = new RunToolBar(actionListener);
 			setSidePanel(null);
 			setStatusLabel("Stopped");
 		}
@@ -89,7 +89,7 @@ public class MainWindow extends JFrame {
 	public void enableClientView() {
 		setSidePanel(null);
 		remove(toolbar);
-		toolbar = new ClientToolBar(this, actionListener);
+		toolbar = new ClientToolBar(actionListener);
 		add(toolbar, BorderLayout.NORTH);
 		board.setState(RUN);
 		setStatusLabel("Connected");

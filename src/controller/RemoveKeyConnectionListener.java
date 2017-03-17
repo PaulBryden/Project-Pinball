@@ -1,7 +1,6 @@
 package controller;
 
 import view.MainWindow;
-import view.RemoveConnectionToolbar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

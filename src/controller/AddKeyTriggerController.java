@@ -8,7 +8,7 @@ import static view.STATE.KEY_CONNECT;
 public class AddKeyTriggerController {
 	private MainWindow mainWindow;
 
-	public AddKeyTriggerController(MainWindow mainWindow){
+	AddKeyTriggerController(MainWindow mainWindow){
 		this.mainWindow = mainWindow;
 	}
 	

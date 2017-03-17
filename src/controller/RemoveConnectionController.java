@@ -3,15 +3,12 @@ package controller;
 import view.MainWindow;
 import view.RemoveConnectionToolbar;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import static view.STATE.BUILD;
 
 public class RemoveConnectionController {
     private MainWindow mainWindow;
 
-    public RemoveConnectionController(MainWindow mainWindow){
+    RemoveConnectionController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 

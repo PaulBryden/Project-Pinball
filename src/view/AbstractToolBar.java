@@ -18,7 +18,7 @@ public abstract class AbstractToolBar extends JToolBar {
 
 	private Map<String, JButton> buttons;
 	
-	public AbstractToolBar(String mode, MainWindow mainWindow, PrimaryActionListener listener) {
+	AbstractToolBar(String mode, PrimaryActionListener listener) {
 		super(mode);
 		this.listener = listener;
 		listener.addToolBar(this);
@@ -45,7 +45,7 @@ public abstract class AbstractToolBar extends JToolBar {
 		}
 	}
 
-	protected void addButton(String name, String toolTip) {
+	void addButton(String name, String toolTip) {
 		JButton button = new JButton();
 		button.setActionCommand(name);
 		button.setToolTipText(toolTip);
@@ -55,7 +55,7 @@ public abstract class AbstractToolBar extends JToolBar {
 		this.add(button);
 	}
 	
-	protected void setButtonIcon(JButton button, String name) {
+	private void setButtonIcon(JButton button, String name) {
 		String iconPath = "/icons/" + name + ".png";
 		URL iconURL = RunToolBar.class.getResource(iconPath);
 		if (iconURL != null) {
