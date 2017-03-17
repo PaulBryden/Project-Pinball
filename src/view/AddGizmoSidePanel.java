@@ -2,12 +2,8 @@ package view;
 
 import controller.*;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class AddGizmoSidePanel extends SidePanel {
 
@@ -28,20 +24,11 @@ public class AddGizmoSidePanel extends SidePanel {
 				new AddLFlipperListener(mainWindow));
 		JButton rFlipperBtn = ButtonFactory.createButton("right_flipper", "Place a right flipper",
 				new AddRFlipperListener(mainWindow));
-		this.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		c.weightx = 1;
-		c.insets = new Insets(5, 3, 0, 3);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		add(createTitledPanel("Balls", 2, ballBtn), c);
-		c.gridy = 1;
-		add(createTitledPanel("Static gizmos", 2, circleBtn, squareBtn, triangleBtn), c);
-		c.gridy = 2;
-		add(createTitledPanel("Dynamic gizmos", 2, lFlipperBtn, rFlipperBtn, absorberBtn), c);
-		c.gridy = 3;
-		c.fill = GridBagConstraints.BOTH;
-		c.weighty = 1;
-		add(Box.createVerticalGlue(), c);
+		
+		JPanel ballsPanel = createTitledPanel("Balls", 2, ballBtn);
+		JPanel staticPanel = createTitledPanel("Static gizmos", 2, circleBtn, squareBtn, triangleBtn);
+		JPanel dynamicPanel = createTitledPanel("Dynamic gizmos", 2, lFlipperBtn, rFlipperBtn, absorberBtn);
+		build(ballsPanel, staticPanel, dynamicPanel);
 	}
 
 }
