@@ -24,7 +24,8 @@ public class SaveBoardController {
         BoardFileHandler fh = new BoardFileHandler(model);
 
         JFileChooser fc = new JFileChooser(".") {
-        	@Override
+			private static final long serialVersionUID = -3280063400354456793L;
+			@Override
         	public void approveSelection() {
         		File file = getSelectedFile();
         		if (file.exists() && getDialogType() == SAVE_DIALOG) {
@@ -41,7 +42,7 @@ public class SaveBoardController {
         	}
         };
         
-        int returnVal = fc.showSaveDialog(fc);
+        int returnVal = fc.showSaveDialog(mainWindow);
         
         if (returnVal == JFileChooser.APPROVE_OPTION) {
         	String path = fc.getSelectedFile().getAbsolutePath();

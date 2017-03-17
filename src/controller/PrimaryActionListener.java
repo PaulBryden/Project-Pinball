@@ -84,14 +84,17 @@ public class PrimaryActionListener implements ActionListener {
 		case "connect":
 			new ConnectionPanelController(mainWindow, this).start();
 			break;
-		case "key":
+		case "add_key":
 			new AddKeyTriggerController(mainWindow).start();
 			break;
+		case "remove_key":
+			new RemoveKeyTriggerController(mainWindow).start();
+			break;
 		case "add_connection":
-			new LinkGizmosController(mainWindow).start();
+			new AddGizmoTriggerController(mainWindow).start();
 			break;
 		case "remove_connection":
-			new RemoveConnectionController(mainWindow).start();
+			new RemoveGizmoTriggerController(mainWindow).start();
 			break;
 		case "settings":
 			new BoardSettingsController(mainWindow).start();

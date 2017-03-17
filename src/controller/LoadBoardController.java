@@ -11,6 +11,7 @@ import model.BoardFileHandler;
 import model.IModel;
 
 public class LoadBoardController {
+	
     private MainWindow mainWindow;
 
     LoadBoardController(MainWindow mainWindow){
@@ -22,7 +23,7 @@ public class LoadBoardController {
         BoardFileHandler fh = new BoardFileHandler(model);
         model.reset();
         JFileChooser fc = new JFileChooser(".");
-        int returnVal = fc.showOpenDialog(fc);
+        int returnVal = fc.showOpenDialog(mainWindow);
         
         if (returnVal == JFileChooser.APPROVE_OPTION) {
         	String path = fc.getSelectedFile().getAbsolutePath();

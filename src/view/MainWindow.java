@@ -48,7 +48,7 @@ public class MainWindow extends JFrame {
 		add(toolbar, BorderLayout.NORTH);
 		add(board, BorderLayout.CENTER);
 		add(statusBar, BorderLayout.SOUTH);
-		sidePanel = new SidePanel();
+		sidePanel = new SidePanel(SidePanel.BUILD_INSTRUCTIONS);
 		this.add(sidePanel, BorderLayout.EAST);
 		pack();
 		setVisible(true);
@@ -73,7 +73,7 @@ public class MainWindow extends JFrame {
 		if (toolbar instanceof RunToolBar) {
 			actionListener.pauseGame();
 			toolbar = new BuildToolBar(actionListener);
-			setSidePanel(new SidePanel());
+			setSidePanel(new SidePanel(SidePanel.BUILD_INSTRUCTIONS));
 			setStatusLabel("");
 		} else {
 			toolbar = new RunToolBar(actionListener);
