@@ -10,7 +10,9 @@ import controller.RunKeyListener;
 import model.IModel;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 
 import static view.STATE.RUN;
@@ -33,7 +35,7 @@ public class MainWindow extends JFrame {
 		this.model = model;
 		board = new Board(this, this.model);
 		actionListener = new PrimaryActionListener(this, model);
-		menuBar = new MenuBar(this, actionListener);
+		menuBar = new MenuBar(actionListener);
 		toolbar = new BuildToolBar(actionListener);
 		statusBar = new StatusBar();
 		setUpKeyListeners();
@@ -48,9 +50,13 @@ public class MainWindow extends JFrame {
 		add(toolbar, BorderLayout.NORTH);
 		add(board, BorderLayout.CENTER);
 		add(statusBar, BorderLayout.SOUTH);
-		sidePanel = new SidePanel();
+		sidePanel = new SidePanel(SidePanel.BUILD_INSTRUCTIONS);
 		this.add(sidePanel, BorderLayout.EAST);
 		pack();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = screenSize.width / 2 - this.getSize().width / 2;
+		int y = screenSize.height / 2 - this.getSize().height / 2;
+		this.setLocation(x, y);
 		setVisible(true);
 	}
 
@@ -73,7 +79,7 @@ public class MainWindow extends JFrame {
 		if (toolbar instanceof RunToolBar) {
 			actionListener.pauseGame();
 			toolbar = new BuildToolBar(actionListener);
-			setSidePanel(new SidePanel());
+			setSidePanel(new SidePanel(SidePanel.BUILD_INSTRUCTIONS));
 			setStatusLabel("");
 		} else {
 			toolbar = new RunToolBar(actionListener);
@@ -105,7 +111,7 @@ public class MainWindow extends JFrame {
 	public IModel getModel() {
 		return model;
 	}
-	
+
 	public void setStatusLabel(String status) {
 		statusBar.setStatus(status);
 	}

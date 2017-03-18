@@ -1,41 +1,26 @@
+
 package view;
 
-import java.net.URL;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import controller.PrimaryActionListener;
 
 public class ConnectionSidePanel extends SidePanel {
-	
+
 	private static final long serialVersionUID = 5258214590215188225L;
-	private PrimaryActionListener listener;
-	
+
 	public ConnectionSidePanel(PrimaryActionListener listener) {
 		super();
-		this.listener = listener;
-		addButton("add_connection", "Add a connection between gizmos");
-		addButton("remove_connection", "Remove a connection between gizmos");
+		JButton connectGizmoBtn = ButtonFactory.createButton("add_connection", "Add a connection between gizmos",
+				listener);
+		JButton disconnectGizmoBtn = ButtonFactory.createButton("remove_connection",
+				"Remove a connection between gizmos", listener);
+		JButton connectKeyBtn = ButtonFactory.createButton("add_key", "Add a key connection to a gizmo", listener);
+		JButton disconnectKeyBtn = ButtonFactory.createButton("remove_key", "Remove a key connection", listener);
+		JPanel gizmoPanel = createTitledPanel("Gizmo connections", 2, connectGizmoBtn, disconnectGizmoBtn);
+		JPanel keyPanel = createTitledPanel("Key connections", 2, connectKeyBtn, disconnectKeyBtn);
+		build(gizmoPanel, keyPanel);
 	}
 
-	private void addButton(String name, String toolTip) {
-		JButton button = new JButton();
-		button.setActionCommand(name);
-		button.setToolTipText(toolTip);
-		button.addActionListener(listener);
-		setButtonIcon(button, name);
-		this.add(button);
-	}
-
-	private void setButtonIcon(JButton button, String name) {
-		String iconPath = "/icons/" + name + ".png";
-		URL iconURL = RunToolBar.class.getResource(iconPath);
-		if (iconURL != null) {
-			button.setIcon(new ImageIcon(iconURL, name));
-		} else {
-			button.setText(name);
-		}
-	}
-	
 }

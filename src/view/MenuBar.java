@@ -12,7 +12,7 @@ public class MenuBar extends JMenuBar {
 	private static final long serialVersionUID = 2834492556483662470L;
 	private PrimaryActionListener listener;
 	
-    MenuBar(MainWindow mainWindow, PrimaryActionListener listener) {
+    MenuBar(PrimaryActionListener listener) {
         super();
         this.listener = listener;
         listener.addMenuBar(this);

@@ -16,7 +16,8 @@ import physics.Vect;
 public class GizmoFactory {
 
 	public enum TYPE {
-		Square, Circle, Triangle, LeftFlipper, RightFlipper, Absorber, Ball, Spinner
+		Square, Circle, Triangle, LeftFlipper, RightFlipper, Absorber, Ball, Spinner, Counter
+
 	}
 
 	private IModel model;
@@ -88,6 +89,8 @@ public class GizmoFactory {
 	}
 
 	/**
+	 * Factory method for creating rectangularg gizmos such as absorbers and
+	 * counters.
 	 * 
 	 * @param v1
 	 *            Top left corner
@@ -95,11 +98,20 @@ public class GizmoFactory {
 	 *            Bottom right corner
 	 * @return The absorber
 	 */
-	public IAbsorber getAbsorber(Vect v1, Vect v2) {
-		return getAbsorber("A" + generateCoordString(v1), v1, v2);
+	public IGizmo getRectangularGizmo(TYPE type, Vect v1, Vect v2) {
+		switch (type) {
+		case Absorber:
+			return new Absorber(model, "A" + generateCoordString(v1), v1, v2);
+		case Counter:
+			return new CounterGizmo("N" + generateCoordString(v1), v1, v2);
+		default:
+			return null;
+		}
 	}
 
 	/**
+	 * Factory method for creating rectangularg gizmos such as absorbers and
+	 * counters.
 	 * 
 	 * @param id
 	 *            A unique ID
@@ -107,10 +119,17 @@ public class GizmoFactory {
 	 *            Top left corner
 	 * @param v2
 	 *            Bottom right corner
-	 * @return The absorber
+	 * @return The gizmo
 	 */
-	public IAbsorber getAbsorber(String id, Vect v1, Vect v2) {
-		return new Absorber(model, id, v1, v2);
+	public IGizmo getRectangularGizmo(TYPE type, String id, Vect v1, Vect v2) {
+		switch (type) {
+		case Absorber:
+			return new Absorber(model, id, v1, v2);
+		case Counter:
+			return new CounterGizmo(id, v1, v2);
+		default:
+			return null;
+		}
 	}
 
 	/**

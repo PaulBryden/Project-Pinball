@@ -1,10 +1,8 @@
 package view;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
@@ -33,7 +31,7 @@ public abstract class AbstractToolBar extends JToolBar {
 		JButton button = buttons.get(name);
 		if (button != null && button.isEnabled()) {
 			button.setEnabled(false);
-			setButtonIcon(button, name + "_disabled");
+			ButtonFactory.setButtonIcon(button, name + "_disabled");
 		}
 	}
 	
@@ -41,28 +39,14 @@ public abstract class AbstractToolBar extends JToolBar {
 		JButton button = buttons.get(name);
 		if (button != null && !button.isEnabled()) {
 			button.setEnabled(true);
-			setButtonIcon(button, name);
+			ButtonFactory.setButtonIcon(button, name);
 		}
 	}
 
 	void addButton(String name, String toolTip) {
-		JButton button = new JButton();
-		button.setActionCommand(name);
-		button.setToolTipText(toolTip);
-		button.addActionListener(listener);
-		setButtonIcon(button, name);
+		JButton button = ButtonFactory.createButton(name, toolTip, listener);
 		buttons.put(name, button);
 		this.add(button);
-	}
-	
-	private void setButtonIcon(JButton button, String name) {
-		String iconPath = "/icons/" + name + ".png";
-		URL iconURL = RunToolBar.class.getResource(iconPath);
-		if (iconURL != null) {
-			button.setIcon(new ImageIcon(iconURL, name));
-		} else {
-			button.setText(name);
-		}
 	}
 
 }

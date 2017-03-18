@@ -2,21 +2,18 @@ package controller;
 
 import view.MainWindow;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import static view.STATE.RM_KEY_CONNECT;
 
-public class RemoveKeyConnectionListener implements ActionListener{
+public class RemoveKeyTriggerController {
     private MainWindow mainWindow;
 
-    public RemoveKeyConnectionListener(MainWindow mainWindow){
+    RemoveKeyTriggerController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    public void start() {
         mainWindow.getBoard().setState(RM_KEY_CONNECT);
         mainWindow.setStatusLabel("Removing key connections. Click a gizmo to begin removing a connected key.");
-    }
+	}
+    
 }

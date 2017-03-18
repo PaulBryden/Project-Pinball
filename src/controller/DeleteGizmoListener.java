@@ -1,7 +1,6 @@
 package controller;
 
 import view.MainWindow;
-import view.SidePanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +16,6 @@ public class DeleteGizmoListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        mainWindow.setSidePanel(new SidePanel());
         mainWindow.getBoard().setState(REMOVE);
         mainWindow.setStatusLabel("Deleting Gizmo(s). Please click a gizmo on the board to delete it.");
     }

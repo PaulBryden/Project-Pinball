@@ -29,7 +29,7 @@ public class GizmoTest {
 	public void AbsorberCreationTest() {
 		Vect topLeft = new Vect(1,1);
 		Vect bottomRight = new Vect(2,2);
-		IAbsorber gizmo = gf.getAbsorber(topLeft,bottomRight);
+		IAbsorber gizmo = (IAbsorber) gf.getRectangularGizmo(TYPE.Absorber, topLeft,bottomRight);
 		assertEquals(gizmo.getBottomRightCoords(),bottomRight);
 	}
 	
