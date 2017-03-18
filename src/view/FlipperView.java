@@ -19,6 +19,7 @@ public class FlipperView implements IViewGizmo {
 		this.gizmo = gizmo;
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2D = (Graphics2D) g;
 		List<Vect> exactCoords = new LinkedList<>();

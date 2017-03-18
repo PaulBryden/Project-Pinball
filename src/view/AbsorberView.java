@@ -13,6 +13,7 @@ public class AbsorberView implements IViewGizmo {
         this.gizmo = (IAbsorber)gizmo;
     }
 
+    @Override
     public void paint(Graphics g) {
         g.setColor(gizmo.getColour());
         g.fillRect((int) gizmo.getExactCoords().get(0).x() * Board.GRID_WIDTH,

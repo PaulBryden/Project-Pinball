@@ -13,6 +13,7 @@ public class SquareView implements IViewGizmo {
 		this.gizmo = gizmo;
 	}
 
+	@Override
 	public void paint(Graphics g){
 		g.setColor(gizmo.getColour());
 		g.fillRect((int) gizmo.getGridCoords().x() * GRID_WIDTH ,

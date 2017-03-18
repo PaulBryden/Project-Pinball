@@ -1,11 +1,10 @@
 package view;
 
 import javax.swing.*;
+import javax.xml.soap.SAAJMetaFactory;
 
 import controller.PrimaryActionListener;
 
-import java.lang.reflect.Array;
-import java.util.List;
 
 public class ConnectionSidePanel extends SidePanel {
 
@@ -21,9 +20,8 @@ public class ConnectionSidePanel extends SidePanel {
 		JButton disconnectKeyBtn = ButtonFactory.createButton("remove_key", "Remove a key connection", listener);
 		JPanel gizmoPanel = createTitledPanel("Gizmo connections", 2, connectGizmoBtn, disconnectGizmoBtn);
 		JPanel keyPanel = createTitledPanel("Key connections", 2, connectKeyBtn, disconnectKeyBtn);
-		JList<String> keyConnections = new JList<String>(mainWindow.getBoard().getKeyConnections());
-		JPanel keyConnectionsPanel = createTitledPanel("Key Connections List", 8, keyConnections);
-
+		JList<String> keys = new JList<String>(mainWindow.getBoard().getKeyConnections());
+		JPanel keyConnectionsPanel = createTitledPanel("Key Connections List", 3, keys);
 		build(gizmoPanel, keyPanel, keyConnectionsPanel);
 	}
 

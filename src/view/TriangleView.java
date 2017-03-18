@@ -17,6 +17,7 @@ public class TriangleView implements IViewGizmo {
 		this.gizmo = gizmo;
 	}
 
+	@Override
 	public void paint(Graphics g){
 		Graphics2D g2D = (Graphics2D) g;
 		List<Vect> exactCoords = gizmo.getExactCoords();

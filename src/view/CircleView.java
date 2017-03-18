@@ -17,6 +17,7 @@ public class CircleView implements IViewGizmo {
 		return (gizmo);
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2D = (Graphics2D) g;
 		double radius = gizmo.getRadius();

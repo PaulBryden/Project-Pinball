@@ -158,23 +158,18 @@ public class Board extends JPanel implements Observer {
 	}
 
 	String[] getKeyConnections(){
-		String[] keyConnections = new String[model.getKeyPressedTriggers().size() + model.getKeyReleasedTriggers().size() + 2];
+		String[] keyConnections = new String[
+				model.getKeyPressedTriggers().size() + model.getKeyReleasedTriggers().size() + 2];
 		int c = 0;
 
-		System.out.println("==== NEW KEY PRINT ====");
-
-		System.out.println("\nKey Press Triggers");
 		for(int i : model.getKeyPressedTriggers().keySet()){
 			for(IGizmo gizmo : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
-				System.out.println("Key: *" + KeyEvent.getKeyText(i) + "* connected to " + getGizmoName(gizmo));
 				keyConnections[c++] = KeyEvent.getKeyText(i) + " -> " + getGizmoName(gizmo);
 			}
 		}
 
-		System.out.println("\nKey Released Triggers");
 		for(int i : model.getKeyReleasedTriggers().keySet()){
-			for(IGizmo gizmo : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()){
-				System.out.println("Key: *" + KeyEvent.getKeyText(i) + "* connected to " + getGizmoName(gizmo));
+			for (IGizmo gizmo : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()) {
 				keyConnections[c++] = KeyEvent.getKeyText(i) + " -> " + getGizmoName(gizmo);
 			}
 		}
@@ -250,12 +245,8 @@ public class Board extends JPanel implements Observer {
 			viewBall.paint(g);
 		}
 
-		switch (state){
-			case GIZMO_CONNECT:
-			case RM_GIZMO_CONNECT:
-				drawConnections(g);
-				break;
-		}
+		if(state.equals(GIZMO_CONNECT) || state.equals(RM_GIZMO_CONNECT))
+			drawConnections(g);
     }
 
     public void reRender(){

@@ -15,10 +15,12 @@ public class BallView implements IViewGizmo {
     	this.ball = ball;
     }
 
+	@Override
 	public IGizmo getGizmo() {
 		return ball;
 	}
-	
+
+	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2D = (Graphics2D) g;
 		double radius = ball.getRadius();
