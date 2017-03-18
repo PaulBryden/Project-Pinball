@@ -11,5 +11,4 @@ public interface ICounterGizmo extends IGizmo {
 	void increment();
 
 	void reset();
-
 }

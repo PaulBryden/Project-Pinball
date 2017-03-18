@@ -120,7 +120,7 @@ public class CollisionTest {
         GizmoFactory gf = new GizmoFactory(model);
 		IBall ballFast = gf.getBall(topLeft, new Vect(4000,0));
 		IBall ballSlow = gf.getBall(topLeft, new Vect(1000,0));
-		IAbsorber gizmo = gf.getAbsorber(new Vect(3,1),new Vect(4,2));
+		IAbsorber gizmo = (IAbsorber) gf.getRectangularGizmo(TYPE.Absorber, new Vect(3,1),new Vect(4,2));
 		model.addBall(ballFast);
 		model.addBall(ballSlow);
 		model.addGizmo(gizmo);
@@ -156,7 +156,7 @@ public class CollisionTest {
         IModel model = ModelFactory.getModel();
         GizmoFactory gf = new GizmoFactory(model);
 		IBall ballFast = gf.getBall(topLeft, new Vect(4000,0));
-		IAbsorber gizmo = gf.getAbsorber(new Vect(3,1),new Vect(4,2));
+		IAbsorber gizmo = (IAbsorber) gf.getRectangularGizmo(TYPE.Absorber, new Vect(3,1),new Vect(4,2));
 		model.addBall(ballFast);
 		model.addGizmo(gizmo);
 		gizmo.absorbBall(ballFast);
@@ -171,7 +171,7 @@ public class CollisionTest {
         IModel model = ModelFactory.getModel();
         GizmoFactory gf = new GizmoFactory(model);
 		IBall ballFast = gf.getBall(topLeft, new Vect(4000,0));
-		IAbsorber gizmo = gf.getAbsorber(new Vect(3,1),new Vect(4,2));
+		IAbsorber gizmo = (IAbsorber) gf.getRectangularGizmo(TYPE.Absorber, new Vect(3,1),new Vect(4,2));
 		model.addBall(ballFast);
 		model.addGizmo(gizmo);
 		gizmo.absorbBall(ballFast);

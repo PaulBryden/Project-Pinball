@@ -30,5 +30,6 @@ public final class Constants {
 	public static final Color FLIPPER_DEFAULT_COLOUR = Color.YELLOW;
 	public static final Color BALL_DEFAULT_COLOUR = Color.BLUE;
 	public static final Color BACKGROUND_DEFAULT_COLOUR = Color.BLACK;
+	public static final Color FOREGROUND_DEFAULT_COLOUR = Color.RED;
 
 }

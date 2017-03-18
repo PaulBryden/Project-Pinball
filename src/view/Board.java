@@ -11,6 +11,7 @@ import controller.BoardMouseListener;
 import model.IAbsorber;
 import model.IBall;
 import model.ICircleGizmo;
+import model.ICounterGizmo;
 import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
@@ -64,6 +65,7 @@ public class Board extends JPanel implements Observer {
 			case ('L'): return ("Left-Flipper");
 			case ('R'): return ("Right-Flipper");
 			case ('S'): return ("Square");
+			case ('N'): return ("Counter gizmo");
 			default: return ("Triangle");
 		}
 	}
@@ -205,6 +207,8 @@ public class Board extends JPanel implements Observer {
 				viewGizmos.add(new CircleView((ICircleGizmo) gizmo));
 			else if(gizmo instanceof IAbsorber)
 				viewGizmos.add(new AbsorberView(gizmo));
+			else if(gizmo instanceof ICounterGizmo)
+				viewGizmos.add(new CounterGizmoView(gizmo, model.getForegroundColour()));
 		}
 
 		viewBalls.addAll(balls.stream().map(BallView::new).collect(Collectors.toList()));

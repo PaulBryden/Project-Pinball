@@ -284,7 +284,7 @@ public class BoardFileHandler {
 			case "Absorber":
 				int x2 = scan.nextInt();
 				int y2 = scan.nextInt();
-				newGizmo = gf.getAbsorber(id, new Vect(x1, y1), new Vect(x2, y2));
+				newGizmo = gf.getRectangularGizmo(TYPE.Absorber, id, new Vect(x1, y1), new Vect(x2, y2));
 				break;
 			case "Ball":
 				double xv = scan.nextDouble();

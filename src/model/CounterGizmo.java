@@ -18,6 +18,7 @@ public class CounterGizmo extends AbstractGizmo implements ICounterGizmo {
 		this.bottomRightCoords = bottomRightCoords;
 		this.count = 0;
 		this.addTriggerAction(new CounterAction(this));
+		generateLinesAndCircles();
 	}
 
 	@Override

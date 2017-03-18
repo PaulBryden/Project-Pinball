@@ -8,5 +8,6 @@ public enum CUR_GIZMO {
     RFLIPPER,
     CIRCLE,
     ABSORBER,
+    COUNTER,
     NONE
 }

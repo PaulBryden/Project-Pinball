@@ -11,6 +11,7 @@ import view.AbsorberView;
 import view.Board;
 import view.CUR_GIZMO;
 import view.CircleView;
+import view.CounterGizmoView;
 import view.FlipperView;
 import view.MainWindow;
 import view.SquareView;
@@ -45,8 +46,24 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 						mainWindow.setWarningLabel(
 								"Invalid cell, you might want to make that the " + "top-left cell, try again");
 					} else {
-						board.addGizmo(new AbsorberView(
-								gf.getAbsorber(initalAbsorberCoords, new Vect(coords.x() + 1, coords.y() + 1))));
+						board.addGizmo(new AbsorberView(gf.getRectangularGizmo(TYPE.Absorber, initalAbsorberCoords,
+								new Vect(coords.x() + 1, coords.y() + 1))));
+					}
+					board.setSelectedGizmoCoords(null);
+				}
+				break;
+			case COUNTER:
+				Vect initalCounterCoords = board.getSelectedGizmoCoords();
+				if (initalCounterCoords == null) {
+					board.setSelectedGizmoCoords(coords);
+					mainWindow.setStatusLabel("Selected top-left cell of counter gizmo at " + coords);
+				} else {
+					if (coords.x() < initalCounterCoords.x() || coords.y() < initalCounterCoords.y()) {
+						mainWindow.setWarningLabel(
+								"Invalid cell, you might want to make that the " + "top-left cell, try again");
+					} else {
+						board.addGizmo(new CounterGizmoView(gf.getRectangularGizmo(TYPE.Counter, initalCounterCoords,
+								new Vect(coords.x() + 1, coords.y() + 1)), model.getForegroundColour()));
 					}
 					board.setSelectedGizmoCoords(null);
 				}

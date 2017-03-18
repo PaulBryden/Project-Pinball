@@ -256,7 +256,7 @@ public class FileHandlerTest {
 	@Test
 	public void testSaveAbsorber() throws IOException {
         GizmoFactory gf = new GizmoFactory(model);
-		IAbsorber gizmo = gf.getAbsorber(new Vect(5, 5), new Vect(15, 15));
+		IAbsorber gizmo = (IAbsorber) gf.getRectangularGizmo(TYPE.Absorber, new Vect(5, 5), new Vect(15, 15));
 		model.addGizmo(gizmo);
 		file.save("test_save_file.txt");
 
