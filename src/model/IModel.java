@@ -94,7 +94,11 @@ public interface IModel {
 
 	Color getBackgroundColour();
 
+	Color getForegroundColour();
+
 	void setBackgroundColour(Color colour);
+	
+	void setForegroundColour(Color colour);
 
 	Map<Integer, KeyTrigger> getKeyPressedTriggers();
 
@@ -121,7 +125,6 @@ public interface IModel {
 	void update();
 
 	Deque<String> getKeysToSend();
-
 
 	void setHost(Host host);
 

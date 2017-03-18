@@ -24,10 +24,12 @@ public class AddGizmoSidePanel extends SidePanel {
 				new AddLFlipperListener(mainWindow));
 		JButton rFlipperBtn = ButtonFactory.createButton("right_flipper", "Place a right flipper",
 				new AddRFlipperListener(mainWindow));
-		
+		JButton counterBtn = ButtonFactory.createButton("counter", "Place a counter gizmo",
+				new AddCounterListener(mainWindow));
+
 		JPanel ballsPanel = createTitledPanel("Balls", 2, ballBtn);
 		JPanel staticPanel = createTitledPanel("Static gizmos", 2, circleBtn, squareBtn, triangleBtn);
-		JPanel dynamicPanel = createTitledPanel("Dynamic gizmos", 2, lFlipperBtn, rFlipperBtn, absorberBtn);
+		JPanel dynamicPanel = createTitledPanel("Dynamic gizmos", 2, lFlipperBtn, rFlipperBtn, absorberBtn, counterBtn);
 		build(ballsPanel, staticPanel, dynamicPanel);
 	}
 

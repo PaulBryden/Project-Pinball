@@ -27,6 +27,7 @@ class GameModel extends Observable implements IModel {
 	private Map<Integer, KeyTrigger> keyPressedTriggers;
 	private Map<Integer, KeyTrigger> keyReleasedTriggers;
 	private Color backgroundColour;
+	private Color foregroundColour;
 	private CollisionEvaluator collisionEvaluator;
 	private PhysicsEvaluator physicsEvaluator;
 
@@ -192,6 +193,7 @@ class GameModel extends Observable implements IModel {
 		keyReleasedTriggers = new HashMap<>();
 
 		backgroundColour = Constants.BACKGROUND_DEFAULT_COLOUR;
+		foregroundColour = Constants.FOREGROUND_DEFAULT_COLOUR;
 		collisionEvaluator = new CollisionEvaluator(this);
 		physicsEvaluator = new PhysicsEvaluator(this);
 	}
@@ -237,10 +239,20 @@ class GameModel extends Observable implements IModel {
 	public Color getBackgroundColour() {
 		return this.backgroundColour;
 	}
+	
+	@Override
+	public Color getForegroundColour() {
+		return this.foregroundColour;
+	}
 
 	@Override
 	public void setBackgroundColour(Color colour) {
 		this.backgroundColour = colour;
+	}
+	
+	@Override
+	public void setForegroundColour(Color colour) {
+		this.foregroundColour = colour;
 	}
 
 	@Override
