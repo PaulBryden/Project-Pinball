@@ -100,6 +100,8 @@ public class Client implements Runnable {
 		receivePacket = new DatagramPacket(receiveData, receiveData.length);
 	
 		while (isClient) {
+
+			receiveData = new byte[4096];
 			receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			try {
 				clientSocket.receive(receivePacket);

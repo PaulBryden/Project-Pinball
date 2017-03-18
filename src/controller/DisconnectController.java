@@ -22,5 +22,7 @@ class DisconnectController {
         } else {
             mainWindow.setStatusLabel("You are already disconnected.");
         }
+        mainWindow.build();
+        mainWindow.toggleView();
     }
 }
