@@ -26,6 +26,7 @@ public final class Constants {
 	public static final Color CIRCLE_DEFAULT_COLOUR = Color.GREEN;
 	public static final Color TRIANGLE_DEFAULT_COLOUR = Color.CYAN;
 	public static final Color ABSORBER_DEFAULT_COLOUR = Color.MAGENTA;
+	public static final Color COUNTER_GIZMO_DEFAULT_COLOUR = Color.WHITE;
 	public static final Color FLIPPER_DEFAULT_COLOUR = Color.YELLOW;
 	public static final Color BALL_DEFAULT_COLOUR = Color.BLUE;
 	public static final Color BACKGROUND_DEFAULT_COLOUR = Color.BLACK;
