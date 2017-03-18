@@ -15,7 +15,7 @@ public class ConnectionPanelController {
 
 	public void start() {
 		if(!(mainWindow.getSidePanel() instanceof ConnectionSidePanel)) {
-			mainWindow.setSidePanel(new ConnectionSidePanel(listener));
+			mainWindow.setSidePanel(new ConnectionSidePanel(listener, mainWindow));
 		}
 	}
 }
