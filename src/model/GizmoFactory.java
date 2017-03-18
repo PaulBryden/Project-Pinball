@@ -53,7 +53,7 @@ public class GizmoFactory {
 		case RightFlipper:
 			return new RightFlipper("RF" + generateCoordString(v), v);
 		case Spinner:
-			return new Spinner("SP" + generateCoordString(v), v);
+			return new Spinner("P" + generateCoordString(v), v);
 		default:
 			return null;
 		}
