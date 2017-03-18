@@ -15,7 +15,7 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 
 	protected static final double RADIUS = 0.25;
 	protected static final double ABS_ANGULAR_VELOCITY = 2; // in rad/sec,
-	protected static final double MARGIN = 0.000001;
+	protected static final double MARGIN = 0.0001; 
 	// approx. 1080
 	// deg/sec
 	protected double angularVelocity;
@@ -65,17 +65,30 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		lines.clear();
 		LineSegment l;
 		
+//		if (vertical) {
+//			l = new LineSegment(restingEndCentre2.x() - (RADIUS-MARGIN), restingEndCentre2.y(), restingEndCentre1.x() - (RADIUS-MARGIN), restingEndCentre1.y());
+//		} else {
+//			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() - (RADIUS-MARGIN), restingEndCentre1.x(), restingEndCentre1.y() - (RADIUS-MARGIN));
+//		}
+//		lines.add(Geometry.rotateAround(l, pivot, angle));
+//		
+//		if (vertical) {
+//			l = new LineSegment(restingEndCentre2.x() + (RADIUS-MARGIN), restingEndCentre2.y(), restingEndCentre1.x() + (RADIUS-MARGIN), restingEndCentre1.y());
+//		} else {
+//			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() + (RADIUS-MARGIN), restingEndCentre1.x(), restingEndCentre1.y() + (RADIUS-MARGIN));
+//		}
+//		lines.add(Geometry.rotateAround(l, pivot, angle));
 		if (vertical) {
-			l = new LineSegment(restingEndCentre2.x() - (RADIUS-MARGIN), restingEndCentre2.y(), restingEndCentre1.x() - (RADIUS-MARGIN), restingEndCentre1.y());
+			l = new LineSegment(restingEndCentre2.x() - (RADIUS), restingEndCentre2.y(), restingEndCentre1.x() - (RADIUS), restingEndCentre1.y());
 		} else {
-			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() - (RADIUS-MARGIN), restingEndCentre1.x(), restingEndCentre1.y() - (RADIUS-MARGIN));
+			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() - (RADIUS), restingEndCentre1.x(), restingEndCentre1.y() - (RADIUS));
 		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
 		
 		if (vertical) {
-			l = new LineSegment(restingEndCentre2.x() + (RADIUS-MARGIN), restingEndCentre2.y(), restingEndCentre1.x() + (RADIUS-MARGIN), restingEndCentre1.y());
+			l = new LineSegment(restingEndCentre2.x() + (RADIUS), restingEndCentre2.y(), restingEndCentre1.x() + (RADIUS), restingEndCentre1.y());
 		} else {
-			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() + (RADIUS-MARGIN), restingEndCentre1.x(), restingEndCentre1.y() + (RADIUS-MARGIN));
+			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() + (RADIUS), restingEndCentre1.x(), restingEndCentre1.y() + (RADIUS));
 		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
 		
@@ -83,8 +96,8 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		
 		endCentre1 = (Geometry.rotateAround(restingEndCentre1, pivot, angle));
 		endCentre2 = (Geometry.rotateAround(restingEndCentre2, pivot, angle));
-		circles.add(new Circle(endCentre2, RADIUS));
-		circles.add(new Circle(endCentre1, RADIUS));
+		circles.add(new Circle(endCentre2, RADIUS+MARGIN));
+		circles.add(new Circle(endCentre1, RADIUS+MARGIN));
 	}
 
 	/**
@@ -92,8 +105,8 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 	 */
 	private void addEndPoints() {
 		for (LineSegment line : lines) {
-			circles.add(new Circle(line.p1(), 0));
-			circles.add(new Circle(line.p2(), 0));
+			circles.add(new Circle(line.p1(), MARGIN));
+			circles.add(new Circle(line.p2(), MARGIN));
 		}
 	}
 
@@ -120,6 +133,8 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		this.pivot = pivot.plus(shift);
 		this.endCentre1 = endCentre1.plus(shift);
 		this.restingEndCentre1 = restingEndCentre1.plus(shift);
+		this.endCentre2 = endCentre2.plus(shift);
+		this.restingEndCentre2 = restingEndCentre2.plus(shift);
 		generateLinesAndCircles();
 	}
 
@@ -146,10 +161,11 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 
 	@Override
 	public List<Vect> getExactCoords() {
-		List<Vect> flipperVector = new ArrayList<Vect>();
-		flipperVector.add(pivot);
-		flipperVector.add(endCentre1);
-		return flipperVector;
+		List<Vect> spinnerVector = new ArrayList<Vect>();
+		spinnerVector.add(pivot);
+		spinnerVector.add(endCentre1);
+		spinnerVector.add(endCentre2);
+		return spinnerVector;
 	}
 
 	@Override
@@ -168,6 +184,7 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 
 	@Override
 	public void moveForTime(double time) {
+		
 
 		angularVelocity = ABS_ANGULAR_VELOCITY;
 		this.isStatic = false;
