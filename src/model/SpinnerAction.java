@@ -15,7 +15,7 @@ class SpinnerAction implements IAction {
 	 * @param spinner
 	 *            The spinner to be triggered by this action.
 	 */
-	public SpinnerAction(IFlipper flipper) {
+	public SpinnerAction(Spinner spinner) {
 		this.spinner = spinner;
 	}
 

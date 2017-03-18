@@ -2,9 +2,8 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 import java.awt.Color;
+
 import physics.Angle;
 import physics.Circle;
 import physics.Geometry;
@@ -33,6 +32,7 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 	public Spinner(String id, Vect coords, Direction direction) {
 		super(id, coords, 3,3, Color.PINK, false);
 		this.pivot = new Vect(coords.x() + 1.5, coords.y() + 1.5);
+		this.addTriggerAction(new SpinnerAction(this));
 		this.vertical = true;
 		this.endCentre1 = new Vect(coords.x() + 1.5, coords.y() + 3 - RADIUS);
 		this.endCentre2 = new Vect(coords.x() + 1.5, coords.y() + RADIUS);
