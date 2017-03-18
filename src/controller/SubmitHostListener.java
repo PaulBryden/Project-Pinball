@@ -24,8 +24,8 @@ public class SubmitHostListener implements ActionListener{
         if(hostDialog.getTextFieldValidator().isValid() && !hostDialog.getPortText().equals("")){
             mainWindow.setStatusLabel("Host: Awaiting client connection");
             hostDialog.getDialog().dispose();
-            Host host = new Host(mainWindow,new BoardFileHandler(mainWindow.getBoard().getModel()),mainWindow.getBoard().getModel(),Integer.parseInt(hostDialog.getPortText()));
-           //mainWindow.getBoard().getModel().startHosting(Integer.parseInt(hostDialog.getPortText()));
+            Host host = new Host(mainWindow,new BoardFileHandler(mainWindow.getBoard().getModel()),
+                    mainWindow.getBoard().getModel(),Integer.parseInt(hostDialog.getPortText()));
             Thread newThread = new Thread(host);
             newThread.start();
         } else {
