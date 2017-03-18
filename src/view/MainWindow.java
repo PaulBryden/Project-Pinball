@@ -10,7 +10,9 @@ import controller.RunKeyListener;
 import model.IModel;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 
 import static view.STATE.RUN;
@@ -51,6 +53,10 @@ public class MainWindow extends JFrame {
 		sidePanel = new SidePanel(SidePanel.BUILD_INSTRUCTIONS);
 		this.add(sidePanel, BorderLayout.EAST);
 		pack();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = screenSize.width / 2 - this.getSize().width / 2;
+		int y = screenSize.height / 2 - this.getSize().height / 2;
+		this.setLocation(x, y);
 		setVisible(true);
 	}
 
@@ -105,7 +111,7 @@ public class MainWindow extends JFrame {
 	public IModel getModel() {
 		return model;
 	}
-	
+
 	public void setStatusLabel(String status) {
 		statusBar.setStatus(status);
 	}
