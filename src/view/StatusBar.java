@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
-public class StatusBar extends JPanel {
+class StatusBar extends JPanel {
 	
 	private static final long serialVersionUID = 6610405078973935944L;
 	private static final Color STATUS_COLOUR = Color.BLUE;
@@ -30,7 +30,7 @@ public class StatusBar extends JPanel {
 		text.setText(status);
 	}
 	
-	public void setWarning(String status) {
+	void setWarning(String status) {
 		text.setForeground(WARNING_COLOUR);
 		text.setText(status);
 	}

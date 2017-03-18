@@ -16,7 +16,7 @@ import javax.swing.border.BevelBorder;
 
 public class SidePanel extends JPanel {
 
-	public static final String BUILD_INSTRUCTIONS = "In build mode you can build your own boards by placing and editing balls and gizmos, and adding your own connections.";
+	static final String BUILD_INSTRUCTIONS = "In build mode you can build your own boards by placing and editing balls and gizmos, and adding your own connections.";
 
 	private static final long serialVersionUID = 8844919255973893688L;
 
@@ -27,7 +27,7 @@ public class SidePanel extends JPanel {
 	 * This constructor creates an empty side panel without building it. Should
 	 * only be used by sub-classes.
 	 */
-	protected SidePanel() {
+	SidePanel() {
 		this.setPreferredSize(new Dimension(200, 200));
 		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 	}
@@ -58,7 +58,7 @@ public class SidePanel extends JPanel {
 		}
 	}
 
-	protected JPanel createTitledPanel(String title, int cols, JComponent... components) {
+	JPanel createTitledPanel(String title, int cols, JComponent... components) {
 		JPanel panel = new JPanel();
 		int rows = (components.length + cols - 1) / cols;
 		panel.setLayout(new GridLayout(rows, cols, 5, 5));

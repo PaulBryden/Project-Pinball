@@ -35,7 +35,7 @@ public class MainWindow extends JFrame {
 		this.model = model;
 		board = new Board(this, this.model);
 		actionListener = new PrimaryActionListener(this, model);
-		menuBar = new MenuBar(this, actionListener);
+		menuBar = new MenuBar(actionListener);
 		toolbar = new BuildToolBar(actionListener);
 		statusBar = new StatusBar();
 		setUpKeyListeners();

@@ -15,7 +15,7 @@ public class SaveBoardController {
 	
     private MainWindow mainWindow;
 
-    public SaveBoardController(MainWindow mainWindow){
+	SaveBoardController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 

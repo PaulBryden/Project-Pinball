@@ -7,7 +7,7 @@ import static view.STATE.RM_KEY_CONNECT;
 public class RemoveKeyTriggerController {
     private MainWindow mainWindow;
 
-    public RemoveKeyTriggerController(MainWindow mainWindow){
+    RemoveKeyTriggerController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 
