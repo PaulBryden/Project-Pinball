@@ -34,7 +34,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 	}
 
 	private void handleAdd(Vect coords, Board board) {
-		if (board.getSelectedGizmo() == CUR_GIZMO.RFLIPPER) {
+		if (board.getSelectedGizmo() == CUR_GIZMO.RFLIPPER || board.getSelectedGizmo() == CUR_GIZMO.SPINNER) {
 			coords = new Vect(coords.x() - 1, coords.y());
 		}
 		if (model.isCellEmpty(coords)) {

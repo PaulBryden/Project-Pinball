@@ -74,7 +74,10 @@ public class PrimaryActionListener implements ActionListener {
 			new AddGizmoController(mainWindow).start();
 			break;
 		case "delete":
-			new DeleteGizmoController(mainWindow).start();
+			new DeleteGizmoController(mainWindow, this).start();
+			break;
+		case "delete_all":
+			new DeleteAllGizmosController(mainWindow).start();
 			break;
 		case "rotate":
 			new RotateGizmoController(mainWindow).start();
