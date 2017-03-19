@@ -112,6 +112,7 @@ public class PrimaryActionListener implements ActionListener {
 		default:
 			System.out.println(e.getActionCommand());
 		}
+		mainWindow.getBoard().reRender();
 	}
 	
 	public void pauseGame() {

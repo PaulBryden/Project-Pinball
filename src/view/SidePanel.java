@@ -82,7 +82,7 @@ public class SidePanel extends JPanel {
 			constraints.gridy = row;
 			add(panels[row], constraints);
 		}
-		constraints.gridy = row++;
+		constraints.gridy = row;
 		constraints.fill = GridBagConstraints.BOTH;
 		constraints.weighty = 1;
 		add(Box.createVerticalGlue(), constraints);

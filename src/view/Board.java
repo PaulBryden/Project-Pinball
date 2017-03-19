@@ -168,21 +168,21 @@ public class Board extends JPanel implements Observer {
 		for(int i : model.getKeyPressedTriggers().keySet()){
 			for(IGizmo gizmoToTrigger : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
 				if(gizmoToTrigger.equals(gizmo)){
-					keyConnections.add(KeyEvent.getKeyText(i) + " key on press");
+					keyConnections.add(KeyEvent.getKeyText(i));
 				}
 			}
 		}
 
 		for(int i : model.getKeyReleasedTriggers().keySet()){
-			for (IGizmo gizmoToTrigger : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()) {
-				if(gizmoToTrigger.equals(gizmo)){
-					keyConnections.add(KeyEvent.getKeyText(i) + " key on release");
+			for (IGizmo gizmoToTrigger : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()){
+				if(gizmoToTrigger.equals(gizmo) && !keyConnections.contains(KeyEvent.getKeyText(i))){
+					keyConnections.add(KeyEvent.getKeyText(i));
 				}
 			}
 		}
 
 		if(keyConnections.isEmpty())
-			keyConnections.add("No Connections");
+			keyConnections.add("None");
 
 		return (keyConnections.toArray(new String[keyConnections.size()]));
 	}
