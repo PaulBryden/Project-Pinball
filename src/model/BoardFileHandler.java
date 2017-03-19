@@ -249,7 +249,7 @@ public class BoardFileHandler {
 							newAbsorber.absorbBall(new BallGizmo("B",new Vect(0,0),new Vect(0,0)));
 						}
 						model.addGizmo(newAbsorber);
-				}else if(type.equals("Counter")){
+				}else if(type.equals("CounterGizmo")){
 	
 					ICounterGizmo newCounter;
 					String id = scan.next();
@@ -380,7 +380,7 @@ public class BoardFileHandler {
 			case "Spinner":
 				newGizmo = gf.getGizmo(TYPE.Spinner, id, new Vect(x1, y1));
 				break;
-			case "Counter":
+			case "CounterGizmo":
 				int x21 = scan.nextInt();
 				int y21 = scan.nextInt();
 				newGizmo = gf.getRectangularGizmo(TYPE.Counter, id, new Vect(
