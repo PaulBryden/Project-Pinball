@@ -216,9 +216,6 @@ public class Board extends JPanel implements Observer {
 
 		viewBalls.addAll(balls.stream().map(BallView::new).collect(Collectors.toList()));
 
-        if(!state.equals(RUN))
-            drawGrid(g);
-
 		for(IViewGizmo viewGizmo : viewGizmos) {
 			viewGizmo.paint(g);
 		}
@@ -226,6 +223,9 @@ public class Board extends JPanel implements Observer {
 		for(IViewGizmo viewBall : viewBalls) {
 			viewBall.paint(g);
 		}
+
+        if(!state.equals(RUN))
+            drawGrid(g);
 
         if(state.equals(GIZMO_CONNECT) || state.equals(RM_GIZMO_CONNECT))
             drawConnections(g);

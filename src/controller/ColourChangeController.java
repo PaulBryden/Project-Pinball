@@ -51,7 +51,7 @@ public class ColourChangeController {
 			JButton button = (JButton) event.getSource();
 			button.setBackground(colour);
 		}
-		mainWindow.getBoard().repaint();
+		mainWindow.getBoard().reRender();
 	}
 
 }
