@@ -30,7 +30,7 @@ public class ColourChangeController {
 			title = "Choose a background colour";
 			break;
 		case "text_colour":
-			oldColour = model.getForegroundColour();
+			oldColour = model.getTextColour();
 			title = "Choose a text colour";
 			break;
 		case "grid_colour":
@@ -46,7 +46,7 @@ public class ColourChangeController {
 			model.setBackgroundColour(colour);
 			break;
 		case "text_colour":
-			model.setForegroundColour(colour);
+			model.setTextColour(colour);
 			break;
 		case "grid_colour":
 			mainWindow.getBoard().setGridColour(colour);

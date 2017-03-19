@@ -67,7 +67,7 @@ public class BoardSettingsSidePanel extends SidePanel {
 		
 		JPanel textColourPanel = new JPanel();
 		textColourPanel.setLayout(new BorderLayout(5, 5));
-		JButton textColourButton = ButtonFactory.createColourButton(model.getForegroundColour(), "text_colour", "Choose a text colour", listener);
+		JButton textColourButton = ButtonFactory.createColourButton(model.getTextColour(), "text_colour", "Choose a text colour", listener);
 		textColourPanel.add(textColourButton, BorderLayout.WEST);
 		textColourPanel.add(new JLabel("Text"), BorderLayout.CENTER);
 		

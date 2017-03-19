@@ -32,6 +32,15 @@ public class CounterGizmo extends AbstractGizmo implements ICounterGizmo {
 	}
 
 	@Override
+	public void setGridCoords(Vect coords) {
+		int xdiff = (int) (coords.x() - this.coords.x());
+		int ydiff = (int) (coords.y() - this.coords.y());
+		this.coords = coords;
+		this.bottomRightCoords = new Vect(bottomRightCoords.x() + xdiff, bottomRightCoords.y() + ydiff);
+		generateLinesAndCircles();
+	}
+
+	@Override
 	public int getCount() {
 		return count;
 	}
