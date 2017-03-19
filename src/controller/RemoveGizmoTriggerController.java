@@ -7,7 +7,7 @@ import static view.STATE.RM_GIZMO_CONNECT;
 public class RemoveGizmoTriggerController {
     private MainWindow mainWindow;
 
-    public RemoveGizmoTriggerController(MainWindow mainWindow){
+    RemoveGizmoTriggerController(MainWindow mainWindow){
         this.mainWindow = mainWindow;
     }
 

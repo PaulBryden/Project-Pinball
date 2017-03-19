@@ -93,6 +93,11 @@ public class BoardFileHandler {
 					current=(AbstractFlipper) current;
 					saveString+="LeftFlipper " + current.getID() + " " + (int) current.getGridCoords().x() + " " + (int) current.getGridCoords().y()
 					+" "+((AbstractFlipper)current).getAngle().radians()+"\n";
+				}else if (current instanceof Absorber){
+					current=(Absorber) current;
+					saveString+="Absorber " + current.getID() + " " + (int) current.getGridCoords().x() + " "
+							+ (int) current.getGridCoords().y() + " " + (int) ((Absorber)current).getBottomRightCoords().x() + " "
+							+ (int) ((Absorber)current).getBottomRightCoords().y() + " "+ (((Absorber)current).getNextBall()!=null?"1":"0")+"\n";
 				}else if (!(current instanceof Wall)) {
 					saveString+=current.serializeGizmo(); // Also contains connection info
 					for (int i = 0; i < current.getRotation(); i++) {
@@ -115,6 +120,7 @@ public class BoardFileHandler {
 	
 
 	public void loadFromString(String received) throws IOException {
+			GizmoFactory gf = new GizmoFactory(model);
 			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading
 			model.setBalls(new ArrayList<IBall>());
 			model.setGizmos(new ArrayList<IGizmo>());
@@ -171,6 +177,21 @@ public class BoardFileHandler {
 							newGizmo = new LeftFlipper(id, x1, y1);
 							newGizmo.setAngle(new Angle(angle));
 							model.addGizmo(newGizmo);
+							
+					}else if(type.equals("Absorber")){
+
+						IAbsorber newAbsorber;
+						String id = scan.next();
+						int x1 = scan.nextInt();
+						int y1 = scan.nextInt();
+						int x2 = scan.nextInt();
+						int y2 = scan.nextInt();
+						int absorbState = scan.nextInt();
+						newAbsorber = (IAbsorber) gf.getRectangularGizmo(TYPE.Absorber, id, new Vect(x1, y1), new Vect(x2, y2));
+						if(absorbState==1){
+							newAbsorber.absorbBall(new BallGizmo("B",new Vect(0,0),new Vect(0,0)));
+						}
+						model.addGizmo(newAbsorber);
 					}
 						else {
 							try{

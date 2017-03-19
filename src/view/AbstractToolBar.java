@@ -43,7 +43,7 @@ public abstract class AbstractToolBar extends JToolBar {
 		}
 	}
 
-	public void addButton(String name, String toolTip) {
+	void addButton(String name, String toolTip) {
 		JButton button = ButtonFactory.createButton(name, toolTip, listener);
 		buttons.put(name, button);
 		this.add(button);
