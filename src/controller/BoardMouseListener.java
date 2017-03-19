@@ -2,10 +2,13 @@ package controller;
 
 import model.GizmoFactory;
 import model.GizmoFactory.TYPE;
+import model.IAbsorber;
 import model.ICircleGizmo;
+import model.ICounterGizmo;
 import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
+import model.ISpinner;
 import physics.Vect;
 import view.AbsorberView;
 import view.Board;
@@ -14,6 +17,7 @@ import view.CircleView;
 import view.CounterGizmoView;
 import view.FlipperView;
 import view.MainWindow;
+import view.SpinnerView;
 import view.SquareView;
 import view.TriangleView;
 
@@ -63,7 +67,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 								"Invalid cell, you might want to make that the " + "top-left cell, try again");
 					} else {
 						board.addGizmo(new CounterGizmoView(gf.getRectangularGizmo(TYPE.Counter, initalCounterCoords,
-								new Vect(coords.x() + 1, coords.y() + 1)), model.getForegroundColour()));
+								new Vect(coords.x() + 1, coords.y() + 1)), model.getTextColour()));
 					}
 					board.setSelectedGizmoCoords(null);
 				}
@@ -85,6 +89,8 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				break;
 			case TRIANGLE:
 				board.addGizmo(new TriangleView(gf.getGizmo(TYPE.Triangle, coords)));
+			case SPINNER:
+				board.addGizmo(new SpinnerView( (ISpinner) gf.getGizmo(TYPE.Spinner, coords)));
 				break;
 			default:
 				break;
@@ -134,6 +140,10 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		if (!model.isCellEmpty(coords)) {
 			try {
 				IGizmo gizmo = model.getGizmo(coords);
+				if (gizmo instanceof IAbsorber || gizmo instanceof ICounterGizmo) {
+					mainWindow.setWarningLabel("Cannot rotate rectangular gizmos");
+					return;
+				}
 				gizmo.rotate(1);
 				mainWindow.setStatusLabel("" + board.getGizmoName(gizmo) + " Rotated");
 			} catch (NullPointerException e) {

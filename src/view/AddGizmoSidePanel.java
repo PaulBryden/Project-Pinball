@@ -1,3 +1,4 @@
+
 package view;
 
 import controller.*;
@@ -26,10 +27,12 @@ public class AddGizmoSidePanel extends SidePanel {
 				new AddRFlipperListener(mainWindow));
 		JButton counterBtn = ButtonFactory.createButton("counter", "Place a counter gizmo",
 				new AddCounterListener(mainWindow));
+		JButton SpinnerBtn = ButtonFactory.createButton("spinner", "Place a Spinner",
+				new AddSpinnerListener(mainWindow));
 
 		JPanel ballsPanel = createTitledPanel("Balls", 2, ballBtn);
 		JPanel staticPanel = createTitledPanel("Static gizmos", 2, circleBtn, squareBtn, triangleBtn);
-		JPanel dynamicPanel = createTitledPanel("Dynamic gizmos", 2, lFlipperBtn, rFlipperBtn, absorberBtn, counterBtn);
+		JPanel dynamicPanel = createTitledPanel("Dynamic gizmos", 2, lFlipperBtn, rFlipperBtn, absorberBtn, counterBtn, SpinnerBtn);
 		build(ballsPanel, staticPanel, dynamicPanel);
 	}
 

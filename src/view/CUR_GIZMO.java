@@ -1,6 +1,7 @@
 package view;
 
 public enum CUR_GIZMO {
+
     BALL,
     SQUARE,
     TRIANGLE,
@@ -9,5 +10,7 @@ public enum CUR_GIZMO {
     CIRCLE,
     ABSORBER,
     COUNTER,
+    SPINNER,
     NONE
+
 }

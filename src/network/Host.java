@@ -91,7 +91,7 @@ public class Host implements Runnable{
 	
 	public void sendBoard(){
         try {
-
+        	sendData=new byte[4096];
 			sendData = fileHandler.saveToString().getBytes();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

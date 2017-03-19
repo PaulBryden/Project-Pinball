@@ -118,3 +118,4 @@ public class SidePanel extends JPanel {
 	}
 
 }
+
