@@ -37,12 +37,14 @@ public class Board extends JPanel implements Observer {
 	private CUR_GIZMO selectedGizmo;
 	private Vect selectedGizmoCoords;
 	private Color gridColour;
+	private KeyConnectionList keyConnections;
 
 	public Board(MainWindow mainWindow, IModel model) {
 		super();
 		this.mainWindow = mainWindow;
 		this.model = model;
 		model.addObserver(this);
+		keyConnections = new KeyConnectionList(new String[0]);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
 		state = BUILD;
@@ -55,6 +57,10 @@ public class Board extends JPanel implements Observer {
 		setPreferredSize(getSize());
 		setMinimumSize(getSize());
 		setMaximumSize(getSize());
+	}
+
+	public KeyConnectionList getKeyConnectionList(){
+		return (keyConnections);
 	}
 
 	public IModel getModel() {
@@ -156,31 +162,13 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
-//	String[] getKeyConnections(){
-//		String[] keyConnections = new String[
-//				model.getKeyPressedTriggers().size() + model.getKeyReleasedTriggers().size() + 2];
-//		int c = 0;
-//
-//		for(int i : model.getKeyPressedTriggers().keySet()){
-//			for(IGizmo gizmo : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
-//				keyConnections[c++] = KeyEvent.getKeyText(i) + " -> " + getGizmoName(gizmo);
-//			}
-//		}
-//
-//		for(int i : model.getKeyReleasedTriggers().keySet()){
-//			for (IGizmo gizmo : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()) {
-//				keyConnections[c++] = KeyEvent.getKeyText(i) + " -> " + getGizmoName(gizmo);
-//			}
-//		}
-//
-//		return (keyConnections);
-//	}
+	public String[] getKeyConnections(IGizmo gizmo){
+		List<String> keyConnections = new ArrayList<String>();
 
-	public void showKeys(IGizmo gizmo){
 		for(int i : model.getKeyPressedTriggers().keySet()){
 			for(IGizmo gizmoToTrigger : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
 				if(gizmoToTrigger.equals(gizmo)){
-					System.out.println(getGizmoName(gizmo) + " at coords " + gizmo.getGridCoords() + " connected to " + KeyEvent.getKeyText(i) + " key on press");
+					keyConnections.add(KeyEvent.getKeyText(i) + " key on press");
 				}
 			}
 		}
@@ -188,10 +176,15 @@ public class Board extends JPanel implements Observer {
 		for(int i : model.getKeyReleasedTriggers().keySet()){
 			for (IGizmo gizmoToTrigger : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()) {
 				if(gizmoToTrigger.equals(gizmo)){
-					System.out.println(getGizmoName(gizmo) + " at coords " + gizmo.getGridCoords() + " connected to " + KeyEvent.getKeyText(i) + " key on release");
+					keyConnections.add(KeyEvent.getKeyText(i) + " key on release");
 				}
 			}
 		}
+
+		if(keyConnections.isEmpty())
+			keyConnections.add("No Connections");
+
+		return (keyConnections.toArray(new String[keyConnections.size()]));
 	}
 
 	public void removeGizmoConnection(IGizmo gizmo1, IGizmo gizmo2){

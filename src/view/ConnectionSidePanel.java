@@ -13,6 +13,8 @@ public class ConnectionSidePanel extends SidePanel {
 
 	public ConnectionSidePanel(PrimaryActionListener listener, MainWindow mainWindow) {
 		super();
+		Board board = mainWindow.getBoard();
+
 		JButton connectGizmoBtn = ButtonFactory.createButton("add_connection", "Add a connection between gizmos",
 				listener);
 		JButton disconnectGizmoBtn = ButtonFactory.createButton("remove_connection",
@@ -21,7 +23,9 @@ public class ConnectionSidePanel extends SidePanel {
 		JButton disconnectKeyBtn = ButtonFactory.createButton("remove_key", "Remove a key connection", listener);
 		JPanel gizmoPanel = createTitledPanel("Gizmo connections", 2, connectGizmoBtn, disconnectGizmoBtn);
 		JPanel keyPanel = createTitledPanel("Key connections", 2, connectKeyBtn, disconnectKeyBtn);
-		build(gizmoPanel, keyPanel);
+		JList<String> keys = new JList<String>(board.getKeyConnectionList());
+		JPanel keyConnectionsPanel = createTitledPanel("Key Connections List", 3, keys);
+		build(gizmoPanel, keyPanel, keyConnectionsPanel);
 	}
 
 }

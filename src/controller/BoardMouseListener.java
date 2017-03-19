@@ -189,6 +189,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			try {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 						+ gizmoCoords + ". Please type a key to connect this gizmo to");
+				mainWindow.getBoard().getKeyConnectionList().update(board.getKeyConnections(model.getGizmo(coords)));
 				mainWindow.getBuildKeyListener().setListening(true);
 			} catch (NullPointerException e) {
 				mainWindow.setWarningLabel("Cannot add key connection to ball");
@@ -233,7 +234,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			try {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 						+ gizmoCoords + ". Please type the key you wish to remove.");
-				board.showKeys(model.getGizmo(coords));
+				mainWindow.getBoard().getKeyConnectionList().update(board.getKeyConnections(model.getGizmo(coords)));
 				mainWindow.getBuildKeyListener().setListening(true);
 			} catch (NullPointerException e) {
 				mainWindow.setWarningLabel("Balls do not have connections. Try a gizmo.");
