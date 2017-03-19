@@ -32,7 +32,7 @@ public class Board extends JPanel implements Observer {
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
-	static final int GRID_WIDTH = 20;
+	static final int GRID_WIDTH = 20; // Width of one grid cell in pixels
 	private STATE state;
 	private CUR_GIZMO selectedGizmo;
 	private Vect selectedGizmoCoords;
@@ -76,8 +76,8 @@ public class Board extends JPanel implements Observer {
 			case ('S'): return ("Square");
 			case ('N'): return ("Counter gizmo");
 			case ('P'): return ("Spinner Gizmo");
-			default: return ("Triangle");
-
+			case ('T'): return ("Triangle");
+			default: return ("Unknown");
 		}
 	}
 
