@@ -161,4 +161,9 @@ public class MainWindow extends JFrame {
 	public BuildKeyListener getBuildKeyListener() {
 		return this.buildKeyListener;
 	}
+
+	
+	public PrimaryActionListener getActionListener() {
+		return actionListener;
+	}
 }
