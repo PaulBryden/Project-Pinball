@@ -33,6 +33,9 @@ public class ColourChangeController {
 			oldColour = model.getForegroundColour();
 			title = "Choose a text colour";
 			break;
+		case "grid_colour":
+			oldColour = mainWindow.getBoard().getGridColour();
+			break;
 		default: // do nothing
 		}
 		Color colour = JColorChooser.showDialog(mainWindow, title, oldColour);
@@ -44,6 +47,9 @@ public class ColourChangeController {
 			break;
 		case "text_colour":
 			model.setForegroundColour(colour);
+			break;
+		case "grid_colour":
+			mainWindow.getBoard().setGridColour(colour);
 			break;
 		default: // do nothing
 		}

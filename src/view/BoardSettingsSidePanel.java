@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
@@ -72,7 +71,13 @@ public class BoardSettingsSidePanel extends SidePanel {
 		textColourPanel.add(textColourButton, BorderLayout.WEST);
 		textColourPanel.add(new JLabel("Text"), BorderLayout.CENTER);
 		
-		JPanel colourPanel = createTitledPanel("Colours", 1, bgPanel, textColourPanel);
+		JPanel gridColourPanel = new JPanel();
+		gridColourPanel.setLayout(new BorderLayout(5, 5));
+		JButton gridColourButton = ButtonFactory.createColourButton(mainWindow.getBoard().getGridColour(), "grid_colour", "Choose a grid colour", listener);
+		gridColourPanel.add(gridColourButton, BorderLayout.WEST);
+		gridColourPanel.add(new JLabel("Grid"), BorderLayout.CENTER);
+		
+		JPanel colourPanel = createTitledPanel("Colours", 1, bgPanel, textColourPanel, gridColourPanel);
 		
 		build("Use the sliders to adjust the physical constants of this board.", physicsPanel, colourPanel);
 	}

@@ -105,6 +105,7 @@ public class PrimaryActionListener implements ActionListener {
 			break;
 		case "background":
 		case "text_colour":
+		case "grid_colour":
 			new ColourChangeController(mainWindow, e).start();
 			break;
 		default:

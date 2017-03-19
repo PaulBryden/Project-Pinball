@@ -35,6 +35,7 @@ public class Board extends JPanel implements Observer {
 	private STATE state;
 	private CUR_GIZMO selectedGizmo;
 	private Vect selectedGizmoCoords;
+	private Color gridColour;
 
 	public Board(MainWindow mainWindow, IModel model) {
 		super();
@@ -45,6 +46,7 @@ public class Board extends JPanel implements Observer {
 		viewBalls = new LinkedList<>();
 		state = BUILD;
 		selectedGizmo = NONE;
+		gridColour = Color.WHITE;
 
 		addMouseListener(new BoardMouseListener(mainWindow, model));
 		setBackground(model.getBackgroundColour());
@@ -126,7 +128,7 @@ public class Board extends JPanel implements Observer {
 	private void drawGrid(Graphics g) {
 		int coord;
 
-		g.setColor(Color.WHITE);
+		g.setColor(gridColour);
 
 		for(int i = 0; i < GRID_WIDTH; i++) {
 			coord = i * GRID_WIDTH;
@@ -185,6 +187,14 @@ public class Board extends JPanel implements Observer {
 
 	public Vect getSelectedGizmoCoords(){
 		return (selectedGizmoCoords);
+	}
+	
+	public Color getGridColour() {
+		return gridColour;
+	}
+	
+	public void setGridColour(Color colour) {
+		this.gridColour = colour;
 	}
 
     @Override
