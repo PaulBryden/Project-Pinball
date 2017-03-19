@@ -4,17 +4,20 @@ import view.MainWindow;
 
 import static view.STATE.REMOVE;
 
-import view.SidePanel;
+import view.DeleteGizmoSidePanel;
 
 public class DeleteGizmoController {
+	
     private MainWindow mainWindow;
-
-    DeleteGizmoController(MainWindow mainWindow){
+    private PrimaryActionListener listener;
+    
+    DeleteGizmoController(MainWindow mainWindow, PrimaryActionListener listener){
         this.mainWindow = mainWindow;
+        this.listener = listener;
     }
 
     public void start() {
-        mainWindow.setSidePanel(new SidePanel("Click on a gizmo to delete it."));
+        mainWindow.setSidePanel(new DeleteGizmoSidePanel(listener));
         mainWindow.getBoard().setState(REMOVE);
         mainWindow.setStatusLabel("Deleting Gizmo(s). Please click a gizmo on the board to delete it.");
     }
