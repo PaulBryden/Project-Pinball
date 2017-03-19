@@ -13,7 +13,7 @@ public class BoardSettingsController {
 	}
 
 	public void start() {
-		mainWindow.setSidePanel(new BoardSettingsSidePanel(mainWindow.getModel()));
+		mainWindow.setSidePanel(new BoardSettingsSidePanel(mainWindow));
 		mainWindow.getBoard().setState(BUILD);
 		mainWindow.setStatusLabel("Adjust Sliders to change gravity and friction.");
 	}

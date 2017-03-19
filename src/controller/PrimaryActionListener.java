@@ -103,6 +103,10 @@ public class PrimaryActionListener implements ActionListener {
 			pauseGame();
 			new AboutDialog(mainWindow);
 			break;
+		case "background":
+		case "text_colour":
+			new ColourChangeController(mainWindow, e).start();
+			break;
 		default:
 			System.out.println(e.getActionCommand());
 		}

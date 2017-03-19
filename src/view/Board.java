@@ -190,6 +190,9 @@ public class Board extends JPanel implements Observer {
     @Override
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+
+		setBackground(model.getBackgroundColour());
+		
 		List<IGizmo> gizmos = model.getGizmos();
 		List<IBall> balls = model.getBalls();
 
