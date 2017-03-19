@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import model.ICounterGizmo;
@@ -24,7 +25,8 @@ public class CounterGizmoView implements IViewGizmo {
                 (int)(gizmo.getExactCoords().get(2).x() - gizmo.getExactCoords().get(0).x()) * Board.GRID_WIDTH,
                 (int) (gizmo.getExactCoords().get(2).y() - gizmo.getExactCoords().get(0).y()) * Board.GRID_WIDTH);
         g.setColor(textColour);
-        g.drawString(Integer.toString(gizmo.getCount()), x+5, y+20);
+        g.setFont(g.getFont().deriveFont(Font.BOLD));
+        g.drawString(Integer.toString(gizmo.getCount()), x+5, y+15);
     }
 
     @Override

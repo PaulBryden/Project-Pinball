@@ -30,83 +30,87 @@ public class PrimaryActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
-			case "load":
-				new LoadBoardController(mainWindow).start();
-				break;
-			case "save":
-				new SaveBoardController(mainWindow).start();
-				break;
-			case "toggle":
-			case "build_mode":
-			case "run_mode":
-				pauseGame();
-				new ModeToggleController(mainWindow).start();
-				break;
-			case "run":
-				runListener.actionPerformed(e);
-				enable("pause");
-				disable("run");
-				disable("tick");
-				break;
-			case "pause":
-				pauseGame();
-				break;
-			case "tick":
-				runListener.actionPerformed(e);
-				break;
-			case "host":
-				pauseGame();
-				new HostDialog(mainWindow);
-				break;
-			case "client":
-				pauseGame();
-				new ClientDialog(mainWindow);
-				break;
-			case "disconnect":
-				pauseGame();
-				new DisconnectController(mainWindow).start();
-				break;
-			case "quit":
-				exitApplication();
-				break;
-			case "add":
-				new AddGizmoController(mainWindow).start();
-				break;
-			case "delete":
-				new DeleteGizmoController(mainWindow).start();
-				break;
-			case "rotate":
-				new RotateGizmoController(mainWindow).start();
-				break;
-			case "move":
-				new MoveGizmoController(mainWindow).start();
-				break;
-			case "connect":
-				new ConnectionPanelController(mainWindow, this).start();
-				break;
-			case "add_key":
-				new AddKeyTriggerController(mainWindow).start();
-				break;
-			case "remove_key":
-				new RemoveKeyTriggerController(mainWindow).start();
-				break;
-			case "add_connection":
-				new AddGizmoTriggerController(mainWindow).start();
-				break;
-			case "remove_connection":
-				new RemoveGizmoTriggerController(mainWindow).start();
-				break;
-			case "settings":
-				new BoardSettingsController(mainWindow).start();
-				break;
-			case "about":
-				pauseGame();
-				new AboutDialog(mainWindow);
-				break;
-			default:
-				System.out.println(e.getActionCommand());
-			}
-		mainWindow.getBoard().reRender();
+		case "load":
+			new LoadBoardController(mainWindow).start();
+			break;
+		case "save":
+			new SaveBoardController(mainWindow).start();
+			break;
+		case "toggle":
+		case "build_mode":
+		case "run_mode":
+			pauseGame();
+			new ModeToggleController(mainWindow).start();
+			break;
+		case "run":
+			runListener.actionPerformed(e);
+			enable("pause");
+			disable("run");
+			disable("tick");
+			break;
+		case "pause":
+			pauseGame();
+			break;
+		case "tick":
+			runListener.actionPerformed(e);
+			break;
+		case "host":
+			pauseGame();
+			new HostDialog(mainWindow);
+			break;
+		case "client":
+			pauseGame();
+			new ClientDialog(mainWindow);
+			break;
+		case "disconnect":
+			pauseGame();
+			new DisconnectController(mainWindow).start();
+			break;
+		case "quit":
+			exitApplication();
+			break;
+		case "add":
+			new AddGizmoController(mainWindow).start();
+			break;
+		case "delete":
+			new DeleteGizmoController(mainWindow).start();
+			break;
+		case "rotate":
+			new RotateGizmoController(mainWindow).start();
+			break;
+		case "move":
+			new MoveGizmoController(mainWindow).start();
+			break;
+		case "connect":
+			new ConnectionPanelController(mainWindow, this).start();
+			break;
+		case "add_key":
+			new AddKeyTriggerController(mainWindow).start();
+			break;
+		case "remove_key":
+			new RemoveKeyTriggerController(mainWindow).start();
+			break;
+		case "add_connection":
+			new AddGizmoTriggerController(mainWindow).start();
+			break;
+		case "remove_connection":
+			new RemoveGizmoTriggerController(mainWindow).start();
+			break;
+		case "settings":
+			new BoardSettingsController(mainWindow).start();
+			break;
+		case "about":
+			pauseGame();
+			new AboutDialog(mainWindow);
+			break;
+		case "background":
+		case "text_colour":
+		case "grid_colour":
+			new ColourChangeController(mainWindow, e).start();
+			break;
+		default:
+			System.out.println(e.getActionCommand());
+		}
 	}
 	
 	public void pauseGame() {

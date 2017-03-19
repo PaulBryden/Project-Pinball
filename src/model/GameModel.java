@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.Color;
-import java.net.SocketTimeoutException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -33,8 +32,8 @@ class GameModel extends Observable implements IModel {
 
 	boolean isClient;
 	public Deque<String> keysToSend;
-	private Host host=null;
-	private Client client=null;
+	private Host host = null;
+	private Client client = null;
 	private double gravity;
 	private double mu;
 	private double mu2;
@@ -53,7 +52,7 @@ class GameModel extends Observable implements IModel {
 		// Evaluate collisions for all items in Gizmolist
 		collisionEvaluator.evaluate();
 		double tick = collisionEvaluator.getTickTime();
-		
+
 		// Move all items based on that tick time
 		for (IBall ball : balls) {
 			ball.moveForTime(tick);
@@ -64,7 +63,7 @@ class GameModel extends Observable implements IModel {
 		for (IAbsorber absorber : getAbsorbers()) {
 			absorber.updateFiring();
 		}
-		
+
 		// Resolve collision
 		collisionEvaluator.resolveCollision();
 		// Apply friction and gravity
@@ -78,16 +77,12 @@ class GameModel extends Observable implements IModel {
 	}
 
 	private void sendTick() {
-		// TODO Auto-generated method stub
-		if (host!=null) {
+		if (host != null) {
 			host.sendBoard();
-		
-				if(!host.receiveKeys()){
-					//Timeout error, abort and reset
-					host=null;
-				}
-			
-			
+			if (!host.receiveKeys()) {
+				// Timeout error, abort and reset
+				host = null;
+			}
 		}
 	}
 
@@ -204,14 +199,14 @@ class GameModel extends Observable implements IModel {
 	}
 
 	@Override
-	public  void processKeyPressedTrigger(int keyCode) {
+	public void processKeyPressedTrigger(int keyCode) {
 		if (keyPressedTriggers.containsKey(keyCode)) {
 			keyPressedTriggers.get(keyCode).triggerConnectedGizmos();
 		}
 	}
 
 	@Override
-	public  void processKeyReleasedTrigger(int keyCode) {
+	public void processKeyReleasedTrigger(int keyCode) {
 		if (keyReleasedTriggers.containsKey(keyCode)) {
 			keyReleasedTriggers.get(keyCode).triggerConnectedGizmos();
 		}
@@ -239,9 +234,9 @@ class GameModel extends Observable implements IModel {
 	public Color getBackgroundColour() {
 		return this.backgroundColour;
 	}
-	
+
 	@Override
-	public Color getForegroundColour() {
+	public Color getTextColour() {
 		return this.foregroundColour;
 	}
 
@@ -249,9 +244,9 @@ class GameModel extends Observable implements IModel {
 	public void setBackgroundColour(Color colour) {
 		this.backgroundColour = colour;
 	}
-	
+
 	@Override
-	public void setForegroundColour(Color colour) {
+	public void setTextColour(Color colour) {
 		this.foregroundColour = colour;
 	}
 
@@ -308,23 +303,24 @@ class GameModel extends Observable implements IModel {
 
 	@Override
 	public boolean isClient() {
-		return !(client==null);
+		return !(client == null);
 	}
 
 	@Override
 	public void setClient(Client client) {
-		this.client=client;
+		this.client = client;
 	}
+
 	@Override
 	public Client getClient() {
 		return client;
 	}
-	
 
 	@Override
 	public void setHost(Host host) {
-		this.host=host; 
+		this.host = host;
 	}
+
 	@Override
 	public Host getHost() {
 		return this.host;

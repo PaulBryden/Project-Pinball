@@ -94,11 +94,11 @@ public interface IModel {
 
 	Color getBackgroundColour();
 
-	Color getForegroundColour();
+	Color getTextColour();
 
 	void setBackgroundColour(Color colour);
 	
-	void setForegroundColour(Color colour);
+	void setTextColour(Color colour);
 
 	Map<Integer, KeyTrigger> getKeyPressedTriggers();
 
