@@ -233,6 +233,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			try {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 						+ gizmoCoords + ". Please type the key you wish to remove.");
+				board.showKeys(model.getGizmo(coords));
 				mainWindow.getBuildKeyListener().setListening(true);
 			} catch (NullPointerException e) {
 				mainWindow.setWarningLabel("Balls do not have connections. Try a gizmo.");

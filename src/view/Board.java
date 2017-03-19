@@ -90,8 +90,8 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public void removeKeyConnections(Map<Integer, KeyTrigger> map, IGizmo gizmo) {
-		for (KeyTrigger t : map.values()) {
-			t.getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
+		for (KeyTrigger keyTrigger : map.values()) {
+			keyTrigger.getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
 		}
 	}
 
@@ -156,24 +156,42 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
-	String[] getKeyConnections(){
-		String[] keyConnections = new String[
-				model.getKeyPressedTriggers().size() + model.getKeyReleasedTriggers().size() + 2];
-		int c = 0;
+//	String[] getKeyConnections(){
+//		String[] keyConnections = new String[
+//				model.getKeyPressedTriggers().size() + model.getKeyReleasedTriggers().size() + 2];
+//		int c = 0;
+//
+//		for(int i : model.getKeyPressedTriggers().keySet()){
+//			for(IGizmo gizmo : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
+//				keyConnections[c++] = KeyEvent.getKeyText(i) + " -> " + getGizmoName(gizmo);
+//			}
+//		}
+//
+//		for(int i : model.getKeyReleasedTriggers().keySet()){
+//			for (IGizmo gizmo : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()) {
+//				keyConnections[c++] = KeyEvent.getKeyText(i) + " -> " + getGizmoName(gizmo);
+//			}
+//		}
+//
+//		return (keyConnections);
+//	}
 
+	public void showKeys(IGizmo gizmo){
 		for(int i : model.getKeyPressedTriggers().keySet()){
-			for(IGizmo gizmo : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
-				keyConnections[c++] = KeyEvent.getKeyText(i) + " -> " + getGizmoName(gizmo);
+			for(IGizmo gizmoToTrigger : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
+				if(gizmoToTrigger.equals(gizmo)){
+					System.out.println(getGizmoName(gizmo) + " at coords " + gizmo.getGridCoords() + " connected to " + KeyEvent.getKeyText(i) + " key on press");
+				}
 			}
 		}
 
 		for(int i : model.getKeyReleasedTriggers().keySet()){
-			for (IGizmo gizmo : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()) {
-				keyConnections[c++] = KeyEvent.getKeyText(i) + " -> " + getGizmoName(gizmo);
+			for (IGizmo gizmoToTrigger : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()) {
+				if(gizmoToTrigger.equals(gizmo)){
+					System.out.println(getGizmoName(gizmo) + " at coords " + gizmo.getGridCoords() + " connected to " + KeyEvent.getKeyText(i) + " key on release");
+				}
 			}
 		}
-
-		return (keyConnections);
 	}
 
 	public void removeGizmoConnection(IGizmo gizmo1, IGizmo gizmo2){

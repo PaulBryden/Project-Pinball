@@ -21,9 +21,7 @@ public class ConnectionSidePanel extends SidePanel {
 		JButton disconnectKeyBtn = ButtonFactory.createButton("remove_key", "Remove a key connection", listener);
 		JPanel gizmoPanel = createTitledPanel("Gizmo connections", 2, connectGizmoBtn, disconnectGizmoBtn);
 		JPanel keyPanel = createTitledPanel("Key connections", 2, connectKeyBtn, disconnectKeyBtn);
-		JList<String> keys = new JList<String>(mainWindow.getBoard().getKeyConnections());
-		JPanel keyConnectionsPanel = createTitledPanel("Key Connections List", 3, keys);
-		build(gizmoPanel, keyPanel, keyConnectionsPanel);
+		build(gizmoPanel, keyPanel);
 	}
 
 }
