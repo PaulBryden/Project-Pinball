@@ -14,7 +14,7 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 
 	protected static final double RADIUS = 0.25;
 	protected static final double ABS_ANGULAR_VELOCITY = 2; // in rad/sec,
-	protected static final double MARGIN = 0.0001; 
+	protected static final double MARGIN = 0.01; 
 	// approx. 1080
 	// deg/sec
 	protected double angularVelocity;
@@ -190,7 +190,9 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		this.isStatic = false;
 		double rad = angularVelocity * time;
 		boolean clockwise = (direction == Direction.CW);
-		angularVelocity *= -1;
+		if (!clockwise){
+			angularVelocity *= -1;
+		}
 		rad *= clockwise ? 1 : -1;
 		Angle rot = new Angle(rad);
 		angle = angle.plus(rot);

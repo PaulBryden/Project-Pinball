@@ -53,7 +53,7 @@ public class SpinnerView implements IViewGizmo {
 			a[i] = (int) (GRID_WIDTH * exactCoords.get(i).x());
 			b[i] = (int) (GRID_WIDTH * exactCoords.get(i).y());
 		}
-
+		
 		g2D.fillPolygon(a, b, exactCoords.size());
 	}
 
