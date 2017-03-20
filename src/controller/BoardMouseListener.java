@@ -89,6 +89,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				break;
 			case TRIANGLE:
 				board.addGizmo(new TriangleView(gf.getGizmo(TYPE.Triangle, coords)));
+				break;
 			case SPINNER:
 				board.addGizmo(new SpinnerView( (ISpinner) gf.getGizmo(TYPE.Spinner, coords)));
 				break;
