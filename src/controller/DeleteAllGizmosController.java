@@ -14,6 +14,7 @@ public class DeleteAllGizmosController {
 	public void start() {
 		IModel model = mainWindow.getModel();
 		model.reset();
+		model.setDefaultPhysics();
 		mainWindow.getBoard().reRender();
 	}
 
