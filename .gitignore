@@ -2,6 +2,7 @@
 bin/
 classes/
 lib/
+out/
 *.iml
 *.uml
 *.umlcd
