@@ -17,6 +17,7 @@ import view.CircleView;
 import view.CounterGizmoView;
 import view.FlipperView;
 import view.MainWindow;
+import view.SelectSidePanel;
 import view.SpinnerView;
 import view.SquareView;
 import view.TriangleView;
@@ -154,6 +155,19 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			mainWindow.setWarningLabel("Cannot rotate, this cell is empty. Select an occupied cell.");
 		}
 	}
+	
+	private void handleSelect(Vect coords, Board board) {
+		IGizmo gizmo = null;
+		if (!model.isCellEmpty(coords)) {
+			gizmo = model.getGizmo(coords);
+			if (gizmo == null)
+				gizmo = model.getBall(coords);
+		}
+		if (gizmo != null)
+			mainWindow.setSidePanel(new SelectSidePanel(gizmo));
+		else 
+			mainWindow.setSidePanel(new SelectSidePanel());
+	}
 
 	private void handleGizmoConnect(Vect coords, Board board) {
 		Vect gizmoCoords = board.getSelectedGizmoCoords();
@@ -263,6 +277,9 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			break;
 		case ROTATE:
 			handleRotate(coords, board);
+			break;
+		case SELECT:
+			handleSelect(coords, board);
 			break;
 		case GIZMO_CONNECT:
 			handleGizmoConnect(coords, board);
