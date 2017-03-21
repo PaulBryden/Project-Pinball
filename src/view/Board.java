@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +18,6 @@ import model.IModel;
 import model.ISpinner;
 import model.ISquareGizmo;
 import model.ITriangleGizmo;
-import model.KeyTrigger;
 import physics.Vect;
 import static java.awt.Color.RED;
 import static view.CUR_GIZMO.NONE;
@@ -28,7 +26,6 @@ import static view.STATE.*;
 public class Board extends JPanel implements Observer {
 
 	private static final long serialVersionUID = -4998929957953130907L;
-	private MainWindow mainWindow;
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
@@ -37,14 +34,11 @@ public class Board extends JPanel implements Observer {
 	private CUR_GIZMO selectedGizmo;
 	private Vect selectedGizmoCoords;
 	private Color gridColour;
-	private KeyConnectionList keyConnections;
 
 	public Board(MainWindow mainWindow, IModel model) {
 		super();
-		this.mainWindow = mainWindow;
 		this.model = model;
 		model.addObserver(this);
-		keyConnections = new KeyConnectionList(new String[0]);
 		viewGizmos = new LinkedList<>();
 		viewBalls = new LinkedList<>();
 		state = BUILD;
@@ -57,10 +51,6 @@ public class Board extends JPanel implements Observer {
 		setPreferredSize(getSize());
 		setMinimumSize(getSize());
 		setMaximumSize(getSize());
-	}
-
-	public KeyConnectionList getKeyConnectionList(){
-		return (keyConnections);
 	}
 
 	public IModel getModel() {
@@ -79,71 +69,6 @@ public class Board extends JPanel implements Observer {
 			case ('T'): return ("Triangle");
 			default: return ("Unknown");
 		}
-	}
-
-	public void addGizmo(IViewGizmo gizmo) {
-		viewGizmos.add(gizmo);
-		model.addGizmo(gizmo.getGizmo());
-		mainWindow.setStatusLabel(getGizmoName(gizmo.getGizmo()) + " Placed");
-		reRender();
-	}
-
-	public void addBall(IBall ball) {
-		viewBalls.add(new BallView(ball));
-		model.addBall(ball);
-		mainWindow.setStatusLabel("Ball Placed");
-		reRender();
-	}
-
-	private void removeKeyConnections(Map<Integer, KeyTrigger> map, IGizmo gizmo) {
-		for (KeyTrigger keyTrigger : map.values()) {
-			keyTrigger.getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
-		}
-	}
-
-	public void removeKeyConnection(IGizmo gizmo, int keyCode) {
-		model.getKeyReleasedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
-		if(gizmo instanceof IFlipper)
-			model.getKeyPressedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
-
-	}
-
-	private void removeGizmoConnections(IGizmo gizmo) {
-		for (IGizmo gizmo1 : model.getGizmos()) {
-			gizmo1.getGizmosToTrigger().removeIf(gizmo2 -> gizmo2.equals(gizmo));
-		}
-	}
-
-	public void removeGizmoConnection(IGizmo gizmo1, IGizmo gizmo2){
-		gizmo1.getGizmosToTrigger().remove(gizmo2);
-		gizmo2.getGizmosToTrigger().remove(gizmo1);
-	}
-
-	public void removeGizmo(Vect coords) {
-		IGizmo gizmo = model.getGizmo(coords);
-
-		model.getGizmos().remove(gizmo);
-		removeKeyConnections(model.getKeyPressedTriggers(), gizmo);
-		removeKeyConnections(model.getKeyReleasedTriggers(), gizmo);
-		removeGizmoConnections(gizmo);
-		mainWindow.setStatusLabel(getGizmoName(gizmo) + " Removed");
-	}
-
-	public void removeBall(Vect coords) {
-		model.getBalls().remove(model.getBall(coords));
-		mainWindow.setStatusLabel("Ball Removed");
-	}
-
-	public void moveGizmo(Vect oldCoords, Vect newCoords) {
-		IGizmo gizmo = model.getGizmo(oldCoords);
-
-		gizmo.setGridCoords(newCoords);
-		mainWindow.setStatusLabel("Moved " + getGizmoName(gizmo) + " from " + oldCoords + " to " + newCoords);
-	}
-
-	public void moveBall(Vect oldCoords, Vect newCoords) {
-		model.getBall(oldCoords).setGridCoords(newCoords.plus(new Vect(0.5, 0.5)));
-		mainWindow.setStatusLabel("Moved Ball from " + oldCoords + " to " + newCoords);
 	}
 
 	private void drawGrid(Graphics g) {
@@ -172,31 +97,6 @@ public class Board extends JPanel implements Observer {
 						(int) gizmoToTrigger.getGridCoords().y() * GRID_WIDTH + (GRID_WIDTH / 2));
 			}
 		}
-	}
-
-	public String[] getKeyConnections(IGizmo gizmo){
-		List<String> keyConnections = new ArrayList<String>();
-
-		for(int i : model.getKeyPressedTriggers().keySet()){
-			for(IGizmo gizmoToTrigger : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
-				if(gizmoToTrigger.equals(gizmo)){
-					keyConnections.add(KeyEvent.getKeyText(i));
-				}
-			}
-		}
-
-		for(int i : model.getKeyReleasedTriggers().keySet()){
-			for (IGizmo gizmoToTrigger : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()){
-				if(gizmoToTrigger.equals(gizmo) && !keyConnections.contains(KeyEvent.getKeyText(i))){
-					keyConnections.add(KeyEvent.getKeyText(i));
-				}
-			}
-		}
-
-		if(keyConnections.isEmpty())
-			keyConnections.add("None");
-
-		return (keyConnections.toArray(new String[keyConnections.size()]));
 	}
 
 	public void setState(STATE state) {
