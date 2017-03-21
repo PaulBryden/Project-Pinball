@@ -56,8 +56,9 @@ public class SidePanel extends JPanel {
 		}
 		if (instructionTextArea == null) {
 			addInstructionPanel(instructions);
+			instructionTextArea.setText("<html>"+instructions+"</html>");
 		} else {
-			instructionTextArea.setText(instructions);
+			instructionTextArea.setText("<html>"+instructions+"</html>");
 		}
 	}
 

@@ -39,6 +39,7 @@ class BallGizmo extends AbstractGizmo implements IBall {
 		circles.add(physicsCircle);
 	}
 
+
 	@Override
 	public Vect getVelo() {
 		return velocity;
@@ -49,11 +50,12 @@ class BallGizmo extends AbstractGizmo implements IBall {
 		velocity = v;
 	}
 
+	
 	@Override
 	public double getRadius() {
 		return radius;
 	}
-
+	
 	@Override
 	public void setRadius(double radius) {
 		this.radius = radius;
