@@ -3,6 +3,7 @@ package controller;
 import view.MainWindow;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -30,9 +31,8 @@ public class LoadBoardController {
         	try {
         		fh.load(path);
         		mainWindow.getBoard().reRender();
-        	} catch (IOException e1) {
+        	} catch (IOException | InputMismatchException e1) {
         		System.out.println("Error reading from file");
-        		e1.printStackTrace();
         		JOptionPane.showMessageDialog(mainWindow, "Error reading from file");
         	}
         }
