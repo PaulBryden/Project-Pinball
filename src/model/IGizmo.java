@@ -53,6 +53,8 @@ public interface IGizmo {
 	
 	double getCoefficientOfReflection();
 
+	void setCoefficientOfReflection(double value);
+	
 	void triggerConnectedGizmos();
 
 	Set<IGizmo> getGizmosToTrigger();

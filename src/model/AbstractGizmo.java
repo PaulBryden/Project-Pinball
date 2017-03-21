@@ -176,5 +176,10 @@ abstract class AbstractGizmo implements IGizmo {
 	public double getCoefficientOfReflection() {
 		return coefficientOfReflection;
 	}
+	
+	@Override
+	public void setCoefficientOfReflection(double cor) {
+		this.coefficientOfReflection = cor;
+	}
 
 }

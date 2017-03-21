@@ -164,7 +164,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				gizmo = model.getBall(coords);
 		}
 		if (gizmo != null)
-			mainWindow.setSidePanel(new SelectSidePanel(gizmo));
+			mainWindow.setSidePanel(new SelectSidePanel(gizmo, mainWindow));
 		else 
 			mainWindow.setSidePanel(new SelectSidePanel());
 	}
