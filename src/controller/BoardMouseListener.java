@@ -1,3 +1,4 @@
+
 package controller;
 
 import model.GizmoFactory;
@@ -155,19 +156,6 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			mainWindow.setWarningLabel("Cannot rotate, this cell is empty. Select an occupied cell.");
 		}
 	}
-	
-	private void handleSelect(Vect coords, Board board) {
-		IGizmo gizmo = null;
-		if (!model.isCellEmpty(coords)) {
-			gizmo = model.getGizmo(coords);
-			if (gizmo == null)
-				gizmo = model.getBall(coords);
-		}
-		if (gizmo != null)
-			mainWindow.setSidePanel(new SelectSidePanel(gizmo, mainWindow));
-		else 
-			mainWindow.setSidePanel(new SelectSidePanel());
-	}
 
 	private void handleGizmoConnect(Vect coords, Board board) {
 		Vect gizmoCoords = board.getSelectedGizmoCoords();
@@ -258,6 +246,19 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		} else {
 			mainWindow.setWarningLabel("Cannot remove key connection, this cell is empty. Select an occupied cell.");
 		}
+	}
+
+	private void handleSelect(Vect coords, Board board) {
+		IGizmo gizmo = null;
+		if (!model.isCellEmpty(coords)) {
+			gizmo = model.getGizmo(coords);
+			if (gizmo == null)
+				gizmo = model.getBall(coords);
+		}
+		if (gizmo != null)
+			mainWindow.setSidePanel(new SelectSidePanel(gizmo, mainWindow));
+		else 
+			mainWindow.setSidePanel(new SelectSidePanel());
 	}
 
 	@Override

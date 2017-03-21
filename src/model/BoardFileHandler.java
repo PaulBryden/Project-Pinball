@@ -127,7 +127,7 @@ public class BoardFileHandler {
 						+ " "
 						+ (int) ((CounterGizmo) current).getBottomRightCoords().y()
 						+ " "
-						+ (((CounterGizmo) current).getCount());
+						+ (((CounterGizmo) current).getCount())+"\n";
 			} else if (current instanceof Absorber) {
 				current = (Absorber) current;
 				saveString += "Absorber "
@@ -249,7 +249,7 @@ public class BoardFileHandler {
 							newAbsorber.absorbBall(new BallGizmo("B",new Vect(0,0),new Vect(0,0)));
 						}
 						model.addGizmo(newAbsorber);
-				}else if(type.equals("CounterGizmo")){
+				}else if(type.equals("Counter")){
 	
 					ICounterGizmo newCounter;
 					String id = scan.next();
