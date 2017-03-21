@@ -52,7 +52,6 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 					} else {
 						board.addGizmo(new AbsorberView(gf.getRectangularGizmo(TYPE.Absorber, initalAbsorberCoords,
 								new Vect(coords.x() + 1, coords.y() + 1))));
-						model.getGizmo(initalAbsorberCoords).addGizmoToTrigger(model.getGizmo(initalAbsorberCoords));
 					}
 					board.setSelectedGizmoCoords(null);
 				}
