@@ -183,17 +183,17 @@ public class FileHandlerTest {
 	
 	@Test
 	public void testSaveEmptyModel() throws IOException {
-		// Should produce file with only Gravity and Friction
+		// Should produce file with only Gravity, Friction, Background and Text colours => 4 lines
 		file.save("test_save_file.txt");
 		
 		BufferedReader br = new BufferedReader(new FileReader("test_save_file.txt"));
 		int count = 0;
-		String line = null;
 		
-		while ((line = br.readLine()) != null)
+		while (br.readLine() != null) {
 			count++;
+		}
 
-		assertEquals(count, 2);
+		assertEquals(count, 4);
 
 		br.close();
 	}
@@ -212,7 +212,7 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("Square S0008 0 8"));
+		assertTrue(line.trim().equals("Square S0008 0 8"));
 	}
 	
 	@Test
@@ -225,7 +225,7 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("Circle C0405 4 5"));
+		assertTrue(line.trim().equals("Circle C0405 4 5"));
 	}
 
 	@Test
@@ -237,8 +237,7 @@ public class FileHandlerTest {
 		BufferedReader br = new BufferedReader(new FileReader("test_save_file.txt"));
 		String line = br.readLine();
 		br.close();
-		
-		assertTrue(line.equals("Triangle T1005 10 5"));
+		assertTrue(line.trim().equals("Triangle T1005 10 5"));
 	}
 	
 	@Test
@@ -251,7 +250,7 @@ public class FileHandlerTest {
 		BufferedReader br = new BufferedReader(new FileReader("test_save_file.txt"));
 		String line = br.readLine();
 		br.close();
-		assertTrue(line.equals("Ball B00 10.0000 14.0000 0.0000 0.0000"));
+		assertTrue(line.trim().equals("Ball B00 10.0000 14.0000 0.0000 0.0000"));
 	}
 	
 	@Test
@@ -265,7 +264,7 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("Absorber A0505 5 5 15 15"));
+		assertTrue(line.trim().equals("Absorber A0505 5 5 15 15"));
 	}
 	
 	@Test
@@ -278,7 +277,7 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("LeftFlipper LF0709 7 9"));
+		assertTrue(line.trim().equals("LeftFlipper LF0709 7 9"));
 	}
 
 	@Test
@@ -291,7 +290,7 @@ public class FileHandlerTest {
 		String line = br.readLine();
 		br.close();
 		
-		assertTrue(line.equals("RightFlipper RF1401 14 1"));
+		assertTrue(line.trim().equals("RightFlipper RF1401 14 1"));
 	}
 
 }
