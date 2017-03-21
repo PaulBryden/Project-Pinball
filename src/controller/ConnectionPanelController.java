@@ -20,4 +20,5 @@ public class ConnectionPanelController {
 			mainWindow.getBoard().setState(STATE.GIZMO_CONNECT_MENU);
 		}
 	}
+
 }

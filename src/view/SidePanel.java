@@ -14,7 +14,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.border.BevelBorder;
 
 public class SidePanel extends JPanel {
@@ -56,9 +55,9 @@ public class SidePanel extends JPanel {
 		}
 		if (instructionTextArea == null) {
 			addInstructionPanel(instructions);
-			instructionTextArea.setText("<html>"+instructions+"</html>");
+			instructionTextArea.setText("<html>" + instructions + "</html>");
 		} else {
-			instructionTextArea.setText("<html>"+instructions+"</html>");
+			instructionTextArea.setText("<html>" + instructions + "</html>");
 		}
 	}
 
@@ -109,16 +108,18 @@ public class SidePanel extends JPanel {
 	private JPanel createInstructionPanel(String instructions) {
 		JPanel panel = new JPanel();
 		instructionTextArea = new JLabel();
-		instructionTextArea.setText("<html>"+instructions+"</html>");
+		instructionTextArea.setText("<html>" + instructions + "</html>");
 		instructionTextArea.setBackground(new Color(0, 0, 0, 0));
 		instructionTextArea.setVisible(true);
 		instructionTextArea.setFont(instructionTextArea.getFont().deriveFont(Font.PLAIN));
 		instructionTextArea.setMinimumSize(new Dimension(70, 70));
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		instructionTextArea.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 3));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		panel.add(Box.createRigidArea(new Dimension(5, 5)));
 		panel.add(instructionTextArea);
+		panel.add(Box.createRigidArea(new Dimension(5, 5)));
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		return panel;
 	}
 
 }
-

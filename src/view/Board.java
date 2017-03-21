@@ -109,35 +109,6 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
-	public String[] getKeyConnections(IGizmo gizmo){
-		List<String> keyConnections = new ArrayList<String>();
-
-		for(int i : model.getKeyPressedTriggers().keySet()){
-			for(IGizmo gizmoToTrigger : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
-				if(gizmoToTrigger.equals(gizmo)){
-					keyConnections.add(KeyEvent.getKeyText(i));
-				}
-			}
-		}
-
-		for(int i : model.getKeyReleasedTriggers().keySet()){
-			for (IGizmo gizmoToTrigger : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()){
-				if(gizmoToTrigger.equals(gizmo) && !keyConnections.contains(KeyEvent.getKeyText(i))){
-					keyConnections.add(KeyEvent.getKeyText(i));
-				}
-			}
-		}
-
-		if(keyConnections.isEmpty())
-			keyConnections.add("None");
-
-		return (keyConnections.toArray(new String[keyConnections.size()]));
-	}
-
-	public void removeGizmoConnection(IGizmo gizmo1, IGizmo gizmo2){
-        gizmo1.getGizmosToTrigger().remove(gizmo2);
-        gizmo2.getGizmosToTrigger().remove(gizmo1);
-    }
 
 	public void setState(STATE state) {
 		selectedGizmoCoords = null;

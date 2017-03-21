@@ -1,7 +1,6 @@
 package controller;
 
 import view.MainWindow;
-import view.STATE;
 import view.SidePanel;
 
 import static view.STATE.MOVE;

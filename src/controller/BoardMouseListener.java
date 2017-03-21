@@ -9,13 +9,18 @@ import model.ICounterGizmo;
 import model.IGizmo;
 import model.IModel;
 import model.ISpinner;
+import model.KeyTrigger;
 import physics.Vect;
 import view.Board;
 import view.CUR_GIZMO;
+import view.ConnectionSidePanel;
 import view.MainWindow;
 import view.SelectSidePanel;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoardMouseListener implements java.awt.event.MouseListener {
 	private static final int GRID_WIDTH = 20;
@@ -181,7 +186,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			try {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 						+ coordsString(gizmoCoords) + ". Please type a key to connect this gizmo to");
-				mainWindow.getBoard().getKeyConnectionList().update(board.getKeyConnections(model.getGizmo(coords)));
+				//mainWindow.getBoard().getKeyConnectionList().update(getKeyConnections(model.getGizmo(coords)));
 				mainWindow.getBuildKeyListener().setListening(true);
 			} catch (NullPointerException e) {
 				mainWindow.setWarningLabel("Cannot add key connection to ball");
@@ -208,8 +213,10 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				}
 			} else {
 				try {
-					board.removeGizmoConnection(board.getModel().getGizmo(gizmoCoords),
-							board.getModel().getGizmo(coords));
+					IGizmo gizmo1 = board.getModel().getGizmo(gizmoCoords);
+					IGizmo gizmo2 = board.getModel().getGizmo(coords);
+					gizmo1.getGizmosToTrigger().remove(gizmo2);
+					gizmo2.getGizmosToTrigger().remove(gizmo1);
 					board.setSelectedGizmoCoords(null);
 				} catch (NullPointerException e) {
 					mainWindow.setWarningLabel("Cannot remove this connection. Click a gizmo.");
@@ -227,7 +234,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			try {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 						+ coordsString(gizmoCoords) + ". Please type the key you wish to remove.");
-				mainWindow.getBoard().getKeyConnectionList().update(board.getKeyConnections(model.getGizmo(coords)));
+				//mainWindow.getBoard().getKeyConnectionList().update(board.getKeyConnections(model.getGizmo(coords)));
 				mainWindow.getBuildKeyListener().setListening(true);
 			} catch (NullPointerException e) {
 				mainWindow.setWarningLabel("Balls do not have connections. Try a gizmo.");
@@ -273,15 +280,19 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			handleSelect(coords, board);
 			break;
 		case GIZMO_CONNECT:
+			determineKeyConnectionsVisibility(coords, board);
 			handleGizmoConnect(coords, board);
 			break;
 		case KEY_CONNECT:
+			determineKeyConnectionsVisibility(coords, board);
 			handleKeyConnect(coords, board);
 			break;
 		case RM_GIZMO_CONNECT:
+			determineKeyConnectionsVisibility(coords, board);
 			handleRemoveGizmoConnect(coords, board);
 			break;
 		case RM_KEY_CONNECT:
+			determineKeyConnectionsVisibility(coords, board);
 			handleRemoveKeyConnect(coords, board);
 			break;
 		default:
@@ -289,6 +300,40 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		}
 
 		board.reRender();
+	}
+
+	public void determineKeyConnectionsVisibility(Vect coords, Board board) {
+		ConnectionSidePanel csp = (ConnectionSidePanel) mainWindow.getSidePanel();
+		IGizmo gizmo = model.getGizmo(coords);
+		if (gizmo == null) {
+			csp.setKeyConnectionsVisible(false);
+			return;
+		}
+		csp.setExistingConnectionInfo(gizmo.getID(), getKeyConnections(gizmo));
+		csp.setKeyConnectionsVisible(true);
+	}
+
+	public String getKeyConnections(IGizmo gizmo){
+		List<String> l = new ArrayList<>();
+		for(int i : model.getKeyPressedTriggers().keySet()){
+			for(IGizmo gizmoToTrigger : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
+				if(gizmoToTrigger.equals(gizmo)){
+					l.add(KeyEvent.getKeyText(i));
+				}
+			}
+		}
+
+		for(int i : model.getKeyReleasedTriggers().keySet()){
+			for (IGizmo gizmoToTrigger : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()){
+				if(gizmoToTrigger.equals(gizmo) && !l.contains(KeyEvent.getKeyText(i))){
+					l.add(KeyEvent.getKeyText(i));
+				}
+			}
+		}
+
+		if(l.isEmpty())
+			return "[None]";
+		return String.join(", ", l);
 	}
 
 	@Override
