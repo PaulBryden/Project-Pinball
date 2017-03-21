@@ -1,10 +1,12 @@
 package controller;
 
 import java.awt.event.KeyEvent;
+import java.util.Map;
 
 import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
+import model.KeyTrigger;
 import physics.Vect;
 import view.Board;
 import view.MainWindow;
@@ -33,8 +35,8 @@ public class BuildKeyListener extends AbstractKeyListener {
 		if (gizmoCoords != null) {
 			gizmo = board.getModel().getGizmo(gizmoCoords);
 			if(board.getState().equals(RM_KEY_CONNECT)){
-				board.removeKeyConnections(model.getKeyPressedTriggers(), gizmo);
-				board.removeKeyConnections(model.getKeyReleasedTriggers(), gizmo);
+				removeKeyConnections(model.getKeyPressedTriggers(), gizmo);
+				removeKeyConnections(model.getKeyReleasedTriggers(), gizmo);
 				mainWindow.setStatusLabel("The " + keyChar + " key has been removed from " + board.getGizmoName(gizmo));
 			} else {
 				// flippers are triggered on key pressed as well as key released
@@ -47,6 +49,12 @@ public class BuildKeyListener extends AbstractKeyListener {
 			}
 		}
 		this.setListening(false);
+	}
+
+	private void removeKeyConnections(Map<Integer, KeyTrigger> map, IGizmo gizmo) {
+		for (KeyTrigger keyTrigger : map.values()) {
+			keyTrigger.getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
+		}
 	}
 
 	@Override

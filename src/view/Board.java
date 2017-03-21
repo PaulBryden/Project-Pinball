@@ -81,59 +81,6 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
-	public void addGizmo(IViewGizmo gizmo) {
-		viewGizmos.add(gizmo);
-		model.addGizmo(gizmo.getGizmo());
-		mainWindow.setStatusLabel(getGizmoName(gizmo.getGizmo()) + " Placed");
-		reRender();
-	}
-
-	public void addBall(IBall ball) {
-		viewBalls.add(new BallView(ball));
-		model.addBall(ball);
-		mainWindow.setStatusLabel("Ball Placed");
-		reRender();
-	}
-
-	public void removeKeyConnections(Map<Integer, KeyTrigger> map, IGizmo gizmo) {
-		for (KeyTrigger keyTrigger : map.values()) {
-			keyTrigger.getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
-		}
-	}
-
-	private void removeGizmoConnections(IGizmo gizmo) {
-		for (IGizmo gizmo1 : model.getGizmos()) {
-			gizmo1.getGizmosToTrigger().removeIf(gizmo2 -> gizmo2.equals(gizmo));
-		}
-	}
-
-	public void removeGizmo(Vect coords) {
-		IGizmo gizmo = model.getGizmo(coords);
-
-		model.getGizmos().remove(gizmo);
-		removeKeyConnections(model.getKeyPressedTriggers(), gizmo);
-		removeKeyConnections(model.getKeyReleasedTriggers(), gizmo);
-		removeGizmoConnections(gizmo);
-		mainWindow.setStatusLabel(getGizmoName(gizmo) + " Removed");
-	}
-
-	public void removeBall(Vect coords) {
-		model.getBalls().remove(model.getBall(coords));
-		mainWindow.setStatusLabel("Ball Removed");
-	}
-
-	public void moveGizmo(Vect oldCoords, Vect newCoords) {
-		IGizmo gizmo = model.getGizmo(oldCoords);
-
-		gizmo.setGridCoords(newCoords);
-		mainWindow.setStatusLabel("Moved " + getGizmoName(gizmo) + " from " + oldCoords + " to " + newCoords);
-	}
-
-	public void moveBall(Vect oldCoords, Vect newCoords) {
-		model.getBall(oldCoords).setGridCoords(newCoords.plus(new Vect(0.5, 0.5)));
-		mainWindow.setStatusLabel("Moved Ball from " + oldCoords + " to " + newCoords);
-	}
-
 	private void drawGrid(Graphics g) {
 		g.setColor(gridColour);
 		int l = 3;

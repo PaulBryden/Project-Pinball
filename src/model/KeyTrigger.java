@@ -35,4 +35,8 @@ public class KeyTrigger {
 		}
 	}
 
+	public void removeGizmo(IGizmo gizmo) {
+		gizmos.remove(gizmo);
+	}
+
 }

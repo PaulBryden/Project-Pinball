@@ -176,7 +176,20 @@ class GameModel extends Observable implements IModel {
 
 	@Override
 	public void removeGizmo(IGizmo gizmo) {
+		removeReferencesToGizmo(gizmo);
 		gizmos.remove(gizmo);
+	}
+	
+	private void removeReferencesToGizmo(IGizmo gizmo) {
+		for (IGizmo g : gizmos) {
+			g.getGizmosToTrigger().remove(gizmo);
+		}
+		for (KeyTrigger t : keyPressedTriggers.values()) {
+			t.removeGizmo(gizmo);
+		}
+		for (KeyTrigger t : keyReleasedTriggers.values()) {
+			t.removeGizmo(gizmo);
+		}
 	}
 
 	@Override
