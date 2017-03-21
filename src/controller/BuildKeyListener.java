@@ -1,6 +1,8 @@
 package controller;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import model.IFlipper;
@@ -9,6 +11,7 @@ import model.IModel;
 import model.KeyTrigger;
 import physics.Vect;
 import view.Board;
+import view.ConnectionSidePanel;
 import view.MainWindow;
 
 import static view.STATE.RM_KEY_CONNECT;
@@ -38,6 +41,7 @@ public class BuildKeyListener extends AbstractKeyListener {
 				removeKeyConnections(model.getKeyPressedTriggers(), gizmo);
 				removeKeyConnections(model.getKeyReleasedTriggers(), gizmo);
 				mainWindow.setStatusLabel("The " + keyChar + " key has been removed from " + board.getGizmoName(gizmo));
+				determineKeyConnectionsVisibility(gizmo, board);
 			} else {
 				// flippers are triggered on key pressed as well as key released
 				// events:
@@ -51,6 +55,39 @@ public class BuildKeyListener extends AbstractKeyListener {
 		this.setListening(false);
 	}
 
+	public void determineKeyConnectionsVisibility(IGizmo gizmo, Board board) {
+		ConnectionSidePanel csp = (ConnectionSidePanel) mainWindow.getSidePanel();
+		if (gizmo == null) {
+			csp.setKeyConnectionsVisible(false);
+			return;
+		}
+		csp.setExistingConnectionInfo(gizmo.getID(), getKeyConnections(gizmo));
+		csp.setKeyConnectionsVisible(true);
+	}
+
+	public String getKeyConnections(IGizmo gizmo){
+		List<String> l = new ArrayList<>();
+		for(int i : model.getKeyPressedTriggers().keySet()){
+			for(IGizmo gizmoToTrigger : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
+				if(gizmoToTrigger.equals(gizmo)){
+					l.add(KeyEvent.getKeyText(i));
+				}
+			}
+		}
+
+		for(int i : model.getKeyReleasedTriggers().keySet()){
+			for (IGizmo gizmoToTrigger : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()){
+				if(gizmoToTrigger.equals(gizmo) && !l.contains(KeyEvent.getKeyText(i))){
+					l.add(KeyEvent.getKeyText(i));
+				}
+			}
+		}
+
+		if(l.isEmpty())
+			return "[None]";
+		return String.join(", ", l);
+	}
+	
 	private void removeKeyConnections(Map<Integer, KeyTrigger> map, IGizmo gizmo) {
 		for (KeyTrigger keyTrigger : map.values()) {
 			keyTrigger.getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));

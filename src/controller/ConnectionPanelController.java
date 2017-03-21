@@ -18,4 +18,5 @@ public class ConnectionPanelController {
 			mainWindow.setSidePanel(new ConnectionSidePanel(listener, mainWindow));
 		}
 	}
+
 }
