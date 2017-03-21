@@ -95,9 +95,23 @@ public class Board extends JPanel implements Observer {
 		reRender();
 	}
 
-	public void removeKeyConnections(Map<Integer, KeyTrigger> map, IGizmo gizmo) {
+	private void removeKeyConnections(Map<Integer, KeyTrigger> map, IGizmo gizmo) {
 		for (KeyTrigger keyTrigger : map.values()) {
 			keyTrigger.getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
+		}
+	}
+
+	public void removeKeyConnection(IGizmo gizmo, int keyCode) {
+		for (Map.Entry<Integer, KeyTrigger> iterator : model.getKeyPressedTriggers().entrySet()) {
+			if (iterator.getKey().equals(keyCode)) {
+				model.getKeyPressedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
+			}
+		}
+
+		for (Map.Entry<Integer, KeyTrigger> iterator : model.getKeyReleasedTriggers().entrySet()) {
+			if (iterator.getKey().equals(keyCode)) {
+				model.getKeyReleasedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
+			}
 		}
 	}
 
@@ -105,6 +119,11 @@ public class Board extends JPanel implements Observer {
 		for (IGizmo gizmo1 : model.getGizmos()) {
 			gizmo1.getGizmosToTrigger().removeIf(gizmo2 -> gizmo2.equals(gizmo));
 		}
+	}
+
+	public void removeGizmoConnection(IGizmo gizmo1, IGizmo gizmo2){
+		gizmo1.getGizmosToTrigger().remove(gizmo2);
+		gizmo2.getGizmosToTrigger().remove(gizmo1);
 	}
 
 	public void removeGizmo(Vect coords) {
@@ -186,11 +205,6 @@ public class Board extends JPanel implements Observer {
 
 		return (keyConnections.toArray(new String[keyConnections.size()]));
 	}
-
-	public void removeGizmoConnection(IGizmo gizmo1, IGizmo gizmo2){
-        gizmo1.getGizmosToTrigger().remove(gizmo2);
-        gizmo2.getGizmosToTrigger().remove(gizmo1);
-    }
 
 	public void setState(STATE state) {
 		selectedGizmoCoords = null;

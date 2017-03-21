@@ -27,15 +27,14 @@ public class BuildKeyListener extends AbstractKeyListener {
 		Board board = mainWindow.getBoard();
 		Vect gizmoCoords = board.getSelectedGizmoCoords();
 		int keyCode = e.getKeyCode();
-		char keyChar = e.getKeyChar();
+		String keyString = KeyEvent.getKeyText(keyCode);
 		IGizmo gizmo;
 
 		if (gizmoCoords != null) {
 			gizmo = board.getModel().getGizmo(gizmoCoords);
 			if(board.getState().equals(RM_KEY_CONNECT)){
-				board.removeKeyConnections(model.getKeyPressedTriggers(), gizmo);
-				board.removeKeyConnections(model.getKeyReleasedTriggers(), gizmo);
-				mainWindow.setStatusLabel("The " + keyChar + " key has been removed from " + board.getGizmoName(gizmo));
+				board.removeKeyConnection(gizmo, keyCode);
+				mainWindow.setStatusLabel("The " + keyString + " key has been removed from " + board.getGizmoName(gizmo));
 			} else {
 				// flippers are triggered on key pressed as well as key released
 				// events:
@@ -43,7 +42,7 @@ public class BuildKeyListener extends AbstractKeyListener {
 					model.addKeyPressedTrigger(keyCode, gizmo);
 				}
 				model.addKeyReleasedTrigger(keyCode, gizmo);
-				mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " connected to the " + keyChar + " key.");
+				mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " connected to the " + keyString + " key.");
 			}
 		}
 		this.setListening(false);
