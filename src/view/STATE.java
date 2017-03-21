@@ -7,6 +7,7 @@ public enum STATE {
     REMOVE,
     MOVE,
     ROTATE,
+    SELECT,
     GIZMO_CONNECT,
     KEY_CONNECT,
     RM_GIZMO_CONNECT,

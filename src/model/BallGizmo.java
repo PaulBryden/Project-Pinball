@@ -75,6 +75,7 @@ class BallGizmo extends AbstractGizmo implements IBall {
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
 		}
+		serializedGizmo += "Colour " + this.getID() + " " + this.getColour().getRGB() + "\n";
 		return serializedGizmo;
 	}
 
@@ -98,6 +99,11 @@ class BallGizmo extends AbstractGizmo implements IBall {
 	@Override
 	public void setCentre(Vect v) {
 		physicsCircle = new Circle(v, physicsCircle.getRadius());
+	}
+
+	@Override
+	public String getType() {
+		return "Ball";
 	}
 
 }

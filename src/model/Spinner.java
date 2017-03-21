@@ -50,16 +50,6 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		this(id, coords, Direction.CW);
 	}
 
-	@Override
-	public String serializeGizmo() {
-		String serializedGizmo = "Spinner " + getID() + " " + (int) this.getGridCoords().x() + " "
-				+ (int) this.getGridCoords().y() + "\n";
-		for (IGizmo gizmo : triggers) {
-			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
-		}
-		return serializedGizmo;
-	}
-
 	protected void generateLinesAndCircles() {
 		circles.clear();
 		lines.clear();
@@ -217,6 +207,11 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 	}
 	public enum Direction {
 		CW, CCW;
+	}
+	
+	@Override
+	public String getType() {
+		return "Spinner";
 	}
 
 
