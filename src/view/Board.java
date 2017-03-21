@@ -102,8 +102,10 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public void removeKeyConnection(IGizmo gizmo, int keyCode) {
-		model.getKeyPressedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
 		model.getKeyReleasedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
+		if(gizmo instanceof IFlipper)
+			model.getKeyPressedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
+
 	}
 
 	private void removeGizmoConnections(IGizmo gizmo) {

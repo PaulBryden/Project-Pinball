@@ -33,8 +33,12 @@ public class BuildKeyListener extends AbstractKeyListener {
 		if (gizmoCoords != null) {
 			gizmo = board.getModel().getGizmo(gizmoCoords);
 			if(board.getState().equals(RM_KEY_CONNECT)){
-				board.removeKeyConnection(gizmo, keyCode);
-				mainWindow.setStatusLabel("The " + keyString + " key has been removed from " + board.getGizmoName(gizmo));
+				try {
+					board.removeKeyConnection(gizmo, keyCode);
+					mainWindow.setStatusLabel("The " + keyString + " key has been removed from " + board.getGizmoName(gizmo));
+				} catch (NullPointerException E) {
+					mainWindow.setWarningLabel("That key is not connected to this gizmo");
+				}
 			} else {
 				// flippers are triggered on key pressed as well as key released
 				// events:
