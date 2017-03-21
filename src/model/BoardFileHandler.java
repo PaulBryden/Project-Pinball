@@ -142,8 +142,7 @@ public class BoardFileHandler {
 		GizmoFactory gf = new GizmoFactory(model);
 		List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after
 													// reading
-		model.setBalls(new ArrayList<IBall>());
-		model.setGizmos(new ArrayList<IGizmo>());
+		model.reset();
 
 		Scanner scan = null;
 

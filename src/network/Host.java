@@ -147,7 +147,7 @@ public class Host implements Runnable{
 		serverSocket.disconnect();
 		serverSocket.close();
         gameModel.setHost(null);
-        window.build();
+        //window.build();
 
 	}
 
