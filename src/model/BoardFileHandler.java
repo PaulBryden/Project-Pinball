@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -187,7 +188,7 @@ public class BoardFileHandler {
 							scan.next();
 						}
 						//connections.add(line); // Store connection info for later
-					} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")) {
+					} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete") || type.equals("Colour")) {
 						executeOperation(type, scan, gizmos); // Build mode operation
 					} else if(!((type.toCharArray()[0]>=65)&&(type.toCharArray()[0]<=122))){
 						
@@ -304,7 +305,7 @@ public class BoardFileHandler {
 				if (type.equals("Connect") || type.equals("KeyConnect")) {
 					connections.add(line); // Store connection info for later
 				} else if (type.equals("Move") || type.equals("Rotate")
-						|| type.equals("Delete")) {
+						|| type.equals("Delete") || type.equals("Colour")) {
 					executeOperation(type, scan, gizmos); // Build mode
 															// operation
 				} else if (type.equals("Gravity")) {
@@ -316,6 +317,7 @@ public class BoardFileHandler {
 					model.setFrictionMu(value1);
 					model.setFrictionMu2(value2);
 				} else {
+					System.out.println(type);
 					IGizmo gizmo = createGizmo(type, scan, gizmos);
 					if (gizmo instanceof IBall) {
 						model.addBall((IBall) gizmo);
@@ -472,7 +474,11 @@ public class BoardFileHandler {
 		case "Delete":
 			gizmos.remove(findGizmoByID(gizmos, id));
 			break;
-
+		case "Colour":
+			int sRGB = scan.nextInt();
+			Color colour = new Color(sRGB);
+			findGizmoByID(gizmos, id).setColour(colour);
+			break;
 		default:
 			System.out.println("No operations applied");
 		}
