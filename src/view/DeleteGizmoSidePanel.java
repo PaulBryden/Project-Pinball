@@ -11,11 +11,10 @@ public class DeleteGizmoSidePanel extends SidePanel {
 
 	public DeleteGizmoSidePanel(PrimaryActionListener listener) {
 		super();
-		JPanel deleteAllPanel = new JPanel();
 		JButton deleteAllButton = new JButton("Delete all");
 		deleteAllButton.addActionListener(listener);
 		deleteAllButton.setActionCommand("delete_all");
-		deleteAllPanel.add(deleteAllButton);
+		JPanel deleteAllPanel = createTitledPanel("Reset", 1, deleteAllButton);
 		build("Click on a gizmo to delete it.", deleteAllPanel);
 	}
 }

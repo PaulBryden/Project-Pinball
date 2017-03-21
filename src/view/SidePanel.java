@@ -65,7 +65,7 @@ public class SidePanel extends JPanel {
 		for (JComponent component : components) {
 			panel.add(component);
 		}
-		if (components.length == 1)
+		if (components.length == 1 && cols != 1)
 			panel.add(Box.createHorizontalGlue());
 		panel.setBorder(BorderFactory.createTitledBorder(title));
 		return panel;

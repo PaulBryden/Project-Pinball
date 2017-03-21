@@ -1,9 +1,7 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.RoundingMode;
@@ -17,13 +15,11 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import controller.PrimaryActionListener;
 import model.IAbsorber;
 import model.IBall;
 import model.IGizmo;
@@ -70,10 +66,11 @@ public class SelectSidePanel extends SidePanel {
 			x_spinner.addChangeListener(new VeloSpinnerListener(ball, x_spinner, y_spinner));
 			y_spinner.addChangeListener(new VeloSpinnerListener(ball, x_spinner, y_spinner));
 		} else if (!(gizmo instanceof IAbsorber)) {
-			components.add(new JLabel("Coefficient of reflection:"));
+			components.add(new JLabel("COR:"));
 			SpinnerModel model = new SpinnerNumberModel(gizmo.getCoefficientOfReflection(), 0, 2, 0.01);
 			JSpinner cor_spinner = new JSpinner(model);
 			components.add(cor_spinner);
+			cor_spinner.setToolTipText("Set coefficient of reflection");
 			cor_spinner.addChangeListener(new CORSpinnerListener(gizmo));
 		}
 		JPanel panel = createTitledPanel("Gizmo properties", 2, components.toArray(new JComponent[components.size()]));
