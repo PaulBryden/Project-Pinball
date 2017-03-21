@@ -55,15 +55,10 @@ class TriangleGizmo extends AbstractGizmo implements ITriangleGizmo {
 		coordVector.add(this.getAllLineSegments().get(1).p1());
 		return coordVector;
 	}
-	
+
 	@Override
-	public String serializeGizmo() {
-		String serializedGizmo = "Triangle " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y()
-				+ "\n";
-		for (IGizmo gizmo : triggers) {
-			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
-		}
-		return serializedGizmo;
+	public String getType() {
+		return "Triangle";
 	}
 
 }

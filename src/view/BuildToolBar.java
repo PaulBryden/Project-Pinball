@@ -21,6 +21,7 @@ class BuildToolBar extends AbstractToolBar {
 		addButton("rotate", "Rotate gizmo");
 		addButton("move", "Move gizmo");
 		addButton("connect", "Connect gizmos");
+		addButton("select", "Select a gizmo");
 		addSeparator();
 		addButton("settings", "Board settings");
 		add(Box.createHorizontalGlue());

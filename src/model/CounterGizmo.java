@@ -77,12 +77,18 @@ public class CounterGizmo extends AbstractGizmo implements ICounterGizmo {
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
 		}
+		serializedGizmo += "Colour " + this.getID() + " " + this.getColour().getRGB() + "\n";
 		return serializedGizmo;
 	}
 
 	@Override
 	public Vect getBottomRightCoords() {
 		return bottomRightCoords;
+	}
+
+	@Override
+	public String getType() {
+		return "CounterGizmo";
 	}
 
 }

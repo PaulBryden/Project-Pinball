@@ -52,12 +52,7 @@ class SquareGizmo extends AbstractGizmo implements ISquareGizmo {
 	}
 
 	@Override
-	public String serializeGizmo() {
-		String serializedGizmo = "Square " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y()
-				+ "\n";
-		for (IGizmo gizmo : triggers) {
-			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
-		}
-		return serializedGizmo;
+	public String getType() {
+		return "Square";
 	}
 }

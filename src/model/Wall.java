@@ -140,6 +140,11 @@ class Wall implements IGizmo {
 	public double getCoefficientOfReflection() {
 		return coefficientOfReflection;
 	}
+	
+	@Override
+	public void setCoefficientOfReflection(double cor) {
+		this.coefficientOfReflection = cor;
+	}
 
 	@Override
 	public int getGridWidth() {
@@ -149,6 +154,11 @@ class Wall implements IGizmo {
 	@Override
 	public int getGridHeight() {
 		return -1;
+	}
+
+	@Override
+	public String getType() {
+		return "Wall";
 	}
 
 }

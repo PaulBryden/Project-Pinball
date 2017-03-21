@@ -100,6 +100,9 @@ public class PrimaryActionListener implements ActionListener {
 		case "remove_connection":
 			new RemoveGizmoTriggerController(mainWindow).start();
 			break;
+		case "select":
+			new SelectGizmoController(mainWindow).start();
+			break;
 		case "settings":
 			new BoardSettingsController(mainWindow).start();
 			break;

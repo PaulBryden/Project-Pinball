@@ -36,16 +36,6 @@ class CircleGizmo extends AbstractGizmo implements ICircleGizmo {
 	}
 
 	@Override
-	public String serializeGizmo() {
-		String serializedGizmo = "Circle " + getID() + " " + (int) (physicsCircle.getCenter().x() - 0.5) + " "
-				+ (int) (physicsCircle.getCenter().y() - 0.5) + "\n";
-		for (IGizmo gizmo : triggers) {
-			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
-		}
-		return serializedGizmo;
-	}
-
-	@Override
 	public double getRadius() {
 		return radius;
 	}
@@ -65,6 +55,11 @@ class CircleGizmo extends AbstractGizmo implements ICircleGizmo {
 	public List<Vect> getExactCoords() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getType() {
+		return "Circle";
 	}
 
 }

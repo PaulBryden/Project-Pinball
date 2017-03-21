@@ -1,0 +1,198 @@
+Triangle T0201 2 1
+Rotate T0201
+Rotate T0201
+Rotate T0201
+Triangle T0302 3 2
+Rotate T0302
+Rotate T0302
+Rotate T0302
+Triangle T0403 4 3
+Rotate T0403
+Rotate T0403
+Rotate T0403
+Triangle T0504 5 4
+Rotate T0504
+Rotate T0504
+Rotate T0504
+Triangle T0605 6 5
+Rotate T0605
+Rotate T0605
+Rotate T0605
+Triangle T0706 7 6
+Rotate T0706
+Rotate T0706
+Rotate T0706
+Triangle T0807 8 7
+Rotate T0807
+Rotate T0807
+Rotate T0807
+Triangle T0102 1 2
+Rotate T0102
+Triangle T0203 2 3
+Rotate T0203
+Triangle T0304 3 4
+Rotate T0304
+Triangle T0405 4 5
+Rotate T0405
+Triangle T0506 5 6
+Rotate T0506
+Triangle T0607 6 7
+Rotate T0607
+Triangle T0708 7 8
+Rotate T0708
+Square S0202 2 2
+Square S0303 3 3
+Square S0404 4 4
+Square S0505 5 5
+Square S0606 6 6
+Square S0707 7 7
+Square S1702 17 2
+Square S1603 16 3
+Square S1504 15 4
+Square S1405 14 5
+Square S1306 13 6
+Square S1207 12 7
+Square S1108 11 8
+Square S0808 8 8
+Square S0217 2 17
+Square S0316 3 16
+Square S0415 4 15
+Square S0514 5 14
+Square S0613 6 13
+Square S0712 7 12
+Square S0811 8 11
+Square S1111 11 11
+Square S1212 12 12
+Square S1313 13 13
+Square S1414 14 14
+Square S1515 15 15
+Square S1616 16 16
+Square S1717 17 17
+Triangle T1208 12 8
+Triangle T1307 13 7
+Triangle T1406 14 6
+Triangle T1505 15 5
+Triangle T1604 16 4
+Triangle T1703 17 3
+Triangle T1802 18 2
+Triangle T0218 2 18
+Triangle T0317 3 17
+Triangle T0416 4 16
+Triangle T0515 5 15
+Triangle T0614 6 14
+Triangle T0713 7 13
+Triangle T0812 8 12
+Triangle T0117 1 17
+Rotate T0117
+Rotate T0117
+Triangle T0216 2 16
+Rotate T0216
+Rotate T0216
+Triangle T0315 3 15
+Rotate T0315
+Rotate T0315
+Triangle T0414 4 14
+Rotate T0414
+Rotate T0414
+Triangle T0513 5 13
+Rotate T0513
+Rotate T0513
+Triangle T0612 6 12
+Rotate T0612
+Rotate T0612
+Triangle T0711 7 11
+Rotate T0711
+Rotate T0711
+Triangle T1211 12 11
+Rotate T1211
+Rotate T1211
+Rotate T1211
+Triangle T1107 11 7
+Rotate T1107
+Rotate T1107
+Triangle T1206 12 6
+Rotate T1206
+Rotate T1206
+Triangle T1305 13 5
+Rotate T1305
+Rotate T1305
+Triangle T1404 14 4
+Rotate T1404
+Rotate T1404
+Triangle T1503 15 3
+Rotate T1503
+Rotate T1503
+Triangle T1602 16 2
+Rotate T1602
+Rotate T1602
+Triangle T1701 17 1
+Rotate T1701
+Rotate T1701
+Triangle T1312 13 12
+Rotate T1312
+Rotate T1312
+Rotate T1312
+Triangle T1413 14 13
+Rotate T1413
+Rotate T1413
+Rotate T1413
+Triangle T1514 15 14
+Rotate T1514
+Rotate T1514
+Rotate T1514
+Triangle T1615 16 15
+Rotate T1615
+Rotate T1615
+Rotate T1615
+Triangle T1716 17 16
+Rotate T1716
+Rotate T1716
+Rotate T1716
+Triangle T1817 18 17
+Rotate T1817
+Rotate T1817
+Rotate T1817
+Triangle T1718 17 18
+Rotate T1718
+Triangle T1617 16 17
+Rotate T1617
+Triangle T1516 15 16
+Rotate T1516
+Triangle T1415 14 15
+Rotate T1415
+Triangle T1314 13 14
+Rotate T1314
+Triangle T1213 12 13
+Rotate T1213
+Triangle T1112 11 12
+Rotate T1112
+Triangle T0019 0 19
+Rotate T0019
+Rotate T0019
+Rotate T0019
+Triangle T0118 1 18
+Rotate T0118
+Triangle T1818 18 18
+Triangle T1919 19 19
+Rotate T1919
+Rotate T1919
+Spinner P0902 9 2
+Connect P0902 P0902
+Absorber A0919 9 19 11 20
+Connect A0919 A0919
+Triangle T1900 19 0
+Rotate T1900
+Triangle T1801 18 1
+Rotate T1801
+Rotate T1801
+Rotate T1801
+Triangle T0000 0 0
+Triangle T0101 1 1
+Rotate T0101
+Rotate T0101
+Spinner P0601 6 1
+Connect P0601 P0601
+Ball B01 10.6500 4.9435 -23.2020 -4.7240
+Ball B00 10.6500 9.1706 0.0000 -33.3372
+Gravity 25.0
+Friction 0.025 0.025
