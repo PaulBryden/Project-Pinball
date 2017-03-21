@@ -35,34 +35,34 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			GizmoFactory gf = new GizmoFactory(model);
 			switch (board.getSelectedGizmo()) {
 			case ABSORBER:
-				Vect initalAbsorberCoords = board.getSelectedGizmoCoords();
-				if (initalAbsorberCoords == null) {
+				Vect initialAbsorberCoords = board.getSelectedGizmoCoords();
+				if (initialAbsorberCoords == null) {
 					board.setSelectedGizmoCoords(coords);
 					mainWindow.setStatusLabel("Selected top-left cell of absorber at " + coordsString(coords));
 				} else {
-					if (coords.x() < initalAbsorberCoords.x() || coords.y() < initalAbsorberCoords.y()) {
-						mainWindow.setWarningLabel(
-								"Invalid cell, you might want to make that the top-left cell, try again");
-					} else {
-						addGizmo(gf.getRectangularGizmo(TYPE.Absorber, initalAbsorberCoords,
-								new Vect(coords.x() + 1, coords.y() + 1)));
-					}
+					double leftX = coords.x() < initialAbsorberCoords.x() ? coords.x() : initialAbsorberCoords.x();
+					double rightX = coords.x() > initialAbsorberCoords.x() ? coords.x() : initialAbsorberCoords.x();
+					double topY = coords.y() < initialAbsorberCoords.y() ? coords.y() : initialAbsorberCoords.y();
+					double bottomY = coords.y() > initialAbsorberCoords.y() ? coords.y() : initialAbsorberCoords.y();
+					Vect topLeft = new Vect(leftX, topY);
+					Vect bottomRight = new Vect(rightX + 1, bottomY + 1);
+					addGizmo(gf.getRectangularGizmo(TYPE.Absorber, topLeft, bottomRight));
 					board.setSelectedGizmoCoords(null);
 				}
 				break;
 			case COUNTER:
-				Vect initalCounterCoords = board.getSelectedGizmoCoords();
-				if (initalCounterCoords == null) {
+				Vect initialCounterCoords = board.getSelectedGizmoCoords();
+				if (initialCounterCoords == null) {
 					board.setSelectedGizmoCoords(coords);
 					mainWindow.setStatusLabel("Selected top-left cell of counter gizmo at " + coordsString(coords));
 				} else {
-					if (coords.x() < initalCounterCoords.x() || coords.y() < initalCounterCoords.y()) {
-						mainWindow.setWarningLabel(
-								"Invalid cell, you might want to make that the top-left cell, try again");
-					} else {
-						addGizmo(gf.getRectangularGizmo(TYPE.Counter, initalCounterCoords,
-								new Vect(coords.x() + 1, coords.y() + 1)));
-					}
+					double leftX = coords.x() < initialCounterCoords.x() ? coords.x() : initialCounterCoords.x();
+					double rightX = coords.x() > initialCounterCoords.x() ? coords.x() : initialCounterCoords.x();
+					double topY = coords.y() < initialCounterCoords.y() ? coords.y() : initialCounterCoords.y();
+					double bottomY = coords.y() > initialCounterCoords.y() ? coords.y() : initialCounterCoords.y();
+					Vect topLeft = new Vect(leftX, topY);
+					Vect bottomRight = new Vect(rightX + 1, bottomY + 1);
+					addGizmo(gf.getRectangularGizmo(TYPE.Counter, topLeft, bottomRight));
 					board.setSelectedGizmoCoords(null);
 				}
 				break;
@@ -200,7 +200,8 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				gizmoCoords = board.getSelectedGizmoCoords();
 				try {
 					mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
-							+ coordsString(gizmoCoords) + ". Please select a connected gizmo to remove that connection.");
+							+ coordsString(gizmoCoords)
+							+ ". Please select a connected gizmo to remove that connection.");
 				} catch (NullPointerException e) {
 					mainWindow.setWarningLabel("Balls do not have connections. Try a gizmo.");
 					board.setSelectedGizmoCoords(null);
@@ -387,7 +388,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			}
 		}
 		if (gizmo instanceof IBall) {
-			newCoords = new Vect(newCoords.x() + 0.5, newCoords.y() + 0.5);
+			newCoords = newCoords.plus(new Vect(0.5, 0.5));
 		}
 		gizmo.setGridCoords(newCoords);
 		mainWindow.setStatusLabel(
