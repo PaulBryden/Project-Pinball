@@ -8,6 +8,7 @@ public enum STATE {
     MOVE,
     ROTATE,
     SELECT,
+    GIZMO_CONNECT_MENU,
     GIZMO_CONNECT,
     KEY_CONNECT,
     RM_GIZMO_CONNECT,

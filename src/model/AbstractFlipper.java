@@ -192,4 +192,15 @@ abstract class AbstractFlipper extends AbstractGizmo implements IFlipper {
 		generateLinesAndCircles();
 	}
 
+	
+	@Override
+	public String serializeGizmo() {
+		String serializedGizmo = getType() + " " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y() + " " + "\n";
+		for (IGizmo gizmo : triggers) {
+			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
+		}
+		serializedGizmo += "Colour " + this.getID() + " " + this.getColour().getRGB() + "\n";
+		serializedGizmo += "Angle " + this.getID() + " " + this.getAngle().radians() + "\n";
+		return serializedGizmo;
+	}
 }
