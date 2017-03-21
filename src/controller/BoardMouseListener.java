@@ -11,14 +11,10 @@ import model.IModel;
 import physics.Vect;
 import view.Board;
 import view.CUR_GIZMO;
-import view.ConnectionSidePanel;
 import view.MainWindow;
 import view.SelectSidePanel;
 
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BoardMouseListener implements java.awt.event.MouseListener {
 	private static final int GRID_WIDTH = 20;
@@ -197,7 +193,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 
 	private void handleRemoveGizmoConnect(Vect coords, Board board) {
 		Vect gizmoCoords = board.getSelectedGizmoCoords();
-		if (!model.isCellEmpty(coords)) {
+		if (!model.isCellEmpty(coords) || gizmoCoords.equals(coords)) {
 			if (gizmoCoords == null) {
 				board.setSelectedGizmoCoords(coords);
 				gizmoCoords = board.getSelectedGizmoCoords();
@@ -215,9 +211,16 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 					IGizmo gizmo2 = board.getModel().getGizmo(coords);
 					gizmo1.getGizmosToTrigger().remove(gizmo2);
 					gizmo2.getGizmosToTrigger().remove(gizmo1);
+					mainWindow.setStatusLabel("Removed connection between " + getGizmoName(model.getGizmo(gizmoCoords)) + " at "
+							+ coordsString(gizmoCoords)
+							+ " and " + getGizmoName(model.getGizmo(coords)) + " at " + coordsString(gizmoCoords));
 					board.setSelectedGizmoCoords(null);
 				} catch (NullPointerException e) {
-					mainWindow.setWarningLabel("Cannot remove this connection. Click a gizmo.");
+					if(gizmoCoords.equals(coords)) {
+						mainWindow.setWarningLabel("This gizmo is not connected to itself");
+					} else {
+						mainWindow.setWarningLabel("Cannot remove this connection. Click a gizmo.");
+					}
 				}
 			}
 		} else {
