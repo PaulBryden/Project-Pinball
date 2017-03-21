@@ -297,7 +297,7 @@ public class BoardFileHandler {
 				if (type.equals("Connect") || type.equals("KeyConnect")) {
 					connections.add(line); // Store connection info for later
 				} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")
-						|| type.equals("Colour")) {
+						|| type.equals("Colour")||type.equals("Angle")) {
 					executeOperation(type, scan, gizmos); // Build mode
 															// operation
 				} else if (type.equals("Gravity")) {
@@ -472,6 +472,17 @@ public class BoardFileHandler {
 			Color colour = new Color(sRGB);
 			findGizmoByID(gizmos, id).setColour(colour);
 			break;
+		case "Angle":
+			double angleRadians = scan.nextDouble();
+			IGizmo gizmo = findGizmoByID(gizmos, id);
+			if(gizmo instanceof IFlipper){
+				((IFlipper) gizmo).setAngle(new Angle(angleRadians));
+			}
+			if(gizmo instanceof ISpinner){
+				((ISpinner) gizmo).setAngle(new Angle(angleRadians));
+			}
+			break;
+			
 		default:
 			System.out.println("No operations applied");
 		}
