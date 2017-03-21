@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -9,7 +10,9 @@ import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.BevelBorder;
@@ -20,7 +23,7 @@ public class SidePanel extends JPanel {
 
 	private static final long serialVersionUID = 8844919255973893688L;
 
-	private JTextArea instructionTextArea;
+	private JLabel instructionTextArea;
 	private GridBagConstraints constraints;
 
 	/**
@@ -104,14 +107,13 @@ public class SidePanel extends JPanel {
 
 	private JPanel createInstructionPanel(String instructions) {
 		JPanel panel = new JPanel();
-		instructionTextArea = new JTextArea();
-		instructionTextArea.setEditable(false);
-		instructionTextArea.setPreferredSize(new Dimension(180, 80));
-		instructionTextArea.setWrapStyleWord(true);
-		instructionTextArea.setLineWrap(true);
-		instructionTextArea.setText(instructions);
+		instructionTextArea = new JLabel();
+		instructionTextArea.setText("<html>"+instructions+"</html>");
 		instructionTextArea.setBackground(new Color(0, 0, 0, 0));
-		instructionTextArea.setHighlighter(null);
+		instructionTextArea.setVisible(true);
+		instructionTextArea.setFont(instructionTextArea.getFont().deriveFont(Font.PLAIN));
+		instructionTextArea.setMinimumSize(new Dimension(70, 70));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.add(instructionTextArea);
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		return panel;
