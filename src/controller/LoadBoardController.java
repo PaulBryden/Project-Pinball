@@ -21,12 +21,12 @@ public class LoadBoardController {
 
     public void start() {
     	IModel model = mainWindow.getBoard().getModel();
-        BoardFileHandler fh = new BoardFileHandler(model);
-        model.reset();
         JFileChooser fc = new JFileChooser(".");
         int returnVal = fc.showOpenDialog(mainWindow);
         
         if (returnVal == JFileChooser.APPROVE_OPTION) {
+            BoardFileHandler fh = new BoardFileHandler(model);
+            model.reset();
         	String path = fc.getSelectedFile().getAbsolutePath();
         	try {
         		fh.load(path);
