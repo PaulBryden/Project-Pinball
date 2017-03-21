@@ -38,6 +38,7 @@ public class BuildKeyListener extends AbstractKeyListener {
 			if(board.getState().equals(RM_KEY_CONNECT)){
 				try {
 					removeKeyConnection(gizmo, keyCode);
+					board.determineKeyConnectionsVisibility(gizmoCoords);
 					mainWindow.setStatusLabel("The " + keyString + " key has been removed from " + board.getGizmoName(gizmo));
 				} catch (NullPointerException E) {
 					mainWindow.setWarningLabel("That key is not connected to this gizmo");

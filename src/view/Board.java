@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ import static view.STATE.*;
 public class Board extends JPanel implements Observer {
 
 	private static final long serialVersionUID = -4998929957953130907L;
+	private MainWindow mainWindow;
 	private IModel model;
 	private List<IViewGizmo> viewGizmos;
 	private List<IViewGizmo> viewBalls;
@@ -37,6 +39,7 @@ public class Board extends JPanel implements Observer {
 
 	public Board(MainWindow mainWindow, IModel model) {
 		super();
+		this.mainWindow = mainWindow;
 		this.model = model;
 		model.addObserver(this);
 		viewGizmos = new LinkedList<>();
@@ -69,6 +72,40 @@ public class Board extends JPanel implements Observer {
 			case ('T'): return ("Triangle");
 			default: return ("Unknown");
 		}
+	}
+
+	public void determineKeyConnectionsVisibility(Vect coords) {
+		ConnectionSidePanel csp = (ConnectionSidePanel) mainWindow.getSidePanel();
+		IGizmo gizmo = model.getGizmo(coords);
+		if (gizmo == null) {
+			csp.setKeyConnectionsVisible(false);
+			return;
+		}
+		csp.setExistingConnectionInfo(gizmo.getID(), getKeyConnections(gizmo));
+		csp.setKeyConnectionsVisible(true);
+	}
+
+	private String getKeyConnections(IGizmo gizmo){
+		List<String> l = new ArrayList<>();
+		for(int i : model.getKeyPressedTriggers().keySet()){
+			for(IGizmo gizmoToTrigger : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
+				if(gizmoToTrigger.equals(gizmo)){
+					l.add(KeyEvent.getKeyText(i));
+				}
+			}
+		}
+
+		for(int i : model.getKeyReleasedTriggers().keySet()){
+			for (IGizmo gizmoToTrigger : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()){
+				if(gizmoToTrigger.equals(gizmo) && !l.contains(KeyEvent.getKeyText(i))){
+					l.add(KeyEvent.getKeyText(i));
+				}
+			}
+		}
+
+		if(l.isEmpty())
+			return "[None]";
+		return String.join(", ", l);
 	}
 
 	private void drawGrid(Graphics g) {
