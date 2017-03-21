@@ -2,6 +2,7 @@ package controller;
 
 import view.ConnectionSidePanel;
 import view.MainWindow;
+import view.STATE;
 
 public class ConnectionPanelController {
 
@@ -16,6 +17,7 @@ public class ConnectionPanelController {
 	public void start() {
 		if(!(mainWindow.getSidePanel() instanceof ConnectionSidePanel)) {
 			mainWindow.setSidePanel(new ConnectionSidePanel(listener, mainWindow));
+			mainWindow.getBoard().setState(STATE.GIZMO_CONNECT_MENU);
 		}
 	}
 }
