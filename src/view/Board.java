@@ -102,17 +102,8 @@ public class Board extends JPanel implements Observer {
 	}
 
 	public void removeKeyConnection(IGizmo gizmo, int keyCode) {
-		for (Map.Entry<Integer, KeyTrigger> iterator : model.getKeyPressedTriggers().entrySet()) {
-			if (iterator.getKey().equals(keyCode)) {
-				model.getKeyPressedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
-			}
-		}
-
-		for (Map.Entry<Integer, KeyTrigger> iterator : model.getKeyReleasedTriggers().entrySet()) {
-			if (iterator.getKey().equals(keyCode)) {
-				model.getKeyReleasedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
-			}
-		}
+		model.getKeyPressedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
+		model.getKeyReleasedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
 	}
 
 	private void removeGizmoConnections(IGizmo gizmo) {
