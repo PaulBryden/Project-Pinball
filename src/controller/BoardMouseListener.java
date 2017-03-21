@@ -162,9 +162,16 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				if (model.getGizmo(gizmoCoords).getGizmosToTrigger().contains(model.getGizmo(coords))) {
 					mainWindow.setWarningLabel("Connection already exists between selected gizmos.");
 				} else {
-					model.getGizmo(gizmoCoords).addGizmoToTrigger(model.getGizmo(coords));
-					mainWindow.setStatusLabel("Connected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " to "
-							+ board.getGizmoName(model.getGizmo(coords)));
+					IGizmo gizmo1 = model.getGizmo(gizmoCoords);
+					IGizmo gizmo2 = model.getGizmo(coords);
+
+					if(gizmo2 != null) {
+						gizmo1.addGizmoToTrigger(gizmo2);
+						mainWindow.setStatusLabel("Connected " + board.getGizmoName(gizmo1) + " to "
+								+ getGizmoName(gizmo2));
+					} else {
+						mainWindow.setWarningLabel("Balls do not have connections");
+					}
 					board.setSelectedGizmoCoords(null);
 				}
 			}
@@ -180,7 +187,6 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			try {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 						+ coordsString(gizmoCoords) + ". Please type a key to connect this gizmo to");
-				//mainWindow.getBoard().getKeyConnectionList().update(getKeyConnections(model.getGizmo(coords)));
 				mainWindow.getBuildKeyListener().setListening(true);
 			} catch (NullPointerException e) {
 				mainWindow.setWarningLabel("Cannot add key connection to ball");
@@ -193,7 +199,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 
 	private void handleRemoveGizmoConnect(Vect coords, Board board) {
 		Vect gizmoCoords = board.getSelectedGizmoCoords();
-		if (!model.isCellEmpty(coords) || gizmoCoords.equals(coords)) {
+		if (!model.isCellEmpty(coords) || (gizmoCoords != null && gizmoCoords.equals(coords))) {
 			if (gizmoCoords == null) {
 				board.setSelectedGizmoCoords(coords);
 				gizmoCoords = board.getSelectedGizmoCoords();
@@ -209,19 +215,22 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				try {
 					IGizmo gizmo1 = board.getModel().getGizmo(gizmoCoords);
 					IGizmo gizmo2 = board.getModel().getGizmo(coords);
-					gizmo1.getGizmosToTrigger().remove(gizmo2);
-					gizmo2.getGizmosToTrigger().remove(gizmo1);
-					mainWindow.setStatusLabel("Removed connection between " + getGizmoName(model.getGizmo(gizmoCoords)) + " at "
-							+ coordsString(gizmoCoords)
-							+ " and " + getGizmoName(model.getGizmo(coords)) + " at " + coordsString(gizmoCoords));
-					board.setSelectedGizmoCoords(null);
-				} catch (NullPointerException e) {
-					if(gizmoCoords.equals(coords)) {
-						mainWindow.setWarningLabel("This gizmo is not connected to itself");
+					if(gizmo1.getGizmosToTrigger().remove(gizmo2) || gizmo2.getGizmosToTrigger().remove(gizmo1)){
+						System.out.println("Removed");
+						mainWindow.setStatusLabel("Removed connection between " + getGizmoName(model.getGizmo(gizmoCoords)) + " at "
+								+ coordsString(gizmoCoords)
+								+ " and " + getGizmoName(model.getGizmo(coords)) + " at " + coordsString(gizmoCoords));
 					} else {
-						mainWindow.setWarningLabel("Cannot remove this connection. Click a gizmo.");
+						if(gizmoCoords.equals(coords)) {
+							mainWindow.setWarningLabel("This gizmo is not connected to itself");
+						} else {
+							mainWindow.setWarningLabel("No connection exists between these gizmos");
+						}
 					}
+				} catch (NullPointerException e) {
+					mainWindow.setWarningLabel("Balls do not have connections");
 				}
+				board.setSelectedGizmoCoords(null);
 			}
 		} else {
 			mainWindow.setWarningLabel("Empty cell selected.");
@@ -321,26 +330,26 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 
 	private String getGizmoName(IGizmo gizmo) {
 		switch (gizmo.getID().charAt(0)) {
-		case ('B'):
-			return ("Ball");
-		case ('A'):
-			return ("Absorber");
-		case ('C'):
-			return ("Circle");
-		case ('L'):
-			return ("Left flipper");
-		case ('R'):
-			return ("Right flipper");
-		case ('S'):
-			return ("Square");
-		case ('N'):
-			return ("Counter gizmo");
-		case ('P'):
-			return ("Spinner gizmo");
-		case ('T'):
-			return ("Triangle");
-		default:
-			return ("Unknown");
+			case ('B'):
+				return ("Ball");
+			case ('A'):
+				return ("Absorber");
+			case ('C'):
+				return ("Circle");
+			case ('L'):
+				return ("Left flipper");
+			case ('R'):
+				return ("Right flipper");
+			case ('S'):
+				return ("Square");
+			case ('N'):
+				return ("Counter gizmo");
+			case ('P'):
+				return ("Spinner gizmo");
+			case ('T'):
+				return ("Triangle");
+			default:
+				return ("Unknown");
 		}
 	}
 
