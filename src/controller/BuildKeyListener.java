@@ -50,6 +50,7 @@ public class BuildKeyListener extends AbstractKeyListener {
 				}
 				model.addKeyReleasedTrigger(keyCode, gizmo);
 				mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " connected to the " + keyChar + " key.");
+				determineKeyConnectionsVisibility(gizmo, board);
 			}
 		}
 		this.setListening(false);
