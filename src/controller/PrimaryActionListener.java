@@ -32,9 +32,11 @@ public class PrimaryActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "load":
+			pauseGame();
 			new LoadBoardController(mainWindow).start();
 			break;
 		case "save":
+			pauseGame();
 			new SaveBoardController(mainWindow).start();
 			break;
 		case "toggle":
