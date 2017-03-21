@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import model.IFlipper;
@@ -37,9 +38,12 @@ public class BuildKeyListener extends AbstractKeyListener {
 			gizmo = board.getModel().getGizmo(gizmoCoords);
 			if(board.getState().equals(RM_KEY_CONNECT)){
 				try {
-					removeKeyConnection(gizmo, keyCode);
-					board.determineKeyConnectionsVisibility(gizmoCoords);
-					mainWindow.setStatusLabel("The " + keyString + " key has been removed from " + board.getGizmoName(gizmo));
+					if (removeKeyConnection(gizmo, keyCode)) {
+						board.determineKeyConnectionsVisibility(gizmoCoords);
+						mainWindow.setStatusLabel("The " + keyString + " key has been removed from " + board.getGizmoName(gizmo));
+					} else {
+						mainWindow.setWarningLabel("That key is not connected to this gizmo");
+					}
 				} catch (NullPointerException E) {
 					mainWindow.setWarningLabel("That key is not connected to this gizmo");
 				}
@@ -90,11 +94,20 @@ public class BuildKeyListener extends AbstractKeyListener {
 		return String.join(", ", l);
 	}
 
-	private void removeKeyConnection(IGizmo gizmo, int keyCode) {
-		model.getKeyReleasedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
-		if(gizmo instanceof IFlipper)
+	private boolean removeKeyConnection(IGizmo gizmo, int keyCode) {
+		boolean removed = false;
+
+		for (Iterator<IGizmo> iterator = model.getKeyReleasedTriggers().get(keyCode).getGizmosToTrigger().iterator(); iterator.hasNext();){
+			if(iterator.next().equals(gizmo)) {
+				iterator.remove();
+				removed = true;
+			}
+		}
+
+		if(gizmo instanceof IFlipper && removed)
 			model.getKeyPressedTriggers().get(keyCode).getGizmosToTrigger().removeIf(gizmo1 -> gizmo1.equals(gizmo));
 
+		return (removed);
 	}
 
 	@Override
