@@ -28,8 +28,8 @@ public class AbsorberView implements IViewGizmo {
 
     		g2D.setColor(gizmo.getNextBall().getColour());
     		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    		g2D.fillOval((int) ((gizmo.getExactCoords().get(2).x()-0.3 - radius) * Board.GRID_WIDTH),
-    				(int) ((gizmo.getExactCoords().get(2).y()-0.3 - radius) * Board.GRID_WIDTH), width, width);
+    		g2D.fillOval((int) ((gizmo.getExactCoords().get(2).x() -0.34 - radius) * Board.GRID_WIDTH),
+    				(int) ((gizmo.getExactCoords().get(2).y() -0.4 - radius) * Board.GRID_WIDTH), width, width);
 
     	}
     }

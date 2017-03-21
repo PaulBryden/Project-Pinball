@@ -26,14 +26,15 @@ public class Host implements Runnable{
     HashMap<InetAddress,Integer> listOfClients;
     
 	public Host(MainWindow window,BoardFileHandler boardFileHandler, IModel gameModel, int port) {
-		this.window =window;
-		listOfClients=new HashMap<>();
-		this.fileHandler=boardFileHandler;
-		hostPort=port;
+		this.window =window; //Setup window reference for status messages
+		listOfClients=new HashMap<>(); //Setup hashmap of all clients and ports
+		this.fileHandler=boardFileHandler; //serializer reference
+		hostPort=port; //Keep track of host port
 		this.gameModel=gameModel;
 	}
 	
-	public int startHost(){
+	public int startHost(){ //Initialize socket, await connection from client, add client and switch to host
+							//on successful connection
 		try {
 			serverSocket= new DatagramSocket(hostPort);
 		} catch (SocketException e) {
@@ -89,7 +90,7 @@ public class Host implements Runnable{
 		return 1;
 	}
 	
-	public void sendBoard(){
+	public void sendBoard(){ //serialize and send the current board to all clients.
         try {
         	sendData=new byte[4096];
 			sendData = fileHandler.saveToString().getBytes();
@@ -115,25 +116,24 @@ public class Host implements Runnable{
         
 	}
 	
-	public boolean receiveKeys(){
+	public boolean receiveKeys(){ //wait on board receipt or keypress
+		receiveData= new byte[4096];
 		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 	      try {
 	    
 			serverSocket.receive(receivePacket);
 			String type;
-	           String loadedData = new String(receivePacket.getData());
-
-			      Scanner scan = new Scanner(loadedData);
-			      String nextString=scan.next();
-			      System.out.println(nextString);
-			      if(nextString.contains("Pressed")){
-			    	  gameModel.processKeyPressedTrigger(scan.nextInt());
-			      }else if((nextString.contains("Released"))){
-			    	  gameModel.processKeyReleasedTrigger(scan.nextInt());
-			      }
-	          System.out.println(loadedData);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+	        String loadedData = new String(receivePacket.getData());
+	        Scanner scan = new Scanner(loadedData);
+	        String nextString=scan.next();
+	        System.out.println(nextString);
+	        if(nextString.contains("Pressed")){
+	     	  gameModel.processKeyPressedTrigger(scan.nextInt()); //Process keypress receipt
+	        }else if((nextString.contains("Released"))){
+	    	  gameModel.processKeyReleasedTrigger(scan.nextInt()); //Process keyrelease receipt
+	        }
+            System.out.println(loadedData);
+		    } catch (Exception e) {
 			if(e instanceof java.net.SocketTimeoutException){
 				window.setStatusLabel("Error: Client has timed out.");
 				disconnect();
