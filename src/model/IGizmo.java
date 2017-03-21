@@ -38,11 +38,23 @@ public interface IGizmo {
 	void setGridCoords(Vect coords);
 	
 	List<Vect> getExactCoords();
-
+	
+	/**
+	 * 
+	 * @return a list of all the cicle objects in the gizmo
+	 */
 	List<Circle> getAllCircles();
 
+	/**
+	 * 
+	 * @return a list of all the lines in the gizmo
+	 */
 	List<LineSegment> getAllLineSegments();
 
+	/**
+	 * @returns a String that represents the current state of the ball 
+	 * 	in the format: type id centreX centreY velocityX velovityY
+	 */
 	String serializeGizmo();
 
 	String getID();
