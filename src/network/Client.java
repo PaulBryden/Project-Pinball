@@ -37,20 +37,18 @@ public class Client implements Runnable {
 	}
 
 
-	public boolean startClient() {
+	public boolean startClient() { //Send Connection packet to host and setup window for Client mode.
 
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		
 		try {
 			clientSocket = new DatagramSocket();
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			clientSocket.setSoTimeout(60000);
 		} catch (SocketException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		InetAddress IPAddress = null;
@@ -67,7 +65,6 @@ public class Client implements Runnable {
 		try {
 			clientSocket.send(sendPacket);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -77,7 +74,7 @@ public class Client implements Runnable {
 			clientSocket.receive(receivePacket);
 			window.setStatusLabel("Connected to Host: "+ipAddr);
 			model.setClient(this);
-			
+			clientSocket.setSoTimeout(0);
 			return true;
 		} catch (Exception e) {
 			if(e instanceof java.net.SocketTimeoutException){
@@ -91,7 +88,8 @@ public class Client implements Runnable {
 		return false;
 
 	}
-	public void startClientLoop(){
+	public void startClientLoop(){ //Loop constantly waiting on the next board packet, and process accordingly
+									//send keypresses on receipt or binary 1 if no keypresses present
 		String loadedData;
 		BoardFileHandler newHandler;
 		DatagramPacket receivePacket;
@@ -106,7 +104,6 @@ public class Client implements Runnable {
 			try {
 				clientSocket.receive(receivePacket);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			loadedData = new String(receivePacket.getData());
@@ -119,7 +116,6 @@ public class Client implements Runnable {
 
 				model.update();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if (model.getKeysToSend().size() > 0) {
@@ -137,13 +133,12 @@ public class Client implements Runnable {
 				}
 
 			} else {
-				byte[] test = { 1, 1, 1, 1 };
+				byte[] test = { 1};
 				DatagramPacket senderPacket = new DatagramPacket(test, test.length, receivePacket.getAddress(),
 						receivePacket.getPort());
 				try {
 					clientSocket.send(senderPacket);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					System.out.println("Failed to send Packet");
 				}
 			}
