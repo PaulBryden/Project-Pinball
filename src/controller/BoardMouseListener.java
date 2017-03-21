@@ -12,6 +12,7 @@ import model.ISpinner;
 import physics.Vect;
 import view.Board;
 import view.CUR_GIZMO;
+import view.ConnectionSidePanel;
 import view.MainWindow;
 import view.SelectSidePanel;
 
@@ -208,8 +209,10 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				}
 			} else {
 				try {
-					board.removeGizmoConnection(board.getModel().getGizmo(gizmoCoords),
-							board.getModel().getGizmo(coords));
+					IGizmo gizmo1 = board.getModel().getGizmo(gizmoCoords);
+					IGizmo gizmo2 = board.getModel().getGizmo(coords);
+					gizmo1.getGizmosToTrigger().remove(gizmo2);
+					gizmo2.getGizmosToTrigger().remove(gizmo1);
 					board.setSelectedGizmoCoords(null);
 				} catch (NullPointerException e) {
 					mainWindow.setWarningLabel("Cannot remove this connection. Click a gizmo.");
@@ -273,15 +276,19 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			handleSelect(coords, board);
 			break;
 		case GIZMO_CONNECT:
+			determineKeyConnectionsVisibility(coords, board);
 			handleGizmoConnect(coords, board);
 			break;
 		case KEY_CONNECT:
+			determineKeyConnectionsVisibility(coords, board);
 			handleKeyConnect(coords, board);
 			break;
 		case RM_GIZMO_CONNECT:
+			determineKeyConnectionsVisibility(coords, board);
 			handleRemoveGizmoConnect(coords, board);
 			break;
 		case RM_KEY_CONNECT:
+			determineKeyConnectionsVisibility(coords, board);
 			handleRemoveKeyConnect(coords, board);
 			break;
 		default:
@@ -289,6 +296,11 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		}
 
 		board.reRender();
+	}
+
+	private void determineKeyConnectionsVisibility(Vect coords, Board board) {
+		ConnectionSidePanel csp = (ConnectionSidePanel) mainWindow.getSidePanel();
+		csp.setKeyConnectionsVisible(!model.isCellEmpty(coords));
 	}
 
 	@Override

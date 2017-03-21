@@ -134,11 +134,6 @@ public class Board extends JPanel implements Observer {
 		return (keyConnections.toArray(new String[keyConnections.size()]));
 	}
 
-	public void removeGizmoConnection(IGizmo gizmo1, IGizmo gizmo2){
-        gizmo1.getGizmosToTrigger().remove(gizmo2);
-        gizmo2.getGizmosToTrigger().remove(gizmo1);
-    }
-
 	public void setState(STATE state) {
 		selectedGizmoCoords = null;
 		this.state = state;

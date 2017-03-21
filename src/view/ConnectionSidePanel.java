@@ -2,6 +2,7 @@
 package view;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
@@ -11,6 +12,8 @@ import controller.PrimaryActionListener;
 public class ConnectionSidePanel extends SidePanel {
 
 	private static final long serialVersionUID = 5258214590215188225L;
+	private JPanel keyConnectionsPanel;
+	private JLabel keyConnectionsLabel;
 
 	public ConnectionSidePanel(PrimaryActionListener listener, MainWindow mainWindow) {
 		super();
@@ -25,8 +28,13 @@ public class ConnectionSidePanel extends SidePanel {
 		JPanel gizmoPanel = createTitledPanel("Gizmo connections", 2, connectGizmoBtn, disconnectGizmoBtn);
 		JPanel keyPanel = createTitledPanel("Key connections", 2, connectKeyBtn, disconnectKeyBtn);
 		JList<String> keys = new JList<String>(board.getKeyConnectionList());
-		JPanel keyConnectionsPanel = createTitledPanel("Key Connections List", 1, keys);
+		keyConnectionsPanel = createTitledPanel("Existing connections", 2, keys);
+		setKeyConnectionsVisible(false);
 		build(gizmoPanel, keyPanel, keyConnectionsPanel);
+	}
+	
+	public void setKeyConnectionsVisible(boolean visible) {
+		keyConnectionsPanel.setVisible(visible);
 	}
 
 }
