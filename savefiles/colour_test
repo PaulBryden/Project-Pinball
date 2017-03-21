@@ -1,4 +1,6 @@
-Square S1307 13 7 
-Colour S1307 -16724890
+CounterGizmo N1312 13 12 16 15
+Colour N1312 -1
 Gravity 25.0
 Friction 0.025 0.025
+BGColour -3407821
+TextColour -3342592

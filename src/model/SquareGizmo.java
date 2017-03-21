@@ -52,7 +52,7 @@ class SquareGizmo extends AbstractGizmo implements ISquareGizmo {
 	}
 
 	@Override
-	public String serializeGizmo() {
-		return super.serializeGizmo("Square");
+	public String getType() {
+		return "Square";
 	}
 }

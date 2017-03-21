@@ -58,5 +58,7 @@ public interface IGizmo {
 	void triggerConnectedGizmos();
 
 	Set<IGizmo> getGizmosToTrigger();
+	
+	String getType();
 
 }

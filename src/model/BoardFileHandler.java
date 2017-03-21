@@ -52,36 +52,28 @@ public class BoardFileHandler {
 		}
 
 		// Write key connections to file
-		Map<Integer, KeyTrigger> keyPressedTriggers = model
-				.getKeyPressedTriggers();
-		Map<Integer, KeyTrigger> keyReleasedTriggers = model
-				.getKeyReleasedTriggers();
+		Map<Integer, KeyTrigger> keyPressedTriggers = model.getKeyPressedTriggers();
+		Map<Integer, KeyTrigger> keyReleasedTriggers = model.getKeyReleasedTriggers();
 
-		for (Map.Entry<Integer, KeyTrigger> current : keyPressedTriggers
-				.entrySet()) {
-			Set<IGizmo> gizmosToTrigger = current.getValue()
-					.getGizmosToTrigger();
+		for (Map.Entry<Integer, KeyTrigger> current : keyPressedTriggers.entrySet()) {
+			Set<IGizmo> gizmosToTrigger = current.getValue().getGizmosToTrigger();
 			for (IGizmo gizmo : gizmosToTrigger) {
-				save.write("KeyConnect key " + current.getKey() + " down "
-						+ gizmo.getID() + "\n");
+				save.write("KeyConnect key " + current.getKey() + " down " + gizmo.getID() + "\n");
 			}
 		}
 
-		for (Map.Entry<Integer, KeyTrigger> current : keyReleasedTriggers
-				.entrySet()) {
-			Set<IGizmo> gizmosToTrigger = current.getValue()
-					.getGizmosToTrigger();
+		for (Map.Entry<Integer, KeyTrigger> current : keyReleasedTriggers.entrySet()) {
+			Set<IGizmo> gizmosToTrigger = current.getValue().getGizmosToTrigger();
 			for (IGizmo gizmo : gizmosToTrigger) {
-				save.write("KeyConnect key " + current.getKey() + " up "
-						+ gizmo.getID() + "\n");
+				save.write("KeyConnect key " + current.getKey() + " up " + gizmo.getID() + "\n");
 			}
 		}
 
 		// Finally, write gravity and friction information
 		save.write("Gravity " + model.getGravity() + "\n");
-		save.write("Friction " + model.getFrictionMu() + " "
-				+ model.getFrictionMu2() + "\n");
-
+		save.write("Friction " + model.getFrictionMu() + " " + model.getFrictionMu2() + "\n");
+		save.write("BGColour " + model.getBackgroundColour().getRGB() + "\n");
+		save.write("TextColour " + model.getTextColour().getRGB() + "\n");
 		save.close();
 
 		System.out.println("Save file written successfully");
@@ -97,53 +89,35 @@ public class BoardFileHandler {
 		for (IGizmo current : list) {
 			if (current instanceof RightFlipper) {
 				current = (AbstractFlipper) current;
-				saveString += "RightFlipper " + current.getID() + " "
-						+ (int) current.getGridCoords().x() + " "
-						+ (int) current.getGridCoords().y() + " "
-						+ ((AbstractFlipper) current).getAngle().radians()
-						+ "\n";
+				saveString += "RightFlipper " + current.getID() + " " + (int) current.getGridCoords().x() + " "
+						+ (int) current.getGridCoords().y() + " " + ((AbstractFlipper) current).getAngle().radians()
+						+ "\n" + "Colour " + current.getID() + " " + current.getColour().getRGB() + "\n";
 			} else if (current instanceof LeftFlipper) {
 				current = (AbstractFlipper) current;
-				saveString += "LeftFlipper " + current.getID() + " "
-						+ (int) current.getGridCoords().x() + " "
-						+ (int) current.getGridCoords().y() + " "
-						+ ((AbstractFlipper) current).getAngle().radians()
-						+ "\n";
+				saveString += "LeftFlipper " + current.getID() + " " + (int) current.getGridCoords().x() + " "
+						+ (int) current.getGridCoords().y() + " " + ((AbstractFlipper) current).getAngle().radians()
+						+ "\n" + "Colour " + current.getID() + " " + current.getColour().getRGB() + "\n";
 			} else if (current instanceof Spinner) {
 				current = (Spinner) current;
-				saveString += "Spinner " + current.getID() + " "
-						+ (int) current.getGridCoords().x() + " "
-						+ (int) current.getGridCoords().y() + " "
-						+ ((Spinner) current).getAngle().radians() + "\n";
+				saveString += "Spinner " + current.getID() + " " + (int) current.getGridCoords().x() + " "
+						+ (int) current.getGridCoords().y() + " " + ((Spinner) current).getAngle().radians() + "\n"
+						+ "Colour " + current.getID() + " " + current.getColour().getRGB() + "\n";
 			} else if (current instanceof CounterGizmo) {
 				current = (CounterGizmo) current;
-				saveString += "Counter "
-						+ current.getID()
-						+ " "
-						+ (int) current.getGridCoords().x()
-						+ " "
-						+ (int) current.getGridCoords().y()
-						+ " "
-						+ (int) ((CounterGizmo) current).getBottomRightCoords().x()
-						+ " "
-						+ (int) ((CounterGizmo) current).getBottomRightCoords().y()
-						+ " "
-						+ (((CounterGizmo) current).getCount())+"\n";
+				saveString += "Counter " + current.getID() + " " + (int) current.getGridCoords().x() + " "
+						+ (int) current.getGridCoords().y() + " "
+						+ (int) ((CounterGizmo) current).getBottomRightCoords().x() + " "
+						+ (int) ((CounterGizmo) current).getBottomRightCoords().y() + " "
+						+ (((CounterGizmo) current).getCount()) + "\n" + "Colour " + current.getID() + " "
+						+ current.getColour().getRGB() + "\n";
 			} else if (current instanceof Absorber) {
 				current = (Absorber) current;
-				saveString += "Absorber "
-						+ current.getID()
-						+ " "
-						+ (int) current.getGridCoords().x()
-						+ " "
-						+ (int) current.getGridCoords().y()
-						+ " "
-						+ (int) ((Absorber) current).getBottomRightCoords().x()
-						+ " "
-						+ (int) ((Absorber) current).getBottomRightCoords().y()
-						+ " "
-						+ (((Absorber) current).getNextBall() != null ? "1"
-								: "0") + "\n";
+				saveString += "Absorber " + current.getID() + " " + (int) current.getGridCoords().x() + " "
+						+ (int) current.getGridCoords().y() + " "
+						+ (int) ((Absorber) current).getBottomRightCoords().x() + " "
+						+ (int) ((Absorber) current).getBottomRightCoords().y() + " "
+						+ (((Absorber) current).getNextBall() != null ? "1" : "0") + "\n" + "Colour " + current.getID()
+						+ " " + current.getColour().getRGB() + "\n";
 			} else if (!(current instanceof Wall)) {
 				saveString += current.serializeGizmo(); // Also contains
 														// connection info
@@ -158,133 +132,152 @@ public class BoardFileHandler {
 		for (IBall current : balls) {
 			saveString += current.serializeGizmo();
 		}
-
+		saveString += "BGColour " + model.getBackgroundColour().getRGB() + "\n";
+		saveString += "TextColour " + model.getTextColour().getRGB() + "\n";
 		return saveString;
 
 	}
 
 	public void loadFromString(String received) throws IOException {
-			GizmoFactory gf = new GizmoFactory(model);
-			List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after reading
-			model.setBalls(new ArrayList<IBall>());
-			model.setGizmos(new ArrayList<IGizmo>());
+		GizmoFactory gf = new GizmoFactory(model);
+		List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after
+													// reading
+		model.setBalls(new ArrayList<IBall>());
+		model.setGizmos(new ArrayList<IGizmo>());
 
-			Scanner scan = null;
+		Scanner scan = null;
 
-			String type;
-			scan = new Scanner(received);
-			while(scan.hasNextLine()) {
-					type = scan.next();
-					System.out.println(type);
-					if (type.equals("Connect") || type.equals("KeyConnect")) {
-						if(type.equals("KeyConnect")){
-						scan.next();
-						scan.next();
-						scan.next();
-						scan.next();
-						}else{
+		String type;
+		scan = new Scanner(received);
+		while (scan.hasNextLine()) {
+			type = scan.next();
+			System.out.println(type);
+			if (type.equals("Connect") || type.equals("KeyConnect")) {
+				if (type.equals("KeyConnect")) {
+					scan.next();
+					scan.next();
+					scan.next();
+					scan.next();
+				} else {
 
-							scan.next();
-							scan.next();
-						}
-						//connections.add(line); // Store connection info for later
-					} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete") || type.equals("Colour")) {
-						executeOperation(type, scan, gizmos); // Build mode operation
-					} else if(!((type.toCharArray()[0]>=65)&&(type.toCharArray()[0]<=122))){
-						
-					}else if(type.equals("RightFlipper")){
-						IFlipper newGizmo = null;
-						int x1 = 0;
-						int y1 = 0;
-						double angle=0;
-
-						// Collect base info for gizmo (every gizmo will follow this starting format)
-						String id = scan.next();
-							x1 = scan.nextInt();
-							y1 = scan.nextInt();
-							angle=scan.nextDouble();
-							newGizmo = new RightFlipper(id, x1, y1);
-							newGizmo.setAngle(new Angle(angle));
-							model.addGizmo(newGizmo);
-							
-					}else if(type.equals("LeftFlipper")){
-						IFlipper newGizmo = null;
-						int x1 = 0;
-						int y1 = 0;
-						double angle=0;
-
-						// Collect base info for gizmo (every gizmo will follow this starting format)
-						String id = scan.next();
-							x1 = scan.nextInt();
-							y1 = scan.nextInt();
-							angle=scan.nextDouble();
-							newGizmo = new LeftFlipper(id, x1, y1);
-							newGizmo.setAngle(new Angle(angle));
-							model.addGizmo(newGizmo);
-					}else if(type.equals("Spinner")){
-						ISpinner newGizmo = null;
-						int x1 = 0;
-						int y1 = 0;
-						double angle=0;
-
-						// Collect base info for gizmo (every gizmo will follow this starting format)
-						String id = scan.next();
-							x1 = scan.nextInt();
-							y1 = scan.nextInt();
-							angle=scan.nextDouble();
-							newGizmo = new Spinner(id, x1, y1);
-							newGizmo.setAngle(new Angle(angle));
-							model.addGizmo(newGizmo);
-									
-					}else if(type.equals("Absorber")){
-
-						IAbsorber newAbsorber;
-						String id = scan.next();
-						int x1 = scan.nextInt();
-						int y1 = scan.nextInt();
-						int x2 = scan.nextInt();
-						int y2 = scan.nextInt();
-						int absorbState = scan.nextInt();
-						newAbsorber = (IAbsorber) gf.getRectangularGizmo(TYPE.Absorber, id, new Vect(x1, y1), new Vect(x2, y2));
-						if(absorbState==1){
-							newAbsorber.absorbBall(new BallGizmo("B",new Vect(0,0),new Vect(0,0)));
-						}
-						model.addGizmo(newAbsorber);
-				}else if(type.equals("Counter")){
-	
-					ICounterGizmo newCounter;
-					String id = scan.next();
-					int x1 = scan.nextInt();
-					int y1 = scan.nextInt();
-					int x2 = scan.nextInt();
-					int y2 = scan.nextInt();
-					int count = scan.nextInt();
-					newCounter = (CounterGizmo) gf.getRectangularGizmo(TYPE.Counter, id, new Vect(x1, y1), new Vect(x2, y2));
-					for(int i = 0; i<count; i++){
-						newCounter.increment();;
-					}
-					model.addGizmo(newCounter);
-				}else {
-							try{
-						IGizmo gizmo = createGizmo(type, scan, gizmos);
-						if (gizmo instanceof IBall) {
-							model.addBall((IBall) gizmo);
-						} else {
-							model.addGizmo(gizmo);
-						}
-							}catch(Exception e){
-								
-							}
-					}
-				
+					scan.next();
+					scan.next();
 				}
-			scan.close();
+				// connections.add(line); // Store connection info for later
+			} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete") || type.equals("Colour")) {
+				executeOperation(type, scan, gizmos); // Build mode operation
+			} else if (type.equals("BGColour")) {
+				int sRGB = scan.nextInt();
+				model.setBackgroundColour(new Color(sRGB));
+			} else if (type.equals("TextColour")) {
+				int sRGB = scan.nextInt();
+				model.setTextColour(new Color(sRGB));
+			} else if (!((type.toCharArray()[0] >= 65) && (type.toCharArray()[0] <= 122))) {
 
-			
+			} else if (type.equals("RightFlipper")) {
+				IFlipper newGizmo = null;
+				int x1 = 0;
+				int y1 = 0;
+				double angle = 0;
 
+				// Collect base info for gizmo (every gizmo will follow this
+				// starting format)
+				String id = scan.next();
+				x1 = scan.nextInt();
+				y1 = scan.nextInt();
+				angle = scan.nextDouble();
+				newGizmo = new RightFlipper(id, x1, y1);
+				newGizmo.setAngle(new Angle(angle));
+				model.addGizmo(newGizmo);
+				gizmos.add(newGizmo);
+			} else if (type.equals("LeftFlipper")) {
+				IFlipper newGizmo = null;
+				int x1 = 0;
+				int y1 = 0;
+				double angle = 0;
 
-			
-			System.out.println("File loaded successfully");
+				// Collect base info for gizmo (every gizmo will follow this
+				// starting format)
+				String id = scan.next();
+				x1 = scan.nextInt();
+				y1 = scan.nextInt();
+				angle = scan.nextDouble();
+				newGizmo = new LeftFlipper(id, x1, y1);
+				newGizmo.setAngle(new Angle(angle));
+				model.addGizmo(newGizmo);
+				gizmos.add(newGizmo);
+			} else if (type.equals("Spinner")) {
+				ISpinner newGizmo = null;
+				int x1 = 0;
+				int y1 = 0;
+				double angle = 0;
+
+				// Collect base info for gizmo (every gizmo will follow this
+				// starting format)
+				String id = scan.next();
+				x1 = scan.nextInt();
+				y1 = scan.nextInt();
+				angle = scan.nextDouble();
+				newGizmo = new Spinner(id, x1, y1);
+				newGizmo.setAngle(new Angle(angle));
+				model.addGizmo(newGizmo);
+				gizmos.add(newGizmo);
+
+			} else if (type.equals("Absorber")) {
+
+				IAbsorber newAbsorber;
+				String id = scan.next();
+				int x1 = scan.nextInt();
+				int y1 = scan.nextInt();
+				int x2 = scan.nextInt();
+				int y2 = scan.nextInt();
+				int absorbState = scan.nextInt();
+				newAbsorber = (IAbsorber) gf.getRectangularGizmo(TYPE.Absorber, id, new Vect(x1, y1), new Vect(x2, y2));
+				if (absorbState == 1) {
+					newAbsorber.absorbBall(new BallGizmo("B", new Vect(0, 0), new Vect(0, 0)));
+				}
+				model.addGizmo(newAbsorber);
+				gizmos.add(newAbsorber);
+			} else if (type.equals("Counter")) {
+
+				ICounterGizmo newCounter;
+				String id = scan.next();
+				int x1 = scan.nextInt();
+				int y1 = scan.nextInt();
+				int x2 = scan.nextInt();
+				int y2 = scan.nextInt();
+				int count = scan.nextInt();
+				newCounter = (CounterGizmo) gf.getRectangularGizmo(TYPE.Counter, id, new Vect(x1, y1),
+						new Vect(x2, y2));
+				for (int i = 0; i < count; i++) {
+					newCounter.increment();
+					;
+				}
+				model.addGizmo(newCounter);
+				gizmos.add(newCounter);
+			} else if (type.equals("BGColour")) {
+				int sRGB = scan.nextInt();
+				model.setBackgroundColour(new Color(sRGB));
+			} else if (type.equals("TextColour")) {
+				int sRGB = scan.nextInt();
+				model.setTextColour(new Color(sRGB));
+			} else {
+				try {
+					IGizmo gizmo = createGizmo(type, scan, gizmos);
+					if (gizmo instanceof IBall) {
+						model.addBall((IBall) gizmo);
+					} else {
+						model.addGizmo(gizmo);
+					}
+				} catch (Exception e) {
+
+				}
+			}
+
+		}
+		scan.close();
+
+		System.out.println("File loaded successfully");
 	}
 
 	public void load(String path) throws IOException {
@@ -304,8 +297,8 @@ public class BoardFileHandler {
 
 				if (type.equals("Connect") || type.equals("KeyConnect")) {
 					connections.add(line); // Store connection info for later
-				} else if (type.equals("Move") || type.equals("Rotate")
-						|| type.equals("Delete") || type.equals("Colour")) {
+				} else if (type.equals("Move") || type.equals("Rotate") || type.equals("Delete")
+						|| type.equals("Colour")) {
 					executeOperation(type, scan, gizmos); // Build mode
 															// operation
 				} else if (type.equals("Gravity")) {
@@ -316,6 +309,12 @@ public class BoardFileHandler {
 					double value2 = scan.nextDouble();
 					model.setFrictionMu(value1);
 					model.setFrictionMu2(value2);
+				} else if (type.equals("BGColour")) {
+					int sRGB = scan.nextInt();
+					model.setBackgroundColour(new Color(sRGB));
+				} else if (type.equals("TextColour")) {
+					int sRGB = scan.nextInt();
+					model.setTextColour(new Color(sRGB));
 				} else {
 					System.out.println(type);
 					IGizmo gizmo = createGizmo(type, scan, gizmos);
@@ -385,20 +384,17 @@ public class BoardFileHandler {
 			case "CounterGizmo":
 				int x21 = scan.nextInt();
 				int y21 = scan.nextInt();
-				newGizmo = gf.getRectangularGizmo(TYPE.Counter, id, new Vect(
-						x1, y1), new Vect(x21, y21));
+				newGizmo = gf.getRectangularGizmo(TYPE.Counter, id, new Vect(x1, y1), new Vect(x21, y21));
 				break;
 			case "Absorber":
 				int x2 = scan.nextInt();
 				int y2 = scan.nextInt();
-				newGizmo = gf.getRectangularGizmo(TYPE.Absorber, id, new Vect(
-						x1, y1), new Vect(x2, y2));
+				newGizmo = gf.getRectangularGizmo(TYPE.Absorber, id, new Vect(x1, y1), new Vect(x2, y2));
 				break;
 			case "Ball":
 				double xv = scan.nextDouble();
 				double yv = scan.nextDouble();
-				newGizmo = gf.getBall(id, new Vect(ballx1, bally1), new Vect(
-						xv, yv));
+				newGizmo = gf.getBall(id, new Vect(ballx1, bally1), new Vect(xv, yv));
 				break;
 			default:
 				System.out.println("No gizmo created");
@@ -423,12 +419,10 @@ public class BoardFileHandler {
 				String secondGizmo = scan.next();
 
 				if (firstGizmo != null && secondGizmo != null)
-					findGizmoByID(gizmos, firstGizmo).addGizmoToTrigger(
-							findGizmoByID(gizmos, secondGizmo));
+					findGizmoByID(gizmos, firstGizmo).addGizmoToTrigger(findGizmoByID(gizmos, secondGizmo));
 				else {
 					System.out.println("Error connecting gizmos!");
-					System.out.println("Gizmo 1: " + firstGizmo + ", Gizmo 2: "
-							+ secondGizmo);
+					System.out.println("Gizmo 1: " + firstGizmo + ", Gizmo 2: " + secondGizmo);
 				}
 
 			} else if (type.equals("KeyConnect")) {

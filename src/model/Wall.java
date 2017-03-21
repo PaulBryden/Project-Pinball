@@ -156,4 +156,9 @@ class Wall implements IGizmo {
 		return -1;
 	}
 
+	@Override
+	public String getType() {
+		return "Wall";
+	}
+
 }

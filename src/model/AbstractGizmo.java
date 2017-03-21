@@ -173,8 +173,9 @@ abstract class AbstractGizmo implements IGizmo {
 		this.coefficientOfReflection = cor;
 	}
 
-	protected String serializeGizmo(String type) {
-		String serializedGizmo = type + " " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y() + " " + "\n";
+	@Override
+	public String serializeGizmo() {
+		String serializedGizmo = getType() + " " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y() + " " + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
 		}

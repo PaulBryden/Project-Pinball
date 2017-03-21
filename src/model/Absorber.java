@@ -151,6 +151,7 @@ class Absorber extends AbstractGizmo implements IAbsorber {
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
 		}
+		serializedGizmo += "Colour " + this.getID() + " " + this.getColour().getRGB() + "\n";
 		return serializedGizmo;
 	}
 
@@ -161,5 +162,10 @@ class Absorber extends AbstractGizmo implements IAbsorber {
 	private boolean hasSpaceToFire() {
 		Vect firingCell = new Vect(getGridCoords().x() + gridWidth - 1, getGridCoords().y() - 1);
 		return model.isCellEmpty(firingCell);
+	}
+
+	@Override
+	public String getType() {
+		return "Absorber";
 	}
 }
