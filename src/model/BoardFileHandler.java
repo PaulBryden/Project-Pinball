@@ -76,7 +76,6 @@ public class BoardFileHandler {
 		save.write("TextColour " + model.getTextColour().getRGB() + "\n");
 		save.close();
 
-		System.out.println("Save file written successfully");
 
 	}
 
@@ -150,7 +149,6 @@ public class BoardFileHandler {
 		scan = new Scanner(received);
 		while (scan.hasNextLine()) {
 			type = scan.next();
-			System.out.println(type);
 			if (type.equals("Connect") || type.equals("KeyConnect")) {
 				if (type.equals("KeyConnect")) {
 					scan.next();
@@ -275,11 +273,10 @@ public class BoardFileHandler {
 
 		}
 		scan.close();
-
-		System.out.println("File loaded successfully");
 	}
 
 	public void load(String path) throws IOException {
+		try {
 		List<IGizmo> gizmos = new ArrayList<>(); // This will be returned after
 													// reading
 		List<String> connections = new ArrayList<>(); // Keeps track of
@@ -315,7 +312,6 @@ public class BoardFileHandler {
 					int sRGB = scan.nextInt();
 					model.setTextColour(new Color(sRGB));
 				} else {
-					System.out.println(type);
 					IGizmo gizmo = createGizmo(type, scan, gizmos);
 					if (gizmo instanceof IBall) {
 						model.addBall((IBall) gizmo);
@@ -335,7 +331,9 @@ public class BoardFileHandler {
 
 		load.close();
 
-		System.out.println("File loaded successfully");
+		} catch (Exception e) {
+			throw new IOException("Loading failed");
+		}
 	}
 
 	private IGizmo createGizmo(String type, Scanner scan, List<IGizmo> gizmos) {
@@ -396,11 +394,9 @@ public class BoardFileHandler {
 				newGizmo = gf.getBall(id, new Vect(ballx1, bally1), new Vect(xv, yv));
 				break;
 			default:
-				System.out.println("No gizmo created");
+				break;
 			}
 		} catch (Exception e) {
-			System.out.println("Error occurred when creating Gizmo");
-			e.printStackTrace();
 		}
 
 		gizmos.add(newGizmo);
@@ -419,10 +415,6 @@ public class BoardFileHandler {
 
 				if (firstGizmo != null && secondGizmo != null)
 					findGizmoByID(gizmos, firstGizmo).addGizmoToTrigger(findGizmoByID(gizmos, secondGizmo));
-				else {
-					System.out.println("Error connecting gizmos!");
-					System.out.println("Gizmo 1: " + firstGizmo + ", Gizmo 2: " + secondGizmo);
-				}
 
 			} else if (type.equals("KeyConnect")) {
 				scan.next(); // Won't be used
@@ -484,7 +476,7 @@ public class BoardFileHandler {
 			break;
 			
 		default:
-			System.out.println("No operations applied");
+			break;
 		}
 	}
 
