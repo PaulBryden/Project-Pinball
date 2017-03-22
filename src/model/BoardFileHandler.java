@@ -91,16 +91,25 @@ public class BoardFileHandler {
 				saveString += "RightFlipper " + current.getID() + " " + (int) current.getGridCoords().x() + " "
 						+ (int) current.getGridCoords().y() + " " + ((AbstractFlipper) current).getAngle().radians()
 						+ "\n" + "Colour " + current.getID() + " " + current.getColour().getRGB() + "\n";
+				for (int i = 0; i < current.getRotation(); i++) {
+					saveString += "Rotate " + current.getID() + "\n";
+				}
 			} else if (current instanceof LeftFlipper) {
 				current = (AbstractFlipper) current;
 				saveString += "LeftFlipper " + current.getID() + " " + (int) current.getGridCoords().x() + " "
 						+ (int) current.getGridCoords().y() + " " + ((AbstractFlipper) current).getAngle().radians()
 						+ "\n" + "Colour " + current.getID() + " " + current.getColour().getRGB() + "\n";
+				for (int i = 0; i < current.getRotation(); i++) {
+					saveString += "Rotate " + current.getID() + "\n";
+				}
 			} else if (current instanceof Spinner) {
 				current = (Spinner) current;
 				saveString += "Spinner " + current.getID() + " " + (int) current.getGridCoords().x() + " "
 						+ (int) current.getGridCoords().y() + " " + ((Spinner) current).getAngle().radians() + "\n"
 						+ "Colour " + current.getID() + " " + current.getColour().getRGB() + "\n";
+				for (int i = 0; i < current.getRotation(); i++) {
+					saveString += "Rotate " + current.getID() + "\n";
+				}
 			} else if (current instanceof CounterGizmo) {
 				current = (CounterGizmo) current;
 				saveString += "Counter " + current.getID() + " " + (int) current.getGridCoords().x() + " "
@@ -109,6 +118,9 @@ public class BoardFileHandler {
 						+ (int) ((CounterGizmo) current).getBottomRightCoords().y() + " "
 						+ (((CounterGizmo) current).getCount()) + "\n" + "Colour " + current.getID() + " "
 						+ current.getColour().getRGB() + "\n";
+				for (int i = 0; i < current.getRotation(); i++) {
+					saveString += "Rotate " + current.getID() + "\n";
+				}
 			} else if (current instanceof Absorber) {
 				current = (Absorber) current;
 				saveString += "Absorber " + current.getID() + " " + (int) current.getGridCoords().x() + " "
@@ -117,6 +129,9 @@ public class BoardFileHandler {
 						+ (int) ((Absorber) current).getBottomRightCoords().y() + " "
 						+ (((Absorber) current).getNextBall() != null ? "1" : "0") + "\n" + "Colour " + current.getID()
 						+ " " + current.getColour().getRGB() + "\n";
+				for (int i = 0; i < current.getRotation(); i++) {
+					saveString += "Rotate " + current.getID() + "\n";
+				}
 			} else if (!(current instanceof Wall)) {
 				saveString += current.serializeGizmo(); // Also contains
 														// connection info
