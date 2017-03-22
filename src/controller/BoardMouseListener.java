@@ -416,7 +416,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		gizmo.setGridCoords(newCoords);
 
 		if (!(gizmo instanceof IBall)) {
-			gizmo.setID((gizmo.getID().substring(0, gizmo.getID().length() == 5 ? 1 : 2))
+			gizmo.setID((gizmo.getID().substring(0, gizmo.getID().length() <= 5 ? 1 : 2))
 					+ ((int) newCoords.x() < 10 ? "0" + (int) newCoords.x() : (int) newCoords.x())
 					+ ((int) newCoords.y() < 10 ? "0" + (int) newCoords.y() : (int) newCoords.y()));
 		}
