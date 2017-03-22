@@ -3,7 +3,6 @@ package view;
 
 import java.awt.Font;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
@@ -44,12 +43,13 @@ public class ConnectionSidePanel extends SidePanel {
 		keyConnectionsPanel = createTitledPanel("Existing connections", 2, new JLabel("Gizmo ID:"), gizmoIdLabel,
 				new JLabel("Keys:"), keyConnectionsLabel, new JLabel("Triggers:"), triggersLabel,
 				new JLabel("Triggered:"), triggeredByLabel);
-		setKeyConnectionsVisible(false);
-		build(gizmoPanel, keyPanel, keyConnectionsPanel);
+		keyConnectionsPanel.setVisible(false);
+		build("Click on a gizmo to view its connections.", gizmoPanel, keyPanel, keyConnectionsPanel);
 	}
 
 	public void setKeyConnectionsVisible(boolean visible) {
 		keyConnectionsPanel.setVisible(visible);
+		this.setInstructions(visible ? "" : "Click on a gizmo to view its connections.");
 	}
 
 	public void setExistingConnectionInfo(String id, String keyConnections, String triggers, String triggeredBy) {

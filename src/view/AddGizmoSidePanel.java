@@ -33,7 +33,7 @@ public class AddGizmoSidePanel extends SidePanel {
 		JPanel ballsPanel = createTitledPanel("Balls", 2, ballBtn);
 		JPanel staticPanel = createTitledPanel("Static gizmos", 2, circleBtn, squareBtn, triangleBtn);
 		JPanel dynamicPanel = createTitledPanel("Dynamic gizmos", 2, lFlipperBtn, rFlipperBtn, absorberBtn, counterBtn, SpinnerBtn);
-		build(ballsPanel, staticPanel, dynamicPanel);
+		build("Select a ball or gizmo type to add to the board.", ballsPanel, staticPanel, dynamicPanel);
 	}
 
 }
