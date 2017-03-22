@@ -393,6 +393,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			IAbsorber absorber = (IAbsorber) model.getGizmo(newCoords);
 			absorber.absorbBall((IBall) gizmo);
 			mainWindow.setStatusLabel("Moved ball into absorber.");
+			return;
 		}
 		if (!checkCellPlacementValid(gizmo, newCoords)) {
 			return;
