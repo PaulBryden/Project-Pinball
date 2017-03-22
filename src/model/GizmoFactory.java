@@ -107,7 +107,7 @@ public class GizmoFactory {
 		case Absorber:
 			return new Absorber(model, "A" + generateCoordString(v1), v1, v2);
 		case Counter:
-			return new CounterGizmo("N" + generateCoordString(v1), v1, v2);
+			return new CounterGizmo(model, "N" + generateCoordString(v1), v1, v2);
 		default:
 			return null;
 		}
@@ -130,7 +130,7 @@ public class GizmoFactory {
 		case Absorber:
 			return new Absorber(model, id, v1, v2);
 		case Counter:
-			return new CounterGizmo(id, v1, v2);
+			return new CounterGizmo(model, id, v1, v2);
 		default:
 			return null;
 		}

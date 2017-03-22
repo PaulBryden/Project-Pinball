@@ -8,6 +8,7 @@ import model.IBall;
 import model.ICounterGizmo;
 import model.IGizmo;
 import model.IModel;
+import model.IllegalRotationException;
 import physics.Vect;
 import view.Board;
 import view.CUR_GIZMO;
@@ -134,14 +135,12 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		if (!model.isCellEmpty(coords)) {
 			try {
 				IGizmo gizmo = model.getGizmo(coords);
-				if (gizmo instanceof IAbsorber || gizmo instanceof ICounterGizmo) {
-					mainWindow.setWarningLabel("Cannot rotate rectangular gizmos");
-					return;
-				}
 				gizmo.rotate(1);
 				mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " rotated");
 			} catch (NullPointerException e) {
 				mainWindow.setWarningLabel("Cannot rotate a ball. Select a gizmo.");
+			} catch (IllegalRotationException e) {
+				mainWindow.setWarningLabel(e.getMessage());
 			}
 		} else {
 			mainWindow.setWarningLabel("Empty cell selected.");

@@ -79,6 +79,29 @@ class Absorber extends AbstractGizmo implements IAbsorber {
 	}
 
 	@Override
+	public void rotate(int steps) {
+		if (steps % 2 != 0) { // number of steps is odd, so rotate
+			int w = this.getGridHeight();
+			int h = this.getGridWidth();
+			for (int x = (int) coords.x(); x < coords.x() + w; x++) {
+				for (int y = (int) coords.y(); y < coords.y() + h; y++) {
+					if (x > 19 || y > 19) {
+						throw new IllegalRotationException("Cannot rotate absorber over the edge of the board.");
+					}
+					if (!model.isCellEmpty(new Vect(x, y)) && !this.equals(model.getGizmo(new Vect(x,y)))) {
+						throw new IllegalRotationException("Cannot rotate absorber over another object.");
+					}
+				}
+			}
+			
+			this.gridHeight = this.getGridWidth();
+			this.gridWidth = w;
+			this.bottomRightCoords = new Vect(coords.x() + gridWidth, coords.y() + gridHeight);
+			generateLinesAndCircles();
+		}
+	}
+
+	@Override
 	public void onCollision(IBall ball) {
 		absorb.performAction(ball);
 	}

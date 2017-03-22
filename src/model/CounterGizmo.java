@@ -9,12 +9,14 @@ import physics.Vect;
 
 public class CounterGizmo extends AbstractGizmo implements ICounterGizmo {
 	
+	private IModel model;
 	private Vect bottomRightCoords;
 	private int count;
 
-	public CounterGizmo(String id, Vect topLeftCoords, Vect bottomRightCoords) {
+	public CounterGizmo(IModel model, String id, Vect topLeftCoords, Vect bottomRightCoords) {
 		super(id, topLeftCoords, (int) (bottomRightCoords.x() - topLeftCoords.x()),
 				(int) (bottomRightCoords.y() - topLeftCoords.y()), Constants.COUNTER_GIZMO_DEFAULT_COLOUR, true);
+		this.model = model;
 		this.bottomRightCoords = bottomRightCoords;
 		this.count = 0;
 		this.addTriggerAction(new CounterAction(this));
@@ -38,6 +40,29 @@ public class CounterGizmo extends AbstractGizmo implements ICounterGizmo {
 		this.coords = coords;
 		this.bottomRightCoords = new Vect(bottomRightCoords.x() + xdiff, bottomRightCoords.y() + ydiff);
 		generateLinesAndCircles();
+	}
+
+	@Override
+	public void rotate(int steps) {
+		if (steps % 2 != 0) { // number of steps is odd, so rotate
+			int w = this.getGridHeight();
+			int h = this.getGridWidth();
+			for (int x = (int) coords.x(); x < coords.x() + w; x++) {
+				for (int y = (int) coords.y(); y < coords.y() + h; y++) {
+					if (x > 19 || y > 19) {
+						throw new IllegalRotationException("Cannot rotate absorber over the edge of the board.");
+					}
+					if (!model.isCellEmpty(new Vect(x, y)) && !this.equals(model.getGizmo(new Vect(x,y)))) {
+						throw new IllegalRotationException("Cannot rotate absorber over another object.");
+					}
+				}
+			}
+			
+			this.gridHeight = this.getGridWidth();
+			this.gridWidth = w;
+			this.bottomRightCoords = new Vect(coords.x() + gridWidth, coords.y() + gridHeight);
+			generateLinesAndCircles();
+		}
 	}
 
 	@Override
