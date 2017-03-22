@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -111,12 +112,12 @@ public class SidePanel extends JPanel {
 		instructionLabel.setBackground(new Color(0, 0, 0, 0));
 		instructionLabel.setVisible(true);
 		instructionLabel.setFont(instructionLabel.getFont().deriveFont(Font.PLAIN));
-		instructionLabel.setMinimumSize(new Dimension(70, 70));
-		instructionLabel.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 3));
-		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		panel.add(Box.createRigidArea(new Dimension(5, 5)));
-		panel.add(instructionLabel);
-		panel.add(Box.createRigidArea(new Dimension(5, 5)));
+		panel.setLayout(new BorderLayout());
+		panel.add(Box.createRigidArea(new Dimension(5, 5)), BorderLayout.NORTH);
+		panel.add(Box.createRigidArea(new Dimension(5, 5)), BorderLayout.WEST);
+		panel.add(Box.createRigidArea(new Dimension(5, 5)), BorderLayout.EAST);
+		panel.add(Box.createRigidArea(new Dimension(5, 5)), BorderLayout.SOUTH);
+		panel.add(instructionLabel, BorderLayout.CENTER);
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		return panel;
 	}
