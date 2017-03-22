@@ -400,6 +400,11 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			return;
 		}
 		IGizmo gizmo = getGizmoOrBall(oldCoords);
+		if (gizmo instanceof IBall && model.getGizmo(newCoords) instanceof IAbsorber) {
+			IAbsorber absorber = (IAbsorber) model.getGizmo(newCoords);
+			absorber.absorbBall((IBall) gizmo);
+			mainWindow.setStatusLabel("Moved ball into absorber.");
+		}
 		if (!checkCellPlacementValid(gizmo, newCoords)) {
 			return;
 		}
