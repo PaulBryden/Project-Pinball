@@ -30,8 +30,8 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		if (board.getSelectedGizmo() == CUR_GIZMO.RFLIPPER || board.getSelectedGizmo() == CUR_GIZMO.SPINNER) {
 			coords = new Vect(coords.x() - 1, coords.y());
 		}
+		GizmoFactory gf = new GizmoFactory(model);
 		if (model.isCellEmpty(coords)) {
-			GizmoFactory gf = new GizmoFactory(model);
 			switch (board.getSelectedGizmo()) {
 			case ABSORBER:
 				Vect initialAbsorberCoords = board.getSelectedGizmoCoords();
@@ -89,6 +89,9 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			default:
 				break;
 			}
+		} else if (board.getSelectedGizmo().equals(CUR_GIZMO.BALL) && model.getGizmo(coords) instanceof IAbsorber) {
+			IAbsorber absorber = (IAbsorber) model.getGizmo(coords);
+			absorber.absorbBall(gf.getBall(new Vect(0, 0), new Vect(0, 0)));
 		} else {
 			mainWindow.setWarningLabel("Cannot place here, this cell is already occupied. "
 					+ "Select an empty cell or remove what is in this cell.");
@@ -165,10 +168,10 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 					IGizmo gizmo1 = model.getGizmo(gizmoCoords);
 					IGizmo gizmo2 = model.getGizmo(coords);
 
-					if(gizmo2 != null) {
+					if (gizmo2 != null) {
 						gizmo1.addGizmoToTrigger(gizmo2);
-						mainWindow.setStatusLabel("Connected " + board.getGizmoName(gizmo1) + " to "
-								+ getGizmoName(gizmo2));
+						mainWindow.setStatusLabel(
+								"Connected " + board.getGizmoName(gizmo1) + " to " + getGizmoName(gizmo2));
 					} else {
 						mainWindow.setWarningLabel("Balls do not have connections");
 					}
@@ -215,13 +218,13 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				try {
 					IGizmo gizmo1 = board.getModel().getGizmo(gizmoCoords);
 					IGizmo gizmo2 = board.getModel().getGizmo(coords);
-					if(gizmo1.getGizmosToTrigger().remove(gizmo2) || gizmo2.getGizmosToTrigger().remove(gizmo1)){
+					if (gizmo1.getGizmosToTrigger().remove(gizmo2) || gizmo2.getGizmosToTrigger().remove(gizmo1)) {
 						System.out.println("Removed");
-						mainWindow.setStatusLabel("Removed connection between " + getGizmoName(model.getGizmo(gizmoCoords)) + " at "
-								+ coordsString(gizmoCoords)
+						mainWindow.setStatusLabel("Removed connection between "
+								+ getGizmoName(model.getGizmo(gizmoCoords)) + " at " + coordsString(gizmoCoords)
 								+ " and " + getGizmoName(model.getGizmo(coords)) + " at " + coordsString(gizmoCoords));
 					} else {
-						if(gizmoCoords.equals(coords)) {
+						if (gizmoCoords.equals(coords)) {
 							mainWindow.setWarningLabel("This gizmo is not connected to itself");
 						} else {
 							mainWindow.setWarningLabel("No connection exists between these gizmos");
@@ -332,26 +335,26 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 
 	private String getGizmoName(IGizmo gizmo) {
 		switch (gizmo.getID().charAt(0)) {
-			case ('B'):
-				return ("Ball");
-			case ('A'):
-				return ("Absorber");
-			case ('C'):
-				return ("Circle");
-			case ('L'):
-				return ("Left flipper");
-			case ('R'):
-				return ("Right flipper");
-			case ('S'):
-				return ("Square");
-			case ('N'):
-				return ("Counter gizmo");
-			case ('P'):
-				return ("Spinner gizmo");
-			case ('T'):
-				return ("Triangle");
-			default:
-				return ("Unknown");
+		case ('B'):
+			return ("Ball");
+		case ('A'):
+			return ("Absorber");
+		case ('C'):
+			return ("Circle");
+		case ('L'):
+			return ("Left flipper");
+		case ('R'):
+			return ("Right flipper");
+		case ('S'):
+			return ("Square");
+		case ('N'):
+			return ("Counter gizmo");
+		case ('P'):
+			return ("Spinner gizmo");
+		case ('T'):
+			return ("Triangle");
+		default:
+			return ("Unknown");
 		}
 	}
 
