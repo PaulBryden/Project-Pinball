@@ -201,13 +201,16 @@ public class Board extends JPanel implements Observer {
 
 		viewBalls.addAll(balls.stream().map(BallView::new).collect(Collectors.toList()));
 
+		System.out.println();
 		for (IViewGizmo viewGizmo : viewGizmos) {
 			viewGizmo.paint(g);
+			System.out.println(viewGizmo.getGizmo().getID());
 		}
 
 		for (IViewGizmo viewBall : viewBalls) {
 			viewBall.paint(g);
 		}
+
 		if (!state.equals(RUN))
 			drawGrid(g);
 

@@ -21,6 +21,8 @@ public interface IGizmo {
 
 	void setColour(Color colour);
 
+	void setID(String id);
+
 	void addTriggerAction(IAction action);
 
 	void addGizmoToTrigger(IGizmo gizmo);

@@ -76,6 +76,10 @@ class Wall implements IGizmo {
 	}
 
 	@Override
+	public void setID(String id) {
+	}
+
+	@Override
 	public void addTriggerAction(IAction action) {
 		// Walls don't have actions
 	}

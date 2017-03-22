@@ -110,6 +110,11 @@ abstract class AbstractGizmo implements IGizmo {
 	}
 
 	@Override
+	public void setID(String id){
+		this.id = id;
+	}
+
+	@Override
 	public Color getColour() {
 		return colour;
 	}
