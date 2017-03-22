@@ -210,6 +210,7 @@ public class Board extends JPanel implements Observer {
 		for (IViewGizmo viewBall : viewBalls) {
 			viewBall.paint(g);
 		}
+
 		if (!state.equals(RUN))
 			drawGrid(g);
 
