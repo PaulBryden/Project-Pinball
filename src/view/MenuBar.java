@@ -23,8 +23,8 @@ public class MenuBar extends JMenuBar {
         listener.addMenuBar(this);
         /************** FILE ****************/
         JMenu menu = new JMenu("File");
-        addMenuItem(menu, "Save", "save", KeyEvent.VK_S);
-        addMenuItem(menu, "Load", "load", KeyEvent.VK_L);
+        addMenuItem(menu, "Save...", "save", KeyEvent.VK_S);
+        addMenuItem(menu, "Load...", "load", KeyEvent.VK_L);
         menu.addSeparator();
         addMenuItem(menu, "Toggle Mode", "toggle", KeyEvent.VK_T);
         menu.addSeparator();
@@ -33,8 +33,8 @@ public class MenuBar extends JMenuBar {
         add(menu);
         /************** NETWORK ****************/
         menu = new JMenu("Network");
-        addMenuItem(menu, "Host", "host", KeyEvent.VK_H);
-        addMenuItem(menu, "Connect", "client", KeyEvent.VK_C);
+        addMenuItem(menu, "Host...", "host", KeyEvent.VK_H);
+        addMenuItem(menu, "Connect...", "client", KeyEvent.VK_C);
         addMenuItem(menu, "Disconnect", "disconnect", KeyEvent.VK_D);
         disableItem("disconnect");
         add(menu);
