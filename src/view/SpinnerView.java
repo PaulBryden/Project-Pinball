@@ -6,10 +6,8 @@ import java.awt.RenderingHints;
 import java.util.LinkedList;
 import java.util.List;
 
-import model.IFlipper;
 import model.IGizmo;
 import model.ISpinner;
-import model.Spinner;
 import physics.LineSegment;
 import physics.Vect;
 

@@ -73,6 +73,7 @@ public class Client implements Runnable {
 		try {
 			clientSocket.receive(receivePacket);
 			window.setStatusLabel("Connected to Host: "+ipAddr);
+			window.getActionListener().enterClientMode();
 			model.setClient(this);
 			clientSocket.setSoTimeout(0);
 			return true;

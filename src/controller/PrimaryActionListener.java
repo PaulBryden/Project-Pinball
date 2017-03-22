@@ -67,6 +67,7 @@ public class PrimaryActionListener implements ActionListener {
 			break;
 		case "disconnect":
 			pauseGame();
+			disconnect();
 			new DisconnectController(mainWindow).start();
 			break;
 		case "quit":
@@ -144,7 +145,7 @@ public class PrimaryActionListener implements ActionListener {
 	
 	private void enable(String name) {
 		for (MenuBar menuBar : menuBars) {
-			// TODO enable menu item
+			menuBar.enableItem(name);
 		}
 		for (AbstractToolBar toolBar : toolBars) {
 			toolBar.enableButton(name);
@@ -153,11 +154,35 @@ public class PrimaryActionListener implements ActionListener {
 	
 	private void disable(String name) {
 		for (MenuBar menuBar : menuBars) {
-			// TODO disable menu item
+			menuBar.disableItem(name);
 		}
 		for (AbstractToolBar toolBar : toolBars) {
 			toolBar.disableButton(name);
 		}
+	}
+
+	public void enterClientMode() {
+		enable("disconnect");
+		disable("save");
+		disable("load");
+		disable("toggle");
+		disable("client");
+		disable("host");
+	}
+	
+	public void enterHostMode() {
+		enable("disconnect");
+		disable("client");
+		disable("host");
+	}
+	
+	public void disconnect() {
+		disable("disconnect");
+		enable("host");
+		enable("client");
+		enable("save");
+		enable("load");
+		enable("toggle");
 	}
 
 }

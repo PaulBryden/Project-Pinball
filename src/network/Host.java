@@ -86,6 +86,7 @@ public class Host implements Runnable{
 		}
 
         window.setStatusLabel("Host: Connected to client");
+        window.getActionListener().enterHostMode();
         gameModel.setHost(this);
 		return 1;
 	}

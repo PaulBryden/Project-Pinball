@@ -10,16 +10,15 @@ import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
 
-public class Spinner extends AbstractGizmo implements ISpinner{
+public class Spinner extends AbstractGizmo implements ISpinner {
 
 	protected static final double RADIUS = 0.25;
 	protected static final double ABS_ANGULAR_VELOCITY = 2; // in rad/sec,
-	protected static final double MARGIN = 0.01; 
+	protected static final double MARGIN = 0.01;
 	// approx. 1080
 	// deg/sec
 	protected double angularVelocity;
 	protected Angle angle;
-	
 
 	protected Vect pivot;
 	protected Vect restingEndCentre1;
@@ -30,7 +29,7 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 	private Direction direction;
 
 	public Spinner(String id, Vect coords, Direction direction) {
-		super(id, coords, 3,3, Color.PINK, false);
+		super(id, coords, 3, 3, Color.PINK, false);
 		this.pivot = new Vect(coords.x() + 1.5, coords.y() + 1.5);
 		this.addTriggerAction(new SpinnerAction(this));
 		this.vertical = true;
@@ -38,7 +37,7 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		this.endCentre2 = new Vect(coords.x() + 1.5, coords.y() + RADIUS);
 		this.restingEndCentre1 = endCentre1;
 		this.restingEndCentre2 = endCentre2;
-		this.angle = new Angle(1.0,0.0 );
+		this.angle = new Angle(1.0, 0.0);
 		this.direction = direction;
 		generateLinesAndCircles();
 	}
@@ -46,6 +45,7 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 	public Spinner(String id, int x, int y) {
 		this(id, new Vect(x, y), Direction.CW);
 	}
+
 	public Spinner(String id, Vect coords) {
 		this(id, coords, Direction.CW);
 	}
@@ -54,40 +54,52 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		circles.clear();
 		lines.clear();
 		LineSegment l;
-		
-//		if (vertical) {
-//			l = new LineSegment(restingEndCentre2.x() - (RADIUS-MARGIN), restingEndCentre2.y(), restingEndCentre1.x() - (RADIUS-MARGIN), restingEndCentre1.y());
-//		} else {
-//			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() - (RADIUS-MARGIN), restingEndCentre1.x(), restingEndCentre1.y() - (RADIUS-MARGIN));
-//		}
-//		lines.add(Geometry.rotateAround(l, pivot, angle));
-//		
-//		if (vertical) {
-//			l = new LineSegment(restingEndCentre2.x() + (RADIUS-MARGIN), restingEndCentre2.y(), restingEndCentre1.x() + (RADIUS-MARGIN), restingEndCentre1.y());
-//		} else {
-//			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() + (RADIUS-MARGIN), restingEndCentre1.x(), restingEndCentre1.y() + (RADIUS-MARGIN));
-//		}
-//		lines.add(Geometry.rotateAround(l, pivot, angle));
+
+		// if (vertical) {
+		// l = new LineSegment(restingEndCentre2.x() - (RADIUS-MARGIN),
+		// restingEndCentre2.y(), restingEndCentre1.x() - (RADIUS-MARGIN),
+		// restingEndCentre1.y());
+		// } else {
+		// l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() -
+		// (RADIUS-MARGIN), restingEndCentre1.x(), restingEndCentre1.y() -
+		// (RADIUS-MARGIN));
+		// }
+		// lines.add(Geometry.rotateAround(l, pivot, angle));
+		//
+		// if (vertical) {
+		// l = new LineSegment(restingEndCentre2.x() + (RADIUS-MARGIN),
+		// restingEndCentre2.y(), restingEndCentre1.x() + (RADIUS-MARGIN),
+		// restingEndCentre1.y());
+		// } else {
+		// l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() +
+		// (RADIUS-MARGIN), restingEndCentre1.x(), restingEndCentre1.y() +
+		// (RADIUS-MARGIN));
+		// }
+		// lines.add(Geometry.rotateAround(l, pivot, angle));
 		if (vertical) {
-			l = new LineSegment(restingEndCentre2.x() - (RADIUS), restingEndCentre2.y(), restingEndCentre1.x() - (RADIUS), restingEndCentre1.y());
+			l = new LineSegment(restingEndCentre2.x() - (RADIUS), restingEndCentre2.y(),
+					restingEndCentre1.x() - (RADIUS), restingEndCentre1.y());
 		} else {
-			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() - (RADIUS), restingEndCentre1.x(), restingEndCentre1.y() - (RADIUS));
+			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() - (RADIUS), restingEndCentre1.x(),
+					restingEndCentre1.y() - (RADIUS));
 		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
-		
+
 		if (vertical) {
-			l = new LineSegment(restingEndCentre2.x() + (RADIUS), restingEndCentre2.y(), restingEndCentre1.x() + (RADIUS), restingEndCentre1.y());
+			l = new LineSegment(restingEndCentre2.x() + (RADIUS), restingEndCentre2.y(),
+					restingEndCentre1.x() + (RADIUS), restingEndCentre1.y());
 		} else {
-			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() + (RADIUS), restingEndCentre1.x(), restingEndCentre1.y() + (RADIUS));
+			l = new LineSegment(restingEndCentre2.x(), restingEndCentre2.y() + (RADIUS), restingEndCentre1.x(),
+					restingEndCentre1.y() + (RADIUS));
 		}
 		lines.add(Geometry.rotateAround(l, pivot, angle));
-		
+
 		addEndPoints();
-		
+
 		endCentre1 = (Geometry.rotateAround(restingEndCentre1, pivot, angle));
 		endCentre2 = (Geometry.rotateAround(restingEndCentre2, pivot, angle));
-		circles.add(new Circle(endCentre2, RADIUS+MARGIN));
-		circles.add(new Circle(endCentre1, RADIUS+MARGIN));
+		circles.add(new Circle(endCentre2, RADIUS + MARGIN));
+		circles.add(new Circle(endCentre1, RADIUS + MARGIN));
 	}
 
 	/**
@@ -167,6 +179,7 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 	public Vect getEndCentre2() {
 		return endCentre2;
 	}
+
 	@Override
 	public double getWidth() {
 		return 2 * RADIUS;
@@ -174,13 +187,12 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 
 	@Override
 	public void moveForTime(double time) {
-		
 
 		angularVelocity = ABS_ANGULAR_VELOCITY;
 		this.isStatic = false;
 		double rad = angularVelocity * time;
 		boolean clockwise = (direction == Direction.CW);
-		if (!clockwise){
+		if (!clockwise) {
 			angularVelocity *= -1;
 		}
 		rad *= clockwise ? 1 : -1;
@@ -189,26 +201,27 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 
 		generateLinesAndCircles();
 	}
-	
+
 	@Override
-	public void setDirection(Direction direction){
+	public void setDirection(Direction direction) {
 		this.direction = direction;
 	}
-	
+
 	@Override
 	public Direction getDirection() {
 		return direction;
 	}
-	
-		@Override
+
+	@Override
 	public void toggleDirection() {
-		direction = (direction == direction.CW)? direction.CCW:direction.CW;
-		
+		direction = (direction == Direction.CW) ? Direction.CCW : Direction.CW;
+
 	}
+
 	public enum Direction {
 		CW, CCW;
 	}
-	
+
 	@Override
 	public String getType() {
 		return "Spinner";
@@ -216,7 +229,8 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 
 	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = getType() + " " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y() + " " + "\n";
+		String serializedGizmo = getType() + " " + getID() + " " + (int) this.getGridCoords().x() + " "
+				+ (int) this.getGridCoords().y() + " " + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
 		}
@@ -224,6 +238,5 @@ public class Spinner extends AbstractGizmo implements ISpinner{
 		serializedGizmo += "Angle " + this.getID() + " " + this.getAngle().radians() + "\n";
 		return serializedGizmo;
 	}
-
 
 }
