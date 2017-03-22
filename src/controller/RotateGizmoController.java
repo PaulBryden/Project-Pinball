@@ -16,6 +16,6 @@ public class RotateGizmoController {
     public void start() {
         mainWindow.setSidePanel(new SidePanel("Click on a gizmo to rotate it."));
         mainWindow.getBoard().setState(ROTATE);
-        mainWindow.setStatusLabel("Rotating Gizmo(s). Please click a gizmo on the board to rotate it.");
+        mainWindow.setStatusLabel("Rotating Gizmo(s). Click a gizmo on the board to rotate it.");
     }
 }

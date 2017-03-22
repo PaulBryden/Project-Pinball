@@ -5,7 +5,6 @@ import model.GizmoFactory;
 import model.GizmoFactory.TYPE;
 import model.IAbsorber;
 import model.IBall;
-import model.ICounterGizmo;
 import model.IGizmo;
 import model.IModel;
 import model.IllegalRotationException;
@@ -38,7 +37,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				Vect initialAbsorberCoords = board.getSelectedGizmoCoords();
 				if (initialAbsorberCoords == null) {
 					board.setSelectedGizmoCoords(coords);
-					mainWindow.setStatusLabel("Selected top-left cell of absorber at " + coordsString(coords));
+					mainWindow.setStatusLabel("Selected first corner of absorber at " + coordsString(coords));
 				} else {
 					double leftX = coords.x() < initialAbsorberCoords.x() ? coords.x() : initialAbsorberCoords.x();
 					double rightX = coords.x() > initialAbsorberCoords.x() ? coords.x() : initialAbsorberCoords.x();
@@ -94,8 +93,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			IAbsorber absorber = (IAbsorber) model.getGizmo(coords);
 			absorber.absorbBall(gf.getBall(new Vect(0, 0), new Vect(0, 0)));
 		} else {
-			mainWindow.setWarningLabel("Cannot place here, this cell is already occupied. "
-					+ "Select an empty cell or remove what is in this cell.");
+			mainWindow.setWarningLabel("Cannot place here, this cell is already occupied.");
 		}
 	}
 
@@ -105,7 +103,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		} else if (model.getBall(coords) != null) {
 			removeBall(coords);
 		} else {
-			mainWindow.setWarningLabel("Cannot remove from here, this cell is empty. Select an occupied cell");
+			mainWindow.setWarningLabel("Empty cell selected.");
 		}
 	}
 
@@ -120,7 +118,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 					gizmo = model.getBall(gizmoCoords);
 				}
 				mainWindow.setStatusLabel("Selected " + getGizmoName(gizmo) + " at " + coordsString(gizmoCoords)
-						+ ". Please click a grid cell to move it to");
+						+ ". Please click a grid cell to move it to.");
 				mainWindow.getSidePanel()
 						.setInstructions("Now click on an empty grid square in order to replace the gizmo.");
 			} else {
@@ -136,7 +134,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			try {
 				IGizmo gizmo = model.getGizmo(coords);
 				gizmo.rotate(1);
-				mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " rotated");
+				mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " rotated.");
 			} catch (NullPointerException e) {
 				mainWindow.setWarningLabel("Cannot rotate a ball. Select a gizmo.");
 			} catch (IllegalRotationException e) {
@@ -155,7 +153,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				gizmoCoords = board.getSelectedGizmoCoords();
 				try {
 					mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
-							+ coordsString(gizmoCoords) + ". Please select a second gizmo to connect this gizmo to");
+							+ coordsString(gizmoCoords) + ". Select gizmo to be triggerd.");
 				} catch (NullPointerException e) {
 					mainWindow.setWarningLabel("Cannot add gizmo connection to ball");
 					board.setSelectedGizmoCoords(null);
@@ -188,7 +186,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			Vect gizmoCoords = board.getSelectedGizmoCoords();
 			try {
 				mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
-						+ coordsString(gizmoCoords) + ". Please type a key to connect this gizmo to");
+						+ coordsString(gizmoCoords) + ". Please type a key to connect this gizmo to.");
 				mainWindow.getBuildKeyListener().setListening(true);
 			} catch (NullPointerException e) {
 				mainWindow.setWarningLabel("Cannot add key connection to ball");
@@ -208,7 +206,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				try {
 					mainWindow.setStatusLabel("Selected " + board.getGizmoName(model.getGizmo(gizmoCoords)) + " at "
 							+ coordsString(gizmoCoords)
-							+ ". Please select a connected gizmo to remove that connection.");
+							+ ". Select a connected gizmo to remove that connection.");
 				} catch (NullPointerException e) {
 					mainWindow.setWarningLabel("Balls do not have connections. Try a gizmo.");
 					board.setSelectedGizmoCoords(null);
@@ -224,13 +222,13 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 								+ " and " + getGizmoName(model.getGizmo(coords)) + " at " + coordsString(gizmoCoords));
 					} else {
 						if (gizmoCoords.equals(coords)) {
-							mainWindow.setWarningLabel("This gizmo is not connected to itself");
+							mainWindow.setWarningLabel("This gizmo is not connected to itself.");
 						} else {
-							mainWindow.setWarningLabel("No connection exists between these gizmos");
+							mainWindow.setWarningLabel("No connection exists between these gizmos.");
 						}
 					}
 				} catch (NullPointerException e) {
-					mainWindow.setWarningLabel("Balls do not have connections");
+					mainWindow.setWarningLabel("Balls do not have connections.");
 				}
 				board.setSelectedGizmoCoords(null);
 			}
@@ -421,7 +419,7 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 				+ ((int) newCoords.y() < 10 ? "0" + (int) newCoords.y() : (int) newCoords.y()));
 
 		mainWindow.setStatusLabel(
-				"Moved " + getGizmoName(gizmo) + " from " + coordsString(oldCoords) + " to " + coordsString(newCoords));
+				"Moved " + getGizmoName(gizmo) + " from " + coordsString(oldCoords) + " to " + coordsString(newCoords) + ".");
 		mainWindow.getBoard().setSelectedGizmoCoords(null);
 	}
 

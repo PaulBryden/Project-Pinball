@@ -13,7 +13,7 @@ public class RemoveKeyTriggerController {
 
     public void start() {
         mainWindow.getBoard().setState(RM_KEY_CONNECT);
-        mainWindow.setStatusLabel("Removing key connections. Click a gizmo to begin removing a connected key.");
+        mainWindow.setStatusLabel("Removing key connections. Click a gizmo to begin.");
 	}
     
 }

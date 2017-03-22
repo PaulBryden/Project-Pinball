@@ -13,6 +13,6 @@ public class RemoveGizmoTriggerController {
 
     public void start() {
         mainWindow.getBoard().setState(RM_GIZMO_CONNECT);
-        mainWindow.setStatusLabel("Removing gizmo connections. Click a gizmo to begin removing a connected gizmo");
+        mainWindow.setStatusLabel("Removing gizmo connections. Click a gizmo to begin.");
     }
 }

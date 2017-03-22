@@ -17,6 +17,5 @@ public class DeleteGizmoListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         mainWindow.getBoard().setState(REMOVE);
-        mainWindow.setStatusLabel("Deleting Gizmo(s). Please click a gizmo on the board to delete it.");
     }
 }
