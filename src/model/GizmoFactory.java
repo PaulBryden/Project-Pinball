@@ -1,5 +1,9 @@
 package model;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import physics.Vect;
 
 /**
@@ -141,7 +145,29 @@ public class GizmoFactory {
 	 * @return The ball
 	 */
 	public IBall getBall(Vect pos, Vect velo) {
-		return getBall("B" + zeroLeftPad(model.getBalls().size()), pos, velo);
+		return getBall(getNextAvailableBallID(model.getBalls()), pos, velo);
+	}
+
+	/**
+	 * Return the first string of the form "Bxx" that does not occur in the IDs
+	 * of the provided balls.
+	 * 
+	 * @param balls
+	 *            Balls whose IDs are not to be reused
+	 * @return The new id
+	 */
+	private String getNextAvailableBallID(List<IBall> balls) {
+		Set<String> ids = new HashSet<>();
+		for (IBall ball : balls) {
+			ids.add(ball.getID());
+		}
+		String id;
+		for (int i = 0; i < balls.size() + 1; i++) {
+			id = "B" + zeroLeftPad(i);
+			if (!ids.contains(id))
+				return id;
+		}
+		return ""; // This can never happen.
 	}
 
 	/**
