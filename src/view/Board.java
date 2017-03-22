@@ -74,7 +74,7 @@ public class Board extends JPanel implements Observer {
 		}
 	}
 
-	public void determineKeyConnectionsVisibility(Vect coords) {
+	public void updateKeyConnectionsInfo(Vect coords) {
 		ConnectionSidePanel csp = (ConnectionSidePanel) mainWindow.getSidePanel();
 		IGizmo gizmo = model.getGizmo(coords);
 		if (gizmo == null) {

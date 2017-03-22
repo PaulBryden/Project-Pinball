@@ -288,20 +288,23 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 		case SELECT:
 			handleSelect(coords);
 			break;
+		case GIZMO_CONNECT_MENU:
+			board.updateKeyConnectionsInfo(coords);
+			break;
 		case GIZMO_CONNECT:
-			board.determineKeyConnectionsVisibility(coords);
+			board.updateKeyConnectionsInfo(coords);
 			handleGizmoConnect(coords, board);
 			break;
 		case KEY_CONNECT:
-			board.determineKeyConnectionsVisibility(coords);
+			board.updateKeyConnectionsInfo(coords);
 			handleKeyConnect(coords, board);
 			break;
 		case RM_GIZMO_CONNECT:
-			board.determineKeyConnectionsVisibility(coords);
+			board.updateKeyConnectionsInfo(coords);
 			handleRemoveGizmoConnect(coords, board);
 			break;
 		case RM_KEY_CONNECT:
-			board.determineKeyConnectionsVisibility(coords);
+			board.updateKeyConnectionsInfo(coords);
 			handleRemoveKeyConnect(coords, board);
 			break;
 		default:
