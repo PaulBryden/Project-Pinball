@@ -5,11 +5,9 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 
 import controller.PrimaryActionListener;
-
 
 public class ConnectionSidePanel extends SidePanel {
 
@@ -17,11 +15,11 @@ public class ConnectionSidePanel extends SidePanel {
 	private JPanel keyConnectionsPanel;
 	private JLabel gizmoIdLabel;
 	private JLabel keyConnectionsLabel;
+	private JLabel triggersLabel;
+	private JLabel triggeredByLabel;
 
 	public ConnectionSidePanel(PrimaryActionListener listener, MainWindow mainWindow) {
 		super();
-		Board board = mainWindow.getBoard();
-
 		JButton connectGizmoBtn = ButtonFactory.createButton("add_connection", "Add a connection between gizmos",
 				listener);
 		JButton disconnectGizmoBtn = ButtonFactory.createButton("remove_connection",
@@ -32,21 +30,29 @@ public class ConnectionSidePanel extends SidePanel {
 		JPanel keyPanel = createTitledPanel("Key connections", 2, connectKeyBtn, disconnectKeyBtn);
 		gizmoIdLabel = new JLabel("");
 		keyConnectionsLabel = new JLabel("");
+		triggersLabel = new JLabel("");
+		triggeredByLabel = new JLabel("");
 		Font f = gizmoIdLabel.getFont().deriveFont(Font.PLAIN);
 		gizmoIdLabel.setFont(f);
 		keyConnectionsLabel.setFont(f);
-		keyConnectionsPanel = createTitledPanel("Existing connections", 2, new JLabel("Gizmo ID:"), gizmoIdLabel, new JLabel("Keys:"), keyConnectionsLabel);
+		triggersLabel.setFont(f);
+		triggeredByLabel.setFont(f);
+		keyConnectionsPanel = createTitledPanel("Existing connections", 2, new JLabel("Gizmo ID:"), gizmoIdLabel,
+				new JLabel("Keys:"), keyConnectionsLabel, new JLabel("Triggers:"), triggersLabel,
+				new JLabel("Triggered:"), triggeredByLabel);
 		setKeyConnectionsVisible(false);
 		build(gizmoPanel, keyPanel, keyConnectionsPanel);
 	}
-	
+
 	public void setKeyConnectionsVisible(boolean visible) {
 		keyConnectionsPanel.setVisible(visible);
 	}
-	
-	public void setExistingConnectionInfo(String id, String keyConnections) {
+
+	public void setExistingConnectionInfo(String id, String keyConnections, String triggers, String triggeredBy) {
 		this.gizmoIdLabel.setText(id);
-		this.keyConnectionsLabel.setText(keyConnections);
+		this.keyConnectionsLabel.setText("<html>" + keyConnections + "</html>");
+		this.triggersLabel.setText("<html>" +triggers+ "</html>");
+		this.triggeredByLabel.setText("<html>" +triggeredBy+ "</html>");
 	}
 
 }

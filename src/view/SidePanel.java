@@ -22,7 +22,7 @@ public class SidePanel extends JPanel {
 
 	private static final long serialVersionUID = 8844919255973893688L;
 
-	private JLabel instructionTextArea;
+	private JLabel instructionLabel;
 	private GridBagConstraints constraints;
 
 	/**
@@ -47,17 +47,16 @@ public class SidePanel extends JPanel {
 
 	public void setInstructions(String instructions) {
 		if (instructions == null || instructions.length() == 0) {
-			if (instructionTextArea != null) {
+			if (instructionLabel != null) {
 				this.remove(this.getComponentCount() - 1);
-				instructionTextArea = null;
+				instructionLabel = null;
 			}
 			return;
 		}
-		if (instructionTextArea == null) {
+		if (instructionLabel == null) {
 			addInstructionPanel(instructions);
-			instructionTextArea.setText("<html>" + instructions + "</html>");
 		} else {
-			instructionTextArea.setText("<html>" + instructions + "</html>");
+			instructionLabel.setText("<html>" + instructions + "</html>");
 		}
 	}
 
@@ -107,16 +106,16 @@ public class SidePanel extends JPanel {
 
 	private JPanel createInstructionPanel(String instructions) {
 		JPanel panel = new JPanel();
-		instructionTextArea = new JLabel();
-		instructionTextArea.setText("<html>" + instructions + "</html>");
-		instructionTextArea.setBackground(new Color(0, 0, 0, 0));
-		instructionTextArea.setVisible(true);
-		instructionTextArea.setFont(instructionTextArea.getFont().deriveFont(Font.PLAIN));
-		instructionTextArea.setMinimumSize(new Dimension(70, 70));
-		instructionTextArea.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 3));
+		instructionLabel = new JLabel();
+		instructionLabel.setText("<html>" + instructions + "</html>");
+		instructionLabel.setBackground(new Color(0, 0, 0, 0));
+		instructionLabel.setVisible(true);
+		instructionLabel.setFont(instructionLabel.getFont().deriveFont(Font.PLAIN));
+		instructionLabel.setMinimumSize(new Dimension(70, 70));
+		instructionLabel.setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 3));
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.add(Box.createRigidArea(new Dimension(5, 5)));
-		panel.add(instructionTextArea);
+		panel.add(instructionLabel);
 		panel.add(Box.createRigidArea(new Dimension(5, 5)));
 		panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		return panel;

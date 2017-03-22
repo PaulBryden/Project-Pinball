@@ -1,16 +1,13 @@
 package controller;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import model.IFlipper;
 import model.IGizmo;
 import model.IModel;
 import physics.Vect;
 import view.Board;
-import view.ConnectionSidePanel;
 import view.MainWindow;
 
 import static view.STATE.RM_KEY_CONNECT;
@@ -55,43 +52,10 @@ public class BuildKeyListener extends AbstractKeyListener {
 				}
 				model.addKeyReleasedTrigger(keyCode, gizmo);
 				mainWindow.setStatusLabel(board.getGizmoName(gizmo) + " connected to the " + keyString + " key.");
-				determineKeyConnectionsVisibility(gizmo);
+				board.updateKeyConnectionsInfo(gizmo.getGridCoords());
 			}
 		}
 		this.setListening(false);
-	}
-
-	private void determineKeyConnectionsVisibility(IGizmo gizmo) {
-		ConnectionSidePanel csp = (ConnectionSidePanel) mainWindow.getSidePanel();
-		if (gizmo == null) {
-			csp.setKeyConnectionsVisible(false);
-			return;
-		}
-		csp.setExistingConnectionInfo(gizmo.getID(), getKeyConnections(gizmo));
-		csp.setKeyConnectionsVisible(true);
-	}
-
-	private String getKeyConnections(IGizmo gizmo){
-		List<String> l = new ArrayList<>();
-		for(int i : model.getKeyPressedTriggers().keySet()){
-			for(IGizmo gizmoToTrigger : model.getKeyPressedTriggers().get(i).getGizmosToTrigger()){
-				if(gizmoToTrigger.equals(gizmo)){
-					l.add(KeyEvent.getKeyText(i));
-				}
-			}
-		}
-
-		for(int i : model.getKeyReleasedTriggers().keySet()){
-			for (IGizmo gizmoToTrigger : model.getKeyReleasedTriggers().get(i).getGizmosToTrigger()){
-				if(gizmoToTrigger.equals(gizmo) && !l.contains(KeyEvent.getKeyText(i))){
-					l.add(KeyEvent.getKeyText(i));
-				}
-			}
-		}
-
-		if(l.isEmpty())
-			return "[None]";
-		return String.join(", ", l);
 	}
 
 	private boolean removeKeyConnection(IGizmo gizmo, int keyCode) {

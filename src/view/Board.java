@@ -81,7 +81,9 @@ public class Board extends JPanel implements Observer {
 			csp.setKeyConnectionsVisible(false);
 			return;
 		}
-		csp.setExistingConnectionInfo(gizmo.getID(), getKeyConnections(gizmo));
+		String triggers = gizmo.getGizmosToTrigger().stream().map(g -> g.getID()).collect(Collectors.joining(", "));
+		String triggeredBy = model.getGizmos().stream().filter(g -> g.getGizmosToTrigger().contains(gizmo)).map(g -> g.getID()).collect(Collectors.joining(", "));
+		csp.setExistingConnectionInfo(gizmo.getID(), getKeyConnections(gizmo), triggers.equals("") ? "[None]" : triggers, triggeredBy.equals("") ? "[None]" : triggeredBy);
 		csp.setKeyConnectionsVisible(true);
 	}
 
