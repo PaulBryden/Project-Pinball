@@ -60,18 +60,17 @@ class GameModel extends Observable implements IModel {
 		for (IFlipper flipper : getFlippers()) {
 			flipper.moveForTime(tick);
 		}
+		for (ISpinner spinner : getSpinners()) {
+			spinner.moveForTime(tick);
+		}
 		for (IAbsorber absorber : getAbsorbers()) {
 			absorber.updateFiring();
 		}
-		for(ISpinner spinner: getSpinners()){
-			spinner.moveForTime(tick);
-		}
-		
+
 		// Resolve collision
 		collisionEvaluator.resolveCollision();
 		// Apply friction and gravity
-		physicsEvaluator.applyGravity(tick);
-		physicsEvaluator.applyFriction(tick);
+		physicsEvaluator.applyPhysics(tick);
 
 		// Update view
 		setChanged();
@@ -79,8 +78,9 @@ class GameModel extends Observable implements IModel {
 		sendTick();
 	}
 
-
-
+	/**
+	 * If this model is hosting a game, send the model to the client.
+	 */
 	private void sendTick() {
 		if (host != null) {
 			host.sendBoard();
@@ -101,7 +101,7 @@ class GameModel extends Observable implements IModel {
 		}
 		return flippers;
 	}
-	
+
 	@Override
 	public List<ISpinner> getSpinners() {
 		List<ISpinner> spinners = new LinkedList<>();
@@ -112,6 +112,7 @@ class GameModel extends Observable implements IModel {
 		}
 		return spinners;
 	}
+
 	@Override
 	public List<IAbsorber> getAbsorbers() {
 		List<IAbsorber> absorbers = new LinkedList<>();
@@ -179,7 +180,13 @@ class GameModel extends Observable implements IModel {
 		removeReferencesToGizmo(gizmo);
 		gizmos.remove(gizmo);
 	}
-	
+
+	/**
+	 * Remove any connections pointing to a gizmo. This is required to avoid
+	 * NullPointerExceptions after a gizmo has been deleted.
+	 * 
+	 * @param gizmo
+	 */
 	private void removeReferencesToGizmo(IGizmo gizmo) {
 		for (IGizmo g : gizmos) {
 			g.getGizmosToTrigger().remove(gizmo);

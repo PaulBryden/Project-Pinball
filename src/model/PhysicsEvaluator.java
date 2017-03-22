@@ -31,12 +31,12 @@ public class PhysicsEvaluator {
 	 * @param tickTime
 	 *            The amount of time passed since the last tick
 	 */
-	public void applyGravity(double tickTime) {
-		for (IBall ball : model.getBalls()) {
+	private void applyGravity(IBall ball, double tickTime) {
+		//for (IBall ball : model.getBalls()) {
 			Vect v = ball.getVelo();
 			Vect gravComponent = new Vect(0, model.getGravity() * tickTime);
 			ball.setVelo(v.plus(gravComponent));
-		}
+		//}
 	}
 
 	/**
@@ -46,12 +46,29 @@ public class PhysicsEvaluator {
 	 * @param tickTime
 	 *            The amount of time passed since the last tick
 	 */
-	public void applyFriction(double tickTime) {
-		for (IBall ball : model.getBalls()) {
+	private void applyFriction(IBall ball, double tickTime) {
 			Vect v = ball.getVelo();
 			double frictionScale = (1 - model.getFrictionMu() * tickTime
 					- model.getFrictionMu2() * v.length() * tickTime);
 			ball.setVelo(v.times(frictionScale));
+	}
+	
+	private void limitVelocity(IBall ball) {
+		Vect velocity = ball.getVelo();
+		if (velocity.length() > Constants.MAX_VELOCITY) {
+			ball.setVelo(new Vect(velocity.angle(), Constants.MAX_VELOCITY));
+		}
+		if (velocity.length() < Constants.MIN_VELOCITY) {
+			ball.setVelo(Vect.ZERO);
+		}
+	}
+	
+	public void applyPhysics(double tickTime) {
+
+		for (IBall ball : model.getBalls()) {
+		applyGravity(ball, tickTime);
+		applyFriction(ball, tickTime);
+		limitVelocity(ball);
 		}
 	}
 

@@ -17,7 +17,8 @@ public final class Constants {
 
 	public static final double TICK_TIME = 0.01; // in seconds
 	public static final double DEFAULT_GRAVITY = 25.0; // L per sec ^ 2
-	public static final double MIN_VELOCITY = DEFAULT_GRAVITY * TICK_TIME + 0.1;
+	public static final double MIN_VELOCITY = 0.005;
+	public static final double MAX_VELOCITY = 500;
 	public static final double DEFAULT_MU = 0.025; // L per sec
 	public static final double DEFAULT_MU2 = 0.025; // per L
 	public static final double DEFAULT_COR = 1; // default coeff. of reflection
