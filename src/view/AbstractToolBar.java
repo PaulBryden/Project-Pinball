@@ -1,9 +1,12 @@
 package view;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JButton;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
 import controller.PrimaryActionListener;
@@ -13,14 +16,15 @@ public abstract class AbstractToolBar extends JToolBar {
 	private static final long serialVersionUID = -3009990934865534605L;
 
 	private PrimaryActionListener listener;
-
 	private Map<String, JButton> buttons;
+	private Set<JToggleButton> toggleButtons;
 	
 	AbstractToolBar(String mode, PrimaryActionListener listener) {
 		super(mode);
 		this.listener = listener;
 		listener.addToolBar(this);
 		this.buttons = new HashMap<>();
+		this.toggleButtons = new HashSet<>();
 		setFloatable(false);
 		populateButtons();
 	}
@@ -47,6 +51,16 @@ public abstract class AbstractToolBar extends JToolBar {
 		JButton button = ButtonFactory.createButton(name, toolTip, listener);
 		buttons.put(name, button);
 		this.add(button);
+	}
+
+	void addToggleButton(String name, String toolTip) {
+		JToggleButton button = ButtonFactory.createToggleButton(name, toolTip, listener);
+		toggleButtons.add(button);
+		this.add(button);
+	}
+	
+	void connectToggleButtons() {
+		ButtonFactory.makeToggleButtonsExclusive(toggleButtons.toArray(new JToggleButton[toggleButtons.size()]));
 	}
 
 }
