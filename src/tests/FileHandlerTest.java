@@ -59,7 +59,7 @@ public class FileHandlerTest {
 		file.load("");
 	}
 	
-	@Test(expected=InputMismatchException.class)
+	@Test(expected=IOException.class)
 	public void testLoadErroneousFile() throws IOException {
 		file.load("src/tests/test_file_erroneous.txt");
 	}

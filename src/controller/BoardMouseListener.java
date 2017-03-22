@@ -331,27 +331,16 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 	}
 
 	private String getGizmoName(IGizmo gizmo) {
-		switch (gizmo.getID().charAt(0)) {
-		case ('B'):
-			return ("Ball");
-		case ('A'):
-			return ("Absorber");
-		case ('C'):
-			return ("Circle");
-		case ('L'):
-			return ("Left flipper");
-		case ('R'):
-			return ("Right flipper");
-		case ('S'):
-			return ("Square");
-		case ('N'):
-			return ("Counter gizmo");
-		case ('P'):
-			return ("Spinner gizmo");
-		case ('T'):
-			return ("Triangle");
-		default:
-			return ("Unknown");
+		switch (gizmo.getType()) {
+			case ("Absorber"): return ("Absorber");
+			case ("Circle"): return ("Circle");
+			case ("LeftFlipper"): return ("Left-Flipper");
+			case ("RightFlipper"): return ("Right-Flipper");
+			case ("Square"): return ("Square");
+			case ("CounterGizmo"): return ("Counter Gizmo");
+			case ("Spinner"): return ("Spinner Gizmo");
+			case ("Triangle"): return ("Triangle");
+			default: return ("Unknown");
 		}
 	}
 
@@ -419,10 +408,12 @@ public class BoardMouseListener implements java.awt.event.MouseListener {
 			newCoords = newCoords.plus(new Vect(0.5, 0.5));
 		}
 		gizmo.setGridCoords(newCoords);
-		gizmo.setID((gizmo.getID().substring(0, gizmo.getID().length() == 5 ? 1 : 2))
-				+ ((int) newCoords.x() < 10 ? "0" + (int) newCoords.x() : (int) newCoords.x())
-				+ ((int) newCoords.y() < 10 ? "0" + (int) newCoords.y() : (int) newCoords.y()));
 
+		if (!(gizmo instanceof IBall)) {
+			gizmo.setID((gizmo.getID().substring(0, gizmo.getID().length() <= 5 ? 1 : 2))
+					+ ((int) newCoords.x() < 10 ? "0" + (int) newCoords.x() : (int) newCoords.x())
+					+ ((int) newCoords.y() < 10 ? "0" + (int) newCoords.y() : (int) newCoords.y()));
+		}
 		mainWindow.setStatusLabel(
 				"Moved " + getGizmoName(gizmo) + " from " + coordsString(oldCoords) + " to " + coordsString(newCoords) + ".");
 		mainWindow.getBoard().setSelectedGizmoCoords(null);
