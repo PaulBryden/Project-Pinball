@@ -10,10 +10,17 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public abstract class AbstractGizmo implements IGizmo {
+/**
+ * 
+ * @author Matt, David
+ *
+ */
+abstract class AbstractGizmo implements IGizmo {
 
 	protected String id;
 	protected Vect coords;
+	protected int gridWidth;
+	protected int gridHeight;
 	protected int rotation;
 	protected Color colour;
 	protected boolean isStatic;
@@ -23,9 +30,25 @@ public abstract class AbstractGizmo implements IGizmo {
 	protected List<IAction> actions;
 	protected Set<IGizmo> triggers;
 
-	public AbstractGizmo(String id, Vect coords, Color colour, boolean isStatic) {
+	/**
+	 * 
+	 * @param id
+	 *            A unique ID
+	 * @param coords
+	 *            Top left corner
+	 * @param gridWidth
+	 *            Width in L
+	 * @param gridHeight
+	 *            Height in L
+	 * @param colour
+	 * @param isStatic
+	 *            True if gizmo is not moving
+	 */
+	public AbstractGizmo(String id, Vect coords, int gridWidth, int gridHeight, Color colour, boolean isStatic) {
 		this.id = id;
 		this.coords = coords;
+		this.gridWidth = gridWidth;
+		this.gridHeight = gridHeight;
 		rotation = 0;
 		this.colour = colour;
 		this.isStatic = isStatic;
@@ -36,6 +59,11 @@ public abstract class AbstractGizmo implements IGizmo {
 		lines = new ArrayList<>();
 	}
 
+	/**
+	 * Populate the lists containing the circles and line segments that make up
+	 * the gizmo. This needs to be called from the constructor, and may be
+	 * called subsequently to update the gizmos locationt.
+	 */
 	protected abstract void generateLinesAndCircles();
 
 	@Override
@@ -55,6 +83,16 @@ public abstract class AbstractGizmo implements IGizmo {
 	}
 
 	@Override
+	public int getGridWidth() {
+		return gridWidth;
+	}
+
+	@Override
+	public int getGridHeight() {
+		return gridHeight;
+	}
+
+	@Override
 	public void rotate(int steps) {
 		rotation += steps;
 		rotation %= 4;
@@ -69,6 +107,11 @@ public abstract class AbstractGizmo implements IGizmo {
 	@Override
 	public void setColour(Color colour) {
 		this.colour = colour;
+	}
+
+	@Override
+	public void setID(String id){
+		this.id = id;
 	}
 
 	@Override
@@ -122,21 +165,27 @@ public abstract class AbstractGizmo implements IGizmo {
 
 	@Override
 	public void onCollision(IBall ball) {
-		// TODO Auto-generated method stub
+		// By default gizmos do nothing on collision.
+	}
 
+	@Override
+	public double getCoefficientOfReflection() {
+		return coefficientOfReflection;
 	}
 	
+	@Override
+	public void setCoefficientOfReflection(double cor) {
+		this.coefficientOfReflection = cor;
+	}
+
+	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
-				+ "\n";
+		String serializedGizmo = getType() + " " + getID() + " " + (int) this.getGridCoords().x() + " " + (int) this.getGridCoords().y() + " " + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
 		}
+		serializedGizmo += "Colour " + this.getID() + " " + this.getColour().getRGB() + "\n";
 		return serializedGizmo;
-	}
-
-	public double getCoefficientOfReflection() {
-		return coefficientOfReflection;
 	}
 
 }

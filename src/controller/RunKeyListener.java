@@ -1,33 +1,37 @@
 package controller;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import model.IModel;
+import view.MainWindow;
 
-public class RunKeyListener implements KeyListener {
+public class RunKeyListener extends AbstractKeyListener {
 
-	private IModel model;
-
-	public RunKeyListener(IModel model) {
-		this.model = model;
+	public RunKeyListener(IModel model, MainWindow mainWindow) {
+		super(model, mainWindow);
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		model.processKeyPressedTrigger(e.getKeyCode());
+	protected void magicKeyPressed(KeyEvent e) {
+		if (model.isClient()) {
+			model.addKeyToSend(" Pressed " + e.getKeyCode() + " /n");
+		} else {
+			model.processKeyPressedTrigger(e.getKeyCode());
+		}
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		model.processKeyReleasedTrigger(e.getKeyCode());
+	protected void magicKeyReleased(KeyEvent e) {
+		if (model.isClient()) {
+			model.addKeyToSend(" Released " + e.getKeyCode() + " /n");
+		} else {
+			model.processKeyReleasedTrigger(e.getKeyCode());
+		}
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) { }
-	
-	public static final KeyListener createListener(IModel model) {
-		return new MagicKeyListener(new RunKeyListener(model));
+	protected void magicKeyTyped(KeyEvent e) {
+		// Do nothing when key is typed
 	}
 
 }

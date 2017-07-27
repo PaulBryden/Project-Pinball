@@ -1,22 +1,22 @@
 package controller;
 
-import view.Board;
+import view.MainWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AddTriangleListener implements ActionListener{
-    private Board board;
+import static view.CUR_GIZMO.TRIANGLE;
 
-    public AddTriangleListener(Board board){
-        this.board = board;
+public class AddTriangleListener implements ActionListener{
+    private MainWindow mainWindow;
+
+    public AddTriangleListener(MainWindow mainWindow){
+        this.mainWindow = mainWindow;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.getMouseListener().setGizmo(BoardMouseListener.CUR_GIZMO.TRIANGLE);
-//        IGizmo triangleGizmo = new TriangleGizmo("T014", 16 ,18);
-//        board.addViewGizmo(new TriangleView(triangleGizmo));
-//        board.getModel().addGizmo(triangleGizmo);
+        mainWindow.getBoard().setSelectedGizmo(TRIANGLE);
+        mainWindow.setStatusLabel("Placing Triangle. Please click a grid cell to place it.");
     }
 }

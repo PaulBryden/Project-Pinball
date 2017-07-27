@@ -4,14 +4,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.List;
-import java.util.Observable;
 
 import model.IGizmo;
-import observer.IObservable;
-import observer.IObserver;
 import physics.Vect;
 
-public class TriangleView implements IViewGizmo, IObserver{
+public class TriangleView implements IViewGizmo {
+
 	private IGizmo gizmo;
 	private static final int GRID_WIDTH = 20;
 
@@ -19,6 +17,7 @@ public class TriangleView implements IViewGizmo, IObserver{
 		this.gizmo = gizmo;
 	}
 
+	@Override
 	public void paint(Graphics g){
 		Graphics2D g2D = (Graphics2D) g;
 		List<Vect> exactCoords = gizmo.getExactCoords();
@@ -37,11 +36,8 @@ public class TriangleView implements IViewGizmo, IObserver{
 	}
 
 	@Override
-	public void update(IObservable obsv, Object o) {
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
+	public IGizmo getGizmo() {
+		return (gizmo);
 	}
 
 }

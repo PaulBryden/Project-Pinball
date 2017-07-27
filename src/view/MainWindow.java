@@ -4,114 +4,166 @@ import javax.swing.JFrame;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
+import controller.BuildKeyListener;
+import controller.PrimaryActionListener;
 import controller.RunKeyListener;
 import model.IModel;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.KeyboardFocusManager;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+
+import static view.STATE.RUN;
 
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = -2379162245120133571L;
+	private PrimaryActionListener actionListener;
 	private IModel model;
 	private MenuBar menuBar;
 	private JToolBar toolbar;
-	private JToolBar sideToolBar;
+	private SidePanel sidePanel;
 	private Board board;
-	private GridBagConstraints constraints;
-	private KeyListener keyListener;
+	private RunKeyListener runKeyListener;
+	private BuildKeyListener buildKeyListener;
+	private StatusBar statusBar;
 
 	public MainWindow(IModel model) {
 		super();
 		this.model = model;
-		board = new Board(this.model);
-		menuBar = new MenuBar(this);
-		sideToolBar = new JToolBar();
-		toolbar = new BuildToolBar(this, board);
-		constraints = new GridBagConstraints();
-		setUpKeyListener();
+		board = new Board(this, this.model);
+		actionListener = new PrimaryActionListener(this, model);
+		menuBar = new MenuBar(actionListener);
+		toolbar = new BuildToolBar(actionListener);
+		statusBar = new StatusBar();
+		setUpKeyListeners();
 	}
 
 	public void build() {
-		setLayout(new GridBagLayout());
+		setResizable(false);
+		setLayout(new BorderLayout());
 		setTitle("Gizmo Ball");
 		setJMenuBar(menuBar);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setResizable(false);
-		setSize(800, 550);
-
-		constraints.fill = GridBagConstraints.VERTICAL;
-		constraints.gridx = 1;
-		constraints.gridy = 0;
-		add(toolbar, constraints);
-
-		constraints.fill = GridBagConstraints.CENTER;
-		constraints.gridx = 1;
-		constraints.gridy = 1;
-		add(board, constraints);
-
+		add(toolbar, BorderLayout.NORTH);
+		add(board, BorderLayout.CENTER);
+		add(statusBar, BorderLayout.SOUTH);
+		sidePanel = new SidePanel(SidePanel.BUILD_INSTRUCTIONS);
+		this.add(sidePanel, BorderLayout.EAST);
+		pack();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = screenSize.width / 2 - this.getSize().width / 2;
+		int y = screenSize.height / 2 - this.getSize().height / 2;
+		this.setLocation(x, y);
 		setVisible(true);
 	}
 
-	public void addSideToolBar(JToolBar sideToolBar) {
-		constraints.fill = GridBagConstraints.VERTICAL;
-		constraints.gridx = 0;
-		constraints.gridy = 1;
-
-		remove(this.sideToolBar);
-		this.sideToolBar = sideToolBar;
-		add(this.sideToolBar, constraints);
-
+	public void setSidePanel(SidePanel sidePanel) {
+		if (this.sidePanel != null)
+			this.remove(this.sidePanel);
+		this.sidePanel = sidePanel;
+		if (sidePanel != null)
+			add(this.sidePanel, BorderLayout.EAST);
 		revalidate();
 		repaint();
 	}
 
-	public JToolBar getSideToolBar() {
-		return (sideToolBar);
+	public SidePanel getSidePanel() {
+		return (sidePanel);
 	}
 
 	public void toggleView() {
-		constraints.fill = GridBagConstraints.VERTICAL;
-
 		remove(toolbar);
-
 		if (toolbar instanceof RunToolBar) {
-			((RunToolBar) toolbar).stop();
-			toolbar = new BuildToolBar(this, board);
+			actionListener.pauseGame();
+			toolbar = new BuildToolBar(actionListener);
+			setSidePanel(new SidePanel(SidePanel.BUILD_INSTRUCTIONS));
+			setStatusLabel("");
 		} else {
-			toolbar = new RunToolBar(model);
-			remove(sideToolBar);
-			sideToolBar = new JToolBar();
+			toolbar = new RunToolBar(actionListener);
+			setSidePanel(null);
+			setStatusLabel("Stopped");
 		}
-
-		constraints.gridx = 1;
-		constraints.gridy = 0;
-		add(toolbar, constraints);
-
+		add(toolbar, BorderLayout.NORTH);
 		revalidate();
 		repaint();
+		pack();
+	}
+
+	public void enableClientView() {
+		setSidePanel(null);
+		remove(toolbar);
+		toolbar = new ClientToolBar(actionListener);
+		add(toolbar, BorderLayout.NORTH);
+		board.setState(RUN);
+		setStatusLabel("Connected");
+		revalidate();
+		repaint();
+		pack();
 	}
 
 	public Board getBoard() {
 		return (board);
 	}
 
-	private void setUpKeyListener() {
+	public IModel getModel() {
+		return model;
+	}
+
+	public void setStatusLabel(String status) {
+		statusBar.setStatus(status);
+	}
+
+	public void setWarningLabel(String warning) {
+		statusBar.setWarning(warning);
+	}
+
+	private void setUpKeyListeners() {
 		// Use an event dispatcher so that key strokes are captured regardless
 		// of which element of the frame has focus.
-		this.keyListener = RunKeyListener.createListener(model);
+		this.runKeyListener = new RunKeyListener(model, this);
+		this.buildKeyListener = new BuildKeyListener(model, this);
 		KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		kfm.addKeyEventDispatcher(e -> {
-            if (e.getID() == KeyEvent.KEY_PRESSED) {
-                keyListener.keyPressed(e);
-                return true;
-            }
-            if (e.getID() == KeyEvent.KEY_RELEASED) {
-                keyListener.keyReleased(e);
-                return true;
-            }
-            return false;
-        });
+			if (runKeyListener.isListening()) {
+				if (e.getID() == KeyEvent.KEY_PRESSED) {
+					runKeyListener.keyPressed(e);
+				}
+				if (e.getID() == KeyEvent.KEY_RELEASED) {
+					runKeyListener.keyReleased(e);
+				}
+				if (e.getID() == KeyEvent.KEY_TYPED) {
+					runKeyListener.keyTyped(e);
+				}
+				return true;
+			} else if (buildKeyListener.isListening()) {
+				if (e.getID() == KeyEvent.KEY_PRESSED) {
+					buildKeyListener.keyPressed(e);
+				}
+				if (e.getID() == KeyEvent.KEY_RELEASED) {
+					buildKeyListener.keyReleased(e);
+				}
+				if (e.getID() == KeyEvent.KEY_TYPED) {
+					buildKeyListener.keyTyped(e);
+				}
+				return true;
+			}
+			return false;
+		});
+	}
+
+	public RunKeyListener getRunKeyListener() {
+		return this.runKeyListener;
+	}
+
+	public BuildKeyListener getBuildKeyListener() {
+		return this.buildKeyListener;
+	}
+
+	
+	public PrimaryActionListener getActionListener() {
+		return actionListener;
 	}
 }

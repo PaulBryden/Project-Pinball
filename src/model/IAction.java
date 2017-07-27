@@ -1,7 +1,14 @@
 package model;
 
+/**
+ * 
+ * @author David
+ *
+ */
 public interface IAction {
-	public void performAction();
-	public void performAction(IBall ball);
+	
+	void performAction();
+
+	void performAction(IBall ball);
 
 }

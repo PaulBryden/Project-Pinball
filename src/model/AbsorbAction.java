@@ -1,10 +1,22 @@
 package model;
 
-public class AbsorbAction implements IAction {
+/**
+ * 
+ * An action for triggering the absorb functionality of an absorber.
+ * 
+ * @author David
+ *
+ */
+class AbsorbAction implements IAction {
 
-	private Absorber a;
-	
-	public AbsorbAction(Absorber a) {
+	private IAbsorber a;
+
+	/**
+	 * 
+	 * @param a
+	 *            The absorber acted upon
+	 */
+	public AbsorbAction(IAbsorber a) {
 		this.a = a;
 	}
 

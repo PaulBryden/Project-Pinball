@@ -9,10 +9,15 @@ import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
 
-public class TriangleGizmo extends AbstractGizmo {
+/**
+ * 
+ * @author Paul, David
+ *
+ */
+class TriangleGizmo extends AbstractGizmo implements ITriangleGizmo {
 
 	public TriangleGizmo(String id, Vect coords) {
-		super(id, coords, Constants.TRIANGLE_DEFAULT_COLOUR, true);
+		super(id, coords, 1, 1, Constants.TRIANGLE_DEFAULT_COLOUR, true);
 		generateLinesAndCircles();
 	}
 
@@ -42,30 +47,18 @@ public class TriangleGizmo extends AbstractGizmo {
 		lines.add(Geometry.rotateAround(l, centre, a));
 	}
 
-
-
 	@Override
 	public List<Vect> getExactCoords() {
-		// TODO Auto-generated method stub
 		List<Vect> coordVector = new ArrayList<Vect>();
 		coordVector.add(this.getAllLineSegments().get(0).p1());
 		coordVector.add(this.getAllLineSegments().get(0).p2());
 		coordVector.add(this.getAllLineSegments().get(1).p1());
-
 		return coordVector;
-
-		
-
 	}
-	
+
 	@Override
-	public String serializeGizmo() {
-		String serializedGizmo = "Triangle " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
-				+ "\n";
-		for (IGizmo gizmo : triggers) {
-			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
-		}
-		return serializedGizmo;
+	public String getType() {
+		return "Triangle";
 	}
 
 }

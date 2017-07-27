@@ -5,21 +5,31 @@ import java.util.List;
 import physics.Circle;
 import physics.Vect;
 
-public class BallGizmo extends AbstractGizmo implements IBall {
+/**
+ * 
+ * @author Paul, David
+ *
+ */
+class BallGizmo extends AbstractGizmo implements IBall {
 
 	private double radius;
 	private Circle physicsCircle;
 	private Vect velocity;
 
+	/**
+	 * 
+	 * @param id
+	 *            A unique ID
+	 * @param coords
+	 *            Centre of the ball
+	 * @param velo
+	 *            Velocity of the ball
+	 */
 	public BallGizmo(String id, Vect coords, Vect velo) {
-		super(id, coords, Constants.BALL_DEFAULT_COLOUR, false);
+		super(id, coords, -1, -1, Constants.BALL_DEFAULT_COLOUR, false);
 		this.radius = 0.3;
 		velocity = velo;
 		generateLinesAndCircles();
-	}
-
-	public BallGizmo(String id, double x, double y, double vx, double vy) {
-		this(id, new Vect(x, y), new Vect(vx, vy));
 	}
 
 	@Override
@@ -28,6 +38,7 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 		this.physicsCircle = new Circle(coords, radius);
 		circles.add(physicsCircle);
 	}
+
 
 	@Override
 	public Vect getVelo() {
@@ -39,11 +50,12 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 		velocity = v;
 	}
 
+	
 	@Override
 	public double getRadius() {
 		return radius;
 	}
-
+	
 	@Override
 	public void setRadius(double radius) {
 		this.radius = radius;
@@ -56,18 +68,14 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 	}
 
 	@Override
-	public boolean isBall() {
-		return true;
-	}
-
-	@Override
 	public String serializeGizmo() {
-		String serializedGizmo = "Ball " + getID() + " " + physicsCircle.getCenter().x() + " "
-				+ physicsCircle.getCenter().y()  + " " + this.getVelo().x() + " "
-						+ this.getVelo().y() +  "\n";
+		String serializedGizmo = "Ball " + getID() + " " + String.format("%.4f", physicsCircle.getCenter().x()) + " "
+				+ String.format("%.4f", physicsCircle.getCenter().y()) + " " + String.format("%.4f", this.getVelo().x())
+				+ " " + String.format("%.4f", this.getVelo().y()) + "\n";
 		for (IGizmo gizmo : triggers) {
 			serializedGizmo += "Connect " + getID() + " " + gizmo.getID() + "\n";
 		}
+		serializedGizmo += "Colour " + this.getID() + " " + this.getColour().getRGB() + "\n";
 		return serializedGizmo;
 	}
 
@@ -85,8 +93,17 @@ public class BallGizmo extends AbstractGizmo implements IBall {
 
 	@Override
 	public List<Vect> getExactCoords() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setCentre(Vect v) {
+		physicsCircle = new Circle(v, physicsCircle.getRadius());
+	}
+
+	@Override
+	public String getType() {
+		return "Ball";
 	}
 
 }

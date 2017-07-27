@@ -1,8 +1,11 @@
 package view;
 
-import java.awt.Graphics;
-import java.util.Observer;
+import model.IGizmo;
 
-public interface IViewGizmo extends Observer{
+import java.awt.Graphics;
+
+public interface IViewGizmo {
 	void paint(Graphics g);
+
+	IGizmo getGizmo();
 }

@@ -1,13 +1,10 @@
 package view;
 
 import java.awt.Graphics;
-import java.util.Observable;
 
 import model.IGizmo;
-import observer.IObservable;
-import observer.IObserver;
 
-public class SquareView implements IViewGizmo, IObserver {
+public class SquareView implements IViewGizmo {
 
 	private IGizmo gizmo;
 	private static final int GRID_WIDTH = 20;
@@ -16,18 +13,16 @@ public class SquareView implements IViewGizmo, IObserver {
 		this.gizmo = gizmo;
 	}
 
+	@Override
 	public void paint(Graphics g){
 		g.setColor(gizmo.getColour());
 		g.fillRect((int) gizmo.getGridCoords().x() * GRID_WIDTH ,
 				(int) gizmo.getGridCoords().y() * GRID_WIDTH, GRID_WIDTH, GRID_WIDTH);
 	}
 
-	public void update(IObservable obsv, Object o) {
-
-	}
-
 	@Override
-	public void update(Observable o, Object arg) {
-
+	public IGizmo getGizmo() {
+		return (gizmo);
 	}
+	
 }

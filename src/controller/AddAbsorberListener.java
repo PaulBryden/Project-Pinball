@@ -1,23 +1,22 @@
 package controller;
 
-import model.Absorber;
-import view.AbsorberView;
-import view.Board;
+import view.MainWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AddAbsorberListener implements ActionListener{
-    private Board board;
+import static view.CUR_GIZMO.ABSORBER;
 
-    public AddAbsorberListener(Board board){
-        this.board = board;
+public class AddAbsorberListener implements ActionListener{
+    private MainWindow mainWindow;
+
+    public AddAbsorberListener(MainWindow mainWindow){
+        this.mainWindow = mainWindow;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Absorber absorber = new Absorber("A", 0, 19, 1, 20, board.getModel().getBalls());
-        board.addViewGizmo(new AbsorberView(absorber));
-        board.getModel().addGizmo(absorber);
+        mainWindow.getBoard().setSelectedGizmo(ABSORBER);
+        mainWindow.setStatusLabel("Placing Absorber. Please click a grid cell to place it.");
     }
 }

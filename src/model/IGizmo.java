@@ -2,45 +2,77 @@ package model;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Set;
 
 import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public interface IGizmo extends ITrigger {
+/**
+ * 
+ * @author Paul, David, Matt
+ *
+ */
+public interface IGizmo {
 
-	public boolean isStatic();
+	boolean isStatic();
 
-	public Color getColour();
+	Color getColour();
 
-	public void setColour(Color colour);
+	void setColour(Color colour);
 
-	public void addTriggerAction(IAction action);
+	void setID(String id);
 
-	public void addGizmoToTrigger(IGizmo gizmo);
+	void addTriggerAction(IAction action);
 
-	public void performActions();
+	void addGizmoToTrigger(IGizmo gizmo);
 
-	public void onCollision(IBall ball);
+	void performActions();
 
-	public Vect getGridCoords();
+	void onCollision(IBall ball);
 
-	public void setGridCoords(Vect coords);
+	Vect getGridCoords();
 	
-	public List<Vect> getExactCoords();
-
-	public List<Circle> getAllCircles();
-
-	public List<LineSegment> getAllLineSegments();
-
-	public String serializeGizmo();
-
-	public String getID();
-
-	public void rotate(int steps);
-
-	public int getRotation();
+	int getGridWidth();
 	
-	public double getCoefficientOfReflection();
+	int getGridHeight();
+
+	void setGridCoords(Vect coords);
+	
+	List<Vect> getExactCoords();
+	
+	/**
+	 * 
+	 * @return a list of all the cicle objects in the gizmo
+	 */
+	List<Circle> getAllCircles();
+
+	/**
+	 * 
+	 * @return a list of all the lines in the gizmo
+	 */
+	List<LineSegment> getAllLineSegments();
+
+	/**
+	 * @returns a String that represents the current state of the ball 
+	 * 	in the format: type id centreX centreY velocityX velovityY
+	 */
+	String serializeGizmo();
+
+	String getID();
+
+	void rotate(int steps);
+
+	int getRotation();
+	
+	double getCoefficientOfReflection();
+
+	void setCoefficientOfReflection(double value);
+	
+	void triggerConnectedGizmos();
+
+	Set<IGizmo> getGizmosToTrigger();
+	
+	String getType();
 
 }

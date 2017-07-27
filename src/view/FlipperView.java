@@ -5,15 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
 
 import model.IFlipper;
-import observer.IObservable;
-import observer.IObserver;
+import model.IGizmo;
 import physics.LineSegment;
 import physics.Vect;
 
-public class FlipperView implements IViewGizmo, IObserver{
+public class FlipperView implements IViewGizmo {
 	private IFlipper gizmo;
 	private static final int GRID_WIDTH = 20;
 
@@ -21,6 +19,7 @@ public class FlipperView implements IViewGizmo, IObserver{
 		this.gizmo = gizmo;
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2D = (Graphics2D) g;
 		List<Vect> exactCoords = new LinkedList<>();
@@ -58,14 +57,8 @@ public class FlipperView implements IViewGizmo, IObserver{
 	}
 
 	@Override
-	public void update(IObservable obsv, Object o) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		//update graphic
+	public IGizmo getGizmo() {
+		return (gizmo);
 	}
 
 }

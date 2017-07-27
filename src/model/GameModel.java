@@ -1,199 +1,236 @@
 package model;
 
 import java.awt.Color;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
-import physics.Circle;
-import physics.Geometry;
-import physics.LineSegment;
+import network.Client;
+import network.Host;
 import physics.Vect;
 
-public class GameModel extends Observable implements IModel {
+/**
+ * 
+ * @author Matt, David, Paul
+ *
+ */
+class GameModel extends Observable implements IModel {
 
 	BoardFileHandler fileHandler;
 	private List<IGizmo> gizmos;
 	private List<IBall> balls;
-	private List<IWall> walls;
-	private Map<Integer, ITrigger> keyPressedTriggers;
-	private Map<Integer, ITrigger> keyReleasedTriggers;
-	private boolean pauseGame = false;
+	private Map<Integer, KeyTrigger> keyPressedTriggers;
+	private Map<Integer, KeyTrigger> keyReleasedTriggers;
 	private Color backgroundColour;
+	private Color foregroundColour;
+	private CollisionEvaluator collisionEvaluator;
+	private PhysicsEvaluator physicsEvaluator;
 
+	boolean isClient;
+	public Deque<String> keysToSend;
+	private Host host = null;
+	private Client client = null;
+	private double gravity;
+	private double mu;
+	private double mu2;
+
+	/**
+	 * Create a new model with default physics and walls.
+	 */
 	public GameModel() {
+		keysToSend = new ArrayDeque<String>();
 		reset();
-
-		//fileHandler = new BoardFileHandler(this);
-		//fileHandler.load("spec_save_file.txt");
-
-//		gizmos.add(new SquareGizmo("S35", 3, 5));
-//		gizmos.add(new SquareGizmo("S1310", 13, 10));
-//		gizmos.add(new SquareGizmo("S1319", 13, 19));
-//		gizmos.add(new SquareGizmo("S142", 14, 2));
-//		gizmos.add(new SquareGizmo("S416", 4, 16));
-//		gizmos.add(new SquareGizmo("S516", 5, 16));
-//		gizmos.add(new SquareGizmo("S616", 6, 16));
-//		gizmos.add(new SquareGizmo("S716", 7, 16));
-//		gizmos.add(new TriangleGizmo("T2", 1, 0));
-//		TriangleGizmo triangle = new TriangleGizmo("T1", 0, 18);
-//		triangle.rotate(2);
-//		gizmos.add(triangle);
-//		Absorber absorber = new Absorber("A", 1,18,5,20, balls);
-//		gizmos.add(absorber);
-//		IFlipper flipper = new LeftFlipper("LF102", 10, 2);
-//		gizmos.add(flipper);
-//		IGizmo magicGizmo = new SquareGizmo("S1818", 18, 18);
-//		magicGizmo.addGizmoToTrigger(flipper);
-//		gizmos.add(magicGizmo);
-		//balls.add(new BallGizmo("B", 10, 11, 13, 17));
-//		addKeyTrigger('b', flipper);
-//		absorber.addGizmoToTrigger(absorber);
-//		addKeyTrigger('a', absorber);
+		setDefaultPhysics();
 	}
 
+	@Override
 	public void tick() {
 		// Evaluate collisions for all items in Gizmolist
-		CollisionDetails collision = evaluateCollisions();
-		// Use smallest tick time until next collision.
-		double tick = (collision == null) ? Constants.TICK_TIME : collision.getTuc();
+		collisionEvaluator.evaluate();
+		double tick = collisionEvaluator.getTickTime();
+
 		// Move all items based on that tick time
 		for (IBall ball : balls) {
 			ball.moveForTime(tick);
 		}
+		for (IFlipper flipper : getFlippers()) {
+			flipper.moveForTime(tick);
+		}
+		for (ISpinner spinner : getSpinners()) {
+			spinner.moveForTime(tick);
+		}
+		for (IAbsorber absorber : getAbsorbers()) {
+			absorber.updateFiring();
+		}
+
 		// Resolve collision
-		if (collision != null) {
-			System.out.println(collision.getBall().getVelo().toString());
-			double coeff = collision.getGizmo().getCoefficientOfReflection();
-			Vect velo = collision.getVelo().times(coeff);
-			velo = (velo.length() > Constants.MIN_VELOCITY) ? velo : Vect.ZERO;
-			
-			/*double velox = (Math.abs(velo.x()) > -0.1) ? velo.x() : 0.0;
-			double veloy = (Math.abs(velo.y()) > Constants.MIN_VELOCITY) ? velo.y() : 0.0;
-			velo = new Vect(velox,veloy);*/
-			collision.getBall().setVelo(velo);
-		}
-		
-		applyGravity(tick);
-		applyFriction(tick);
-		// Trigger any gizmos that have been collided with
-		if (collision != null && collision.getGizmo() != null) {
-			collision.getGizmo().onCollision(collision.getBall());
-			collision.getGizmo().triggerConnectedGizmos();
-		}
+		collisionEvaluator.resolveCollision();
+		// Apply friction and gravity
+		physicsEvaluator.applyPhysics(tick);
+
 		// Update view
-		for (IGizmo gizmo : gizmos) {
-			if (gizmo instanceof IFlipper) {
-				((IFlipper) gizmo).moveForTime(tick);
-			}
-		}
 		setChanged();
 		notifyObservers();
+		sendTick();
 	}
 
+	/**
+	 * If this model is hosting a game, send the model to the client.
+	 */
+	private void sendTick() {
+		if (host != null) {
+			host.sendBoard();
+			if (!host.receiveKeys()) {
+				// Timeout error, abort and reset
+				host = null;
+			}
+		}
+	}
+
+	@Override
+	public synchronized List<IFlipper> getFlippers() {
+		List<IFlipper> flippers = new LinkedList<>();
+		for (IGizmo gizmo : gizmos) {
+			if (gizmo instanceof IFlipper) {
+				flippers.add((IFlipper) gizmo);
+			}
+		}
+		return flippers;
+	}
+
+	@Override
+	public List<ISpinner> getSpinners() {
+		List<ISpinner> spinners = new LinkedList<>();
+		for (IGizmo gizmo : gizmos) {
+			if (gizmo instanceof ISpinner) {
+				spinners.add((ISpinner) gizmo);
+			}
+		}
+		return spinners;
+	}
+
+	@Override
+	public List<IAbsorber> getAbsorbers() {
+		List<IAbsorber> absorbers = new LinkedList<>();
+		for (IGizmo gizmo : gizmos) {
+			if (gizmo instanceof IAbsorber) {
+				absorbers.add((IAbsorber) gizmo);
+			}
+		}
+		return absorbers;
+	}
+
+	@Override
+	public IBall getBall(Vect coords) {
+		for (IBall ball : balls) {
+			Vect pos = ball.getCentre();
+			double r = ball.getRadius();
+			if (pos.x() + r > coords.x() && pos.x() - r < coords.x() + 1 && pos.y() + r > coords.y()
+					&& pos.y() - r < coords.y() + 1)
+				return ball;
+		}
+		return null;
+	}
+
+	@Override
+	public IGizmo getGizmo(Vect coords) {
+		for (IGizmo gizmo : gizmos) {
+			Vect gizmoCoords = gizmo.getGridCoords();
+			int width = gizmo.getGridWidth();
+			int height = gizmo.getGridHeight();
+			if (gizmoCoords != null && coords.x() >= gizmoCoords.x() && coords.x() < gizmoCoords.x() + width
+					&& coords.y() >= gizmoCoords.y() && coords.y() < gizmoCoords.y() + height) {
+				return gizmo;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isCellEmpty(Vect coords) {
+		return getGizmo(coords) == null && getBall(coords) == null;
+	}
+
+	@Override
 	public List<IGizmo> getGizmos() {
 		return gizmos;
 	}
 
+	@Override
 	public void addGizmo(IGizmo gizmo) {
 		gizmos.add(gizmo);
 	}
 
+	@Override
 	public void addBall(IBall ball) {
 		balls.add(ball);
 	}
 
+	@Override
+	public void removeBall(IBall ball) {
+		balls.remove(ball);
+	}
+
+	@Override
 	public void removeGizmo(IGizmo gizmo) {
+		removeReferencesToGizmo(gizmo);
 		gizmos.remove(gizmo);
 	}
 
-	public void reset() {
-		walls = new LinkedList<>();
-		walls.add(new Wall(0, 0, 0, 20));
-		walls.add(new Wall(0, 0, 20, 0));
-		walls.add(new Wall(20, 0, 20, 20));
-		walls.add(new Wall(0, 20, 20, 20));
+	/**
+	 * Remove any connections pointing to a gizmo. This is required to avoid
+	 * NullPointerExceptions after a gizmo has been deleted.
+	 * 
+	 * @param gizmo
+	 */
+	private void removeReferencesToGizmo(IGizmo gizmo) {
+		for (IGizmo g : gizmos) {
+			g.getGizmosToTrigger().remove(gizmo);
+		}
+		for (KeyTrigger t : keyPressedTriggers.values()) {
+			t.removeGizmo(gizmo);
+		}
+		for (KeyTrigger t : keyReleasedTriggers.values()) {
+			t.removeGizmo(gizmo);
+		}
+	}
 
+	@Override
+	public void setGizmos(List<IGizmo> gizmos) {
+		this.gizmos = gizmos;
+	}
+
+	@Override
+	public void setBalls(List<IBall> balls) {
+		this.balls = balls;
+	}
+
+	@Override
+	public void reset() {
 		gizmos = new LinkedList<>();
+		gizmos.add(new Wall(0, 0, 0, 20));
+		gizmos.add(new Wall(0, 0, 20, 0));
+		gizmos.add(new Wall(20, 0, 20, 20));
+		gizmos.add(new Wall(0, 20, 20, 20));
+
 		balls = new LinkedList<>();
-		
+
 		keyPressedTriggers = new HashMap<>();
 		keyReleasedTriggers = new HashMap<>();
-		
+
 		backgroundColour = Constants.BACKGROUND_DEFAULT_COLOUR;
+		foregroundColour = Constants.FOREGROUND_DEFAULT_COLOUR;
+		collisionEvaluator = new CollisionEvaluator(this);
+		physicsEvaluator = new PhysicsEvaluator(this);
 	}
 
+	@Override
 	public List<IBall> getBalls() {
 		return balls;
-	}
-
-	public List<IWall> getWalls() {
-		return walls;
-	}
-
-	private CollisionDetails evaluateCollisions() {
-		CollisionDetails collision = null;
-		CollisionDetails cd;
-		for (IBall ball : balls) {
-			for (IGizmo gizmo : gizmos) {
-				if (gizmo.isStatic()) {
-					for (Circle circle : gizmo.getAllCircles()) {
-						cd = evaluateCollisionWithStaticCircle(ball, circle, gizmo);
-						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
-								&& cd.getTuc() < Constants.TICK_TIME)
-							collision = cd;
-					}
-					for (LineSegment line : gizmo.getAllLineSegments()) {
-						cd = evaluateCollisionWithStaticLine(ball, line, gizmo);
-						if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
-								&& cd.getTuc() < Constants.TICK_TIME)
-							collision = cd;
-					}
-				}
-			}
-			for (IWall wall : walls) {
-				cd = evaluateCollisionWithStaticLine(ball, wall.getLine(), wall);
-				if (cd != null && (collision == null || cd.getTuc() < collision.getTuc())
-						&& cd.getTuc() < Constants.TICK_TIME)
-					collision = cd;
-			}
-		}
-		return collision;
-	}
-
-	private CollisionDetails evaluateCollisionWithStaticCircle(IBall ball, Circle circle, IGizmo gizmo) {
-		Circle ballCircle = ball.getAllCircles().get(0);
-		double tuc = Geometry.timeUntilCircleCollision(circle, ballCircle, ball.getVelo());
-		if (tuc == Double.POSITIVE_INFINITY)
-			return null;
-		return new CollisionDetails(tuc,
-				Geometry.reflectCircle(circle.getCenter(), ballCircle.getCenter(), ball.getVelo()), ball, gizmo);
-	}
-
-	private CollisionDetails evaluateCollisionWithStaticLine(IBall ball, LineSegment line, IGizmo gizmo) {
-		Circle ballCircle = ball.getAllCircles().get(0);
-		double tuc = Geometry.timeUntilWallCollision(line, ballCircle, ball.getVelo());
-		if (tuc == Double.POSITIVE_INFINITY)
-			return null;
-		return new CollisionDetails(tuc, Geometry.reflectWall(line, ball.getVelo()), ball, gizmo);
-	}
-
-	private void applyGravity(double tickTime) {
-		for (IBall ball : balls) {
-			Vect v = ball.getVelo();
-			Vect gravComponent = new Vect(0, Constants.GRAVITY * tickTime);
-			ball.setVelo(v.plus(gravComponent));
-		}
-	}
-
-	private void applyFriction(double tickTime) {
-		for (IBall ball : balls) {
-			Vect v = ball.getVelo();
-			double frictionScale = (1 - Constants.MU * tickTime - Constants.MU2 * v.length() * tickTime);
-			ball.setVelo(v.times(frictionScale));
-		}
 	}
 
 	@Override
@@ -234,15 +271,106 @@ public class GameModel extends Observable implements IModel {
 	}
 
 	@Override
+	public Color getTextColour() {
+		return this.foregroundColour;
+	}
+
+	@Override
 	public void setBackgroundColour(Color colour) {
 		this.backgroundColour = colour;
 	}
-	
-	public Map<Integer, ITrigger> getKeyPressedTriggers() {
+
+	@Override
+	public void setTextColour(Color colour) {
+		this.foregroundColour = colour;
+	}
+
+	@Override
+	public Map<Integer, KeyTrigger> getKeyPressedTriggers() {
 		return keyPressedTriggers;
 	}
 
-	public Map<Integer, ITrigger> getKeyReleasedTriggers() {
+	@Override
+	public Map<Integer, KeyTrigger> getKeyReleasedTriggers() {
 		return keyReleasedTriggers;
 	}
+
+	@Override
+	public void addKeyToSend(String keyData) {
+		keysToSend.add(keyData);
+	}
+
+	@Override
+	public double getGravity() {
+		return gravity;
+	}
+
+	@Override
+	public double getFrictionMu() {
+		return mu;
+	}
+
+	@Override
+	public double getFrictionMu2() {
+		return mu2;
+	}
+
+	@Override
+	public void setGravity(double gravity) {
+		this.gravity = gravity;
+	}
+
+	@Override
+	public void setFrictionMu(double mu) {
+		this.mu = mu;
+	}
+
+	@Override
+	public void setFrictionMu2(double mu2) {
+		this.mu2 = mu2;
+	}
+
+	@Override
+	public void update() {
+		setChanged();
+		notifyObservers();
+	}
+
+	@Override
+	public boolean isClient() {
+		return !(client == null);
+	}
+
+	@Override
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	@Override
+	public Client getClient() {
+		return client;
+	}
+
+	@Override
+	public void setHost(Host host) {
+		this.host = host;
+	}
+
+	@Override
+	public Host getHost() {
+		return this.host;
+	}
+
+	@Override
+	public Deque<String> getKeysToSend() {
+		return keysToSend;
+	}
+
+	@Override
+	public void setDefaultPhysics() {
+		this.gravity = Constants.DEFAULT_GRAVITY;
+		this.mu = Constants.DEFAULT_MU;
+		this.mu2 = Constants.DEFAULT_MU2;
+	}
+
 }

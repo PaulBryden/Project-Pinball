@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Color;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -9,7 +10,12 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class Wall implements IWall {
+/**
+ * 
+ * @author David, Matt
+ *
+ */
+class Wall implements IGizmo {
 	
 	private Set<IGizmo> triggers;
 	private LineSegment line;
@@ -25,17 +31,14 @@ public class Wall implements IWall {
 		this(new Vect(x1, y1), new Vect(x2, y2));
 	}
 
-	@Override
 	public LineSegment getLine() {
 		return line;
 	}
 	
-	@Override
 	public Vect p1() {
 		return line.p1();
 	}
 	
-	@Override
 	public Vect p2() {
 		return line.p2();
 	}
@@ -73,6 +76,10 @@ public class Wall implements IWall {
 	}
 
 	@Override
+	public void setID(String id) {
+	}
+
+	@Override
 	public void addTriggerAction(IAction action) {
 		// Walls don't have actions
 	}
@@ -84,13 +91,10 @@ public class Wall implements IWall {
 
 	@Override
 	public void onCollision(IBall ball) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public Vect getGridCoords() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -101,29 +105,28 @@ public class Wall implements IWall {
 
 	@Override
 	public List<Vect> getExactCoords() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Circle> getAllCircles() {
-		return null;
+		return new LinkedList<>();
 	}
 
 	@Override
 	public List<LineSegment> getAllLineSegments() {
-		return null;
+		List<LineSegment> l = new LinkedList<>();
+		l.add(this.line);
+		return l;
 	}
 
 	@Override
 	public String serializeGizmo() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getID() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -140,6 +143,26 @@ public class Wall implements IWall {
 	@Override
 	public double getCoefficientOfReflection() {
 		return coefficientOfReflection;
+	}
+	
+	@Override
+	public void setCoefficientOfReflection(double cor) {
+		this.coefficientOfReflection = cor;
+	}
+
+	@Override
+	public int getGridWidth() {
+		return -1;
+	}
+
+	@Override
+	public int getGridHeight() {
+		return -1;
+	}
+
+	@Override
+	public String getType() {
+		return "Wall";
 	}
 
 }

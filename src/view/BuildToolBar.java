@@ -1,34 +1,31 @@
 package view;
 
-import controller.DeleteGizmoListener;
-import controller.AddGizmoListener;
-import controller.RotateGizmoListener;
+import javax.swing.Box;
 
-import javax.swing.JButton;
-import javax.swing.JToolBar;
+import controller.PrimaryActionListener;
 
-class BuildToolBar extends JToolBar{
-    BuildToolBar(MainWindow mainWindow, Board board){
-        super("Build Mode");
-        JButton placeBtn = new JButton("Place Gizmo");
-        JButton deleteBtn = new JButton("Delete Gizmo");
-        JButton rotateBtn = new JButton("Rotate Gizmo");
-        JButton moveBtn = new JButton("Move");
-        JButton connectGizmoBtn = new JButton("Connect Gizmo");
-        JButton keyConnectBtn = new JButton("Key Connect");
+class BuildToolBar extends AbstractToolBar {
+	
+	private static final long serialVersionUID = -3061173893792427738L;
 
-        placeBtn.addActionListener(new AddGizmoListener(mainWindow, board));
-        deleteBtn.addActionListener(new DeleteGizmoListener(mainWindow));
-        rotateBtn.addActionListener(new RotateGizmoListener(mainWindow));
-
-        setFloatable(false);
-        setRollover(true);
-
-        add(placeBtn);
-        add(deleteBtn);
-        add(rotateBtn);
-        add(moveBtn);
-        add(connectGizmoBtn);
-        add(keyConnectBtn);
+	BuildToolBar(PrimaryActionListener listener){
+        super("Build Mode", listener);
     }
+
+	protected void populateButtons() {
+		addButton("save", "Save board layout");
+		addButton("load", "Load board layout");
+		addSeparator();
+		addToggleButton("add", "Add gizmo");
+		addToggleButton("delete", "Remove gizmo");
+		addToggleButton("rotate", "Rotate gizmo");
+		addToggleButton("move", "Move gizmo");
+		addToggleButton("connect", "Connect gizmos");
+		addToggleButton("select", "Select a gizmo");
+		addSeparator();
+		addToggleButton("settings", "Board settings");
+		add(Box.createHorizontalGlue());
+		addButton("run_mode", "Enter run mode");
+		connectToggleButtons();
+	}
 }

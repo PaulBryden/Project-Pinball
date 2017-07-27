@@ -7,10 +7,15 @@ import physics.Circle;
 import physics.LineSegment;
 import physics.Vect;
 
-public class SquareGizmo extends AbstractGizmo {
+/**
+ * 
+ * @author Paul, David
+ *
+ */
+class SquareGizmo extends AbstractGizmo implements ISquareGizmo {
 
 	public SquareGizmo(String id, Vect coords) {
-		super(id, coords, Constants.SQUARE_DEFAULT_COLOUR, true);
+		super(id, coords, 1, 1, Constants.SQUARE_DEFAULT_COLOUR, true);
 		generateLinesAndCircles();
 	}
 
@@ -36,7 +41,6 @@ public class SquareGizmo extends AbstractGizmo {
 
 	@Override
 	public List<Vect> getExactCoords() {
-		// TODO Auto-generated method stub
 		List<Vect> coordVector = new ArrayList<Vect>();
 		coordVector.add(this.getAllLineSegments().get(0).p1());
 		coordVector.add(this.getAllLineSegments().get(0).p2());
@@ -48,12 +52,7 @@ public class SquareGizmo extends AbstractGizmo {
 	}
 
 	@Override
-	public String serializeGizmo() {
-		String serializedGizmo = "Square " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
-				+ "\n";
-		for (IGizmo gizmo : triggers) {
-			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
-		}
-		return serializedGizmo;
+	public String getType() {
+		return "Square";
 	}
 }

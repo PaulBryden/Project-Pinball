@@ -3,7 +3,7 @@ package model;
 import physics.Angle;
 import physics.Vect;
 
-public class RightFlipper extends AbstractFlipper implements IFlipper{
+class RightFlipper extends AbstractFlipper implements IFlipper{
 	
 	public RightFlipper(String id, Vect coords) {
 		super(id, coords);
@@ -20,12 +20,7 @@ public class RightFlipper extends AbstractFlipper implements IFlipper{
 	}
 
 	@Override
-	public String serializeGizmo() {
-		String serializedGizmo = "RightFlipper " + getID() + " " + this.getGridCoords().x() + " " + this.getGridCoords().y() + " "
-				+ "\n";
-		for (IGizmo gizmo : triggers) {
-			serializedGizmo += "Connect " + this.getID() + " " + gizmo.getID() + "\n";
-		}
-		return serializedGizmo;
+	public String getType() {
+		return "RightFlipper";
 	}
 }
